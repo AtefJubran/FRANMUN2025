@@ -449,11 +449,10 @@
       </div>
     </div>
 
-    <!-- قسم الفريق المصلح بالكامل ليعمل عند النقر فوراً -->
+    <!-- قسم الفريق -->
     <div class="card">
       <h3>Meet The Team</h3>
       <div class="team-grid">
-        <!-- الصف العلوي -->
         <div class="team-member top-row" onclick="openTeamModal('Laila', 'Secretary-General', 'laila.jpg')">
           <img src="laila.jpg" alt="Laila" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Laila</div>
@@ -470,7 +469,6 @@
           <div class="team-role">Deputy Secretary-General</div>
         </div>
         
-        <!-- الصف السفلي -->
         <div class="team-member bottom-row-1" onclick="openTeamModal('Atef', 'Deputy Secretary-General', 'atef.jpg')">
           <img src="atef.jpg" alt="Atef" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Atef</div>
@@ -513,19 +511,25 @@
   </footer>
 
   <script>
-    // 📢 [هنا نصوص البيو (Bio) المخصصة للفريق] 📢
+    // 📢 [تعديل نصوص البيو هنا بأمان كامل] 📢
+    // تم استبدال علامات التنصيص العادية بعلامات الـ Backticks `` المحمية
+    // يمكنكِ الآن النزول أسطر جديدة وضغط Enter كما تشائين ولن ينكسر الكود أبداً!
     const teamBios = {
-      "laila": "Hello delegates!!!
+      "laila": `Hello delegates!!!
 
 Hi everyone! I’m laila fahoum, your Secretary General and proud Security General for our very first FRANMUN 🤍
 
 I’m so excited to welcome you all into this journey full of learning, confidence, and unforgettable moments. This conference isn’t just about debate—it’s about growth, friendship, and discovering your voice.
 
-I’m always here for you, ready to help with anything you need, so never hesitate to reach out, ask questions, or just say hi! Let’s make this experience fun, supportive, and truly special together ✨",
-      "bana": "bio coming soon",
-      "shawqe": "bio coming soon",
-      "atef": "no need for bio he is a DIVA",
-      "jana": "bio coming soon"
+I’m always here for you, ready to help with anything you need, so never hesitate to reach out, ask questions, or just say hi! Let’s make this experience fun, supportive, and truly special together ✨ `,
+
+      "bana": `bio coming soon…`,
+
+      "shawqe": `bio coming soon…`,
+
+      "atef": `DIVAAAA!!`,
+
+      "jana": `bio coming soon…`
     };
 
     function handleWhoImageError(imgElement) {
@@ -549,7 +553,7 @@ I’m always here for you, ready to help with anything you need, so never hesita
       document.getElementById("committeeModal").style.display = "none";
     }
 
-    // Team Modal Functions - تم إصلاحها بالكامل لتفادي تضارب الأحرف الكبيرة والصغيرة
+    // Team Modal Functions
     function openTeamModal(name, role, imgSrc) {
       document.getElementById("teamModal").style.display = "flex";
       document.getElementById("teamModalName").innerText = name;
@@ -561,7 +565,6 @@ I’m always here for you, ready to help with anything you need, so never hesita
         this.src = 'https://via.placeholder.com/150';
       };
       
-      // تحويل الاسم لأحرف صغيرة تلقائياً للبحث في القاموس لمنع المشاكل المعلقة
       const lowerName = name.toLowerCase();
       document.getElementById("teamModalBio").innerText = teamBios[lowerName] || "Coming Soon";
     }
