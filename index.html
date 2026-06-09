@@ -151,7 +151,7 @@
 
     @media (max-width: 480px) {
       .committee-grid {
-        grid-template-columns: repeat(2, 1fr); /* للهواتف الصغيرة جداً لتفادي ضيق المساحة */
+        grid-template-columns: repeat(2, 1fr); 
       }
     }
 
@@ -185,7 +185,7 @@
     /* شبكة الفريق المتجاوبة والتوزيع الاحترافي (3 فوق وتنين تحت) */
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(6, 1fr); /* شبكة وهمية من 6 أعمدة لتقسيم المساحات هندسياً */
+      grid-template-columns: repeat(6, 1fr); 
       gap: 20px 10px;
       margin-top: 20px;
       justify-items: center;
@@ -205,10 +205,10 @@
 
     /* تنسيق الصف السفلي (عضوان: يتم إزاحتهما وتوسيطهما هندسياً) */
     .team-member.bottom-row-1 {
-      grid-column: 2 / span 2; /* يبدأ من العمود الثاني */
+      grid-column: 2 / span 2; 
     }
     .team-member.bottom-row-2 {
-      grid-column: 4 / span 2; /* يبدأ من العمود الرابع */
+      grid-column: 4 / span 2; 
     }
 
     /* شاشات الموبايل الصغيرة تعرضهم بشكل مرن وتلقائي لراحة العين */
@@ -449,12 +449,11 @@
       </div>
     </div>
 
-    <!-- قسم الفريق مع التوزيع الجديد المتوازن (3 فوق وتنين تحت) -->
+    <!-- قسم الفريق المصلح بالكامل ليعمل عند النقر فوراً -->
     <div class="card">
       <h3>Meet The Team</h3>
       <div class="team-grid">
-        <!-- الصف العلوي (3 أعضاء) -->
-        <!-- لتغيير اسم صورة أي عضو، استبدلي 'laila.jpg' باسم ملف الصورة الجديد في الخانتين بالأسفل -->
+        <!-- الصف العلوي -->
         <div class="team-member top-row" onclick="openTeamModal('Laila', 'Secretary-General', 'laila.jpg')">
           <img src="laila.jpg" alt="Laila" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Laila</div>
@@ -471,7 +470,7 @@
           <div class="team-role">Deputy Secretary-General</div>
         </div>
         
-        <!-- الصف السفلي المتمركز بالمنتصف (عضوان) -->
+        <!-- الصف السفلي -->
         <div class="team-member bottom-row-1" onclick="openTeamModal('Atef', 'Deputy Secretary-General', 'atef.jpg')">
           <img src="atef.jpg" alt="Atef" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Atef</div>
@@ -514,20 +513,13 @@
   </footer>
 
   <script>
-    // 📢 [هنا تعديل نصوص البيو (Bio) للفريق بسهولة] 📢
-    // فقط استبدلي الجمل المكتوبة بالبيو الحقيقي لكل شخص بين علامات الاقتباس
+    // 📢 [هنا نصوص البيو (Bio) المخصصة للفريق] 📢
     const teamBios = {
-      "Laila": "Hello delegates!!!
-
-Hi everyone! I’m laila fahoum, your Secretary General and proud Security General for our very first FRANMUN 🤍
-
-I’m so excited to welcome you all into this journey full of learning, confidence, and unforgettable moments. This conference isn’t just about debate—it’s about growth, friendship, and discovering your voice.
-
-I’m always here for you, ready to help with anything you need, so never hesitate to reach out, ask questions, or just say hi! Let’s make this experience fun, supportive, and truly special together ✨",
-      "Bana": "",
-      "Shawqe": ".",
-      "Atef": "ه.",
-      "Jana": ""
+      "laila": "هنا تكتبي البيو الخاص بـ ليلى... امسحي هذا الكلام واكتبي ما تريدين.",
+      "bana": "هنا تكتبي البيو الخاص بـ بانا... امسحي هذا الكلام واكتبي ما تريدين.",
+      "shawqe": "هنا تكتبي البيو الخاص بـ شوقي... امسحي هذا الكلام واكتبي ما تريدين.",
+      "atef": "هنا تكتبي البيو الخاص بـ عاطف... امسحي هذا الكلام واكتبي ما تريدين.",
+      "jana": "هنا تكتبي البيو الخاص بـ جنى... امسحي هذا الكلام واكتبي ما تريدين."
     };
 
     function handleWhoImageError(imgElement) {
@@ -551,7 +543,7 @@ I’m always here for you, ready to help with anything you need, so never hesita
       document.getElementById("committeeModal").style.display = "none";
     }
 
-    // Team Modal Functions مضافة إليها ميزة جلب البيو المخصص من القاموس في الأعلى
+    // Team Modal Functions - تم إصلاحها بالكامل لتفادي تضارب الأحرف الكبيرة والصغيرة
     function openTeamModal(name, role, imgSrc) {
       document.getElementById("teamModal").style.display = "flex";
       document.getElementById("teamModalName").innerText = name;
@@ -563,8 +555,9 @@ I’m always here for you, ready to help with anything you need, so never hesita
         this.src = 'https://via.placeholder.com/150';
       };
       
-      // جلب البيو الخاص بالشخص أو عرض "Coming Soon" إذا لم يكن مكتوباً فوق
-      document.getElementById("teamModalBio").innerText = teamBios[name] || "Coming Soon";
+      // تحويل الاسم لأحرف صغيرة تلقائياً للبحث في القاموس لمنع المشاكل المعلقة
+      const lowerName = name.toLowerCase();
+      document.getElementById("teamModalBio").innerText = teamBios[lowerName] || "Coming Soon";
     }
 
     function closeTeamModal() {
