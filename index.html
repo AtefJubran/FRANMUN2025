@@ -6,6 +6,11 @@
   <title>FRANMUN</title>
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <style>
+    /* إعدادات عامة متجاوبة */
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
       font-family: Arial, sans-serif;
       margin: 0;
@@ -14,7 +19,9 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      background-attachment: fixed;
       color: #00264d;
+      line-height: 1.6;
     }
 
     header {
@@ -22,8 +29,10 @@
       color: white;
       padding: 20px;
       display: flex;
+      flex-direction: column; /* ترتيب عمودي على الهواتف */
       align-items: center;
-      justify-content: space-between;
+      text-align: center;
+      gap: 15px;
     }
 
     header img {
@@ -32,14 +41,13 @@
     }
 
     .header-text {
-      text-align: center;
       flex: 1;
-      margin-left: -80px;
     }
 
     header h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 24px;
+      word-wrap: break-word;
     }
 
     .highlight {
@@ -47,27 +55,34 @@
     }
 
     .section { 
-      padding: 30px;
+      padding: 20px;
       text-align: center;
       background-color: rgba(255, 255, 255, 0.85);
-      margin: 20px;
+      margin: 15px;
       border-radius: 12px;
     }
 
     .card {
       background-color: rgba(255, 255, 255, 0.9);
-      margin: 20px auto;
+      margin: 15px auto;
       padding: 20px;
       border-radius: 12px;
-      max-width: 600px;
+      max-width: 700px;
+      width: calc(100% - 30px); /* يضمن عدم خروج الكرت عن الشاشة في الهواتف */
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       text-align: center;
     }
 
-    /* Buttons Style */
+    /* أزرار التسجيل المتجاوبة */
     .button-container {
       text-align: center;
-      margin: 20px 0;
+      margin: 20px auto;
+      padding: 0 15px;
+      max-width: 700px;
+      display: flex;
+      flex-wrap: wrap; /* تترتب بجانب بعضها أو تحت بعضها حسب الشاشة */
+      justify-content: center;
+      gap: 10px;
     }
 
     .button {
@@ -75,66 +90,107 @@
       background-color: #ffcc00;
       color: #000;
       font-weight: bold;
-      padding: 12px 24px;
+      padding: 12px 20px;
       border-radius: 8px;
       text-decoration: none;
-      margin: 10px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 15px;
       transition: background-color 0.2s, transform 0.2s;
+      flex: 1;
+      min-width: 240px; /* يمنع صغر الزر الزائد على الهواتف */
+      max-width: 300px;
     }
 
     .button:hover {
       background-color: #e6b800;
-      transform: scale(1.03);
+      transform: scale(1.02);
     }
 
-    /* Countdown Styles */
+    /* العداد التنازلي المتجاوب */
     .countdown-container {
       display: flex;
       justify-content: center;
-      gap: 15px;
+      gap: 10px;
       margin-top: 15px;
+      flex-wrap: wrap;
     }
 
     .countdown-box {
       background: #00264d;
       color: #ffd700;
-      padding: 10px 15px;
+      padding: 10px;
       border-radius: 8px;
-      min-width: 60px;
+      min-width: 65px;
+      flex: 1;
+      max-width: 80px;
     }
 
     .countdown-number {
-      font-size: 24px;
+      font-size: 20px;
       font-weight: bold;
       display: block;
     }
 
     .countdown-label {
-      font-size: 11px;
+      font-size: 10px;
       color: #fff;
       text-transform: uppercase;
     }
 
-    /* Meet The Team Styles */
-    .team-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 25px;
+    /* شبكة اللجان المتجاوبة */
+    .committee-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* توزيع تلقائي مرن */
+      gap: 15px;
       margin-top: 20px;
+      padding: 10px;
+    }
+
+    .committee-icon {
+      width: 100%;
+      aspect-ratio: 1 / 1; /* يحافظ على شكل مربع */
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border-radius: 12px;
+      border: 2px solid transparent;
+      background-color: white;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .committee-icon:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 12px 3px rgba(255, 204, 0, 0.7);
+      border: 2px solid #ffd700;
+    }
+
+    .committee-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* شبكة الفريق المتجاوبة */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+      justify-items: center;
     }
 
     .team-member {
       cursor: pointer;
       text-align: center;
-      width: 140px;
+      width: 100%;
+      max-width: 150px;
     }
 
     .team-avatar {
-      width: 110px;
-      height: 110px;
+      width: 100px;
+      height: 100px;
       border-radius: 50%;
       border: 3px solid #ffd700;
       object-fit: cover;
@@ -143,20 +199,98 @@
     }
 
     .team-member:hover .team-avatar {
-      transform: scale(1.1);
-      box-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
+      transform: scale(1.08);
+      box-shadow: 0 0 12px rgba(255, 204, 0, 0.8);
     }
 
     .team-name {
       font-weight: bold;
       margin-top: 8px;
-      font-size: 15px;
+      font-size: 14px;
       color: #00264d;
     }
 
     .team-role {
-      font-size: 13px;
+      font-size: 12px;
       color: #555;
+    }
+
+    /* النوافذ المنبثقة (Modals) المحسنة للهواتف */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.75); /* خلفية أغمق للتركيز */
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px 20px 20px 20px;
+      border-radius: 16px;
+      max-width: 450px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    /* زر الإغلاق العلوي × */
+    .modal-content .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 15px;
+      cursor: pointer;
+      font-size: 32px; /* تكبير الزر لسهولة الضغط باليد */
+      font-weight: bold;
+      color: #aaa;
+      transition: color 0.2s;
+      padding: 5px;
+    }
+
+    .modal-content .close-btn:hover {
+      color: #000;
+    }
+
+    /* زر إغلاق سفلي إضافي مريح جداً للهواتf */
+    .modal-close-button {
+      display: block;
+      width: 100%;
+      max-width: 150px;
+      margin: 20px auto 0 auto;
+      background-color: #00264d;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .modal-close-button:hover {
+      background-color: #001833;
+    }
+
+    .modal-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 3px solid #ffd700;
+      object-fit: cover;
+      margin-bottom: 15px;
     }
 
     footer {
@@ -168,83 +302,29 @@
       margin-top: 30px;
     }
 
-    /* Modals Styles */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 10000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .modal-content {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      max-width: 400px;
-      width: 90%;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-
-    .modal-content .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 16px;
-      cursor: pointer;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .modal-avatar {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      border: 3px solid #ffd700;
-      object-fit: cover;
-      margin-bottom: 15px;
-    }
-
-    .committee-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 30px;
-      padding: 20px;
-    }
-
-    .committee-icon {
-      width: 120px;
-      height: 120px;
-      cursor: pointer;
-      transition: transform 0.3s, filter 0.3s, box-shadow 0.3s, background-color 0.3s, border 0.3s;
-      border-radius: 12px;
-      border: 2px solid transparent;
-    }
-
-    .committee-icon:hover {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 10px rgba(0, 64, 128, 0.5));
-      box-shadow: 0 0 15px 5px rgba(255, 204, 0, 0.8);
-      border: 2px solid #ffd700;
-      background-color: rgba(0, 64, 128, 0.1);
-    }
-
-    .committee-icon img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      padding: 10px;
-      background-color: white;
-      box-sizing: border-box;
-      border-radius: 12px;
+    /* تعديل التصميم عند فتح اللاب توب والشاشات الكبيرة */
+    @media (min-width: 768px) {
+      header {
+        flex-direction: row; /* العودة للترتيب الأفقي */
+        padding: 20px 40px;
+      }
+      header h1 {
+        font-size: 28px;
+      }
+      .header-text {
+        text-align: center;
+        margin-left: -80px; /* لضمان توسط النص تماماً */
+      }
+      .countdown-number {
+        font-size: 24px;
+      }
+      .countdown-box {
+        min-width: 75px;
+      }
+      .button {
+        flex: none;
+        width: auto;
+      }
     }
   </style>
 </head>
@@ -264,7 +344,6 @@
       <p>Franciscan Sister's School's First Model United Nations Conference</p>
     </section>
 
-    <!-- Countdown Card -->
     <div class="card">
       <h3>Conference Countdown</h3>
       <div class="countdown-container">
@@ -293,12 +372,13 @@
       <p>Stay tuned for updates!</p>
     </div>
 
-    <!-- Centered Registration Buttons Block -->
     <div class="button-container">
       <a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration →</a>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration →</a>
-      <br>
-      <p style="background-color: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 8px; display: inline-block; color: #00264d; margin-top: 15px; font-size: 14px;">
+    </div>
+    
+    <div style="text-align: center; margin-bottom: 20px; padding: 0 15px;">
+      <p style="background-color: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 8px; display: inline-block; color: #00264d; font-size: 14px; margin: 0;">
         Registration includes a parent/guardian signature requirement
       </p>
     </div>
@@ -327,12 +407,11 @@
           <img src="crisis.png" alt="CRISIS Icon" />
         </div>
         <div class="committee-icon" onclick="openModal('WHO')">
-          <img src="who.png" alt="WHO Icon" />
+          <img src="WHO.PNG" alt="WHO Icon" id="whoImage" onerror="handleWhoImageError(this)" />
         </div>
       </div>
     </div>
 
-    <!-- Meet The Team Section -->
     <div class="card">
       <h3>Meet The Team</h3>
       <div class="team-grid">
@@ -365,16 +444,15 @@
     </div>
   </div>
 
-  <!-- Committees Modal -->
   <div id="committeeModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">×</span>
       <h2 id="modalTitle">Committee Name</h2>
       <p id="modalDescription">Details for committee will go here.</p>
+      <button class="modal-close-button" onclick="closeModal()">Close</button>
     </div>
   </div>
 
-  <!-- Team Bio Modal -->
   <div id="teamModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeTeamModal()">×</span>
@@ -382,6 +460,7 @@
       <h2 id="teamModalName">Member Name</h2>
       <h4 id="teamModalRole" style="color: #555; margin-top: -5px; margin-bottom: 15px;">Role</h4>
       <p id="teamModalBio">Coming Soon</p>
+      <button class="modal-close-button" onclick="closeTeamModal()">Close</button>
     </div>
   </div>
 
@@ -393,11 +472,26 @@
   </footer>
 
   <script>
+    // دالة مخصصة لاسم ملف الـ WHO
+    function handleWhoImageError(imgElement) {
+      if (imgElement.src.includes("WHO.PNG")) {
+        imgElement.src = "who.png";
+      } else if (imgElement.src.includes("who.png")) {
+        imgElement.src = "WHO.png";
+      } else {
+        imgElement.src = "https://via.placeholder.com/120?text=WHO";
+      }
+    }
+
     // Committees Modal Functions
     function openModal(committee) {
       document.getElementById("committeeModal").style.display = "flex";
       document.getElementById("modalTitle").innerText = committee;
       document.getElementById("modalDescription").innerText = "Details for " + committee + " committee will go here.";
+    }
+
+    function closeModal() {
+      document.getElementById("committeeModal").style.display = "none";
     }
 
     // Team Modal Functions
@@ -417,10 +511,6 @@
 
     function closeTeamModal() {
       document.getElementById("teamModal").style.display = "none";
-    }
-
-    function closeModal() {
-      document.getElementById("committeeModal").style.display = "none";
     }
 
     // Countdown Timer Functionality
@@ -450,14 +540,15 @@
       document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
     }, 1000);
 
-    // Close modals if clicked outside content
+    // دالة ذكية لإغلاق النوافذ عند الضغط خارج المربع الأبيض
     window.onclick = function(event) {
       const committeeModal = document.getElementById("committeeModal");
       const teamModal = document.getElementById("teamModal");
-      if (event.target == committeeModal) {
+      
+      if (event.target === committeeModal) {
         committeeModal.style.display = "none";
       }
-      if (event.target == teamModal) {
+      if (event.target === teamModal) {
         teamModal.style.display = "none";
       }
     }
