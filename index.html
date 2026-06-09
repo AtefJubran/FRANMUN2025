@@ -182,46 +182,29 @@
       object-fit: contain;
     }
 
-    /* شبكة الفريق المتجاوبة والتوزيع الاحترافي (3 فوق وتنين تحت) */
+    /* شبكة الفريق المتجاوبة والتوزيع الاحترافي لـ 7 أعضاء */
     .team-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr); 
-      gap: 20px 10px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px 15px;
       margin-top: 20px;
-      justify-items: center;
     }
 
     .team-member {
       cursor: pointer;
       text-align: center;
-      width: 100%;
-      max-width: 150px;
-    }
-
-    /* تنسيق الصف العلوي (3 أعضاء: كل عضو يأخذ عمودين من أصل 6) */
-    .team-member.top-row {
-      grid-column: span 2;
-    }
-
-    /* تنسيق الصف السفلي (عضوان: يتم إزاحتهما وتوسيطهما هندسياً) */
-    .team-member.bottom-row-1 {
-      grid-column: 2 / span 2; 
-    }
-    .team-member.bottom-row-2 {
-      grid-column: 4 / span 2; 
+      flex: 0 1 calc(25% - 15px); /* يظهرون بشكل متوازن ومريح على الشاشات الكبيرة */
+      min-width: 140px;
+      max-width: 160px;
     }
 
     /* شاشات الموبايل الصغيرة تعرضهم بشكل مرن وتلقائي لراحة العين */
     @media (max-width: 600px) {
       .team-grid {
-        grid-template-columns: repeat(2, 1fr);
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
         gap: 20px;
       }
-      .team-member.top-row, .team-member.bottom-row-1, .team-member.bottom-row-2 {
-        grid-column: auto;
+      .team-member {
         flex: 0 1 calc(50% - 20px);
         min-width: 130px;
       }
@@ -452,30 +435,39 @@
     <div class="card">
       <h3>Meet The Team</h3>
       <div class="team-grid">
-        <div class="team-member top-row" onclick="openTeamModal('Laila', 'Secretary-General', 'laila.jpg')">
+        <div class="team-member" onclick="openTeamModal('Laila', 'Secretary-General', 'laila.jpg')">
           <img src="laila.jpg" alt="Laila" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Laila</div>
           <div class="team-role">Secretary-General</div>
         </div>
-        <div class="team-member top-row" onclick="openTeamModal('Bana', 'Assistant Secretary-General', 'bana.jpg')">
+        <div class="team-member" onclick="openTeamModal('Bana', 'Assistant Secretary-General', 'bana.jpg')">
           <img src="bana.jpg" alt="Bana" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Bana</div>
           <div class="team-role">Assistant Secretary-General</div>
         </div>
-        <div class="team-member top-row" onclick="openTeamModal('Shawqe', 'Deputy Secretary-General', 'shawqe.jpg')">
+        <div class="team-member" onclick="openTeamModal('Shawqe', 'Deputy Secretary-General', 'shawqe.jpg')">
           <img src="shawqe.jpg" alt="Shawqe" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Shawqe</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
-        
-        <div class="team-member bottom-row-1" onclick="openTeamModal('Atef', 'Deputy Secretary-General', 'atef.jpg')">
+        <div class="team-member" onclick="openTeamModal('Atef', 'Deputy Secretary-General', 'atef.jpg')">
           <img src="atef.jpg" alt="Atef" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Atef</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
-        <div class="team-member bottom-row-2" onclick="openTeamModal('Jana', 'Deputy Secretary-General', 'jana.jpg')">
+        <div class="team-member" onclick="openTeamModal('Jana', 'Deputy Secretary-General', 'jana.jpg')">
           <img src="jana.jpg" alt="Jana" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Jana</div>
+          <div class="team-role">Deputy Secretary-General</div>
+        </div>
+        <div class="team-member" onclick="openTeamModal('New1', 'Deputy Secretary-General', 'new1.jpg')">
+          <img src="new1.jpg" alt="New Member 1" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
+          <div class="team-name">New Member 1</div>
+          <div class="team-role">Deputy Secretary-General</div>
+        </div>
+        <div class="team-member" onclick="openTeamModal('New2', 'Deputy Secretary-General', 'new2.jpg')">
+          <img src="new2.jpg" alt="New Member 2" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
+          <div class="team-name">New Member 2</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
       </div>
@@ -520,7 +512,12 @@
 
       "atef": `DIVAAAA!!`,
 
-      "jana": `bio coming soon…`
+      "jana": `bio coming soon…`,
+      
+      // البيو الخاص بالأعضاء الجدد (عدليهم براحتكِ هنا)
+      "new1": `bio coming soon…`,
+      
+      "new2": `bio coming soon…`
     };
 
     function handleWhoImageError(imgElement) {
