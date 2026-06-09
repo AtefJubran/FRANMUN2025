@@ -15,7 +15,8 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      background-image: url('franmun-bg.jpg');
+      /* خلفية متدرجة احترافية بألوان لوجو المدرسة */
+      background: linear-gradient(135deg, #001a33 0%, #00264d 50%, #003366 100%);
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -25,14 +26,15 @@
     }
 
     header {
-      background-color: rgba(0, 38, 77, 0.85);
+      background-color: rgba(0, 26, 51, 0.9);
       color: white;
       padding: 20px;
       display: flex;
-      flex-direction: column; /* ترتيب عمودي على الهواتف */
+      flex-direction: column; 
       align-items: center;
       text-align: center;
       gap: 15px;
+      border-bottom: 3px solid #ffd700;
     }
 
     header img {
@@ -57,19 +59,20 @@
     .section { 
       padding: 20px;
       text-align: center;
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: rgba(255, 255, 255, 0.92);
       margin: 15px;
       border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
     .card {
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.92);
       margin: 15px auto;
       padding: 20px;
       border-radius: 12px;
       max-width: 700px;
-      width: calc(100% - 30px); /* يضمن عدم خروج الكرت عن الشاشة في الهواتف */
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: calc(100% - 30px); 
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       text-align: center;
     }
 
@@ -80,7 +83,7 @@
       padding: 0 15px;
       max-width: 700px;
       display: flex;
-      flex-wrap: wrap; /* تترتب بجانب بعضها أو تحت بعضها حسب الشاشة */
+      flex-wrap: wrap; 
       justify-content: center;
       gap: 10px;
     }
@@ -97,7 +100,7 @@
       font-size: 15px;
       transition: background-color 0.2s, transform 0.2s;
       flex: 1;
-      min-width: 240px; /* يمنع صغر الزر الزائد على الهواتف */
+      min-width: 240px; 
       max-width: 300px;
     }
 
@@ -137,18 +140,24 @@
       text-transform: uppercase;
     }
 
-    /* شبكة اللجان المتجاوبة */
+    /* شبكة اللجان المتجاوبة - توزيع متوازن 3 فوق و 3 تحت */
     .committee-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* توزيع تلقائي مرن */
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
       margin-top: 20px;
       padding: 10px;
     }
 
+    @media (max-width: 480px) {
+      .committee-grid {
+        grid-template-columns: repeat(2, 1fr); /* للهواتف الصغيرة جداً لتفادي ضيق المساحة */
+      }
+    }
+
     .committee-icon {
       width: 100%;
-      aspect-ratio: 1 / 1; /* يحافظ على شكل مربع */
+      aspect-ratio: 1 / 1; 
       cursor: pointer;
       transition: transform 0.3s, box-shadow 0.3s;
       border-radius: 12px;
@@ -158,6 +167,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .committee-icon:hover {
@@ -172,11 +182,11 @@
       object-fit: contain;
     }
 
-    /* شبكة الفريق المتجاوبة */
+    /* شبكة الفريق المتجاوبة والتوزيع الاحترافي (3 فوق وتنين تحت) */
     .team-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(6, 1fr); /* شبكة وهمية من 6 أعمدة لتقسيم المساحات هندسياً */
+      gap: 20px 10px;
       margin-top: 20px;
       justify-items: center;
     }
@@ -186,6 +196,35 @@
       text-align: center;
       width: 100%;
       max-width: 150px;
+    }
+
+    /* تنسيق الصف العلوي (3 أعضاء: كل عضو يأخذ عمودين من أصل 6) */
+    .team-member.top-row {
+      grid-column: span 2;
+    }
+
+    /* تنسيق الصف السفلي (عضوان: يتم إزاحتهما وتوسيطهما هندسياً) */
+    .team-member.bottom-row-1 {
+      grid-column: 2 / span 2; /* يبدأ من العمود الثاني */
+    }
+    .team-member.bottom-row-2 {
+      grid-column: 4 / span 2; /* يبدأ من العمود الرابع */
+    }
+
+    /* شاشات الموبايل الصغيرة تعرضهم بشكل مرن وتلقائي لراحة العين */
+    @media (max-width: 600px) {
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+      }
+      .team-member.top-row, .team-member.bottom-row-1, .team-member.bottom-row-2 {
+        grid-column: auto;
+        flex: 0 1 calc(50% - 20px);
+        min-width: 130px;
+      }
     }
 
     .team-avatar {
@@ -215,7 +254,7 @@
       color: #555;
     }
 
-    /* النوافذ المنبثقة (Modals) المحسنة للهواتف */
+    /* النوافذ المنبثقة (Modals) */
     .modal {
       display: none;
       position: fixed;
@@ -223,7 +262,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.75); /* خلفية أغمق للتركيز */
+      background: rgba(0, 0, 0, 0.8); 
       z-index: 10000;
       justify-content: center;
       align-items: center;
@@ -247,13 +286,12 @@
       to { transform: scale(1); opacity: 1; }
     }
 
-    /* زر الإغلاق العلوي × */
     .modal-content .close-btn {
       position: absolute;
       top: 5px;
       right: 15px;
       cursor: pointer;
-      font-size: 32px; /* تكبير الزر لسهولة الضغط باليد */
+      font-size: 32px; 
       font-weight: bold;
       color: #aaa;
       transition: color 0.2s;
@@ -264,7 +302,6 @@
       color: #000;
     }
 
-    /* زر إغلاق سفلي إضافي مريح جداً للهواتf */
     .modal-close-button {
       display: block;
       width: 100%;
@@ -294,18 +331,18 @@
     }
 
     footer {
-      background-color: rgba(0, 38, 77, 0.9);
+      background-color: rgba(0, 15, 31, 0.95);
       color: white;
       text-align: center;
       padding: 20px;
       font-size: 14px;
       margin-top: 30px;
+      border-top: 2px solid #ffd700;
     }
 
-    /* تعديل التصميم عند فتح اللاب توب والشاشات الكبيرة */
     @media (min-width: 768px) {
       header {
-        flex-direction: row; /* العودة للترتيب الأفقي */
+        flex-direction: row; 
         padding: 20px 40px;
       }
       header h1 {
@@ -313,7 +350,7 @@
       }
       .header-text {
         text-align: center;
-        margin-left: -80px; /* لضمان توسط النص تماماً */
+        margin-left: -80px; 
       }
       .countdown-number {
         font-size: 24px;
@@ -378,7 +415,7 @@
     </div>
     
     <div style="text-align: center; margin-bottom: 20px; padding: 0 15px;">
-      <p style="background-color: rgba(255, 255, 255, 0.8); padding: 10px; border-radius: 8px; display: inline-block; color: #00264d; font-size: 14px; margin: 0;">
+      <p style="background-color: rgba(255, 255, 255, 0.85); padding: 10px; border-radius: 8px; display: inline-block; color: #00264d; font-size: 14px; margin: 0;">
         Registration includes a parent/guardian signature requirement
       </p>
     </div>
@@ -412,30 +449,35 @@
       </div>
     </div>
 
+    <!-- قسم الفريق مع التوزيع الجديد المتوازن (3 فوق وتنين تحت) -->
     <div class="card">
       <h3>Meet The Team</h3>
       <div class="team-grid">
-        <div class="team-member" onclick="openTeamModal('Laila', 'Secretary-General', 'laila.jpg')">
+        <!-- الصف العلوي (3 أعضاء) -->
+        <!-- لتغيير اسم صورة أي عضو، استبدلي 'laila.jpg' باسم ملف الصورة الجديد في الخانتين بالأسفل -->
+        <div class="team-member top-row" onclick="openTeamModal('Laila', 'Secretary-General', 'laila.jpg')">
           <img src="laila.jpg" alt="Laila" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Laila</div>
           <div class="team-role">Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('Bana', 'Assistant Secretary-General', 'bana.jpg')">
+        <div class="team-member top-row" onclick="openTeamModal('Bana', 'Assistant Secretary-General', 'bana.jpg')">
           <img src="bana.jpg" alt="Bana" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Bana</div>
           <div class="team-role">Assistant Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('Shawqe', 'Deputy Secretary-General', 'shawqe.jpg')">
+        <div class="team-member top-row" onclick="openTeamModal('Shawqe', 'Deputy Secretary-General', 'shawqe.jpg')">
           <img src="shawqe.jpg" alt="Shawqe" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Shawqe</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('Atef', 'Deputy Secretary-General', 'atef.jpg')">
+        
+        <!-- الصف السفلي المتمركز بالمنتصف (عضوان) -->
+        <div class="team-member bottom-row-1" onclick="openTeamModal('Atef', 'Deputy Secretary-General', 'atef.jpg')">
           <img src="atef.jpg" alt="Atef" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Atef</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('Jana', 'Deputy Secretary-General', 'jana.jpg')">
+        <div class="team-member bottom-row-2" onclick="openTeamModal('Jana', 'Deputy Secretary-General', 'jana.jpg')">
           <img src="jana.jpg" alt="Jana" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Jana</div>
           <div class="team-role">Deputy Secretary-General</div>
@@ -472,7 +514,16 @@
   </footer>
 
   <script>
-    // دالة مخصصة لاسم ملف الـ WHO
+    // 📢 [هنا تعديل نصوص البيو (Bio) للفريق بسهولة] 📢
+    // فقط استبدلي الجمل المكتوبة بالبيو الحقيقي لكل شخص بين علامات الاقتباس
+    const teamBios = {
+      "Laila": "هنا تكتبي البيو الخاص بـ ليلى... امسحي هذا الكلام واكتبي ما تريدين.",
+      "Bana": "هنا تكتبي البيو الخاص بـ بانا... امسحي هذا الكلام واكتبي ما تريدين.",
+      "Shawqe": "هنا تكتبي البيو الخاص بـ شوقي... امسحي هذا الكلام واكتبي ما تريدين.",
+      "Atef": "هنا تكتبي البيو الخاص بـ عاطف... امسحي هذا الكلام واكتبي ما تريدين.",
+      "Jana": "هنا تكتبي البيو الخاص بـ جنى... امسحي هذا الكلام واكتبي ما تريدين."
+    };
+
     function handleWhoImageError(imgElement) {
       if (imgElement.src.includes("WHO.PNG")) {
         imgElement.src = "who.png";
@@ -494,7 +545,7 @@
       document.getElementById("committeeModal").style.display = "none";
     }
 
-    // Team Modal Functions
+    // Team Modal Functions مضافة إليها ميزة جلب البيو المخصص من القاموس في الأعلى
     function openTeamModal(name, role, imgSrc) {
       document.getElementById("teamModal").style.display = "flex";
       document.getElementById("teamModalName").innerText = name;
@@ -506,7 +557,8 @@
         this.src = 'https://via.placeholder.com/150';
       };
       
-      document.getElementById("teamModalBio").innerText = "Coming Soon";
+      // جلب البيو الخاص بالشخص أو عرض "Coming Soon" إذا لم يكن مكتوباً فوق
+      document.getElementById("teamModalBio").innerText = teamBios[name] || "Coming Soon";
     }
 
     function closeTeamModal() {
@@ -540,7 +592,6 @@
       document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
     }, 1000);
 
-    // دالة ذكية لإغلاق النوافذ عند الضغط خارج المربع الأبيض
     window.onclick = function(event) {
       const committeeModal = document.getElementById("committeeModal");
       const teamModal = document.getElementById("teamModal");
