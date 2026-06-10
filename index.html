@@ -140,7 +140,7 @@
       text-transform: uppercase;
     }
 
-    /* شبكة اللجان المتجاوبة - توزيع متوازن 3 فوق و 3 تحت */
+    /* شبكة اللجان المتجاوبة */
     .committee-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -629,33 +629,35 @@
     function openModal(committee) {
       if (committee === 'CRISIS') {
         const crisisWindow = window.open();
-        crisisWindow.document.write(`
-          <html>
-          <head>
-            <title>FRANMUN | Crisis</title>
-            <style>
-              body { 
-                background: linear-gradient(135deg, #001a33 0%, #00264d 50%, #003366 100%); 
-                color: #ffd700; 
-                font-family: Arial, sans-serif; 
-                display: flex; 
-                justify-content: center; 
-                align-items: center; 
-                height: 100vh; 
-                margin: 0;
-                font-size: 32px;
-                font-weight: bold;
-                text-align: center;
-                padding: 20px;
-              }
-            </style>
-          </head>
-          <body>
-            crisis page coming soon!!!!
-          </body>
-          </html>
-        `);
-        crisisWindow.document.close();
+        if (crisisWindow) {
+          crisisWindow.document.write(`
+            <html>
+            <head>
+              <title>FRANMUN | Crisis</title>
+              <style>
+                body { 
+                  background: linear-gradient(135deg, #001a33 0%, #00264d 50%, #003366 100%); 
+                  color: #ffd700; 
+                  font-family: Arial, sans-serif; 
+                  display: flex; 
+                  justify-content: center; 
+                  align-items: center; 
+                  height: 100vh; 
+                  margin: 0;
+                  font-size: 32px;
+                  font-weight: bold;
+                  text-align: center;
+                  padding: 20px;
+                }
+              </style>
+            </head>
+            <body>
+              crisis page coming soon!!!!
+            </body>
+            </html>
+          `);
+          crisisWindow.document.close();
+        }
         return; 
       }
 
