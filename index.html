@@ -235,7 +235,7 @@
       color: #ffd700;
     }
 
-    /* شبكة الفريق المتجاوبة والتوزيع الاحترافي لـ 7 أعضاء */
+    /* شبكة الفريق المتجاوبة والتوزيع الاحترافي لـ 6 أعضاء */
     .team-grid {
       display: flex;
       flex-wrap: wrap;
@@ -497,11 +497,6 @@
           <div class="team-name">Bana</div>
           <div class="team-role">Assistant Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('Shawqe', 'Deputy Secretary-General', 'shawqe.png')">
-          <img src="shawqe.png" alt="Shawqe" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
-          <div class="team-name">Shawqe</div>
-          <div class="team-role">Deputy Secretary-General</div>
-        </div>
         <div class="team-member" onclick="openTeamModal('Atef', 'Deputy Secretary-General', 'atef.png')">
           <img src="atef.png" alt="Atef" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Atef</div>
@@ -567,13 +562,13 @@
   </footer>
 
   <script>
-    // بيانات اللجان (المواضيع، الـ 3 تشيرز، ولينك الريبورت) - تقدري تعدليها براحتكِ هنا
+    // بيانات اللجان (المواضيع، الـ 3 تشيرز، ولينك الريبورت)
     const committeeData = {
       "UNWOMEN": {
         topics: "Topic A: Coming Soon\nTopic B: Coming Soon",
-        report: "https://google.com", // حطي لينك السيرتش ريبورت الحقيقي هنا
+        report: "https://google.com", 
         chairs: [
-          { name: "Chair 1", img: "unwomen_chair1.png" }, // بدلي لاسم صور التشيرز الحقيقي
+          { name: "Chair 1", img: "unwomen_chair1.png" }, 
           { name: "Chair 2", img: "unwomen_chair2.png" },
           { name: "Chair 3", img: "unwomen_chair3.png" }
         ]
@@ -620,7 +615,6 @@
     const teamBios = {
       "laila": `Hello delegates!!!\n\nHi everyone! I’m laila fahoum, your Secretary General and proud Security General for our very first FRANMUN \u200B🤍\n\nI’m so excited to welcome you all into this journey full of learning, confidence, and unforgettable moments. This conference isn’t just about debate—it’s about growth, friendship, and discovering your voice.\n\nI’m always here for you, ready to help with anything you need, so never hesitate to reach out, ask questions, or just say hi! Let’s make this experience fun, supportive, and truly special together \u200B✨`,
       "bana": `bio coming soon…`,
-      "shawqe": `bio coming soon…`,
       "atef": `DIVAAAA!!`,
       "jana": `bio coming soon…`,
       "jamal": `bio coming soon…`,
@@ -634,7 +628,6 @@
     // دالة فتح اللجان المحدثة مع التعامل الخاص مع الكرايسيس
     function openModal(committee) {
       if (committee === 'CRISIS') {
-        // إنشاء صفحة جديدة للكرايسيس في علامة تبويب جديدة وتجهيز النص فيها
         const crisisWindow = window.open();
         crisisWindow.document.write(`
           <html>
@@ -663,10 +656,9 @@
           </html>
         `);
         crisisWindow.document.close();
-        return; // إنهاء الدالة لكي لا تفتح الـ popup العادي
+        return; 
       }
 
-      // فتح الـ Popup العادي للجان الأخرى
       document.getElementById("committeeModal").style.display = "flex";
       document.getElementById("modalTitle").innerText = committee;
       
@@ -675,7 +667,6 @@
         document.getElementById("modalTopics").innerText = data.topics;
         document.getElementById("modalReportLink").href = data.report;
         
-        // بناء صور التشيرز الثلاثة ديناميكياً
         let chairsHTML = "";
         data.chairs.forEach(chair => {
           chairsHTML += `
