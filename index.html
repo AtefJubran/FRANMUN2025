@@ -15,7 +15,6 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      /* خلفية متدرجة احترافية بألوان لوجو المدرسة */
       background: linear-gradient(135deg, #001a33 0%, #00264d 50%, #003366 100%);
       background-size: cover;
       background-position: center;
@@ -76,7 +75,6 @@
       text-align: center;
     }
 
-    /* أزرار التسجيل المتجاوبة */
     .button-container {
       text-align: center;
       margin: 20px auto;
@@ -109,7 +107,6 @@
       transform: scale(1.02);
     }
 
-    /* العداد التنازلي المتجاوب */
     .countdown-container {
       display: flex;
       justify-content: center;
@@ -140,7 +137,6 @@
       text-transform: uppercase;
     }
 
-    /* شبكة اللجان المتجاوبة */
     .committee-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -182,7 +178,6 @@
       object-fit: contain;
     }
 
-    /* ستايل التشيرز داخل المودال */
     .chairs-title {
       font-weight: bold;
       margin-top: 20px;
@@ -217,7 +212,6 @@
       margin-top: 5px;
     }
 
-    /* ستايل زر الريسيرتش ريبورت */
     .report-btn {
       display: inline-block;
       margin-top: 15px;
@@ -235,7 +229,6 @@
       color: #ffd700;
     }
 
-    /* شبكة الفريق المتجاوبة والتوزيع الاحترافي لـ 6 أعضاء */
     .team-grid {
       display: flex;
       flex-wrap: wrap;
@@ -289,7 +282,6 @@
       color: #555;
     }
 
-    /* النوافذ المنبثقة (Modals) */
     .modal {
       display: none;
       position: fixed;
@@ -406,14 +398,14 @@
     <header>
       <img src="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" alt="School Logo">
       <div class="header-text">
-        <h1>Franciscan Sister's School MUN</h1>
+        <h1>Franciscan Sister&apos;s School MUN</h1>
         <p><span class="highlight">FRANMUN</span> | First Annual Conference</p>
       </div>
     </header>
 
     <section class="section">
       <h2>FRANMUN</h2>
-      <p>Franciscan Sister's School's First Model United Nations Conference</p>
+      <p>Franciscan Sister&apos;s School&apos;s First Model United Nations Conference</p>
     </section>
 
     <div class="card">
@@ -440,13 +432,13 @@
 
     <div class="card">
       <h3>Coming Soon!</h3>
-      <p>We're excited to announce our first MUN conference.</p>
+      <p>We&apos;re excited to announce our first MUN conference.</p>
       <p>Stay tuned for updates!</p>
     </div>
 
     <div class="button-container">
-      <a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration →</a>
-      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration →</a>
+      <a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration &rarr;</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration &rarr;</a>
     </div>
     
     <div style="text-align: center; margin-bottom: 20px; padding: 0 15px;">
@@ -457,7 +449,7 @@
 
     <div class="card">
       <h3>About Our Conference</h3>
-      <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference! Join us for an exciting event where students will engage in diplomatic discussions, problem-solving, and resolution writing while representing countries from around the world.</p>
+      <p>Welcome to Franciscan Sister&apos;s School&apos;s inaugural Model United Nations conference! Join us for an exciting event where students will engage in diplomatic discussions, problem-solving, and resolution writing while representing countries from around the world.</p>
     </div>
 
     <div class="card">
@@ -523,7 +515,7 @@
 
   <div id="committeeModal" class="modal">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">×</span>
+      <span class="close-btn" onclick="closeModal()">&times;</span>
       <h2 id="modalTitle">Committee Name</h2>
       
       <div style="text-align: left; margin-top: 15px;">
@@ -532,11 +524,10 @@
       </div>
 
       <div class="chairs-title">Committee Chairs</div>
-      <div class="chairs-container" id="modalChairs">
-        </div>
+      <div class="chairs-container" id="modalChairs"></div>
 
       <div style="margin-top: 20px;">
-        <a id="modalReportLink" href="#" target="_blank" class="report-btn">📄 View Research Report</a>
+        <a id="modalReportLink" href="https://google.com" target="_blank" class="report-btn">📄 View Research Report</a>
       </div>
 
       <button class="modal-close-button" onclick="closeModal()">Close</button>
@@ -545,8 +536,8 @@
 
   <div id="teamModal" class="modal">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeTeamModal()">×</span>
-      <img id="teamModalImg" src="" alt="Team Member" class="modal-avatar">
+      <span class="close-btn" onclick="closeTeamModal()">&times;</span>
+      <img id="teamModalImg" src="https://via.placeholder.com/150" alt="Team Member" class="modal-avatar">
       <h2 id="teamModalName">Member Name</h2>
       <h4 id="teamModalRole" style="color: #555; margin-top: -5px; margin-bottom: 15px;">Role</h4>
       <p id="teamModalBio">Coming Soon</p>
@@ -556,13 +547,12 @@
 
   <footer>
     <p>Email: <a href="mailto:franmun2025@gmail.com" style="color: #ffd700;">franmun2025@gmail.com</a></p>
-    <p>Franciscan Sister's School Nazareth</p>
-    <p><a href="https://maps.app.goo.gl/w5T6kDCNtjzqwbWG8?g_st=ic" target="_blank" style="color:#fff;">View Location</a></p>
-    <p>© 2025 Franciscan Sister's School MUN. All rights reserved.</p>
+    <p>Franciscan Sister&apos;s School Nazareth</p>
+    <p><a href="https://maps.google.com" target="_blank" style="color:#fff;">View Location</a></p>
+    <p>&copy; 2025 Franciscan Sister&apos;s School MUN. All rights reserved.</p>
   </footer>
 
   <script>
-    // بيانات اللجان (المواضيع، الـ 3 تشيرز، ولينك الريبورت)
     const committeeData = {
       "UNWOMEN": {
         topics: "Topic A: Coming Soon\nTopic B: Coming Soon",
@@ -611,51 +601,24 @@
       }
     };
 
-    // نصوص البيو الخاصة بالفريق
     const teamBios = {
-      "laila": `Hello delegates!!!\n\nHi everyone! I’m laila fahoum, your Secretary General and proud Security General for our very first FRANMUN \u200B🤍\n\nI’m so excited to welcome you all into this journey full of learning, confidence, and unforgettable moments. This conference isn’t just about debate—it’s about growth, friendship, and discovering your voice.\n\nI’m always here for you, ready to help with anything you need, so never hesitate to reach out, ask questions, or just say hi! Let’s make this experience fun, supportive, and truly special together \u200B✨`,
-      "bana": `bio coming soon…`,
-      "atef": `DIVAAAA!!`,
-      "jana": `bio coming soon…`,
-      "jamal": `bio coming soon…`,
-      "tala": `bio coming soon…`
+      "laila": "Hello delegates!!!\n\nHi everyone! I’m laila fahoum, your Secretary General and proud Security General for our very first FRANMUN \u200B🤍\n\nI’m so excited to welcome you all into this journey full of learning, confidence, and unforgettable moments. This conference isn’t just about debate—it’s about growth, friendship, and discovering your voice.\n\nI’m always here for you, ready to help with anything you need, so never hesitate to reach out, ask questions, or just say hi! Let’s make this experience fun, supportive, and truly special together \u200B✨",
+      "bana": "bio coming soon…",
+      "atef": "DIVAAAA!!",
+      "jana": "bio coming soon…",
+      "jamal": "bio coming soon…",
+      "tala": "bio coming soon…"
     };
 
     function handleWhoImageError(imgElement) {
       imgElement.src = "who.png";
     }
 
-    // دالة فتح اللجان المحدثة مع التعامل الخاص مع الكرايسيس
     function openModal(committee) {
       if (committee === 'CRISIS') {
         const crisisWindow = window.open();
         if (crisisWindow) {
-          crisisWindow.document.write(`
-            <html>
-            <head>
-              <title>FRANMUN | Crisis</title>
-              <style>
-                body { 
-                  background: linear-gradient(135deg, #001a33 0%, #00264d 50%, #003366 100%); 
-                  color: #ffd700; 
-                  font-family: Arial, sans-serif; 
-                  display: flex; 
-                  justify-content: center; 
-                  align-items: center; 
-                  height: 100vh; 
-                  margin: 0;
-                  font-size: 32px;
-                  font-weight: bold;
-                  text-align: center;
-                  padding: 20px;
-                }
-              </style>
-            </head>
-            <body>
-              crisis page coming soon!!!!
-            </body>
-            </html>
-          `);
+          crisisWindow.document.write('<html><head><title>FRANMUN | Crisis</title><style>body { background: linear-gradient(135deg, #001a33 0%, #00264d 50%, #003366 100%); color: #ffd700; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-size: 32px; font-weight: bold; text-align: center; padding: 20px; }</style></head><body>crisis page coming soon!!!!</body></html>');
           crisisWindow.document.close();
         }
         return; 
@@ -667,16 +630,11 @@
       const data = committeeData[committee];
       if (data) {
         document.getElementById("modalTopics").innerText = data.topics;
-        document.getElementById("modalReportLink").href = data.report;
+        document.getElementById("modalReportLink").href = data.report || "https://google.com";
         
         let chairsHTML = "";
         data.chairs.forEach(chair => {
-          chairsHTML += `
-            <div class="chair-box">
-              <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='https://via.placeholder.com/150'">
-              <div class="chair-name">${chair.name}</div>
-            </div>
-          `;
+          chairsHTML += '<div class="chair-box"><img src="' + chair.img + '" alt="' + chair.name + '" class="chair-img" onerror="this.src=\'https://via.placeholder.com/150\'"><div class="chair-name">' + chair.name + '</div></div>';
         });
         document.getElementById("modalChairs").innerHTML = chairsHTML;
       }
@@ -686,7 +644,6 @@
       document.getElementById("committeeModal").style.display = "none";
     }
 
-    // Team Modal Functions
     function openTeamModal(name, role, imgSrc) {
       document.getElementById("teamModal").style.display = "flex";
       document.getElementById("teamModalName").innerText = name;
@@ -696,7 +653,6 @@
       const lowerName = name.toLowerCase();
       
       modalImg.src = lowerName + ".png";
-      
       modalImg.onerror = function() {
         this.src = 'https://via.placeholder.com/150';
       };
@@ -708,7 +664,6 @@
       document.getElementById("teamModal").style.display = "none";
     }
 
-    // Countdown Timer Functionality
     const targetDate = new Date("September 1, 2026 00:00:00").getTime();
 
     const countdownInterval = setInterval(function() {
