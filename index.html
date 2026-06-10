@@ -408,7 +408,7 @@
       <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference! Join us for an exciting event where students will engage in diplomatic discussions, problem-solving, and resolution writing while representing countries from around the world.</p>
     </div>
 
-              <div class="card">
+    <div class="card">
       <h3>Committees</h3>
       <div class="committee-grid">
         <div class="committee-icon" onclick="openModal('UNWOMEN')">
@@ -432,43 +432,41 @@
       </div>
     </div>
 
-    </div>
-
     <div class="card">
       <h3>Meet The Team</h3>
       <div class="team-grid">
-        <div class="team-member" onclick="openTeamModal('Laila', 'Secretary-General', 'laila.jpg')">
-          <img src="laila.jpg" alt="Laila" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="team-member" onclick="openTeamModal('Laila', 'Secretary-General', 'laila.png')">
+          <img src="laila.png" alt="Laila" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Laila</div>
           <div class="team-role">Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('Bana', 'Assistant Secretary-General', 'bana.jpg')">
-          <img src="bana.jpg" alt="Bana" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="team-member" onclick="openTeamModal('Bana', 'Assistant Secretary-General', 'bana.png')">
+          <img src="bana.png" alt="Bana" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Bana</div>
           <div class="team-role">Assistant Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('Shawqe', 'Deputy Secretary-General', 'shawqe.jpg')">
-          <img src="shawqe.jpg" alt="Shawqe" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="team-member" onclick="openTeamModal('Shawqe', 'Deputy Secretary-General', 'shawqe.png')">
+          <img src="shawqe.png" alt="Shawqe" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Shawqe</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('Atef', 'Deputy Secretary-General', 'atef.jpg')">
+        <div class="team-member" onclick="openTeamModal('Atef', 'Deputy Secretary-General', 'atef.png')">
           <img src="atef.png" alt="Atef" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Atef</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('Jana', 'Deputy Secretary-General', 'jana.jpg')">
-          <img src="jana.jpg" alt="Jana" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="team-member" onclick="openTeamModal('Jana', 'Deputy Secretary-General', 'jana.png')">
+          <img src="jana.png" alt="Jana" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Jana</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('New1', 'Deputy Secretary-General', 'new1.jpg')">
-          <img src="new1.jpg" alt="Jamal" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="team-member" onclick="openTeamModal('Jamal', 'Deputy Secretary-General', 'jamal.png')">
+          <img src="jamal.png" alt="Jamal" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Jamal</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
-        <div class="team-member" onclick="openTeamModal('New2', 'Deputy Secretary-General', 'new2.jpg')">
-          <img src="new2.jpg" alt="Tala" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
+        <div class="team-member" onclick="openTeamModal('Tala', 'Deputy Secretary-General', 'tala.png')">
+          <img src="tala.png" alt="Tala" class="team-avatar" onerror="this.src='https://via.placeholder.com/150'">
           <div class="team-name">Tala</div>
           <div class="team-role">Deputy Secretary-General</div>
         </div>
@@ -516,20 +514,13 @@
 
       "jana": `bio coming soon…`,
       
-      // البيو الخاص بالأعضاء الجدد (عدليهم براحتكِ هنا)
-      "new1": `bio coming soon…`,
+      "jamal": `bio coming soon…`,
       
-      "new2": `bio coming soon…`
+      "tala": `bio coming soon…`
     };
 
     function handleWhoImageError(imgElement) {
-      if (imgElement.src.includes("who.png")) {
-        imgElement.src = "who.png";
-      } else if (imgElement.src.includes("who.png")) {
-        imgElement.src = "who.png";
-      } else {
-        imgElement.src = "https://via.placeholder.com/120?text=WHO";
-      }
+      imgElement.src = "who.png";
     }
 
     // Committees Modal Functions
@@ -550,12 +541,15 @@
       document.getElementById("teamModalRole").innerText = role;
       
       const modalImg = document.getElementById("teamModalImg");
-      modalImg.src = imgSrc;
+      const lowerName = name.toLowerCase();
+      
+      // ربط الصورة بالامتداد الصحيح داخل الـ Popup
+      modalImg.src = lowerName + ".png";
+      
       modalImg.onerror = function() {
         this.src = 'https://via.placeholder.com/150';
       };
       
-      const lowerName = name.toLowerCase();
       document.getElementById("teamModalBio").innerText = teamBios[lowerName] || "Coming Soon";
     }
 
