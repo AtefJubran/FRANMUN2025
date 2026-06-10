@@ -182,6 +182,59 @@
       object-fit: contain;
     }
 
+    /* ستايل التشيرز داخل المودال */
+    .chairs-title {
+      font-weight: bold;
+      margin-top: 20px;
+      color: #00264d;
+      border-top: 1px dashed #ccc;
+      padding-top: 10px;
+    }
+    .chairs-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .chair-box {
+      text-align: center;
+      flex: 0 1 calc(33.33% - 10px);
+      min-width: 80px;
+    }
+    .chair-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid #ffd700;
+      object-fit: cover;
+      background-color: #f0f0f0;
+    }
+    .chair-name {
+      font-size: 11px;
+      font-weight: bold;
+      color: #333;
+      margin-top: 5px;
+    }
+
+    /* ستايل زر الريسيرتش ريبورت */
+    .report-btn {
+      display: inline-block;
+      margin-top: 15px;
+      background-color: #00264d;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+    .report-btn:hover {
+      background-color: #001a33;
+      color: #ffd700;
+    }
+
     /* شبكة الفريق المتجاوبة والتوزيع الاحترافي لـ 7 أعضاء */
     .team-grid {
       display: flex;
@@ -194,12 +247,11 @@
     .team-member {
       cursor: pointer;
       text-align: center;
-      flex: 0 1 calc(25% - 15px); /* يظهرون بشكل متوازن ومريح على الشاشات الكبيرة */
+      flex: 0 1 calc(25% - 15px); 
       min-width: 140px;
       max-width: 160px;
     }
 
-    /* شاشات الموبايل الصغيرة تعرضهم بشكل مرن وتلقائي لراحة العين */
     @media (max-width: 600px) {
       .team-grid {
         gap: 20px;
@@ -478,7 +530,20 @@
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">×</span>
       <h2 id="modalTitle">Committee Name</h2>
-      <p id="modalDescription">Details for committee will go here.</p>
+      
+      <div style="text-align: left; margin-top: 15px;">
+        <strong style="color: #00264d;">Topics:</strong>
+        <p id="modalTopics" style="margin-top: 5px; color: #444; font-size: 14px; white-space: pre-line;">Committee topics will go here.</p>
+      </div>
+
+      <div class="chairs-title">Committee Chairs</div>
+      <div class="chairs-container" id="modalChairs">
+        </div>
+
+      <div style="margin-top: 20px;">
+        <a id="modalReportLink" href="#" target="_blank" class="report-btn">📄 View Research Report</a>
+      </div>
+
       <button class="modal-close-button" onclick="closeModal()">Close</button>
     </div>
   </div>
@@ -502,20 +567,63 @@
   </footer>
 
   <script>
-    // 📢 [تعديل نصوص البيو هنا بأمان كامل] 📢
+    // بيانات اللجان (المواضيع، الـ 3 تشيرز، ولينك الريبورت) - تقدري تعدليها براحتكِ هنا
+    const committeeData = {
+      "UNWOMEN": {
+        topics: "Topic A: Coming Soon\nTopic B: Coming Soon",
+        report: "https://google.com", // حطي لينك السيرتش ريبورت الحقيقي هنا
+        chairs: [
+          { name: "Chair 1", img: "unwomen_chair1.png" }, // بدلي لاسم صور التشيرز الحقيقي
+          { name: "Chair 2", img: "unwomen_chair2.png" },
+          { name: "Chair 3", img: "unwomen_chair3.png" }
+        ]
+      },
+      "UNHRC": {
+        topics: "Topic A: Coming Soon\nTopic B: Coming Soon",
+        report: "https://google.com",
+        chairs: [
+          { name: "Chair 1", img: "unhrc_chair1.png" },
+          { name: "Chair 2", img: "unhrc_chair2.png" },
+          { name: "Chair 3", img: "unhrc_chair3.png" }
+        ]
+      },
+      "DISEC": {
+        topics: "Topic A: Coming Soon\nTopic B: Coming Soon",
+        report: "https://google.com",
+        chairs: [
+          { name: "Chair 1", img: "disec_chair1.png" },
+          { name: "Chair 2", img: "disec_chair2.png" },
+          { name: "Chair 3", img: "disec_chair3.png" }
+        ]
+      },
+      "WHO": {
+        topics: "Topic A: Coming Soon\nTopic B: Coming Soon",
+        report: "https://google.com",
+        chairs: [
+          { name: "Chair 1", img: "who_chair1.png" },
+          { name: "Chair 2", img: "who_chair2.png" },
+          { name: "Chair 3", img: "who_chair3.png" }
+        ]
+      },
+      "UNHSC": {
+        topics: "Topic A: Coming Soon\nTopic B: Coming Soon",
+        report: "https://google.com",
+        chairs: [
+          { name: "Chair 1", img: "unhsc_chair1.png" },
+          { name: "Chair 2", img: "unhsc_chair2.png" },
+          { name: "Chair 3", img: "unhsc_chair3.png" }
+        ]
+      }
+    };
+
+    // نصوص البيو الخاصة بالفريق
     const teamBios = {
       "laila": `Hello delegates!!!\n\nHi everyone! I’m laila fahoum, your Secretary General and proud Security General for our very first FRANMUN \u200B🤍\n\nI’m so excited to welcome you all into this journey full of learning, confidence, and unforgettable moments. This conference isn’t just about debate—it’s about growth, friendship, and discovering your voice.\n\nI’m always here for you, ready to help with anything you need, so never hesitate to reach out, ask questions, or just say hi! Let’s make this experience fun, supportive, and truly special together \u200B✨`,
-
       "bana": `bio coming soon…`,
-
       "shawqe": `bio coming soon…`,
-
       "atef": `DIVAAAA!!`,
-
       "jana": `bio coming soon…`,
-      
       "jamal": `bio coming soon…`,
-      
       "tala": `bio coming soon…`
     };
 
@@ -523,11 +631,62 @@
       imgElement.src = "who.png";
     }
 
-    // Committees Modal Functions
+    // دالة فتح اللجان المحدثة مع التعامل الخاص مع الكرايسيس
     function openModal(committee) {
+      if (committee === 'CRISIS') {
+        // إنشاء صفحة جديدة للكرايسيس في علامة تبويب جديدة وتجهيز النص فيها
+        const crisisWindow = window.open();
+        crisisWindow.document.write(`
+          <html>
+          <head>
+            <title>FRANMUN | Crisis</title>
+            <style>
+              body { 
+                background: linear-gradient(135deg, #001a33 0%, #00264d 50%, #003366 100%); 
+                color: #ffd700; 
+                font-family: Arial, sans-serif; 
+                display: flex; 
+                justify-content: center; 
+                align-items: center; 
+                height: 100vh; 
+                margin: 0;
+                font-size: 32px;
+                font-weight: bold;
+                text-align: center;
+                padding: 20px;
+              }
+            </style>
+          </head>
+          <body>
+            crisis page coming soon!!!!
+          </body>
+          </html>
+        `);
+        crisisWindow.document.close();
+        return; // إنهاء الدالة لكي لا تفتح الـ popup العادي
+      }
+
+      // فتح الـ Popup العادي للجان الأخرى
       document.getElementById("committeeModal").style.display = "flex";
       document.getElementById("modalTitle").innerText = committee;
-      document.getElementById("modalDescription").innerText = "Details for " + committee + " committee will go here.";
+      
+      const data = committeeData[committee];
+      if (data) {
+        document.getElementById("modalTopics").innerText = data.topics;
+        document.getElementById("modalReportLink").href = data.report;
+        
+        // بناء صور التشيرز الثلاثة ديناميكياً
+        let chairsHTML = "";
+        data.chairs.forEach(chair => {
+          chairsHTML += `
+            <div class="chair-box">
+              <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='https://via.placeholder.com/150'">
+              <div class="chair-name">${chair.name}</div>
+            </div>
+          `;
+        });
+        document.getElementById("modalChairs").innerHTML = chairsHTML;
+      }
     }
 
     function closeModal() {
@@ -543,7 +702,6 @@
       const modalImg = document.getElementById("teamModalImg");
       const lowerName = name.toLowerCase();
       
-      // ربط الصورة بالامتداد الصحيح داخل الـ Popup
       modalImg.src = lowerName + ".png";
       
       modalImg.onerror = function() {
