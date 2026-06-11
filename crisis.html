@@ -17,6 +17,7 @@
       --status-open: #2ecc71;
       --status-closed: #e74c3c;
       --status-frozen: #3498db;
+      --status-revision: #e67e22;
       --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
@@ -32,45 +33,16 @@
       overflow-x: hidden;
     }
 
-    .public-page {
-      flex: 1;
-      padding: 40px;
-      max-width: 900px;
-      margin: 0 auto;
-      transition: var(--transition-smooth);
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 20px;
-      margin-bottom: 30px;
-    }
-
-    header h1 {
-      font-size: 28px;
-      background: linear-gradient(120deg, #ffffff, var(--accent-gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    .public-page { flex: 1; padding: 40px; max-width: 900px; margin: 0 auto; transition: var(--transition-smooth); }
+    header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--card-border); padding-bottom: 20px; margin-bottom: 30px; }
+    header h1 { font-size: 28px; background: linear-gradient(120deg, #ffffff, var(--accent-gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
     .status-board {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 20px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 30px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 20px 30px;
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
-
     .status-info h3 { color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
     .status-value { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-top: 5px; }
-    
     .status-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
     .status-open { color: var(--status-open); }
     .status-open .status-dot { background-color: var(--status-open); box-shadow: 0 0 12px var(--status-open); }
@@ -88,45 +60,24 @@
     .timeline-desc { color: #cbd5e0; font-size: 14px; }
 
     .side-panel {
-      width: 400px;
-      background: rgba(0, 13, 26, 0.95);
-      border-left: 2px solid var(--accent-gold);
-      backdrop-filter: blur(20px);
-      position: fixed;
-      right: -400px;
-      top: 0;
-      height: 100%;
-      z-index: 999;
-      box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-      transition: var(--transition-smooth);
-      display: flex;
-      flex-direction: column;
+      width: 400px; background: rgba(0, 13, 26, 0.98); border-left: 2px solid var(--accent-gold); backdrop-filter: blur(20px);
+      position: fixed; right: -400px; top: 0; height: 100%; z-index: 999; box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+      transition: var(--transition-smooth); display: flex; flex-direction: column;
     }
     .side-panel.active { right: 0; }
 
     .panel-toggle-btn {
-      background: var(--accent-gold);
-      color: var(--primary-dark);
-      font-weight: 700;
-      padding: 12px 20px;
-      border-radius: 8px 0 0 8px;
-      cursor: pointer;
-      position: fixed;
-      right: 0;
-      top: 40px;
-      z-index: 1000;
-      box-shadow: -4px 4px 15px rgba(223, 183, 44, 0.2);
-      transition: var(--transition-smooth);
+      background: var(--accent-gold); color: var(--primary-dark); font-weight: 700; padding: 12px 20px; border-radius: 8px 0 0 8px;
+      cursor: pointer; position: fixed; right: 0; top: 40px; z-index: 1000; box-shadow: -4px 4px 15px rgba(223, 183, 44, 0.2); transition: var(--transition-smooth);
     }
     .side-panel.active + .panel-toggle-btn { right: 400px; background: var(--status-closed); color: #fff; }
 
-    .panel-header { padding: 30px 20px; border-bottom: 1px solid var(--card-border); }
+    .panel-header { padding: 25px 20px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; }
     .panel-header h2 { color: var(--accent-gold); font-size: 20px; }
     .panel-body { padding: 20px; flex: 1; overflow-y: auto; }
 
     .panel-login-form { display: block; }
     .panel-login-form h3 { font-size: 15px; margin-bottom: 15px; color: #fff; }
-    
     .private-dashboard { display: none; }
     .delegate-welcome { background: rgba(223, 183, 44, 0.08); border: 1px solid var(--accent-gold); padding: 12px; border-radius: 8px; font-weight: 600; color: var(--accent-gold); margin-bottom: 20px; text-align: center; }
 
@@ -140,26 +91,27 @@
     .checkbox-group { display: flex; align-items: center; gap: 10px; margin: 15px 0; }
     .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
 
-    .action-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--accent-gold), #c59f23); color: var(--primary-dark); border: none; border-radius: 6px; font-weight: 700; font-size: 15px; cursor: pointer; transition: var(--transition-smooth); }
+    .action-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--accent-gold), #c59f23); color: var(--primary-dark); border: none; border-radius: 6px; font-weight: 700; font-size: 15px; cursor: pointer; transition: var(--transition-smooth); margin-bottom: 10px; }
     .action-btn:hover { background: linear-gradient(135deg, var(--accent-gold-hover), var(--accent-gold)); transform: translateY(-1px); }
 
-    .feedback-box { background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 15px; border-radius: 8px; font-size: 13px; color: #e2e8f0; margin-bottom: 20px; max-height: 120px; overflow-y: auto; }
+    .draft-btn { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--card-border); border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: var(--transition-smooth); margin-bottom: 15px; }
+    .draft-btn:hover { background: rgba(255,255,255,0.15); border-color: var(--accent-gold); }
 
-    #jointDelegateSection { display: none; animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+    .logout-btn { background: transparent; border: 1px solid var(--status-closed); color: var(--status-closed); padding: 5px 12px; font-size: 12px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+    .logout-btn:hover { background: var(--status-closed); color: #fff; }
 
-    @media (max-width: 768px) {
-      body { flex-direction: column; }
-      .side-panel { width: 100%; right: -100%; }
-      .side-panel.active + .panel-toggle-btn { right: auto; left: 20px; top: auto; bottom: 20px; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
-    }
+    .feedback-box { background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 15px; border-radius: 8px; font-size: 13px; color: #e2e8f0; margin-bottom: 20px; max-height: 180px; overflow-y: auto; }
+    .draft-badge { background: #f39c12; color: #000; padding: 2px 6px; font-size: 11px; font-weight: bold; border-radius: 4px; margin-left: 10px; display: none; }
+    
+    .revise-btn { background: var(--status-revision); color: #fff; padding: 5px 10px; border: none; border-radius: 4px; font-size: 12px; font-weight: bold; cursor: pointer; margin-top: 8px; display: inline-block; }
+
+    #jointDelegateSection { display: none; }
   </style>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+    import { getDatabase, ref, onValue, set, push, get, child } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
-    // إعدادات الفايربيس الحية الخاصة بك عاطف
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
@@ -174,11 +126,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    window.db = db;
-    window.dbRef = ref;
-    window.dbOnValue = onValue;
-    window.dbSet = set;
-    window.dbPush = push;
+    window.db = db; window.dbRef = ref; window.dbOnValue = onValue; window.dbSet = set; window.dbPush = push; window.dbGet = get; window.dbChild = child;
   </script>
 </head>
 <body>
@@ -187,24 +135,22 @@
     <header>
       <div>
         <h1>Crisis Backrooms Workspace</h1>
-        <p style="color: var(--text-muted); font-size: 14px;">FRANMUN First Annual Conference</p>
+        <p style="color: var(--text-muted); font-size: 14px;">FRANMUN Executive Suite</p>
       </div>
     </header>
 
     <div class="status-board">
       <div class="status-info">
-        <h3>Backrooms Current Status</h3>
+        <h3>Backrooms Status</h3>
         <div class="status-value status-open" id="currentStatus">
           <span class="status-dot"></span> <span id="statusText">Opened</span>
         </div>
       </div>
-      <div style="font-size: 13px; color: var(--text-muted); text-align: right;">
-        Directives are processed<br>in real-time by the Crisis Staff
-      </div>
+      <div style="font-size: 13px; color: var(--text-muted); text-align: right;">Realtime connection active</div>
     </div>
 
     <div class="crisis-updates">
-      <h2>📢 Live Crisis Timeline & Updates</h2>
+      <h2>📢 Live Crisis Timeline</h2>
       <div class="timeline" id="timelineContainer"></div>
     </div>
   </div>
@@ -213,67 +159,69 @@
   
   <div class="side-panel" id="sidePanel">
     <div class="panel-header">
-      <h2>🔐 Personal Space</h2>
-      <p style="color: var(--text-muted); font-size: 12px; margin-top: 4px;">Secure communication portal for delegates</p>
+      <div>
+        <h2>🔐 Personal Console</h2>
+      </div>
+      <button class="logout-btn" id="logoutBtn" style="display:none;" onclick="triggerLogout()">Log Out</button>
     </div>
 
     <div class="panel-body">
       <div class="panel-login-form" id="panelLoginForm">
-        <h3>Sign in to access your secure console</h3>
         <form onsubmit="handlePanelLogin(event)">
           <div class="form-group">
-            <label>Delegate Username</label>
-            <input type="text" id="panelUser" placeholder="e.g., ATEF or USA_Delegate" required>
+            <label>Username</label>
+            <input type="text" id="panelUser" required>
           </div>
           <div class="form-group">
-            <label>Secret Password</label>
-            <input type="password" id="panelPass" placeholder="••••••••" required>
+            <label>Password</label>
+            <input type="password" id="panelPass" required>
           </div>
           <button type="submit" class="action-btn">Authorize Entry</button>
         </form>
       </div>
 
       <div class="private-dashboard" id="privateDashboard">
-        <div class="delegate-welcome" id="delegateNameHeader">Welcome, Delegate</div>
+        <div class="delegate-welcome" id="delegateNameHeader">Welcome</div>
         
-        <div style="margin-bottom: 25px;">
-          <h4 style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase; margin-bottom: 8px;">📥 Backroom Feedback</h4>
-          <div class="feedback-box" id="feedbackContent">
-            No feedback received from the Backroom yet.
-          </div>
+        <div style="margin-bottom: 20px;">
+          <h4 style="color: var(--accent-gold); font-size: 13px; margin-bottom: 8px;">📥 Backroom Notifications & Feedback</h4>
+          <div class="feedback-box" id="feedbackContent">No updates yet.</div>
         </div>
 
-        <hr style="border: 0; border-top: 1px solid var(--card-border); margin-bottom: 25px;">
+        <hr style="border: 0; border-top: 1px solid var(--card-border); margin-bottom: 20px;">
 
         <div>
-          <h4 style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase; margin-bottom: 12px;">📤 Send Directive</h4>
+          <h4 style="display:flex; justify-content:between; color: var(--accent-gold); font-size: 13px; margin-bottom: 12px;">
+            <span>📤 Compose Directive</span>
+            <span class="draft-badge" id="draftBadge">Draft Empty</span>
+          </h4>
           <form onsubmit="submitDirective(event)">
             <div class="form-group">
-              <label>Directive Type</label>
+              <label>Type</label>
               <select id="directiveType" required>
                 <option value="Private">Private Directive</option>
                 <option value="Public">Public Directive</option>
                 <option value="Communiqué">Communiqué</option>
-                <option value="Press Release">Press Release</option>
               </select>
             </div>
 
             <div class="checkbox-group">
               <input type="checkbox" id="isJoint" onchange="toggleJointSelection()">
-              <label for="isJoint" style="display:inline; text-transform:none; font-size:13px; cursor:pointer;">This is a Joint Directive</label>
+              <label for="isJoint">Joint Directive</label>
             </div>
 
             <div class="form-group" id="jointDelegateSection">
-              <label>Partner Delegate Name(s)</label>
-              <input type="text" id="partnerName" placeholder="e.g., UK_Delegate">
+              <label>Partners</label>
+              <input type="text" id="partnerName">
             </div>
 
             <div class="form-group">
-              <label>Orders & Content</label>
-              <textarea id="directiveOrders" rows="5" placeholder="Specify your actions..." required></textarea>
+              <label>Content / Orders</label>
+              <textarea id="directiveOrders" rows="5" oninput="autoSaveDraft()" required></textarea>
             </div>
 
-            <button type="submit" class="action-btn">Transmit Directive</button>
+            <button type="button" class="draft-btn" onclick="forceSaveDraft()">💾 Save as Draft</button>
+            <button type="submit" class="action-btn">Transmit Online</button>
           </form>
         </div>
       </div>
@@ -283,162 +231,166 @@
   <script>
     let globalStatus = "Opened";
     let loggedInUser = null;
+    let autoSaveTimeout = null;
 
-    const accounts = {
-      "ATEF": { password: "2009", name: "Admin / Atef Jubran" },
-      "USA_Delegate": { password: "usa@crisis26", name: "USA Delegate Workspace" },
-      "UK_Delegate": { password: "uk@secret26", name: "UK Delegate Workspace" },
-      "Jordan_Delegate": { password: "jor@fss26", name: "Jordan Delegate Workspace" }
-    };
+    const localAccounts = { "ATEF": { password: "2009", name: "Admin / Atef Jubran" } };
 
-    // مراقبة البيانات مباشرة من قاعدة البيانات السحابية
-    function initFirebaseSync() {
-      if (!window.db) {
-        setTimeout(initFirebaseSync, 500);
-        return;
-      }
+    function initSync() {
+      if (!window.db) { setTimeout(initSync, 300); return; }
 
-      // 1. الاستماع لحالة الغرفة (Realtime Room Status)
-      window.dbOnValue(window.dbRef(window.db, 'room_status'), (snapshot) => {
-        globalStatus = snapshot.val() || "Opened";
-        const statusContainer = document.getElementById('currentStatus');
-        const statusText = document.getElementById('statusText');
-        statusContainer.className = "status-value " + (globalStatus === 'Opened' ? 'status-open' : globalStatus === 'Closed' ? 'status-closed' : 'status-frozen');
-        statusText.innerText = globalStatus;
+      window.dbOnValue(window.dbRef(window.db, 'room_status'), (snap) => {
+        globalStatus = snap.val() || "Opened";
+        document.getElementById('statusContainer');
+        document.getElementById('currentStatus').className = "status-value " + (globalStatus==='Opened'?'status-open':globalStatus==='Closed'?'status-closed':'status-frozen');
+        document.getElementById('statusText').innerText = globalStatus;
       });
 
-      // 2. الاستماع للبث المباشر للأخبار (Realtime Live Timeline Updates)
-      window.dbOnValue(window.dbRef(window.db, 'crisis_updates'), (snapshot) => {
-        const timelineContainer = document.getElementById('timelineContainer');
-        let customHTML = '';
-        
-        const data = snapshot.val();
-        if (data) {
-          const updatesList = Object.values(data).reverse(); // جلب الأحدث في الأعلى
-          updatesList.forEach((item) => {
-            customHTML += `
-              <div class="timeline-item" style="border-left: 2px solid var(--accent-gold);">
-                <span class="time-badge">Live Update — ${item.time}</span>
-                <div class="timeline-title" style="color: var(--accent-gold);">${item.title}</div>
-                <div class="timeline-desc">${item.desc}</div>
-              </div>
-            `;
+      window.dbOnValue(window.dbRef(window.db, 'crisis_updates'), (snap) => {
+        const container = document.getElementById('timelineContainer');
+        let html = '';
+        if(snap.exists()){
+          Object.values(snap.val()).reverse().forEach(item => {
+            html += `<div class="timeline-item">
+              <span class="time-badge">${item.time}</span>
+              <div class="timeline-title">${item.title}</div>
+              <div class="timeline-desc">${item.desc}</div>
+            </div>`;
           });
         }
-
-        let defaultHTML = `
-          <div class="timeline-item">
-            <span class="time-badge">Update #1 — 09:00</span>
-            <div class="timeline-title">Crisis Room Activated</div>
-            <div class="timeline-desc">The First Annual FRANMUN Crisis simulation has officially commenced.</div>
-          </div>
-        `;
-        timelineContainer.innerHTML = customHTML + defaultHTML;
+        container.innerHTML = html || '<p>Simulation Active.</p>';
       });
 
-      // 3. الاستماع لتحديثات الـ Feedback والـ Decisions للدايركتفز
-      window.dbOnValue(window.dbRef(window.db, 'directives'), () => {
-        loadDelegateFeedback();
-      });
+      window.dbOnValue(window.dbRef(window.db, 'directives'), () => { loadDelegateFeedback(); });
     }
-
-    window.addEventListener('DOMContentLoaded', initFirebaseSync);
+    window.addEventListener('DOMContentLoaded', initSync);
 
     function toggleSidePanel() {
-      const panel = document.getElementById("sidePanel");
-      const toggleBtn = document.getElementById("toggleBtn");
-      panel.classList.toggle("active");
-      toggleBtn.innerText = panel.classList.contains("active") ? "✖ Close Space" : "💻 Personal Space";
+      const p = document.getElementById("sidePanel");
+      p.classList.toggle("active");
+      document.getElementById("toggleBtn").innerText = p.classList.contains("active") ? "✖ Close" : "💻 Personal Space";
     }
 
-    function handlePanelLogin(event) {
-      event.preventDefault();
+    function handlePanelLogin(e) {
+      e.preventDefault();
       const user = document.getElementById("panelUser").value.trim();
       const pass = document.getElementById("panelPass").value;
 
-      if (accounts[user] && accounts[user].password === pass) {
-        loggedInUser = user;
-        document.getElementById("panelLoginForm").style.display = "none";
-        document.getElementById("privateDashboard").style.display = "block";
-        document.getElementById("delegateNameHeader").innerText = accounts[user].name;
-        loadDelegateFeedback();
-      } else {
-        alert("Invalid credentials. Entry Denied.");
+      if(localAccounts[user] && localAccounts[user].password === pass) {
+        loginSuccess(user, localAccounts[user].name); return;
       }
+
+      window.dbGet(window.dbChild(window.dbRef(window.db), `custom_accounts/${user}`)).then((snap) => {
+        if(snap.exists() && snap.val().password === pass) {
+          loginSuccess(user, snap.val().name);
+        } else { alert("Access Denied."); }
+      });
+    }
+
+    function loginSuccess(user, name) {
+      loggedInUser = user;
+      document.getElementById("panelLoginForm").style.display = "none";
+      document.getElementById("privateDashboard").style.display = "block";
+      document.getElementById("logoutBtn").style.display = "block";
+      document.getElementById("delegateNameHeader").innerText = name;
+      loadDelegateFeedback();
+      loadSavedDraft();
+    }
+
+    function triggerLogout() {
+      loggedInUser = null;
+      document.getElementById("panelLoginForm").style.display = "block";
+      document.getElementById("privateDashboard").style.display = "none";
+      document.getElementById("logoutBtn").style.display = "none";
+      document.getElementById("directiveOrders").value = "";
+      document.getElementById("draftBadge").style.display = "none";
     }
 
     function loadDelegateFeedback() {
       if (!loggedInUser || !window.db) return;
-      
-      window.dbOnValue(window.dbRef(window.db, 'directives'), (snapshot) => {
-        const feedbackBox = document.getElementById("feedbackContent");
-        const data = snapshot.val();
-        
-        if (data) {
-          const allDirectives = Object.values(data);
-          // البحث عن آخر دايركتف تم إرساله بواسطة الديليجت الحالي
-          const userDir = allDirectives.reverse().find(d => d.sender === loggedInUser);
-          
-          if (userDir) {
-            if (userDir.feedback) {
-              let statusBadge = userDir.status === 'Accepted' ? '🟢 Accepted' : userDir.status === 'Rejected' ? '🔴 Rejected' : '⏳ Pending';
-              feedbackBox.innerHTML = `<strong>Status: ${statusBadge}</strong><br><span style="color:#fff; display:block; margin-top:5px;">Feedback: ${userDir.feedback}</span>`;
-            } else {
-              feedbackBox.innerHTML = `Your directive has been transmitted. Status: <strong>⏳ Pending Evaluation</strong>.`;
+      window.dbOnValue(window.dbRef(window.db, 'directives'), (snap) => {
+        const box = document.getElementById("feedbackContent");
+        if(snap.exists()) {
+          const arr = Object.values(snap.val()).reverse();
+          const last = arr.find(d => d.sender === loggedInUser);
+          if(last) {
+            let badge = last.status === 'Accepted' ? '🟢 Accepted' : last.status === 'Rejected' ? '🔴 Rejected' : last.status === 'Revision' ? '🟠 Revision Needed' : '⏳ Pending';
+            let html = `<strong>Latest Status: ${badge}</strong><br>Feedback: ${last.feedback || 'None'}`;
+            if(last.status === 'Revision') {
+              html += `<br><button class="revise-btn" onclick="prepareRevision('${btoa(encodeURIComponent(last.content))}')">✏️ Revise & Resubmit</button>`;
             }
-            return;
+            box.innerHTML = html; return;
           }
         }
-        feedbackBox.innerText = "No directives transmitted yet. Your secure space pipeline is clear.";
-      }, { onlyOnce: true });
-    }
-
-    function toggleJointSelection() {
-      const isJoint = document.getElementById("isJoint").checked;
-      const jointSection = document.getElementById("jointDelegateSection");
-      jointSection.style.display = isJoint ? "block" : "none";
-      document.getElementById("partnerName").required = isJoint;
-    }
-
-    function submitDirective(event) {
-      event.preventDefault();
-      
-      if(globalStatus === 'Frozen' || globalStatus === 'Closed') {
-        alert(`The Backroom is currently [${globalStatus}]. Transmitting new directives is restricted.`);
-        return;
-      }
-
-      const type = document.getElementById("directiveType").value;
-      const isJoint = document.getElementById("isJoint").checked;
-      const partner = document.getElementById("partnerName").value;
-      const orders = document.getElementById("directiveOrders").value;
-
-      const newDirectiveRef = window.dbPush(window.dbRef(window.db, 'directives'));
-      
-      window.dbSet(newDirectiveRef, {
-        id: Date.now(),
-        firebaseKey: newDirectiveRef.key,
-        sender: loggedInUser,
-        type: type,
-        joint: isJoint ? `Yes (With ${partner})` : "No",
-        content: orders,
-        status: "Pending",
-        feedback: ""
-      }).then(() => {
-        alert("Directive Securely Transmitted Online!");
-        document.getElementById("directiveOrders").value = "";
-        document.getElementById("isJoint").checked = false;
-        toggleJointSelection();
-        loadDelegateFeedback();
+        box.innerText = "No directives sent yet.";
       });
     }
 
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.onkeydown = function(e) {
-      if (e.keyCode == 123) return false;
-      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-    };
+    function prepareRevision(encodedContent) {
+      const originalContent = decodeURIComponent(atob(encodedContent));
+      document.getElementById("directiveOrders").value = originalContent;
+      alert("Original content loaded back into the form. Please modify and hit Transmit again!");
+    }
+
+    function autoSaveDraft() {
+      if(!loggedInUser) return;
+      document.getElementById("draftBadge").style.display = "inline";
+      document.getElementById("draftBadge").innerText = "Typing...";
+      clearTimeout(autoSaveTimeout);
+      autoSaveTimeout = setTimeout(forceSaveDraft, 1000);
+    }
+
+    function forceSaveDraft() {
+      if(!loggedInUser) return;
+      window.dbSet(window.dbRef(window.db, `drafts/${loggedInUser}`), {
+        type: document.getElementById("directiveType").value,
+        isJoint: document.getElementById("isJoint").checked,
+        partner: document.getElementById("partnerName").value,
+        orders: document.getElementById("directiveOrders").value
+      }).then(() => {
+        document.getElementById("draftBadge").style.display = "inline";
+        document.getElementById("draftBadge").innerText = "Cloud Draft Saved";
+      });
+    }
+
+    function loadSavedDraft() {
+      window.dbGet(window.dbChild(window.dbRef(window.db), `drafts/${loggedInUser}`)).then(snap => {
+        if(snap.exists()) {
+          const d = snap.val();
+          document.getElementById("directiveType").value = d.type;
+          document.getElementById("isJoint").checked = d.isJoint;
+          toggleJointSelection();
+          document.getElementById("partnerName").value = d.partner;
+          document.getElementById("directiveOrders").value = d.orders;
+          document.getElementById("draftBadge").style.display = "inline";
+          document.getElementById("draftBadge").innerText = "Draft Loaded";
+        }
+      });
+    }
+
+    function toggleJointSelection() {
+      document.getElementById("jointDelegateSection").style.display = document.getElementById("isJoint").checked ? "block" : "none";
+    }
+
+    function submitDirective(e) {
+      e.preventDefault();
+      if(globalStatus === 'Frozen' || globalStatus === 'Closed') { alert("Room is closed/frozen."); return; }
+      
+      const newRef = window.dbPush(window.dbRef(window.db, 'directives'));
+      window.dbSet(newRef, {
+        firebaseKey: newRef.key,
+        sender: loggedInUser,
+        type: document.getElementById("directiveType").value,
+        joint: document.getElementById("isJoint").checked ? `Yes (${document.getElementById("partnerName").value})` : "No",
+        content: document.getElementById("directiveOrders").value,
+        status: "Pending",
+        feedback: ""
+      }).then(() => {
+        alert("Transmitted!");
+        window.dbSet(window.dbRef(window.db, `drafts/${loggedInUser}`), null);
+        document.getElementById("directiveOrders").value = "";
+        document.getElementById("draftBadge").style.display = "none";
+      });
+    }
   </script>
 </body>
 </html>
