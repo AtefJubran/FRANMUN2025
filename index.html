@@ -673,5 +673,32 @@
       }
     }
   </script>
+  // 1. منع القائمة المنسدلة عند الضغط بالزر الأيمن للفأرة
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// 2. منع اختصارات لوحة المفاتيح الشهيرة لفتح أدوات المطورين
+document.onkeydown = function(e) {
+  // منع F12
+  if (e.keyCode == 123) {
+    return false;
+  }
+  // منع Ctrl+Shift+I أو Ctrl+Shift+J (أدوات المطورين)
+  if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) {
+    return false;
+  }
+  // منع Ctrl+U (رؤية كود المصدر / View Source)
+  if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+    return false;
+  }
+  // منع Ctrl+S (لحفظ الصفحة على الجهاز)
+  if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+    return false;
+  }
+};
+
+// 3. خدعة برمجية للتشويش على أدوات المطورين (debugger)
+setInterval(function() {
+  debugger;
+}, 100);
 </body>
 </html>
