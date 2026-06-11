@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta name="robots" content="noindex, nofollow">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FRANMUN</title>
@@ -604,6 +603,15 @@
           { name: "Chair 2", img: "unhsc_chair2.png" },
           { name: "Chair 3", img: "unhsc_chair3.png" }
         ]
+      },
+      "CRISIS": {
+        topics: "Topic A: Coming Soon\nTopic B: Coming Soon",
+        report: "https://google.com",
+        chairs: [
+          { name: "Chair 1", img: "crisis_chair1.png" },
+          { name: "Chair 2", img: "crisis_chair2.png" },
+          { name: "Chair 3", img: "crisis_chair3.png" }
+        ]
       }
     };
 
@@ -612,11 +620,6 @@
     }
 
     function openModal(committee) {
-      if (committee === 'CRISIS') {
-        window.open('crisis.html', '_blank');
-        return; 
-      }
-
       document.getElementById("committeeModal").style.display = "flex";
       document.getElementById("modalTitle").innerText = committee;
       
