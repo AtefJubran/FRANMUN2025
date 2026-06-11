@@ -3,202 +3,373 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN | Crisis Suite</title>
+  <title>FRANMUN | Crisis Backrooms</title>
   <style>
     :root {
-      --primary-dark: #001122;    
-      --secondary-blue: #002244;  
+      --primary-dark: #000c18;    
+      --secondary-blue: #001a33;  
       --accent-gold: #dfb72c;     
       --accent-gold-hover: #fcd444;
-      --card-bg: rgba(255, 255, 255, 0.04); 
+      --card-bg: rgba(255, 255, 255, 0.03); 
       --card-border: rgba(255, 255, 255, 0.08);
       --text-light: #ffffff;
       --text-muted: #a0aec0;
+      --status-open: #2ecc71;
+      --status-closed: #e74c3c;
+      --status-frozen: #3498db;
       --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: radial-gradient(circle at center, var(--secondary-blue) 0%, var(--primary-dark) 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      background: radial-gradient(circle at top, var(--secondary-blue) 0%, var(--primary-dark) 100%);
+      background-attachment: fixed;
       color: var(--text-light);
-      padding: 20px;
+      line-height: 1.6;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* CONTAINER LOGIN */
-    .login-container {
-      background: rgba(0, 26, 51, 0.65);
-      border: 2px solid var(--card-border);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 40px 30px;
-      border-radius: 18px;
-      max-width: 420px;
-      width: 100%;
-      text-align: center;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    /* --- LAYOUT STRUCTURE --- */
+    .public-page {
+      flex: 1;
+      padding: 40px;
+      max-width: 900px;
+      margin: 0 auto;
       transition: var(--transition-smooth);
     }
 
-    .login-container:hover {
-      border-color: rgba(223, 183, 44, 0.3);
-      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-    }
-
-    .logo {
-      max-width: 80px;
-      height: auto;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 0 10px rgba(223, 183, 44, 0.3));
-    }
-
-    h2 {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #ffffff;
-    }
-
-    .subtitle {
-      font-size: 13px;
-      color: var(--text-muted);
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 20px;
       margin-bottom: 30px;
     }
 
-    .input-group {
-      text-align: left;
-      margin-bottom: 20px;
+    header h1 {
+      font-size: 28px;
+      background: linear-gradient(120deg, #ffffff, var(--accent-gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    .input-group label {
-      display: block;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--accent-gold);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 6px;
-    }
-
-    .input-group input {
-      width: 100%;
-      padding: 14px;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      color: #fff;
-      font-size: 14px;
-      transition: var(--transition-smooth);
-    }
-
-    .input-group input:focus {
-      outline: none;
-      border-color: var(--accent-gold);
-      background: rgba(0, 0, 0, 0.5);
-    }
-
-    .login-btn {
-      width: 100%;
-      background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%);
-      color: var(--primary-dark);
-      font-weight: 700;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: var(--transition-smooth);
-      box-shadow: 0 8px 20px rgba(223, 183, 44, 0.15);
-      margin-top: 10px;
-    }
-
-    .login-btn:hover {
-      background: linear-gradient(135deg, var(--accent-gold-hover) 0%, var(--accent-gold) 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 25px rgba(223, 183, 44, 0.3);
-    }
-
-    /* DASHBOARD CONTENT (HIDDEN BY DEFAULT) */
-    .dashboard-container {
-      display: none;
-      max-width: 800px;
-      width: 100%;
+    /* --- STATUS BOARD --- */
+    .status-board {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 40px;
       border-radius: 14px;
-      text-align: center;
-      backdrop-filter: blur(16px);
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    .dashboard-container h1 {
-      color: var(--accent-gold);
-      margin-bottom: 20px;
+    .status-info h3 { color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+    .status-value { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-top: 5px; }
+    
+    /* مؤشر الحالة الضوئي */
+    .status-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+    .status-open { color: var(--status-open); }
+    .status-open .status-dot { background-color: var(--status-open); box-shadow: 0 0 12px var(--status-open); }
+    .status-closed { color: var(--status-closed); }
+    .status-closed .status-dot { background-color: var(--status-closed); box-shadow: 0 0 12px var(--status-closed); }
+    .status-frozen { color: var(--status-frozen); }
+    .status-frozen .status-dot { background-color: var(--status-frozen); box-shadow: 0 0 12px var(--status-frozen); }
+
+    /* --- TIMELINE / UPDATES --- */
+    .crisis-updates h2 { color: var(--accent-gold); margin-bottom: 20px; font-size: 22px; }
+    .timeline { position: relative; border-left: 2px solid var(--card-border); padding-left: 20px; margin-left: 10px; }
+    .timeline-item { position: relative; margin-bottom: 25px; background: rgba(255,255,255,0.01); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); }
+    .timeline-item::before { content: ''; position: absolute; left: -27px; top: 20px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent-gold); border: 2px solid var(--secondary-blue); }
+    .time-badge { font-size: 12px; color: var(--accent-gold); font-weight: 600; }
+    .timeline-title { font-size: 16px; font-weight: 700; margin: 4px 0; }
+    .timeline-desc { color: #cbd5e0; font-size: 14px; }
+
+    /* --- SIDE PANEL: PERSONAL SPACE --- */
+    .side-panel {
+      width: 400px;
+      background: rgba(0, 13, 26, 0.95);
+      border-left: 2px solid var(--accent-gold);
+      backdrop-filter: blur(20px);
+      position: fixed;
+      right: -400px;
+      top: 0;
+      height: 100%;
+      z-index: 999;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+      transition: var(--transition-smooth);
+      display: flex;
+      flex-direction: column;
+    }
+    .side-panel.active { right: 0; }
+
+    .panel-toggle-btn {
+      background: var(--accent-gold);
+      color: var(--primary-dark);
+      font-weight: 700;
+      padding: 12px 20px;
+      border-radius: 8px 0 0 8px;
+      cursor: pointer;
+      position: fixed;
+      right: 0;
+      top: 40px;
+      z-index: 1000;
+      box-shadow: -4px 4px 15px rgba(223, 183, 44, 0.2);
+      transition: var(--transition-smooth);
+    }
+    .side-panel.active + .panel-toggle-btn { right: 400px; background: var(--status-closed); color: #fff; }
+
+    .panel-header { padding: 30px 20px; border-bottom: 1px solid var(--card-border); }
+    .panel-header h2 { color: var(--accent-gold); font-size: 20px; }
+    .panel-body { padding: 20px; flex: 1; overflow-y: auto; }
+
+    /* --- LOGIN FORM INSIDE PANEL --- */
+    .panel-login-form { display: block; }
+    .panel-login-form h3 { font-size: 15px; margin-bottom: 15px; color: #fff; }
+    
+    /* --- PRIVATE DASHBOARD FOR DELEGATES --- */
+    .private-dashboard { display: none; }
+    .delegate-welcome { background: rgba(223, 183, 44, 0.08); border: 1px solid var(--accent-gold); padding: 12px; border-radius: 8px; font-weight: 600; color: var(--accent-gold); margin-bottom: 20px; text-align: center; }
+
+    /* --- INPUTS & FORMS STYLING --- */
+    .form-group { margin-bottom: 15px; text-align: left; }
+    .form-group label { display: block; font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; text-transform: uppercase; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-size: 14px; transition: var(--transition-smooth);
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-gold); }
+    
+    .checkbox-group { display: flex; align-items: center; gap: 10px; margin: 15px 0; }
+    .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
+
+    .action-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, var(--accent-gold), #c59f23); color: var(--primary-dark); border: none; border-radius: 6px; font-weight: 700; font-size: 15px; cursor: pointer; transition: var(--transition-smooth); }
+    .action-btn:hover { background: linear-gradient(135deg, var(--accent-gold-hover), var(--accent-gold)); transform: translateY(-1px); }
+
+    .feedback-box { background: rgba(255,255,255,0.02); border: 1px solid var(--card-border); padding: 15px; border-radius: 8px; font-size: 13px; color: #e2e8f0; margin-bottom: 20px; max-height: 120px; overflow-y: auto; }
+
+    #jointDelegateSection { display: none; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .side-panel { width: 100%; right: -100%; }
+      .side-panel.active + .panel-toggle-btn { right: auto; left: 20px; top: auto; bottom: 20px; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <div class="login-container" id="loginSuite">
-    <img src="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" alt="Logo" class="logo" onerror="this.src='https://via.placeholder.com/80'">
-    <h2>Crisis Suite Login</h2>
-    <p class="subtitle">Please enter your authorized delegate credentials</p>
-
-    <form onsubmit="handleLogin(event)">
-      <div class="input-group">
-        <label>Username</label>
-        <input type="text" id="username" placeholder="e.g., USA_Delegate" required>
+  <div class="public-page">
+    <header>
+      <div>
+        <h1>Crisis Backrooms Workspace</h1>
+        <p style="color: var(--text-muted); font-size: 14px;">FRANMUN First Annual Conference</p>
       </div>
+    </header>
 
-      <div class="input-group">
-        <label>Password</label>
-        <input type="password" id="password" placeholder="••••••••" required>
+    <div class="status-board">
+      <div class="status-info">
+        <h3>Backrooms Current Status</h3>
+        <div class="status-value status-open" id="currentStatus">
+          <span class="status-dot"></span> <span id="statusText">Opened</span>
+        </div>
       </div>
+      <div style="font-size: 13px; color: var(--text-muted); text-align: right;">
+        Directives are processed<br>in real-time by the Crisis Staff
+      </div>
+    </div>
 
-      <button type="submit" class="login-btn">Access Dashboard →</button>
-    </form>
+    <div class="crisis-updates">
+      <h2>📢 Live Crisis Timeline & Updates</h2>
+      <div class="timeline">
+        
+        <div class="timeline-item">
+          <span class="time-badge">Update #3 — 14:20</span>
+          <div class="timeline-title">Naval Deployment Confirmed</div>
+          <div class="timeline-desc">The Joint Staff has ordered immediate naval presence in sector 4. All nations are advised to state their intent immediately.</div>
+        </div>
+
+        <div class="timeline-item">
+          <span class="time-badge">Update #2 — 11:15</span>
+          <div class="timeline-title">Cyber Attack on Infrastructure</div>
+          <div class="timeline-desc">A major grid failure has been reported across the coalition borders. Cyber intelligence teams are investigating the signature.</div>
+        </div>
+
+        <div class="timeline-item">
+          <span class="time-badge">Update #1 — 09:00</span>
+          <div class="timeline-title">Crisis Room Activated</div>
+          <div class="timeline-desc">The First Annual FRANMUN Crisis simulation has officially commenced. Room guidelines and communication channels are now online.</div>
+        </div>
+
+      </div>
+    </div>
   </div>
 
-  <div class="dashboard-container" id="dashboardSuite">
-    <h1>Welcome to the Crisis Dashboard</h1>
-    <p>مرحباً بك يا عاطف! هنا تظهر تفاصيل وأدوات لجنة الكرايسس الخاصة بك.</p>
-    <p style="margin-top: 20px; color: var(--text-muted);">[ يمكنك تعديل هذا القسم وإضافة محتوى اللجنة هنا كما تشاء ]</p>
+
+  <div class="panel-toggle-btn" onclick="toggleSidePanel()" id="toggleBtn">💻 Personal Space</div>
+  
+  <div class="side-panel" id="sidePanel">
+    <div class="panel-header">
+      <h2>🔐 Personal Space</h2>
+      <p style="color: var(--text-muted); font-size: 12px; margin-top: 4px;">Secure communication portal for delegates</p>
+    </div>
+
+    <div class="panel-body">
+      
+      <div class="panel-login-form" id="panelLoginForm">
+        <h3>Sign in to access your secure console</h3>
+        <form onsubmit="handlePanelLogin(event)">
+          <div class="form-group">
+            <label>Delegate Username</label>
+            <input type="text" id="panelUser" placeholder="e.g., ATEF or USA_Delegate" required>
+          </div>
+          <div class="form-group">
+            <label>Secret Password</label>
+            <input type="password" id="panelPass" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="action-btn">Authorize Entry</button>
+        </form>
+      </div>
+
+      <div class="private-dashboard" id="privateDashboard">
+        <div class="delegate-welcome" id="delegateNameHeader">Welcome, Delegate</div>
+        
+        <div style="margin-bottom: 25px;">
+          <h4 style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase; margin-bottom: 8px;">📥 Backroom Feedback</h4>
+          <div class="feedback-box" id="feedbackContent">
+            No feedback received from the Backroom yet. Your previous directive is currently under evaluation.
+          </div>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid var(--card-border); margin-bottom: 25px;">
+
+        <div>
+          <h4 style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase; margin-bottom: 12px;">📤 Send Directive</h4>
+          <form onsubmit="submitDirective(event)">
+            
+            <div class="form-group">
+              <label>Directive Type</label>
+              <select id="directiveType" required>
+                <option value="Private">Private Directive</option>
+                <option value="Public">Public Directive</option>
+                <option value="Communiqué">Communiqué</option>
+                <option value="Press Release">Press Release</option>
+              </select>
+            </div>
+
+            <div class="checkbox-group">
+              <input type="checkbox" id="isJoint" onchange="toggleJointSelection()">
+              <label for="isJoint" style="display:inline; text-transform:none; font-size:13px; cursor:pointer;">This is a Joint Directive</label>
+            </div>
+
+            <div class="form-group" id="jointDelegateSection">
+              <label>Partner Delegate Name(s)</label>
+              <input type="text" id="partnerName" placeholder="e.g., UK_Delegate, Jordan_Delegate">
+            </div>
+
+            <div class="form-group">
+              <label>Orders & Content</label>
+              <textarea id="directiveOrders" rows="5" placeholder="Specify your actions, military movements, or secret diplomatic orders..." required></textarea>
+            </div>
+
+            <button type="submit" class="action-btn">Transmit Directive</button>
+          </form>
+        </div>
+
+      </div>
+
+    </div>
   </div>
 
   <script>
-    function handleLogin(event) {
-      event.preventDefault(); // منع الصفحة من التحديث عند الضغط على الزر
+    // قاعدة البيانات التجريبية
+    const accounts = {
+      "ATEF": { password: "2009", name: "Admin / Atef Jubran", feedback: "All systems operational, Atef. You have control over the Backroom configuration." },
+      "USA_Delegate": { password: "usa@crisis26", name: "USA Delegate Workspace", feedback: "Directive 1 Approved: Your satellite movement has successfully mapped sector B. No anomalies detected." },
+      "UK_Delegate": { password: "uk@secret26", name: "UK Delegate Workspace", feedback: "Directive 1 Pending: Waiting for clarification on the troops relocation orders." },
+      "Jordan_Delegate": { password: "jor@fss26", name: "Jordan Delegate Workspace", feedback: "تم استلام توجيهك الأول: القوافل الإنسانية تحركت بنجاح باتجاه الحدود وتحت غطاء دبلوماسي." }
+    };
 
-      const userField = document.getElementById("username").value;
-      const passField = document.getElementById("password").value;
-
-      // البيانات المطلوبة التي اخترتها أنت
-      const correctUser = "ATEF";
-      const correctPass = "2009";
-
-      if (userField === correctUser && passField === correctPass) {
-        // إذا كانت البيانات صحيحة: إخفاء تسجيل الدخول وإظهار لوحة التحكم
-        document.getElementById("loginSuite").style.display = "none";
-        document.getElementById("dashboardSuite").style.display = "block";
+    // فتح وإغلاق القائمة الجانبية (Personal Space)
+    function toggleSidePanel() {
+      const panel = document.getElementById("sidePanel");
+      const toggleBtn = document.getElementById("toggleBtn");
+      panel.classList.toggle("active");
+      
+      if(panel.classList.contains("active")) {
+        toggleBtn.innerText = "✖ Close Space";
       } else {
-        // إذا كانت خاطئة
-        alert("Wrong Username or Password! Please try again.");
+        toggleBtn.innerText = "💻 Personal Space";
       }
+    }
+
+    // التعامل مع تسجيل الدخول في القائمة الجانبية
+    function handlePanelLogin(event) {
+      event.preventDefault();
+      const user = document.getElementById("panelUser").value.trim();
+      const pass = document.getElementById("panelPass").value;
+
+      if (accounts[user] && accounts[user].password === pass) {
+        // إخفاء الـ Login وإظهار الـ Dashboard الخاصة
+        document.getElementById("panelLoginForm").style.display = "none";
+        document.getElementById("privateDashboard").style.display = "block";
+        
+        // حقن البيانات الخاصة بالمندوب
+        document.getElementById("delegateNameHeader").innerText = accounts[user].name;
+        document.getElementById("feedbackContent").innerText = accounts[user].feedback;
+      } else {
+        alert("Invalid credentials. Entry Denied.");
+      }
+    }
+
+    // إظهار أو إخفاء حقل المندوب الشريك بناءً على الـ Checkbox
+    function toggleJointSelection() {
+      const isJointChecked = document.getElementById("isJoint").checked;
+      const jointSection = document.getElementById("jointDelegateSection");
+      
+      if(isJointChecked) {
+        jointSection.style.display = "block";
+        document.getElementById("partnerName").required = true;
+      } else {
+        jointSection.style.display = "none";
+        document.getElementById("partnerName").required = false;
+        document.getElementById("partnerName").value = ""; // تفريغ الحقل
+      }
+    }
+
+    // إرسال التوجيه (Directive)
+    function submitDirective(event) {
+      event.preventDefault();
+      const type = document.getElementById("directiveType").value;
+      const isJoint = document.getElementById("isJoint").checked;
+      const partner = document.getElementById("partnerName").value;
+      const orders = document.getElementById("directiveOrders").value;
+
+      let summary = `Directive Transmitted Successfully!\n\nType: ${type}\n`;
+      if(isJoint) {
+        summary += `Joint Status: Yes (With ${partner})\n`;
+      } else {
+        summary += `Joint Status: No\n`;
+      }
+      
+      alert(summary + "\nYour orders have been securely locked in the Backroom pipeline for the Chairs to review.");
+      
+      // تفريغ الحقول بعد الإرسال
+      document.getElementById("directiveOrders").value = "";
+      document.getElementById("isJoint").checked = false;
+      toggleJointSelection();
     }
 
     // حماية الصفحة من كبسة الماوس اليمين والاختصارات
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.onkeydown = function(e) {
-      if (e.keyCode == 123) return false; // F12
+      if (e.keyCode == 123) return false;
       if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
       if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
     };
