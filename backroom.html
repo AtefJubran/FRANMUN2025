@@ -3,88 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN | Backrooms Control Console</title>
+  <title>FRANMUN | Executive Control Console</title>
   <style>
     :root {
-      --bg-dark: #060d16;
-      --panel-bg: #0b1523;
-      --accent-gold: #dfb72c;
-      --accent-gold-hover: #fcd444;
-      --border-color: rgba(255,255,255,0.08);
-      --text-light: #ffffff;
-      --text-muted: #8a99ad;
-      --btn-accept: #2ecc71;
-      --btn-reject: #e74c3c;
+      --bg-dark: #060d16; --panel-bg: #0b1523; --accent-gold: #dfb72c; --accent-gold-hover: #fcd444;
+      --border-color: rgba(255,255,255,0.08); --text-light: #ffffff; --text-muted: #8a99ad;
+      --btn-accept: #2ecc71; --btn-reject: #e74c3c; --btn-revision: #e67e22;
     }
     * { box-sizing: border-box; margin:0; padding:0; }
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-light);
-      display: flex;
-      height: 100vh;
-    }
-    .sidebar {
-      width: 320px;
-      background-color: var(--panel-bg);
-      border-right: 2px solid var(--accent-gold);
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-    }
-    .sidebar h2 { font-size: 20px; color: var(--accent-gold); letter-spacing: 0.5px; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background-color: var(--bg-dark); color: var(--text-light); display: flex; height: 100vh; }
+    
+    .sidebar { width: 300px; background-color: var(--panel-bg); border-right: 2px solid var(--accent-gold); padding: 20px; display: flex; flex-direction: column; gap: 15px; }
     .main-workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-    .top-bar {
-      background-color: var(--panel-bg);
-      padding: 15px 30px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border-color);
-    }
-    .top-bar h1 { font-size: 22px; }
-    .content-area { flex:1; padding: 30px; overflow-y: auto; display: flex; gap: 25px; }
-    .column { flex: 1; display: flex; flex-direction: column; gap: 20px; }
-    .card {
-      background-color: var(--panel-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      padding: 20px;
-    }
-    .card h3 { color: var(--accent-gold); margin-bottom: 15px; font-size: 16px; text-transform: uppercase;}
-    .form-group { margin-bottom: 15px; }
+    
+    /* TABS SYSTEM NAVIGATION */
+    .tabs-nav { display: flex; background: #09111c; border-bottom: 1px solid var(--border-color); }
+    .tab-btn { flex: 1; padding: 15px; background: transparent; border: none; color: var(--text-muted); font-weight: bold; font-size: 14px; cursor: pointer; transition: 0.2s; }
+    .tab-btn.active { color: var(--accent-gold); background: var(--panel-bg); border-bottom: 2px solid var(--accent-gold); }
+    
+    .tab-content { display: none; flex: 1; padding: 25px; overflow-y: auto; }
+    .tab-content.active { display: block; }
+
+    .card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; margin-bottom: 20px; }
+    .form-group { margin-bottom: 12px; }
     .form-group label { display:block; font-size: 11px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
-    .form-group input, .form-group textarea, .form-group select {
-      width:100%; padding: 10px; background: rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius: 5px; color:#fff; font-size:14px;
-    }
-    .form-group input:focus, .form-group textarea:focus { outline:none; border-color: var(--accent-gold); }
-    .btn {
-      width: 100%; padding: 12px; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:14px; transition: 0.2s ease;
-    }
+    .form-group input, .form-group textarea, .form-group select { width:100%; padding: 10px; background: rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius: 5px; color:#fff; font-size:14px; }
+    
+    .btn { width: 100%; padding: 10px; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:13px; }
     .btn-gold { background-color: var(--accent-gold); color: #000; }
-    .btn-gold:hover { background-color: var(--accent-gold-hover); }
-    .directive-item {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-    .dir-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
-    .badge-pending { background: #f39c12; color: #fff; }
-    .badge-accepted { background: var(--btn-accept); color: #fff; }
-    .badge-rejected { background: var(--btn-reject); color: #fff; }
-    .row-btns { display: flex; gap: 10px; margin-top: 10px; }
+    
+    .directive-item { background: rgba(255,255,255,0.02); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+    .dir-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
+    
+    .row-btns { display: flex; gap: 8px; margin-top: 10px; }
     .action-inline-btn { flex: 1; padding: 8px; border: none; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer; color: #fff; }
-    .btn-inline-accept { background-color: var(--btn-accept); }
-    .btn-inline-reject { background-color: var(--btn-reject); }
+    .btn-accept { background-color: var(--btn-accept); }
+    .btn-reject { background-color: var(--btn-reject); }
+    .btn-revision { background-color: var(--btn-revision); }
+
+    .timeline-manage-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.01); border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 6px; margin-bottom: 10px; }
+    .archive-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   </style>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getDatabase, ref, set, push, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+    import { getDatabase, ref, set, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
@@ -99,21 +62,14 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
-
-    window.db = db;
-    window.dbRef = ref;
-    window.dbSet = set;
-    window.dbPush = push;
-    window.dbOnValue = onValue;
-    window.dbUpdate = update;
+    window.db = db; window.dbRef = ref; window.dbSet = set; window.dbPush = push; window.dbOnValue = onValue; window.dbUpdate = update; window.dbRemove = remove;
   </script>
 </head>
 <body>
 
   <div class="sidebar">
-    <h2>FRANMUN Control</h2>
-    
-    <div class="card" style="padding: 15px; background: rgba(0,0,0,0.2);">
+    <h2>FRANMUN Staff</h2>
+    <div class="card" style="padding:10px; background:rgba(0,0,0,0.3)">
       <div class="form-group">
         <label>Room Universal Status</label>
         <select id="roomStatusSelect" onchange="updateRoomStatus()">
@@ -123,135 +79,233 @@
         </select>
       </div>
     </div>
-
-    <div class="card">
-      <h3>Broadcast Crisis News</h3>
-      <form onsubmit="broadcastUpdate(event)">
-        <div class="form-group">
-          <label>Timestamp / Time</label>
-          <input type="text" id="updateTime" placeholder="e.g., 10:45 AM" required>
-        </div>
-        <div class="form-group">
-          <label>Headline Title</label>
-          <input type="text" id="updateTitle" placeholder="e.g., Border Clash Reported" required>
-        </div>
-        <div class="form-group">
-          <label>Short Description</label>
-          <textarea id="updateDesc" rows="4" placeholder="Type the breaking crisis details..." required></textarea>
-        </div>
-        <button type="submit" class="btn btn-gold">Publish News Bullet</button>
-      </form>
-    </div>
   </div>
 
   <div class="main-workspace">
-    <div class="top-bar">
-      <h1>Crisis Backrooms Executive Dashboard</h1>
-      <div style="color: var(--accent-gold); font-weight: 600;">Secure Cloud Connection Live 🟢</div>
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('tabTimeline')">📰 1. Timeline Updates</button>
+      <button class="tab-btn" onclick="switchTab('tabIncoming')">📥 2. Pipeline & Accounts</button>
+      <button class="tab-btn" onclick="switchTab('tabArchive')">🗄️ 3. Directives Archive</button>
     </div>
 
-    <div class="content-area">
-      <div class="column">
-        <h2 style="font-size: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">📥 Incoming Directives Pipeline</h2>
-        <div id="directivesPipeline" style="overflow-y: auto; flex: 1; max-height: calc(100vh - 160px);">
-          </div>
+    <div id="tabTimeline" class="tab-content active">
+      <div style="display: flex; gap: 20px;">
+        <div class="card" style="flex: 1; max-width: 350px;">
+          <h3 id="newsFormTitle">Broadcast Crisis News</h3>
+          <form onsubmit="handleBroadcastSubmit(event)">
+            <input type="hidden" id="editUpdateKey" value="">
+            <div class="form-group">
+              <label>Time</label>
+              <input type="text" id="updateTime" placeholder="e.g., 11:30 AM" required>
+            </div>
+            <div class="form-group">
+              <label>Headline Title</label>
+              <input type="text" id="updateTitle" placeholder="Crisis Alert Title" required>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea id="updateDesc" rows="4" placeholder="Details..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold" id="newsSubmitBtn">Publish Broadcast</button>
+          </form>
+        </div>
+        
+        <div style="flex: 2;">
+          <h2>Active Timeline List (Live Control)</h2>
+          <div id="timelineManageContainer" style="margin-top: 15px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tabIncoming" class="tab-content">
+      <div style="display: flex; gap:25px;">
+        <div style="flex: 2;">
+          <h2>📥 Pending Directives Inbox</h2>
+          <div id="directivesPipeline" style="margin-top:15px;"></div>
+        </div>
+        
+        <div class="card" style="flex: 1; max-width: 320px; height: fit-content;">
+          <h3>➕ Link Cloud Delegate Profile</h3>
+          <form onsubmit="createNewDelegate(event)">
+            <div class="form-group"><label>Username</label><input type="text" id="newUsername" required></div>
+            <div class="form-group"><label>Password</label><input type="text" id="newPassword" required></div>
+            <div class="form-group"><label>Display Name</label><input type="text" id="newDisplayName" required></div>
+            <button type="submit" class="btn btn-gold">Create Account</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div id="tabArchive" class="tab-content">
+      <h2>🗄️ Universal Directives Decisions Archive</h2>
+      <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px;">You can easily switch status between Accepted and Rejected dynamically from here.</p>
+      
+      <div class="archive-grid">
+        <div>
+          <h3 style="color: var(--btn-accept); margin-bottom:10px;">🟢 Accepted Panel</h3>
+          <div id="archiveAcceptedContainer"></div>
+        </div>
+        <div>
+          <h3 style="color: var(--btn-reject); margin-bottom:10px;">🔴 Rejected Panel</h3>
+          <div id="archiveRejectedContainer"></div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // الاستماع الفوري وإدارة جلب البيانات من السحاب
-    function initFirebaseBackroom() {
-      if (!window.db) {
-        setTimeout(initFirebaseBackroom, 500);
-        return;
-      }
-
-      // جلب حالة الغرفة الحالية وضبط خيار الـ Select
-      window.dbOnValue(window.dbRef(window.db, 'room_status'), (snapshot) => {
-        if(snapshot.exists()) {
-          document.getElementById("roomStatusSelect").value = snapshot.val();
-        }
-      });
-
-      // جلب جميع الدايركتفز المرسلة من الديليجتس وإظهارها فوراً لإعطاء قرار
-      window.dbOnValue(window.dbRef(window.db, 'directives'), (snapshot) => {
-        const pipeline = document.getElementById("directivesPipeline");
-        pipeline.innerHTML = "";
-        
-        const data = snapshot.val();
-        if(!data) {
-          pipeline.innerHTML = `<p style="color: var(--text-muted); font-size:14px;">No directives in the secure pipeline yet.</p>`;
-          return;
-        }
-
-        // تحويل الكائن إلى مصفوفة وعرض الأحدث في الأعلى
-        Object.keys(data).reverse().forEach((key) => {
-          const dir = data[key];
-          const badgeClass = dir.status === 'Accepted' ? 'badge-accepted' : dir.status === 'Rejected' ? 'badge-rejected' : 'badge-pending';
-          
-          let actionSection = `
-            <div class="form-group" style="margin-top:10px;">
-              <label>Staff Feedback / Consequence</label>
-              <input type="text" id="feedback_${key}" placeholder="Type backroom reaction..." value="${dir.feedback || ''}">
-            </div>
-            <div class="row-btns">
-              <button class="action-inline-btn btn-inline-accept" onclick="processDirective('${key}', 'Accepted')">Accept</button>
-              <button class="action-inline-btn btn-inline-reject" onclick="processDirective('${key}', 'Rejected')">Reject</button>
-            </div>
-          `;
-
-          pipeline.innerHTML += `
-            <div class="directive-item">
-              <div class="dir-header">
-                <span><strong>From:</strong> ${dir.sender} (${dir.type})</span>
-                <span class="badge ${badgeClass}">${dir.status}</span>
-              </div>
-              <p style="font-size:14px; color:#e2e8f0; word-wrap:break-word;">${dir.content}</p>
-              <div style="font-size:12px; color: var(--accent-gold); margin-top:5px;"><strong>Joint:</strong> ${dir.joint}</div>
-              ${actionSection}
-            </div>
-          `;
-        });
-      });
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      event.currentTarget.classList.add('active');
     }
 
+    function initFirebaseBackroom() {
+      if (!window.db) { setTimeout(initFirebaseBackroom, 300); return; }
+
+      window.dbOnValue(window.dbRef(window.db, 'room_status'), (snap) => {
+        if(snap.exists()) document.getElementById("roomStatusSelect").value = snap.val();
+      });
+
+      // جلب وإدارة التايم لاين للتعديل والحذف
+      window.dbOnValue(window.dbRef(window.db, 'crisis_updates'), (snap) => {
+        const container = document.getElementById("timelineManageContainer");
+        container.innerHTML = "";
+        if(snap.exists()) {
+          Object.keys(snap.val()).reverse().forEach(key => {
+            const item = snap.val()[key];
+            container.innerHTML += `
+              <div class="timeline-manage-item">
+                <div><strong>[${item.time}] ${item.title}</strong><br><span style="color:var(--text-muted); font-size:13px;">${item.desc}</span></div>
+                <div style="display:flex; gap:5px;">
+                  <button class="action-inline-btn" style="background:#34495e;" onclick="triggerEditNews('${key}','${item.time}','${item.title}','${btoa(encodeURIComponent(item.desc))}')">Edit</button>
+                  <button class="action-inline-btn" style="background:var(--btn-reject);" onclick="triggerDeleteNews('${key}')">Delete</button>
+                </div>
+              </div>`;
+          });
+        } else { container.innerHTML = "<p>No updates sent yet.</p>"; }
+      });
+
+      // جلب وتقسيم القرارات (الرئيسية والأرشيف)
+      window.dbOnValue(window.dbRef(window.db, 'directives'), (snap) => {
+        const pipe = document.getElementById("directivesPipeline");
+        const acceptedContainer = document.getElementById("archiveAcceptedContainer");
+        const rejectedContainer = document.getElementById("archiveRejectedContainer");
+        
+        pipe.innerHTML = ""; acceptedContainer.innerHTML = ""; rejectedContainer.innerHTML = "";
+
+        if(snap.exists()){
+          Object.keys(snap.val()).reverse().forEach(key => {
+            const d = snap.val()[key];
+            
+            let commonHTML = `
+              <div class="directive-item">
+                <div class="dir-header"><strong>From: ${d.sender}</strong> <span>Type: ${d.type}</span></div>
+                <p style="font-size:14px; margin-bottom:5px;">${d.content}</p>
+                <div style="font-size:11px; color:var(--accent-gold);">Joint: ${d.joint || 'No'}</div>
+                <div style="margin-top:8px;"><input type="text" id="fb_${key}" placeholder="Staff Notes..." value="${d.feedback||''}" style="width:100%; padding:6px; background:#000; border:1px solid var(--border-color); color:#fff; border-radius:4px;"></div>
+            `;
+
+            if(d.status === 'Pending' || d.status === 'Revision') {
+              pipe.innerHTML += commonHTML + `
+                <div class="row-btns">
+                  <button class="action-inline-btn btn-accept" onclick="processDirective('${key}', 'Accepted')">Accept</button>
+                  <button class="action-inline-btn btn-reject" onclick="processDirective('${key}', 'Rejected')">Reject</button>
+                  <button class="action-inline-btn btn-revision" onclick="processDirective('${key}', 'Revision')">✏️ Revision Needed</button>
+                </div>
+              </div>`;
+            } else if(d.status === 'Accepted') {
+              acceptedContainer.innerHTML += commonHTML + `
+                <div class="row-btns">
+                  <button class="action-inline-btn btn-reject" onclick="processDirective('${key}', 'Rejected')">🔄 Move to Reject</button>
+                </div>
+              </div>`;
+            } else if(d.status === 'Rejected') {
+              rejectedContainer.innerHTML += commonHTML + `
+                <div class="row-btns">
+                  <button class="action-inline-btn btn-accept" onclick="processDirective('${key}', 'Accepted')">🔄 Move to Accept</button>
+                </div>
+              </div>`;
+            }
+          });
+        } else { pipe.innerHTML = "<p>Inbox is empty.</p>"; }
+      });
+    }
     window.addEventListener('DOMContentLoaded', initFirebaseBackroom);
 
-    // تحديث حالة الغرفة على السيرفر
     function updateRoomStatus() {
-      const status = document.getElementById("roomStatusSelect").value;
-      if (window.db) {
-        window.dbSet(window.dbRef(window.db, 'room_status'), status);
-      }
+      window.dbSet(window.dbRef(window.db, 'room_status'), document.getElementById("roomStatusSelect").value);
     }
 
-    // بث خبر أو تحديث جديد في السيرفر
-    function broadcastUpdate(event) {
-      event.preventDefault();
+    // إضافة أو تعديل خبر
+    function handleBroadcastSubmit(e) {
+      e.preventDefault();
+      const k = document.getElementById("editUpdateKey").value;
       const time = document.getElementById("updateTime").value;
       const title = document.getElementById("updateTitle").value;
       const desc = document.getElementById("updateDesc").value;
 
-      const newUpdateRef = window.dbPush(window.dbRef(window.db, 'crisis_updates'));
-      window.dbSet(newUpdateRef, { time, title, desc }).then(() => {
-        alert("News Broadcasted Online!");
-        document.getElementById("updateTime").value = "";
-        document.getElementById("updateTitle").value = "";
-        document.getElementById("updateDesc").value = "";
-      });
+      if(k) { // تعديل خبر موجود
+        const up = {}; up[`/crisis_updates/${k}`] = { time, title, desc };
+        window.dbUpdate(window.dbRef(window.db), up).then(() => {
+          alert("News Broadcast Updated!"); resetNewsForm();
+        });
+      } else { // إضافة خبر جديد
+        const r = window.dbPush(window.dbRef(window.db, 'crisis_updates'));
+        window.dbSet(r, { time, title, desc }).then(() => {
+          alert("Published!"); resetNewsForm();
+        });
+      }
     }
 
-    // إرسال الـ Feedback والـ Decision للديليجت مباشرة عبر السحاب
-    function processDirective(firebaseKey, decision) {
-      const fbValue = document.getElementById(`feedback_${firebaseKey}`).value;
-      
-      const updates = {};
-      updates[`/directives/${firebaseKey}/status`] = decision;
-      updates[`/directives/${firebaseKey}/feedback`] = fbValue;
+    function triggerEditNews(key, time, title, encDesc) {
+      document.getElementById("editUpdateKey").value = key;
+      document.getElementById("updateTime").value = time;
+      document.getElementById("updateTitle").value = title;
+      document.getElementById("updateDesc").value = decodeURIComponent(atob(encDesc));
+      document.getElementById("newsFormTitle").innerText = "✏️ Edit Crisis News";
+      document.getElementById("newsSubmitBtn").innerText = "Save Changes";
+    }
 
-      window.dbUpdate(window.dbRef(window.db), updates).then(() => {
-        alert(`Directive updated to [${decision}] successfully!`);
+    function resetNewsForm() {
+      document.getElementById("editUpdateKey").value = "";
+      document.getElementById("updateTime").value = "";
+      document.getElementById("updateTitle").value = "";
+      document.getElementById("updateDesc").value = "";
+      document.getElementById("newsFormTitle").innerText = "Broadcast Crisis News";
+      document.getElementById("newsSubmitBtn").innerText = "Publish Broadcast";
+    }
+
+    // حذف خبر مع تأكيد مرتين
+    function triggerDeleteNews(key) {
+      const firstCheck = confirm("Are you sure you want to delete this news update?");
+      if(firstCheck) {
+        const secondCheck = confirm("⚠️ CRITICAL CONFIRMATION: Are you absolutely sure you want to delete it permanently?");
+        if(secondCheck) {
+          window.dbRemove(window.dbRef(window.db, `/crisis_updates/${key}`)).then(() => {
+            alert("Deleted successfully.");
+          });
+        }
+      }
+    }
+
+    // معالجة الأوامر ونقلها للأرشيف المناسب مع الملاحظات
+    function processDirective(key, decision) {
+      const note = document.getElementById(`fb_${key}`).value;
+      const up = {};
+      up[`/directives/${key}/status`] = decision;
+      up[`/directives/${key}/feedback`] = note;
+      window.dbUpdate(window.dbRef(window.db), up);
+    }
+
+    function createNewDelegate(e) {
+      e.preventDefault();
+      const u = document.getElementById("newUsername").value.trim();
+      const p = document.getElementById("newPassword").value.trim();
+      const n = document.getElementById("newDisplayName").value.trim();
+      window.dbSet(window.dbRef(window.db, `custom_accounts/${u}`), { password: p, name: n }).then(() => {
+        alert("Account Linked Successfully!"); e.target.reset();
       });
     }
   </script>
