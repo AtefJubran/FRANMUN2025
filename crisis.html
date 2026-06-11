@@ -166,6 +166,7 @@
     </div>
 
     <div class="panel-body">
+      <!-- LOGIN -->
       <div class="panel-login-form" id="panelLoginForm">
         <form onsubmit="handlePanelLogin(event)">
           <div class="form-group">
@@ -180,6 +181,7 @@
         </form>
       </div>
 
+      <!-- DASHBOARD -->
       <div class="private-dashboard" id="privateDashboard">
         <div class="delegate-welcome" id="delegateNameHeader">Welcome</div>
         
@@ -198,21 +200,22 @@
           <form onsubmit="submitDirective(event)">
             <div class="form-group">
               <label>Type</label>
-              <select id="directiveType" required>
+              <select id="directiveType" required onchange="autoSaveDraft()">
                 <option value="Private">Private Directive</option>
                 <option value="Public">Public Directive</option>
                 <option value="Communiqué">Communiqué</option>
+                <option value="Press Release">Press Release</option>
               </select>
             </div>
 
             <div class="checkbox-group">
-              <input type="checkbox" id="isJoint" onchange="toggleJointSelection()">
+              <input type="checkbox" id="isJoint" onchange="toggleJointSelection(); autoSaveDraft();">
               <label for="isJoint">Joint Directive</label>
             </div>
 
             <div class="form-group" id="jointDelegateSection">
               <label>Partners</label>
-              <input type="text" id="partnerName">
+              <input type="text" id="partnerName" oninput="autoSaveDraft()">
             </div>
 
             <div class="form-group">
@@ -240,7 +243,6 @@
 
       window.dbOnValue(window.dbRef(window.db, 'room_status'), (snap) => {
         globalStatus = snap.val() || "Opened";
-        document.getElementById('statusContainer');
         document.getElementById('currentStatus').className = "status-value " + (globalStatus==='Opened'?'status-open':globalStatus==='Closed'?'status-closed':'status-frozen');
         document.getElementById('statusText').innerText = globalStatus;
       });
@@ -309,6 +311,7 @@
       if (!loggedInUser || !window.db) return;
       window.dbOnValue(window.dbRef(window.db, 'directives'), (snap) => {
         const box = document.getElementById("feedbackContent");
+        box.innerHTML = "No directives sent yet.";
         if(snap.exists()) {
           const arr = Object.values(snap.val()).reverse();
           const last = arr.find(d => d.sender === loggedInUser);
@@ -318,10 +321,9 @@
             if(last.status === 'Revision') {
               html += `<br><button class="revise-btn" onclick="prepareRevision('${btoa(encodeURIComponent(last.content))}')">✏️ Revise & Resubmit</button>`;
             }
-            box.innerHTML = html; return;
+            box.innerHTML = html;
           }
         }
-        box.innerText = "No directives sent yet.";
       });
     }
 
