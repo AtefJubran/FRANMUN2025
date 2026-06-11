@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN | Crisis Backrooms</title>
+  <title>FRANMUN | Crisis Suite</title>
   <style>
     :root {
       --primary-dark: #000c18;    
@@ -32,7 +32,6 @@
       overflow-x: hidden;
     }
 
-    /* --- LAYOUT STRUCTURE --- */
     .public-page {
       flex: 1;
       padding: 40px;
@@ -57,7 +56,6 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* --- STATUS BOARD --- */
     .status-board {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -73,7 +71,6 @@
     .status-info h3 { color: var(--text-muted); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
     .status-value { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 10px; margin-top: 5px; }
     
-    /* مؤشر الحالة الضوئي */
     .status-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
     .status-open { color: var(--status-open); }
     .status-open .status-dot { background-color: var(--status-open); box-shadow: 0 0 12px var(--status-open); }
@@ -82,7 +79,6 @@
     .status-frozen { color: var(--status-frozen); }
     .status-frozen .status-dot { background-color: var(--status-frozen); box-shadow: 0 0 12px var(--status-frozen); }
 
-    /* --- TIMELINE / UPDATES --- */
     .crisis-updates h2 { color: var(--accent-gold); margin-bottom: 20px; font-size: 22px; }
     .timeline { position: relative; border-left: 2px solid var(--card-border); padding-left: 20px; margin-left: 10px; }
     .timeline-item { position: relative; margin-bottom: 25px; background: rgba(255,255,255,0.01); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); }
@@ -91,7 +87,6 @@
     .timeline-title { font-size: 16px; font-weight: 700; margin: 4px 0; }
     .timeline-desc { color: #cbd5e0; font-size: 14px; }
 
-    /* --- SIDE PANEL: PERSONAL SPACE --- */
     .side-panel {
       width: 400px;
       background: rgba(0, 13, 26, 0.95);
@@ -129,15 +124,12 @@
     .panel-header h2 { color: var(--accent-gold); font-size: 20px; }
     .panel-body { padding: 20px; flex: 1; overflow-y: auto; }
 
-    /* --- LOGIN FORM INSIDE PANEL --- */
     .panel-login-form { display: block; }
     .panel-login-form h3 { font-size: 15px; margin-bottom: 15px; color: #fff; }
     
-    /* --- PRIVATE DASHBOARD FOR DELEGATES --- */
     .private-dashboard { display: none; }
     .delegate-welcome { background: rgba(223, 183, 44, 0.08); border: 1px solid var(--accent-gold); padding: 12px; border-radius: 8px; font-weight: 600; color: var(--accent-gold); margin-bottom: 20px; text-align: center; }
 
-    /* --- INPUTS & FORMS STYLING --- */
     .form-group { margin-bottom: 15px; text-align: left; }
     .form-group label { display: block; font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 5px; text-transform: uppercase; }
     .form-group input, .form-group select, .form-group textarea {
@@ -162,6 +154,32 @@
       .side-panel.active + .panel-toggle-btn { right: auto; left: 20px; top: auto; bottom: 20px; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; }
     }
   </style>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getDatabase, ref, onValue, set, push } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+
+    // إعدادات الفايربيس الحية الخاصة بك عاطف
+    const firebaseConfig = {
+      apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
+      authDomain: "franmun-f5498.firebaseapp.com",
+      databaseURL: "https://franmun-f5498-default-rtdb.firebaseio.com",
+      projectId: "franmun-f5498",
+      storageBucket: "franmun-f5498.firebasestorage.app",
+      messagingSenderId: "574017816071",
+      appId: "1:574017816071:web:1968d9a793dec6a6cacca2",
+      measurementId: "G-WRXCD54P71"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.db = db;
+    window.dbRef = ref;
+    window.dbOnValue = onValue;
+    window.dbSet = set;
+    window.dbPush = push;
+  </script>
 </head>
 <body>
 
@@ -187,8 +205,7 @@
 
     <div class="crisis-updates">
       <h2>📢 Live Crisis Timeline & Updates</h2>
-      <div class="timeline">
-        </div>
+      <div class="timeline" id="timelineContainer"></div>
     </div>
   </div>
 
@@ -201,7 +218,6 @@
     </div>
 
     <div class="panel-body">
-      
       <div class="panel-login-form" id="panelLoginForm">
         <h3>Sign in to access your secure console</h3>
         <form onsubmit="handlePanelLogin(event)">
@@ -223,7 +239,7 @@
         <div style="margin-bottom: 25px;">
           <h4 style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase; margin-bottom: 8px;">📥 Backroom Feedback</h4>
           <div class="feedback-box" id="feedbackContent">
-            No feedback received from the Backroom yet. Your previous directive is currently under evaluation.
+            No feedback received from the Backroom yet.
           </div>
         </div>
 
@@ -232,7 +248,6 @@
         <div>
           <h4 style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase; margin-bottom: 12px;">📤 Send Directive</h4>
           <form onsubmit="submitDirective(event)">
-            
             <div class="form-group">
               <label>Directive Type</label>
               <select id="directiveType" required>
@@ -250,72 +265,25 @@
 
             <div class="form-group" id="jointDelegateSection">
               <label>Partner Delegate Name(s)</label>
-              <input type="text" id="partnerName" placeholder="e.g., UK_Delegate, Jordan_Delegate">
+              <input type="text" id="partnerName" placeholder="e.g., UK_Delegate">
             </div>
 
             <div class="form-group">
               <label>Orders & Content</label>
-              <textarea id="directiveOrders" rows="5" placeholder="Specify your actions, military movements, or secret diplomatic orders..." required></textarea>
+              <textarea id="directiveOrders" rows="5" placeholder="Specify your actions..." required></textarea>
             </div>
 
             <button type="submit" class="action-btn">Transmit Directive</button>
           </form>
         </div>
-
       </div>
-
     </div>
   </div>
 
   <script>
-    // 1. وظيفة مزامنة حالة الغرفة وقراءة الـ Updates تلقائياً من الـ Backroom
-    function syncWithBackroom() {
-      const roomStatus = localStorage.getItem('mun_room_status') || 'Opened';
-      const statusContainer = document.getElementById('currentStatus');
-      const statusText = document.getElementById('statusText');
+    let globalStatus = "Opened";
+    let loggedInUser = null;
 
-      // تغيير مظهر ولون الحالة حسب الـ Backroom
-      statusContainer.className = "status-value " + (roomStatus === 'Opened' ? 'status-open' : roomStatus === 'Closed' ? 'status-closed' : 'status-frozen');
-      statusText.innerText = roomStatus;
-
-      // جلب التحديثات التي يبثها الـ Staff من لوحة التحكم
-      const customUpdates = JSON.parse(localStorage.getItem('mun_crisis_updates')) || [];
-      const timelineContainer = document.querySelector('.timeline');
-
-      // التحديث الأساسي الافتراضي لبداية الغرفة
-      let defaultHTML = `
-        <div class="timeline-item">
-          <span class="time-badge">Update #1 — 09:00</span>
-          <div class="timeline-title">Crisis Room Activated</div>
-          <div class="timeline-desc">The First Annual FRANMUN Crisis simulation has officially commenced. Room guidelines and communication channels are now online.</div>
-        </div>
-      `;
-
-      // بناء كود التحديثات الجديدة المضافة
-      let customHTML = '';
-      customUpdates.forEach((item) => {
-        customHTML += `
-          <div class="timeline-item" style="border-left: 2px solid var(--accent-gold);">
-            <span class="time-badge">Live Update — ${item.time}</span>
-            <div class="timeline-title" style="color: var(--accent-gold);">${item.title}</div>
-            <div class="timeline-desc">${item.desc}</div>
-          </div>
-        `;
-      });
-
-      timelineContainer.innerHTML = customHTML + defaultHTML;
-      
-      // لتحديث الـ Feedback أيضاً إذا كان الطالب مسجلاً دخوله بالفعل
-      loadDelegateFeedback();
-    }
-
-    // تشغيل المزامنة الفورية وتفعيل التحديث التلقائي كل 5 ثوانٍ دون الحاجة لـ Refresh
-    window.onload = function() {
-      syncWithBackroom();
-      setInterval(syncWithBackroom, 5000);
-    };
-
-    // حسابات المندوبين المعتمدة للمؤتمر
     const accounts = {
       "ATEF": { password: "2009", name: "Admin / Atef Jubran" },
       "USA_Delegate": { password: "usa@crisis26", name: "USA Delegate Workspace" },
@@ -323,9 +291,59 @@
       "Jordan_Delegate": { password: "jor@fss26", name: "Jordan Delegate Workspace" }
     };
 
-    let loggedInUser = null;
+    // مراقبة البيانات مباشرة من قاعدة البيانات السحابية
+    function initFirebaseSync() {
+      if (!window.db) {
+        setTimeout(initFirebaseSync, 500);
+        return;
+      }
 
-    // فتح وإغلاق مساحة الـ Personal Space الجانبية
+      // 1. الاستماع لحالة الغرفة (Realtime Room Status)
+      window.dbOnValue(window.dbRef(window.db, 'room_status'), (snapshot) => {
+        globalStatus = snapshot.val() || "Opened";
+        const statusContainer = document.getElementById('currentStatus');
+        const statusText = document.getElementById('statusText');
+        statusContainer.className = "status-value " + (globalStatus === 'Opened' ? 'status-open' : globalStatus === 'Closed' ? 'status-closed' : 'status-frozen');
+        statusText.innerText = globalStatus;
+      });
+
+      // 2. الاستماع للبث المباشر للأخبار (Realtime Live Timeline Updates)
+      window.dbOnValue(window.dbRef(window.db, 'crisis_updates'), (snapshot) => {
+        const timelineContainer = document.getElementById('timelineContainer');
+        let customHTML = '';
+        
+        const data = snapshot.val();
+        if (data) {
+          const updatesList = Object.values(data).reverse(); // جلب الأحدث في الأعلى
+          updatesList.forEach((item) => {
+            customHTML += `
+              <div class="timeline-item" style="border-left: 2px solid var(--accent-gold);">
+                <span class="time-badge">Live Update — ${item.time}</span>
+                <div class="timeline-title" style="color: var(--accent-gold);">${item.title}</div>
+                <div class="timeline-desc">${item.desc}</div>
+              </div>
+            `;
+          });
+        }
+
+        let defaultHTML = `
+          <div class="timeline-item">
+            <span class="time-badge">Update #1 — 09:00</span>
+            <div class="timeline-title">Crisis Room Activated</div>
+            <div class="timeline-desc">The First Annual FRANMUN Crisis simulation has officially commenced.</div>
+          </div>
+        `;
+        timelineContainer.innerHTML = customHTML + defaultHTML;
+      });
+
+      // 3. الاستماع لتحديثات الـ Feedback والـ Decisions للدايركتفز
+      window.dbOnValue(window.dbRef(window.db, 'directives'), () => {
+        loadDelegateFeedback();
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', initFirebaseSync);
+
     function toggleSidePanel() {
       const panel = document.getElementById("sidePanel");
       const toggleBtn = document.getElementById("toggleBtn");
@@ -333,7 +351,6 @@
       toggleBtn.innerText = panel.classList.contains("active") ? "✖ Close Space" : "💻 Personal Space";
     }
 
-    // معالجة تسجيل دخول المندوب
     function handlePanelLogin(event) {
       event.preventDefault();
       const user = document.getElementById("panelUser").value.trim();
@@ -344,33 +361,38 @@
         document.getElementById("panelLoginForm").style.display = "none";
         document.getElementById("privateDashboard").style.display = "block";
         document.getElementById("delegateNameHeader").innerText = accounts[user].name;
-        
         loadDelegateFeedback();
       } else {
         alert("Invalid credentials. Entry Denied.");
       }
     }
 
-    // جلب حالة وتحديثات الـ Feedback والـ Decision لكل ديليجت بشكل مستقل من الـ Backroom
     function loadDelegateFeedback() {
-      if (!loggedInUser) return;
-      const currentDirectives = JSON.parse(localStorage.getItem('mun_directives')) || [];
+      if (!loggedInUser || !window.db) return;
       
-      // البحث عن آخر دايركتف تم إرساله بواسطة هذا اليوزر
-      const userDir = currentDirectives.find(d => d.sender === loggedInUser);
-      const feedbackBox = document.getElementById("feedbackContent");
-
-      if (userDir && userDir.feedback) {
-        let statusBadge = userDir.status === 'Accepted' ? '🟢 Accepted' : userDir.status === 'Rejected' ? '🔴 Rejected' : '⏳ Pending';
-        feedbackBox.innerHTML = `<strong>Status: ${statusBadge}</strong><br><span style="color:#fff; display:block; margin-top:5px;">Feedback: ${userDir.feedback}</span>`;
-      } else if (userDir) {
-        feedbackBox.innerHTML = `Your directive has been transmitted. Status: <strong>⏳ Pending Evaluation</strong>. Waiting for backroom orders.`;
-      } else {
+      window.dbOnValue(window.dbRef(window.db, 'directives'), (snapshot) => {
+        const feedbackBox = document.getElementById("feedbackContent");
+        const data = snapshot.val();
+        
+        if (data) {
+          const allDirectives = Object.values(data);
+          // البحث عن آخر دايركتف تم إرساله بواسطة الديليجت الحالي
+          const userDir = allDirectives.reverse().find(d => d.sender === loggedInUser);
+          
+          if (userDir) {
+            if (userDir.feedback) {
+              let statusBadge = userDir.status === 'Accepted' ? '🟢 Accepted' : userDir.status === 'Rejected' ? '🔴 Rejected' : '⏳ Pending';
+              feedbackBox.innerHTML = `<strong>Status: ${statusBadge}</strong><br><span style="color:#fff; display:block; margin-top:5px;">Feedback: ${userDir.feedback}</span>`;
+            } else {
+              feedbackBox.innerHTML = `Your directive has been transmitted. Status: <strong>⏳ Pending Evaluation</strong>.`;
+            }
+            return;
+          }
+        }
         feedbackBox.innerText = "No directives transmitted yet. Your secure space pipeline is clear.";
-      }
+      }, { onlyOnce: true });
     }
 
-    // إظهار حقل كتابة اسم المندوب الشريك إذا تم تفعيل خيار الـ Joint Directive
     function toggleJointSelection() {
       const isJoint = document.getElementById("isJoint").checked;
       const jointSection = document.getElementById("jointDelegateSection");
@@ -378,14 +400,11 @@
       document.getElementById("partnerName").required = isJoint;
     }
 
-    // معالجة إرسال الدايركتف وحفظه في الـ Pipeline لكي يظهر فوراً في لوحة تحكم الـ Backroom
     function submitDirective(event) {
       event.preventDefault();
       
-      // حماية لمنع الإرسال إذا قام الـ Staff بإغلاق أو تجميد الغرفة
-      const roomStatus = localStorage.getItem('mun_room_status') || 'Opened';
-      if(roomStatus === 'Frozen' || roomStatus === 'Closed') {
-        alert(`The Backroom is currently [${roomStatus}]. Transmitting new directives is restricted at this time.`);
+      if(globalStatus === 'Frozen' || globalStatus === 'Closed') {
+        alert(`The Backroom is currently [${globalStatus}]. Transmitting new directives is restricted.`);
         return;
       }
 
@@ -394,32 +413,26 @@
       const partner = document.getElementById("partnerName").value;
       const orders = document.getElementById("directiveOrders").value;
 
-      let currentDirectives = JSON.parse(localStorage.getItem('mun_directives')) || [];
+      const newDirectiveRef = window.dbPush(window.dbRef(window.db, 'directives'));
       
-      // إنشاء كائن دايركتف جديد يحمل معرف فريد بالوقت
-      const newDirective = {
+      window.dbSet(newDirectiveRef, {
         id: Date.now(),
+        firebaseKey: newDirectiveRef.key,
         sender: loggedInUser,
         type: type,
         joint: isJoint ? `Yes (With ${partner})` : "No",
         content: orders,
         status: "Pending",
         feedback: ""
-      };
-
-      currentDirectives.unshift(newDirective);
-      localStorage.setItem('mun_directives', JSON.stringify(currentDirectives));
-
-      alert("Directive Securely Transmitted! Your orders are now locked in the Backrooms processing pipeline.");
-      
-      // تفريغ الحقول وإعادة تهيئة النموذج لعملية إرسال أخرى
-      document.getElementById("directiveOrders").value = "";
-      document.getElementById("isJoint").checked = false;
-      toggleJointSelection();
-      loadDelegateFeedback();
+      }).then(() => {
+        alert("Directive Securely Transmitted Online!");
+        document.getElementById("directiveOrders").value = "";
+        document.getElementById("isJoint").checked = false;
+        toggleJointSelection();
+        loadDelegateFeedback();
+      });
     }
 
-    // حماية الأكواد البرمجية من فحص العناصر (Inspect Element)
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.onkeydown = function(e) {
       if (e.keyCode == 123) return false;
