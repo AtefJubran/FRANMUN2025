@@ -36,25 +36,32 @@
     }
 
     /* تأثير اللوجو الكبير والباهت في منتصف الخلفية */
+    /* تأثير اللوجو الدائري الكبير والباهت في منتصف الخلفية */
     body::before {
       content: "";
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: 60vw; /* حجم اللوجو بالنسبة لعرض الشاشة (تقريباً 60%) */
-      height: 60vw;
-      max-width: 550px; /* أقصى حجم ممكن يوصله اللوجو عشان ما يطلع ضخم بزيادة على الشاشات الكبيرة */
-      max-height: 550px;
+      
+      /* تكبير الحجم (تمت زيادته ليغطي مساحة أكبر من الشاشة) */
+      width: 80vw; 
+      height: 80vw;
+      max-width: 750px; 
+      max-height: 750px;
+      
       background-image: url('logo.jpeg.JPG');
-      background-size: contain;
+      background-size: cover; /* لضمان ملء الدائرة بالكامل دون تشويه */
       background-repeat: no-repeat;
       background-position: center;
-      opacity: 0.04; /* درجة البهتان (Faded) - 0.04 تعني باهت جداً ومريح للعين ولا يغطي على النصوص */
-      pointer-events: none; /* تضمن إن اللوجو ما يمنع الضغط على أي زرار أو نصوص */
-      z-index: 0; /* يخليه خلف كل عناصر الصفحة */
+      
+      /* جعل اللوجو دائرياً */
+      border-radius: 50%; 
+      
+      opacity: 0.04; /* درجة البهتان (يمكنك زيادتها إلى 0.06 إذا رغبت بأن يكون أوضح قليلاً) */
+      pointer-events: none; /* لمنع التداخل مع أزرار الصفحة */
+      z-index: 0; /* خلف النصوص والعناصر */
     }
-
     /* إعطاء z-index لعناصر الصفحة عشان تطلع فوق اللوجو */
     .public-page { 
       flex: 1; 
