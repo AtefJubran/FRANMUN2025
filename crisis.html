@@ -188,29 +188,9 @@
     <div class="crisis-updates">
       <h2>📢 Live Crisis Timeline & Updates</h2>
       <div class="timeline">
-        
-        <div class="timeline-item">
-          <span class="time-badge">Update #3 — 14:20</span>
-          <div class="timeline-title">Naval Deployment Confirmed</div>
-          <div class="timeline-desc">The Joint Staff has ordered immediate naval presence in sector 4. All nations are advised to state their intent immediately.</div>
         </div>
-
-        <div class="timeline-item">
-          <span class="time-badge">Update #2 — 11:15</span>
-          <div class="timeline-title">Cyber Attack on Infrastructure</div>
-          <div class="timeline-desc">A major grid failure has been reported across the coalition borders. Cyber intelligence teams are investigating the signature.</div>
-        </div>
-
-        <div class="timeline-item">
-          <span class="time-badge">Update #1 — 09:00</span>
-          <div class="timeline-title">Crisis Room Activated</div>
-          <div class="timeline-desc">The First Annual FRANMUN Crisis simulation has officially commenced. Room guidelines and communication channels are now online.</div>
-        </div>
-
-      </div>
     </div>
   </div>
-
 
   <div class="panel-toggle-btn" onclick="toggleSidePanel()" id="toggleBtn">💻 Personal Space</div>
   
@@ -288,85 +268,158 @@
   </div>
 
   <script>
-    // قاعدة البيانات التجريبية
-    const accounts = {
-      "ATEF": { password: "2009", name: "Admin / Atef Jubran", feedback: "All systems operational, Atef. You have control over the Backroom configuration." },
-      "USA_Delegate": { password: "usa@crisis26", name: "USA Delegate Workspace", feedback: "Directive 1 Approved: Your satellite movement has successfully mapped sector B. No anomalies detected." },
-      "UK_Delegate": { password: "uk@secret26", name: "UK Delegate Workspace", feedback: "Directive 1 Pending: Waiting for clarification on the troops relocation orders." },
-      "Jordan_Delegate": { password: "jor@fss26", name: "Jordan Delegate Workspace", feedback: "تم استلام توجيهك الأول: القوافل الإنسانية تحركت بنجاح باتجاه الحدود وتحت غطاء دبلوماسي." }
+    // 1. وظيفة مزامنة حالة الغرفة وقراءة الـ Updates تلقائياً من الـ Backroom
+    function syncWithBackroom() {
+      const roomStatus = localStorage.getItem('mun_room_status') || 'Opened';
+      const statusContainer = document.getElementById('currentStatus');
+      const statusText = document.getElementById('statusText');
+
+      // تغيير مظهر ولون الحالة حسب الـ Backroom
+      statusContainer.className = "status-value " + (roomStatus === 'Opened' ? 'status-open' : roomStatus === 'Closed' ? 'status-closed' : 'status-frozen');
+      statusText.innerText = roomStatus;
+
+      // جلب التحديثات التي يبثها الـ Staff من لوحة التحكم
+      const customUpdates = JSON.parse(localStorage.getItem('mun_crisis_updates')) || [];
+      const timelineContainer = document.querySelector('.timeline');
+
+      // التحديث الأساسي الافتراضي لبداية الغرفة
+      let defaultHTML = `
+        <div class="timeline-item">
+          <span class="time-badge">Update #1 — 09:00</span>
+          <div class="timeline-title">Crisis Room Activated</div>
+          <div class="timeline-desc">The First Annual FRANMUN Crisis simulation has officially commenced. Room guidelines and communication channels are now online.</div>
+        </div>
+      `;
+
+      // بناء كود التحديثات الجديدة المضافة
+      let customHTML = '';
+      customUpdates.forEach((item) => {
+        customHTML += `
+          <div class="timeline-item" style="border-left: 2px solid var(--accent-gold);">
+            <span class="time-badge">Live Update — ${item.time}</span>
+            <div class="timeline-title" style="color: var(--accent-gold);">${item.title}</div>
+            <div class="timeline-desc">${item.desc}</div>
+          </div>
+        `;
+      });
+
+      timelineContainer.innerHTML = customHTML + defaultHTML;
+      
+      // لتحديث الـ Feedback أيضاً إذا كان الطالب مسجلاً دخوله بالفعل
+      loadDelegateFeedback();
+    }
+
+    // تشغيل المزامنة الفورية وتفعيل التحديث التلقائي كل 5 ثوانٍ دون الحاجة لـ Refresh
+    window.onload = function() {
+      syncWithBackroom();
+      setInterval(syncWithBackroom, 5000);
     };
 
-    // فتح وإغلاق القائمة الجانبية (Personal Space)
+    // حسابات المندوبين المعتمدة للمؤتمر
+    const accounts = {
+      "ATEF": { password: "2009", name: "Admin / Atef Jubran" },
+      "USA_Delegate": { password: "usa@crisis26", name: "USA Delegate Workspace" },
+      "UK_Delegate": { password: "uk@secret26", name: "UK Delegate Workspace" },
+      "Jordan_Delegate": { password: "jor@fss26", name: "Jordan Delegate Workspace" }
+    };
+
+    let loggedInUser = null;
+
+    // فتح وإغلاق مساحة الـ Personal Space الجانبية
     function toggleSidePanel() {
       const panel = document.getElementById("sidePanel");
       const toggleBtn = document.getElementById("toggleBtn");
       panel.classList.toggle("active");
-      
-      if(panel.classList.contains("active")) {
-        toggleBtn.innerText = "✖ Close Space";
-      } else {
-        toggleBtn.innerText = "💻 Personal Space";
-      }
+      toggleBtn.innerText = panel.classList.contains("active") ? "✖ Close Space" : "💻 Personal Space";
     }
 
-    // التعامل مع تسجيل الدخول في القائمة الجانبية
+    // معالجة تسجيل دخول المندوب
     function handlePanelLogin(event) {
       event.preventDefault();
       const user = document.getElementById("panelUser").value.trim();
       const pass = document.getElementById("panelPass").value;
 
       if (accounts[user] && accounts[user].password === pass) {
-        // إخفاء الـ Login وإظهار الـ Dashboard الخاصة
+        loggedInUser = user;
         document.getElementById("panelLoginForm").style.display = "none";
         document.getElementById("privateDashboard").style.display = "block";
-        
-        // حقن البيانات الخاصة بالمندوب
         document.getElementById("delegateNameHeader").innerText = accounts[user].name;
-        document.getElementById("feedbackContent").innerText = accounts[user].feedback;
+        
+        loadDelegateFeedback();
       } else {
         alert("Invalid credentials. Entry Denied.");
       }
     }
 
-    // إظهار أو إخفاء حقل المندوب الشريك بناءً على الـ Checkbox
-    function toggleJointSelection() {
-      const isJointChecked = document.getElementById("isJoint").checked;
-      const jointSection = document.getElementById("jointDelegateSection");
+    // جلب حالة وتحديثات الـ Feedback والـ Decision لكل ديليجت بشكل مستقل من الـ Backroom
+    function loadDelegateFeedback() {
+      if (!loggedInUser) return;
+      const currentDirectives = JSON.parse(localStorage.getItem('mun_directives')) || [];
       
-      if(isJointChecked) {
-        jointSection.style.display = "block";
-        document.getElementById("partnerName").required = true;
+      // البحث عن آخر دايركتف تم إرساله بواسطة هذا اليوزر
+      const userDir = currentDirectives.find(d => d.sender === loggedInUser);
+      const feedbackBox = document.getElementById("feedbackContent");
+
+      if (userDir && userDir.feedback) {
+        let statusBadge = userDir.status === 'Accepted' ? '🟢 Accepted' : userDir.status === 'Rejected' ? '🔴 Rejected' : '⏳ Pending';
+        feedbackBox.innerHTML = `<strong>Status: ${statusBadge}</strong><br><span style="color:#fff; display:block; margin-top:5px;">Feedback: ${userDir.feedback}</span>`;
+      } else if (userDir) {
+        feedbackBox.innerHTML = `Your directive has been transmitted. Status: <strong>⏳ Pending Evaluation</strong>. Waiting for backroom orders.`;
       } else {
-        jointSection.style.display = "none";
-        document.getElementById("partnerName").required = false;
-        document.getElementById("partnerName").value = ""; // تفريغ الحقل
+        feedbackBox.innerText = "No directives transmitted yet. Your secure space pipeline is clear.";
       }
     }
 
-    // إرسال التوجيه (Directive)
+    // إظهار حقل كتابة اسم المندوب الشريك إذا تم تفعيل خيار الـ Joint Directive
+    function toggleJointSelection() {
+      const isJoint = document.getElementById("isJoint").checked;
+      const jointSection = document.getElementById("jointDelegateSection");
+      jointSection.style.display = isJoint ? "block" : "none";
+      document.getElementById("partnerName").required = isJoint;
+    }
+
+    // معالجة إرسال الدايركتف وحفظه في الـ Pipeline لكي يظهر فوراً في لوحة تحكم الـ Backroom
     function submitDirective(event) {
       event.preventDefault();
+      
+      // حماية لمنع الإرسال إذا قام الـ Staff بإغلاق أو تجميد الغرفة
+      const roomStatus = localStorage.getItem('mun_room_status') || 'Opened';
+      if(roomStatus === 'Frozen' || roomStatus === 'Closed') {
+        alert(`The Backroom is currently [${roomStatus}]. Transmitting new directives is restricted at this time.`);
+        return;
+      }
+
       const type = document.getElementById("directiveType").value;
       const isJoint = document.getElementById("isJoint").checked;
       const partner = document.getElementById("partnerName").value;
       const orders = document.getElementById("directiveOrders").value;
 
-      let summary = `Directive Transmitted Successfully!\n\nType: ${type}\n`;
-      if(isJoint) {
-        summary += `Joint Status: Yes (With ${partner})\n`;
-      } else {
-        summary += `Joint Status: No\n`;
-      }
+      let currentDirectives = JSON.parse(localStorage.getItem('mun_directives')) || [];
       
-      alert(summary + "\nYour orders have been securely locked in the Backroom pipeline for the Chairs to review.");
+      // إنشاء كائن دايركتف جديد يحمل معرف فريد بالوقت
+      const newDirective = {
+        id: Date.now(),
+        sender: loggedInUser,
+        type: type,
+        joint: isJoint ? `Yes (With ${partner})` : "No",
+        content: orders,
+        status: "Pending",
+        feedback: ""
+      };
+
+      currentDirectives.unshift(newDirective);
+      localStorage.setItem('mun_directives', JSON.stringify(currentDirectives));
+
+      alert("Directive Securely Transmitted! Your orders are now locked in the Backrooms processing pipeline.");
       
-      // تفريغ الحقول بعد الإرسال
+      // تفريغ الحقول وإعادة تهيئة النموذج لعملية إرسال أخرى
       document.getElementById("directiveOrders").value = "";
       document.getElementById("isJoint").checked = false;
       toggleJointSelection();
+      loadDelegateFeedback();
     }
 
-    // حماية الصفحة من كبسة الماوس اليمين والاختصارات
+    // حماية الأكواد البرمجية من فحص العناصر (Inspect Element)
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.onkeydown = function(e) {
       if (e.keyCode == 123) return false;
