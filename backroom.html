@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -87,74 +87,38 @@
   <!-- MAIN WORKSPACE WITH TAB VIEW -->
   <div class="main-workspace">
     <div class="tabs-nav">
-      <button class="tab-btn active" onclick="switchTab('tabTimeline')">📰 1. Timeline & Reports</button>
+      <button class="tab-btn active" onclick="switchTab('tabTimeline')">📰 1. Timeline Updates</button>
       <button class="tab-btn" onclick="switchTab('tabIncoming')">📥 2. Pipeline & Accounts</button>
       <button class="tab-btn" onclick="switchTab('tabArchive')">🗄️ 3. Directives Archive</button>
     </div>
 
-    <!-- TAB 1: TIMELINE & SEARCH REPORTS MANAGEMENT -->
+    <!-- TAB 1: TIMELINE MANAGEMENT -->
     <div id="tabTimeline" class="tab-content active">
-      <div style="display: flex; gap: 20px; align-items: start;">
-        
-        <!-- قوالب الإدخال اليسارية -->
-        <div style="flex: 1; max-width: 350px; display: flex; flex-direction: column; gap: 20px;">
-          <!-- فورم التايم لاين الأقدم -->
-          <div class="card">
-            <h3 id="newsFormTitle">Broadcast Crisis News</h3>
-            <form onsubmit="handleBroadcastSubmit(event)">
-              <input type="hidden" id="editUpdateKey" value="">
-              <div class="form-group">
-                <label>Time</label>
-                <input type="text" id="updateTime" placeholder="e.g., 11:30 AM" required>
-              </div>
-              <div class="form-group">
-                <label>Headline Title</label>
-                <input type="text" id="updateTitle" placeholder="Crisis Alert Title" required>
-              </div>
-              <div class="form-group">
-                <label>Description</label>
-                <textarea id="updateDesc" rows="3" placeholder="Details..." required></textarea>
-              </div>
-              <button type="submit" class="btn btn-gold" id="newsSubmitBtn">Publish Broadcast</button>
-            </form>
-          </div>
-
-          <!-- فورم الـ Search Reports الجديد بالكامل -->
-          <div class="card">
-            <h3>Publish Search Report</h3>
-            <form onsubmit="handleReportSubmit(event)">
-              <div class="form-group">
-                <label>Report Title</label>
-                <input type="text" id="reportTitle" placeholder="e.g., Intelligence Dossier on Border" required>
-              </div>
-              <div class="form-group">
-                <label>Report URL (Drive / PDF Link)</label>
-                <input type="url" id="reportUrl" placeholder="https://docs.google.com/..." required>
-              </div>
-              <div class="form-group">
-                <label>Date / Badge</label>
-                <input type="text" id="reportDate" placeholder="e.g., June 11, 2026" value="June 11, 2026">
-              </div>
-              <button type="submit" class="btn btn-gold">Upload Report</button>
-            </form>
-          </div>
+      <div style="display: flex; gap: 20px;">
+        <div class="card" style="flex: 1; max-width: 350px;">
+          <h3 id="newsFormTitle">Broadcast Crisis News</h3>
+          <form onsubmit="handleBroadcastSubmit(event)">
+            <input type="hidden" id="editUpdateKey" value="">
+            <div class="form-group">
+              <label>Time</label>
+              <input type="text" id="updateTime" placeholder="e.g., 11:30 AM" required>
+            </div>
+            <div class="form-group">
+              <label>Headline Title</label>
+              <input type="text" id="updateTitle" placeholder="Crisis Alert Title" required>
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <textarea id="updateDesc" rows="4" placeholder="Details..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-gold" id="newsSubmitBtn">Publish Broadcast</button>
+          </form>
         </div>
         
-        <!-- قوائم العرض اليمينية -->
-        <div style="flex: 2; display: flex; flex-direction: column; gap: 30px;">
-          <div>
-            <h2>Active Timeline List (Live Control)</h2>
-            <div id="timelineManageContainer" style="margin-top: 10px;"></div>
-          </div>
-
-          <hr style="border:0; border-top: 1px solid var(--border-color)">
-
-          <div>
-            <h2>Published Search Reports (Live Control)</h2>
-            <div id="reportsManageContainer" style="margin-top: 10px;"></div>
-          </div>
+        <div style="flex: 2;">
+          <h2>Active Timeline List (Live Control)</h2>
+          <div id="timelineManageContainer" style="margin-top: 15px;"></div>
         </div>
-
       </div>
     </div>
 
@@ -178,7 +142,7 @@
       </div>
     </div>
 
-    <!-- TAB 3: DIRECTIVES ARCHIVE -->
+    <!-- TAB 3: DIRECTIVES ARCHIVE (ACCEPTED / REJECTED) -->
     <div id="tabArchive" class="tab-content">
       <h2>🗄️ Universal Directives Decisions Archive</h2>
       <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px;">You can change status between Accepted and Rejected, or delete the directive permanently from the archive.</p>
@@ -228,24 +192,6 @@
               </div>`;
           });
         } else { container.innerHTML = "<p>No updates sent yet.</p>"; }
-      });
-
-      // جلب وإدارة تقارير البحث (Search Reports)
-      window.dbOnValue(window.dbRef(window.db, 'search_reports'), (snap) => {
-        const container = document.getElementById("reportsManageContainer");
-        container.innerHTML = "";
-        if(snap.exists()){
-          Object.keys(snap.val()).reverse().forEach(key => {
-            const item = snap.val()[key];
-            container.innerHTML += `
-              <div class="timeline-manage-item">
-                <div><strong>📄 ${item.title}</strong><br><span style="color:var(--text-muted); font-size:12px;">Link: ${item.url} (${item.date})</span></div>
-                <div>
-                  <button class="action-inline-btn var(--btn-reject)" style="background:var(--btn-reject);" onclick="triggerDeleteReport('${key}')">Delete</button>
-                </div>
-              </div>`;
-          });
-        } else { container.innerHTML = "<p>No reports uploaded yet.</p>"; }
       });
 
       // جلب وتقسيم القرارات والتحكم بها بالأرشيف
@@ -321,29 +267,7 @@
       }
     }
 
-    // إرسال تقرير بحث جديد لقاعدة البيانات
-    function handleReportSubmit(e) {
-      e.preventDefault();
-      const title = document.getElementById("reportTitle").value;
-      const url = document.getElementById("reportUrl").value;
-      const date = document.getElementById("reportDate").value;
-
-      const newReportRef = window.dbPush(window.dbRef(window.db, 'search_reports'));
-      window.dbSet(newReportRef, { title, url, date }).then(() => {
-        alert("Search Report Published Successfully!");
-        e.target.reset();
-        document.getElementById("reportDate").value = "June 11, 2026";
-      });
-    }
-
-    // حذف تقرير بحث نهائياً
-    function triggerDeleteReport(key) {
-      if(confirm("Are you sure you want to delete this Search Report permanently?")) {
-        window.dbRemove(window.dbRef(window.db, `/search_reports/${key}`)).then(() => {
-          alert("Report removed.");
-        });
-      }
-    }
+    document.getElementById("newsFormTitle");
 
     function triggerEditNews(key, time, title, encDesc) {
       document.getElementById("editUpdateKey").value = key;
@@ -379,6 +303,7 @@
       window.dbUpdate(window.dbRef(window.db), up);
     }
 
+    // الدالة الجديدة لحذف الدايركتف نهائياً من الأرشيف
     function deleteDirectiveFromArchive(key) {
       if(confirm("Are you sure you want to delete this directive permanently from the archive?")) {
         window.dbRemove(window.dbRef(window.db, `/directives/${key}`)).then(() => {
