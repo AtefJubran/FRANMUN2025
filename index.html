@@ -9,11 +9,11 @@
   <style>
     /* --- CSS MODERN DESIGN SYSTEM --- */
     :root {
-      --primary-dark: #001122;    /* كحلي ملكي داكن للفخامة والرسمية */
-      --secondary-blue: #002244;  /* أزرق اللوجو الرسمي */
-      --accent-gold: #dfb72c;     /* ذهبي دبلوماسي راقي غير فاقع */
-      --accent-gold-hover: #fcd444;/* ذهبي مضيء للتفاعل */
-      --card-bg: rgba(255, 255, 255, 0.04); /* خلفية زجاجية مودرن */
+      --primary-dark: #001122;    
+      --secondary-blue: #002244;  
+      --accent-gold: #dfb72c;     
+      --accent-gold-hover: #fcd444;
+      --card-bg: rgba(255, 255, 255, 0.04); 
       --card-border: rgba(255, 255, 255, 0.08);
       --text-light: #ffffff;
       --text-muted: #a0aec0;
@@ -125,7 +125,7 @@
     .card:hover {
       transform: translateY(-3px);
       border-color: rgba(223, 183, 44, 0.25);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4.5);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
     }
 
     .card h3 {
@@ -613,11 +613,7 @@
 
     function openModal(committee) {
       if (committee === 'CRISIS') {
-        const crisisWindow = window.open();
-        if (crisisWindow) {
-          crisisWindow.document.write('<html><head><title>FRANMUN | Crisis</title><style>body { background: radial-gradient(circle at top, #002244 0%, #001122 100%); color: #dfb72c; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-size: 32px; font-weight: bold; text-align: center; padding: 20px; }</style></head><body>Crisis Page Coming Soon!!!!</body></html>');
-          crisisWindow.document.close();
-        }
+        window.open('crisis.html', '_blank');
         return; 
       }
 
@@ -673,33 +669,28 @@
         committeeModal.style.display = "none";
       }
     }
+
+    /* --- SECURITY SCRIPT ENGAGEMENTS --- */
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
+    document.onkeydown = function(e) {
+      if (e.keyCode == 123) {
+        return false;
+      }
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) {
+        return false;
+      }
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        return false;
+      }
+      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+        return false;
+      }
+    };
+
+    setInterval(function() {
+      debugger;
+    }, 100);
   </script>
-  // 1. منع القائمة المنسدلة عند الضغط بالزر الأيمن للفأرة
-document.addEventListener('contextmenu', event => event.preventDefault());
-
-// 2. منع اختصارات لوحة المفاتيح الشهيرة لفتح أدوات المطورين
-document.onkeydown = function(e) {
-  // منع F12
-  if (e.keyCode == 123) {
-    return false;
-  }
-  // منع Ctrl+Shift+I أو Ctrl+Shift+J (أدوات المطورين)
-  if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) {
-    return false;
-  }
-  // منع Ctrl+U (رؤية كود المصدر / View Source)
-  if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
-    return false;
-  }
-  // منع Ctrl+S (لحفظ الصفحة على الجهاز)
-  if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
-    return false;
-  }
-};
-
-// 3. خدعة برمجية للتشويش على أدوات المطورين (debugger)
-setInterval(function() {
-  debugger;
-}, 100);
 </body>
 </html>
