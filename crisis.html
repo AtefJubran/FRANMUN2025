@@ -158,6 +158,26 @@
   </style>
 
   <script type="module">
+    function autoSaveDraft() {
+      if(!loggedInUser) return;
+      document.getElementById("draftBadge").style.display = "inline";
+      document.getElementById("draftBadge").innerText = "Typing...";
+      clearTimeout(autoSaveTimeout);
+      autoSaveTimeout = setTimeout(forceSaveDraft, 1000);
+    }
+
+    function forceSaveDraft() {
+      if(!loggedInUser) return;
+      window.dbSet(window.dbRef(window.db, `drafts/${loggedInUser}`), {
+        type: document.getElementById("directiveType").value,
+        isJoint: document.getElementById("isJoint").checked,
+        partner: document.getElementById("partnerName").value,
+        orders: document.getElementById("directiveOrders").value
+      }).then(() => {
+        document.getElementById("draftBadge").style.display = "inline";
+        document.getElementById("draftBadge").innerText = "Cloud Draft Saved";
+      });
+    }
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
     import { getDatabase, ref, onValue, set, push, get, child } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
 
