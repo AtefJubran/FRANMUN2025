@@ -3,298 +3,256 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN | Backroom Control Panel</title>
+  <title>FRANMUN | Backrooms Control Console</title>
   <style>
     :root {
-      --primary-dark: #06060c;
-      --secondary-blue: #0f172a;
+      --bg-dark: #060d16;
+      --panel-bg: #0b1523;
       --accent-gold: #dfb72c;
       --accent-gold-hover: #fcd444;
-      --card-bg: rgba(255, 255, 255, 0.03);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text-light: #f8fafc;
-      --text-muted: #94a3b8;
-      --status-open: #2ecc71;
-      --status-closed: #e74c3c;
-      --status-frozen: #3498db;
-      --transition-smooth: all 0.2s ease;
+      --border-color: rgba(255,255,255,0.08);
+      --text-light: #ffffff;
+      --text-muted: #8a99ad;
+      --btn-accept: #2ecc71;
+      --btn-reject: #e74c3c;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin:0; padding:0; }
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-blue) 100%);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background-color: var(--bg-dark);
       color: var(--text-light);
-      min-height: 100vh;
-      padding: 40px 20px;
-    }
-
-    .container { max-width: 1100px; margin: 0 auto; }
-    
-    header {
-      border-bottom: 1px solid var(--card-border);
-      padding-bottom: 20px;
-      margin-bottom: 30px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      height: 100vh;
     }
-    header h1 { color: var(--accent-gold); font-size: 26px; }
-
-    /* --- GRID SYSTEM --- */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 30px;
-    }
-
-    @media (max-width: 900px) {
-      .dashboard-grid { grid-template-columns: 1fr; }
-    }
-
-    .card {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
+    .sidebar {
+      width: 320px;
+      background-color: var(--panel-bg);
+      border-right: 2px solid var(--accent-gold);
       padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
     }
-    .card h2 { font-size: 18px; color: var(--accent-gold); margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 10px; }
-
-    /* --- STATUS CONTROL --- */
-    .status-buttons { display: flex; flex-direction: column; gap: 12px; }
-    .status-btn {
-      padding: 14px; border: 1px solid var(--card-border); border-radius: 8px;
-      font-weight: 700; color: #fff; cursor: pointer; background: rgba(0,0,0,0.3);
-      transition: var(--transition-smooth); text-transform: uppercase; font-size: 13px;
+    .sidebar h2 { font-size: 20px; color: var(--accent-gold); letter-spacing: 0.5px; }
+    .main-workspace { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .top-bar {
+      background-color: var(--panel-bg);
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
     }
-    .status-btn.open-btn:hover, .status-btn.open-btn.active { background: var(--status-open); color: #000; border-color: var(--status-open); box-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
-    .status-btn.close-btn:hover, .status-btn.close-btn.active { background: var(--status-closed); color: #fff; border-color: var(--status-closed); box-shadow: 0 0 15px rgba(231, 76, 60, 0.4); }
-    .status-btn.freeze-btn:hover, .status-btn.freeze-btn.active { background: var(--status-frozen); color: #fff; border-color: var(--status-frozen); box-shadow: 0 0 15px rgba(52, 152, 219, 0.4); }
-
-    /* --- FORMS --- */
+    .top-bar h1 { font-size: 22px; }
+    .content-area { flex:1; padding: 30px; overflow-y: auto; display: flex; gap: 25px; }
+    .column { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+    .card {
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .card h3 { color: var(--accent-gold); margin-bottom: 15px; font-size: 16px; text-transform: uppercase;}
     .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600; }
+    .form-group label { display:block; font-size: 11px; color: var(--text-muted); margin-bottom: 5px; text-transform: uppercase; }
     .form-group input, .form-group textarea, .form-group select {
-      width: 100%; padding: 12px; background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); border-radius: 6px; color: #fff; font-size: 14px;
+      width:100%; padding: 10px; background: rgba(0,0,0,0.3); border:1px solid var(--border-color); border-radius: 5px; color:#fff; font-size:14px;
     }
-    .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-gold); }
-    
-    .btn-submit {
-      width: 100%; padding: 12px; background: var(--accent-gold); color: #000; border: none; border-radius: 6px; font-weight: 700; cursor: pointer; transition: var(--transition-smooth);
+    .form-group input:focus, .form-group textarea:focus { outline:none; border-color: var(--accent-gold); }
+    .btn {
+      width: 100%; padding: 12px; border:none; border-radius:5px; font-weight:700; cursor:pointer; font-size:14px; transition: 0.2s ease;
     }
-    .btn-submit:hover { background: var(--accent-gold-hover); }
-
-    /* --- DIRECTIVES TABLE --- */
-    .directives-list { display: flex; flex-direction: column; gap: 20px; }
-    .directive-card {
-      background: rgba(0,0,0,0.2); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px;
+    .btn-gold { background-color: var(--accent-gold); color: #000; }
+    .btn-gold:hover { background-color: var(--accent-gold-hover); }
+    .directive-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
     }
-    .dir-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .dir-sender { font-weight: 700; color: #fff; font-size: 16px; }
-    .dir-type { font-size: 12px; padding: 3px 8px; background: rgba(223,183,44,0.1); border: 1px solid var(--accent-gold); color: var(--accent-gold); border-radius: 4px; }
-    .dir-text { background: rgba(0,0,0,0.3); padding: 12px; border-radius: 6px; font-size: 14px; margin-bottom: 15px; border-left: 3px solid var(--text-muted); }
-    
-    .action-zone { display: flex; gap: 10px; align-items: center; background: rgba(255,255,255,0.01); padding: 10px; border-radius: 6px; }
-    .status-select { width: auto; padding: 8px; background: #000; border: 1px solid var(--card-border); color: #fff; border-radius: 4px; }
-    
-    .feedback-input { flex: 1; padding: 8px; background: #000; border: 1px solid var(--card-border); color: #fff; border-radius: 4px; font-size: 13px; }
-    .btn-save-action { padding: 8px 16px; background: var(--status-open); color: #000; font-weight: 700; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; }
-
-    /* --- RECENT UPDATES LIST --- */
-    .update-item { background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 6px; margin-bottom: 10px; border-left: 2px solid var(--accent-gold); font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
-    .btn-delete { background: none; border: none; color: var(--status-closed); cursor: pointer; font-weight: 700; }
+    .dir-header { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 10px; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .badge { padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+    .badge-pending { background: #f39c12; color: #fff; }
+    .badge-accepted { background: var(--btn-accept); color: #fff; }
+    .badge-rejected { background: var(--btn-reject); color: #fff; }
+    .row-btns { display: flex; gap: 10px; margin-top: 10px; }
+    .action-inline-btn { flex: 1; padding: 8px; border: none; border-radius: 4px; font-weight: bold; font-size: 12px; cursor: pointer; color: #fff; }
+    .btn-inline-accept { background-color: var(--btn-accept); }
+    .btn-inline-reject { background-color: var(--btn-reject); }
   </style>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getDatabase, ref, set, push, onValue, update } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
+      authDomain: "franmun-f5498.firebaseapp.com",
+      databaseURL: "https://franmun-f5498-default-rtdb.firebaseio.com",
+      projectId: "franmun-f5498",
+      storageBucket: "franmun-f5498.firebasestorage.app",
+      messagingSenderId: "574017816071",
+      appId: "1:574017816071:web:1968d9a793dec6a6cacca2",
+      measurementId: "G-WRXCD54P71"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    window.db = db;
+    window.dbRef = ref;
+    window.dbSet = set;
+    window.dbPush = push;
+    window.dbOnValue = onValue;
+    window.dbUpdate = update;
+  </script>
 </head>
 <body>
 
-  <div class="container">
-    <header>
-      <div>
-        <h1>Backrooms Director Console</h1>
-        <p style="color: var(--text-muted); font-size: 13px;">FRANMUN Committee Command Center</p>
+  <div class="sidebar">
+    <h2>FRANMUN Control</h2>
+    
+    <div class="card" style="padding: 15px; background: rgba(0,0,0,0.2);">
+      <div class="form-group">
+        <label>Room Universal Status</label>
+        <select id="roomStatusSelect" onchange="updateRoomStatus()">
+          <option value="Opened">Opened</option>
+          <option value="Closed">Closed</option>
+          <option value="Frozen">Frozen</option>
+        </select>
       </div>
-      <div style="font-size: 12px; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--card-border);">
-        Logged in as: <span style="color: var(--accent-gold); font-weight: 700;">ATEF (Director)</span>
-      </div>
-    </header>
+    </div>
 
-    <div class="dashboard-grid">
-      
-      <div style="display: flex; flex-direction: column; gap: 30px;">
-        
-        <div class="card">
-          <h2>1. Set Backroom Status</h2>
-          <div class="status-buttons">
-            <button class="status-btn open-btn" id="btnOpen" onclick="updateRoomStatus('Opened')">🟢 Open Room</button>
-            <button class="status-btn close-btn" id="btnClose" onclick="updateRoomStatus('Closed')">🔴 Close Room</button>
-            <button class="status-btn freeze-btn" id="btnFreeze" onclick="updateRoomStatus('Frozen')">🔵 Freeze Room</button>
-          </div>
+    <div class="card">
+      <h3>Broadcast Crisis News</h3>
+      <form onsubmit="broadcastUpdate(event)">
+        <div class="form-group">
+          <label>Timestamp / Time</label>
+          <input type="text" id="updateTime" placeholder="e.g., 10:45 AM" required>
         </div>
-
-        <div class="card">
-          <h2>2. Push Live Crisis Update</h2>
-          <form onsubmit="pushCrisisUpdate(event)">
-            <div class="form-group">
-              <label>Update Title</label>
-              <input type="text" id="updateTitle" placeholder="e.g., Bombing Threat / New Coalition" required>
-            </div>
-            <div class="form-group">
-              <label>Update Description / Orders</label>
-              <textarea id="updateDesc" rows="4" placeholder="Describe what is happening in the simulation right now..." required></textarea>
-            </div>
-            <button type="submit" class="btn-submit">Broadcast to Timeline 📢</button>
-          </form>
-
-          <div style="margin-top: 20px;">
-            <label style="font-size: 11px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; display:block; margin-bottom: 10px;">Active Timeline Items</label>
-            <div id="backroomUpdatesList"></div>
-          </div>
+        <div class="form-group">
+          <label>Headline Title</label>
+          <input type="text" id="updateTitle" placeholder="e.g., Border Clash Reported" required>
         </div>
+        <div class="form-group">
+          <label>Short Description</label>
+          <textarea id="updateDesc" rows="4" placeholder="Type the breaking crisis details..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-gold">Publish News Bullet</button>
+      </form>
+    </div>
+  </div>
 
-      </div>
+  <div class="main-workspace">
+    <div class="top-bar">
+      <h1>Crisis Backrooms Executive Dashboard</h1>
+      <div style="color: var(--accent-gold); font-weight: 600;">Secure Cloud Connection Live 🟢</div>
+    </div>
 
-      <div class="card">
-        <h2>📥 Incoming Delegates Directives Pipeline</h2>
-        <div class="directives-list" id="directivesPipeline">
+    <div class="content-area">
+      <div class="column">
+        <h2 style="font-size: 18px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">📥 Incoming Directives Pipeline</h2>
+        <div id="directivesPipeline" style="overflow-y: auto; flex: 1; max-height: calc(100vh - 160px);">
           </div>
       </div>
-
     </div>
   </div>
 
   <script>
-    // بيانات الـ Directives الوهمية لتبدأ بها اللوحة (لو لم يكن هناك مدخلات من الطلاب بعد)
-    let defaultDirectives = [
-      { id: 1, sender: "USA_Delegate", type: "Private", joint: "No", content: "طلب نقل الأسطول البحري السادس لقطاع ب لحماية الإمدادات بشكل سري.", status: "Pending", feedback: "" },
-      { id: 2, sender: "Jordan_Delegate", type: "Public", joint: "Yes (With UK)", content: "إعلان مشترك لفتح ممر إنساني آمن لإجلاء المدنيين تحت رعاية الأمم المتحدة.", status: "Pending", feedback: "" }
-    ];
-
-    // جلب البيانات المخزنة أو تعيين الافتراضية
-    let directives = JSON.parse(localStorage.getItem('mun_directives')) || defaultDirectives;
-    let currentStatus = localStorage.getItem('mun_room_status') || 'Opened';
-
-    // تحميل البيانات عند فتح الصفحة لأول مرة
-    window.onload = function() {
-      if(!localStorage.getItem('mun_directives')) {
-        localStorage.setItem('mun_directives', JSON.stringify(directives));
-      }
-      renderStatusButtons();
-      renderDirectives();
-      renderBackroomUpdates();
-    };
-
-    // 1. تحديث حالة الغرفة
-    function updateRoomStatus(status) {
-      currentStatus = status;
-      localStorage.setItem('mun_room_status', status);
-      renderStatusButtons();
-      alert(`Backroom Status changed to: ${status}. This will update on the main page!`);
-    }
-
-    function renderStatusButtons() {
-      document.getElementById('btnOpen').classList.remove('active');
-      document.getElementById('btnClose').classList.remove('active');
-      document.getElementById('btnFreeze').classList.remove('active');
-
-      if(currentStatus === 'Opened') document.getElementById('btnOpen').classList.add('active');
-      if(currentStatus === 'Closed') document.getElementById('btnClose').classList.add('active');
-      if(currentStatus === 'Frozen') document.getElementById('btnFreeze').classList.add('active');
-    }
-
-    // 2. بث تحديث كرايسس جديد
-    function pushCrisisUpdate(event) {
-      event.preventDefault();
-      const title = document.getElementById('updateTitle').value;
-      const desc = document.getElementById('updateDesc').value;
-      const time = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-
-      let updates = JSON.parse(localStorage.getItem('mun_crisis_updates')) || [];
-      updates.unshift({ title, desc, time }); // إضافة التحديث الجديد في الأعلى
-
-      localStorage.setItem('mun_crisis_updates', JSON.stringify(updates));
-      
-      document.getElementById('updateTitle').value = '';
-      document.getElementById('updateDesc').value = '';
-      
-      renderBackroomUpdates();
-      alert("Crisis update pushed live to the main Dashboard!");
-    }
-
-    function renderBackroomUpdates() {
-      let updates = JSON.parse(localStorage.getItem('mun_crisis_updates')) || [];
-      const container = document.getElementById('backroomUpdatesList');
-      container.innerHTML = '';
-
-      if(updates.length === 0) {
-        container.innerHTML = '<p style="color:var(--text-muted); font-size:12px;">No custom updates added yet.</p>';
+    // الاستماع الفوري وإدارة جلب البيانات من السحاب
+    function initFirebaseBackroom() {
+      if (!window.db) {
+        setTimeout(initFirebaseBackroom, 500);
         return;
       }
 
-      updates.forEach((item, index) => {
-        container.innerHTML += `
-          <div class="update-item">
-            <div><strong>${item.title}</strong> <span style="color:var(--text-muted)">(${item.time})</span></div>
-            <button class="btn-delete" onclick="deleteUpdate(${index})">✕</button>
-          </div>
-        `;
-      });
-    }
-
-    function deleteUpdate(index) {
-      let updates = JSON.parse(localStorage.getItem('mun_crisis_updates')) || [];
-      updates.splice(index, 1);
-      localStorage.setItem('mun_crisis_updates', JSON.stringify(updates));
-      renderBackroomUpdates();
-    }
-
-    // 3. عرض وإدارة الـ Directives والـ Feedback
-    function renderDirectives() {
-      const container = document.getElementById('directivesPipeline');
-      container.innerHTML = '';
-
-      if(directives.length === 0) {
-        container.innerHTML = '<p style="color:var(--text-muted); padding:20px; text-align:center;">No directives inside the pipeline yet.</p>';
-        return;
-      }
-
-      directives.forEach(dir => {
-        container.innerHTML += `
-          <div class="directive-card" style="border-top: 3px solid ${dir.status === 'Accepted' ? 'var(--status-open)' : dir.status === 'Rejected' ? 'var(--status-closed)' : 'var(--accent-gold)'}">
-            <div class="dir-header">
-              <span class="dir-sender">${dir.sender} <span style="font-size:11px; color:var(--text-muted); font-weight:normal;">(${dir.joint === 'No' ? 'Single' : 'Joint Directive'})</span></span>
-              <span class="dir-type">${dir.type}</span>
-            </div>
-            <div class="dir-text">${dir.content}</div>
-            
-            <div class="action-zone">
-              <select class="status-select" id="status-${dir.id}">
-                <option value="Pending" ${dir.status === 'Pending' ? 'selected' : ''}>⏳ Pending</option>
-                <option value="Accepted" ${dir.status === 'Accepted' ? 'selected' : ''}>🟢 Accept</option>
-                <option value="Rejected" ${dir.status === 'Rejected' ? 'selected' : ''}>🔴 Reject</option>
-              </select>
-              <input type="text" class="feedback-input" id="feedback-${dir.id}" placeholder="Write backrooms feedback or response orders here..." value="${dir.feedback || ''}">
-              <button class="btn-save-action" onclick="saveDirectiveAction(${dir.id})">Save Response</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function saveDirectiveAction(id) {
-      const statusValue = document.getElementById(`status-${id}`).value;
-      const feedbackValue = document.getElementById(`feedback-${id}`).value;
-
-      directives = directives.map(dir => {
-        if(dir.id === id) {
-          return { ...dir, status: statusValue, feedback: feedbackValue };
+      // جلب حالة الغرفة الحالية وضبط خيار الـ Select
+      window.dbOnValue(window.dbRef(window.db, 'room_status'), (snapshot) => {
+        if(snapshot.exists()) {
+          document.getElementById("roomStatusSelect").value = snapshot.val();
         }
-        return dir;
       });
 
-      localStorage.setItem('mun_directives', JSON.stringify(directives));
-      renderDirectives();
-      alert("Decision and Feedback updated instantly for the delegate!");
+      // جلب جميع الدايركتفز المرسلة من الديليجتس وإظهارها فوراً لإعطاء قرار
+      window.dbOnValue(window.dbRef(window.db, 'directives'), (snapshot) => {
+        const pipeline = document.getElementById("directivesPipeline");
+        pipeline.innerHTML = "";
+        
+        const data = snapshot.val();
+        if(!data) {
+          pipeline.innerHTML = `<p style="color: var(--text-muted); font-size:14px;">No directives in the secure pipeline yet.</p>`;
+          return;
+        }
+
+        // تحويل الكائن إلى مصفوفة وعرض الأحدث في الأعلى
+        Object.keys(data).reverse().forEach((key) => {
+          const dir = data[key];
+          const badgeClass = dir.status === 'Accepted' ? 'badge-accepted' : dir.status === 'Rejected' ? 'badge-rejected' : 'badge-pending';
+          
+          let actionSection = `
+            <div class="form-group" style="margin-top:10px;">
+              <label>Staff Feedback / Consequence</label>
+              <input type="text" id="feedback_${key}" placeholder="Type backroom reaction..." value="${dir.feedback || ''}">
+            </div>
+            <div class="row-btns">
+              <button class="action-inline-btn btn-inline-accept" onclick="processDirective('${key}', 'Accepted')">Accept</button>
+              <button class="action-inline-btn btn-inline-reject" onclick="processDirective('${key}', 'Rejected')">Reject</button>
+            </div>
+          `;
+
+          pipeline.innerHTML += `
+            <div class="directive-item">
+              <div class="dir-header">
+                <span><strong>From:</strong> ${dir.sender} (${dir.type})</span>
+                <span class="badge ${badgeClass}">${dir.status}</span>
+              </div>
+              <p style="font-size:14px; color:#e2e8f0; word-wrap:break-word;">${dir.content}</p>
+              <div style="font-size:12px; color: var(--accent-gold); margin-top:5px;"><strong>Joint:</strong> ${dir.joint}</div>
+              ${actionSection}
+            </div>
+          `;
+        });
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', initFirebaseBackroom);
+
+    // تحديث حالة الغرفة على السيرفر
+    function updateRoomStatus() {
+      const status = document.getElementById("roomStatusSelect").value;
+      if (window.db) {
+        window.dbSet(window.dbRef(window.db, 'room_status'), status);
+      }
+    }
+
+    // بث خبر أو تحديث جديد في السيرفر
+    function broadcastUpdate(event) {
+      event.preventDefault();
+      const time = document.getElementById("updateTime").value;
+      const title = document.getElementById("updateTitle").value;
+      const desc = document.getElementById("updateDesc").value;
+
+      const newUpdateRef = window.dbPush(window.dbRef(window.db, 'crisis_updates'));
+      window.dbSet(newUpdateRef, { time, title, desc }).then(() => {
+        alert("News Broadcasted Online!");
+        document.getElementById("updateTime").value = "";
+        document.getElementById("updateTitle").value = "";
+        document.getElementById("updateDesc").value = "";
+      });
+    }
+
+    // إرسال الـ Feedback والـ Decision للديليجت مباشرة عبر السحاب
+    function processDirective(firebaseKey, decision) {
+      const fbValue = document.getElementById(`feedback_${firebaseKey}`).value;
+      
+      const updates = {};
+      updates[`/directives/${firebaseKey}/status`] = decision;
+      updates[`/directives/${firebaseKey}/feedback`] = fbValue;
+
+      window.dbUpdate(window.dbRef(window.db), updates).then(() => {
+        alert(`Directive updated to [${decision}] successfully!`);
+      });
     }
   </script>
 </body>
