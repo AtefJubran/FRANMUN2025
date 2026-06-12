@@ -813,7 +813,6 @@
       }, 5000); 
     }
 
-    /* قاعدة البيانات المحدثة: 3 تشيرز لكل اللجان، ولجنة الكرايسس مقسمة لـ (تنين فرونت روم وتنين باكروم) */
     const committeeData = {
       "UNWOMEN": {
         topics: "Empowering women in post-conflict economic restructuring and ensuring political representation.",
@@ -864,12 +863,10 @@
         topics: "The Fall of Constantina: Managing immediate dynamic updates, intelligence, and clandestine operations.",
         report: "https://google.com",
         chairs: [
-          /* تنين فرونت روم */
           { name: "Jamal Elias", img: "crisis_chair1.png", bio: "BIO COMING SOON..." },
           { name: "Tala Saffury", img: "crisis_chair2.png", bio: "BIO COMING SOON..." }
         ],
         backroom: [
-          /* تنين باكروم */
           { name: "Jana Abd Elheem", img: "jana_profile.png", bio: "BIO COMING SOON..." },
           { name: "Yousef Sarji", img: "crisis_backroom2.png", bio: "BIO COMING SOON..." }
         ]
@@ -892,19 +889,17 @@
         document.getElementById("modalTopics").innerText = data.topics;
         document.getElementById("modalReportLink").href = data.report || "https://google.com";
         
-        // بناء الـ Frontroom (Chairs)
         let chairsHTML = "";
         data.chairs.forEach((chair) => {
           const escapedBio = chair.bio.replace(/'/g, "\\'").replace(/"/g, '"');
           chairsHTML += `
-            <div class="chair-box" onclick="openBioPopup('${chair.name}', '${chair.img}', '${escapedBio}')">
+            <div class="chair-box" onclick="openBioPopup(event, '${chair.name}', '${chair.img}', '${escapedBio}')">
               <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
               <div class="chair-name">${chair.name}</div>
             </div>`;
         });
         document.getElementById("modalChairs").innerHTML = chairsHTML;
 
-        // إدارة قسم الـ Backroom التابع للكرايسس (تنين باكروم)
         if(committee === "CRISIS" && data.backroom) {
           backroomTitle.style.display = "block";
           backroomChairsContainer.style.display = "flex";
@@ -913,7 +908,7 @@
           data.backroom.forEach((bChair) => {
             const escapedBBio = bChair.bio.replace(/'/g, "\\'").replace(/"/g, '"');
             backroomHTML += `
-              <div class="chair-box" onclick="openBioPopup('${bChair.name}', '${bChair.img}', '${escapedBBio}')">
+              <div class="chair-box" onclick="openBioPopup(event, '${bChair.name}', '${bChair.img}', '${escapedBBio}')">
                 <img src="${bChair.img}" alt="${bChair.name}" class="chair-img" style="border-color:#e74c3c;" onerror="this.src='logo.jpeg.JPG'">
                 <div class="chair-name" style="color:#e74c3c; font-weight:bold;">${bChair.name}</div>
               </div>`;
@@ -926,8 +921,8 @@
       }
     }
 
-    /* دالة فتح النافذة المنبثقة المستقلة للـ Bio وعرض الصورة الكبيرة والنصوص الطويلة */
-    function openBioPopup(name, img, bio) {
+    function openBioPopup(event, name, img, bio) {
+      if(event) event.stopPropagation(); // منع التسكير التلقائي الفوري عند الضغط لفتح البايو
       document.getElementById("popupChairName").innerText = name;
       document.getElementById("popupChairImg").src = img;
       document.getElementById("popupChairImg").onerror = function() { this.src = 'logo.jpeg.JPG'; };
@@ -935,7 +930,6 @@
       document.getElementById("bioPopupModal").style.display = "flex";
     }
 
-    /* دالة إغلاق نافذة البايو */
     function closeBioPopup() {
       document.getElementById("bioPopupModal").style.display = "none";
     }
@@ -970,17 +964,24 @@
       document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
     }, 1000);
 
-    /* نظام الإغلاق الذكي عند الضغط خارج النوافذ المنبثقة */
+    /* --- التعديل السحري هنا: نظام إغلاق مستقل لكل نافذة بمجرد الضغط خارجها --- */
     window.onclick = function(event) {
       const committeeModal = document.getElementById("committeeModal");
-      const logoModal = document.getElementById("logoQuestionModal");
       const bioPopupModal = document.getElementById("bioPopupModal");
+      const logoModal = document.getElementById("logoQuestionModal");
       
+      // إذا كان منبثق الـ Bio مفتوحاً وضغطت وراه بالخلفية المعتمة، يسكر الـ Bio فقط
       if (event.target === bioPopupModal) {
         bioPopupModal.style.display = "none";
-      } else if (event.target === committeeModal) {
+      }
+      
+      // إذا كان منبثق اللجنة (الكوميتي) مفتوحاً وضغطت وراه، يسكر الـ الكوميتي بالكامل
+      if (event.target === committeeModal) {
         committeeModal.style.display = "none";
-      } else if (event.target === logoModal) {
+      }
+      
+      // إذا كان منبثق السؤال عن اللوجو مفتوحاً وضغطت وراه، يسكر
+      if (event.target === logoModal) {
         closeLogoModal();
       }
     }
