@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FRANMUN</title>
-  <link rel="icon" type="image/png" href="logo.jpeg.JPG">
+  <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <style>
     /* --- CSS MODERN DESIGN SYSTEM --- */
     :root {
@@ -95,51 +95,49 @@
       transform: scale(1.05);
     }
 
-    /* --- إصلاح تصميم فقاعة الأسئلة (Popup) لتناسب كل الشاشات --- */
+    /* --- إصلاح تصميم فقاعة الأسئلة (Popup) لتظهر للداخل دون الخروج من الشاشة --- */
     .logo-popup {
       display: none; 
       position: absolute;
       top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0; /* يبدأ من الحافة اليسرى للوجو ويتجه لليمين ليمنع الخروج تماماً */
       margin-top: 15px;
       background: #001a33;
-      border: 1px solid var(--accent-gold);
-      padding: 15px;
+      border: 2px solid var(--accent-gold);
+      padding: 16px;
       border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-      z-index: 200;
-      width: 280px; /* حجم ثابت ومناسب للشاشات الصغيرة والكبيرة */
+      box-shadow: 0 12px 35px rgba(0,0,0,0.7);
+      z-index: 999;
+      width: 280px; 
       text-align: center;
     }
 
-    /* السهم الصغير الموجه لأعلى الفقاعة */
+    /* تعديل مكان السهم الصغير الموجه لأعلى الفقاعة ليطابق التصميم الجديد */
     .logo-popup::before {
       content: "";
       position: absolute;
       bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 35px; /* يوضع تحت اللوجو تماماً وبدقة */
       border-width: 8px;
       border-style: solid;
       border-color: transparent transparent var(--accent-gold) transparent;
     }
 
     .logo-popup p {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 600;
       color: #fff;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .popup-btns {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
     }
 
     .popup-btn {
-      padding: 8px 20px;
+      padding: 8px 22px;
       border-radius: 6px;
       font-size: 13px;
       font-weight: 700;
@@ -165,14 +163,14 @@
     }
 
     .popup-btn.no:hover {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.2);
     }
 
-    /* --- تأثير شتاء الإيموجي 🙄 --- */
+    /* --- تأثير شتاء الإيموجي المطور 🙄 --- */
     .emoji-rain {
       position: fixed;
       top: -50px;
-      font-size: 24px;
+      font-size: 28px;
       pointer-events: none;
       z-index: 99999;
       animation: fall linear forwards;
@@ -180,7 +178,7 @@
 
     @keyframes fall {
       to {
-        transform: translateY(105vh) rotate(360deg);
+        transform: translateY(110vh) rotate(360deg);
       }
     }
 
@@ -540,15 +538,6 @@
       .header-text {
         text-align: right;
       }
-      /* على الشاشات الكبيرة نغير مكان بوب أب اللوجو قليلاً ليظهر بشكل ممتاز */
-      .logo-popup {
-        left: 0;
-        transform: translateX(0);
-      }
-      .logo-popup::before {
-        left: 40px;
-        transform: translateX(0);
-      }
     }
   </style>
 </head>
@@ -562,7 +551,7 @@
           <p>Did you ask yourself how we made it?</p>
           <div class="popup-btns">
             <a href="https://www.youtube.com/YOUR_VIDEO_URL" target="_blank" class="popup-btn yes" onclick="closeLogoPopup()">Yes</a>
-            <button class="popup-btn no" onclick="startEmojiRain()">No</button>
+            <button class="popup-btn no" onclick="startEmojiRain(event)">No</button>
           </div>
         </div>
       </div>
@@ -698,7 +687,8 @@
       }
     });
 
-    function startEmojiRain() {
+    function startEmojiRain(event) {
+      if(event) event.stopPropagation(); // تأمين الضغط المنفصل للزر
       closeLogoPopup();
       
       const rainInterval = setInterval(() => {
@@ -706,19 +696,19 @@
         emoji.innerText = "🙄";
         emoji.className = "emoji-rain";
         
-        emoji.style.left = Math.random() * 100 + "vw";
-        emoji.style.animationDuration = Math.random() * 1.5 + 1.5 + "s";
+        emoji.style.left = Math.random() * 95 + "vw"; // ضبط العرض لمنع ظهور الـ Scroll Bar
+        emoji.style.animationDuration = Math.random() * 1.5 + 1.2 + "s";
         
         document.body.appendChild(emoji);
         
         setTimeout(() => {
           emoji.remove();
-        }, 3000);
-      }, 70); 
+        }, 2500);
+      }, 60); 
 
       setTimeout(() => {
         clearInterval(rainInterval);
-      }, 3000);
+      }, 3000); // يستمر في التوليد لـ 3 ثوانٍ كاملة
     }
 
     const committeeData = {
