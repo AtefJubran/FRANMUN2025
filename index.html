@@ -77,7 +77,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    /* منطقة اللوجو والفقاعة */
+    /* منطقة اللوجو */
     .logo-container {
       position: relative;
       display: inline-block;
@@ -95,39 +95,43 @@
       transform: scale(1.05);
     }
 
-    /* --- إصلاح تصميم فقاعة الأسئلة (Popup) لتظهر للداخل دون الخروج من الشاشة --- */
-    .logo-popup {
+    /* --- نافذة الأسئلة الجديدة في منتصف الشاشة تماماً --- */
+    .logo-popup-modal {
       display: none; 
-      position: absolute;
-      top: 100%;
-      left: 0; /* يبدأ من الحافة اليسرى للوجو ويتجه لليمين ليمنع الخروج تماماً */
-      margin-top: 15px;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 8, 16, 0.85); 
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 15000; 
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .logo-popup-content {
       background: #001a33;
       border: 2px solid var(--accent-gold);
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 12px 35px rgba(0,0,0,0.7);
-      z-index: 999;
-      width: 280px; 
+      padding: 30px 25px;
+      border-radius: 18px;
+      max-width: 400px;
+      width: 100%;
       text-align: center;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+      animation: popupFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* تعديل مكان السهم الصغير الموجه لأعلى الفقاعة ليطابق التصميم الجديد */
-    .logo-popup::before {
-      content: "";
-      position: absolute;
-      bottom: 100%;
-      left: 35px; /* يوضع تحت اللوجو تماماً وبدقة */
-      border-width: 8px;
-      border-style: solid;
-      border-color: transparent transparent var(--accent-gold) transparent;
+    @keyframes popupFadeIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
-    .logo-popup p {
-      font-size: 14px;
+    .logo-popup-content p {
+      font-size: 16px;
       font-weight: 600;
       color: #fff;
-      margin-bottom: 14px;
+      margin-bottom: 20px;
     }
 
     .popup-btns {
@@ -137,9 +141,9 @@
     }
 
     .popup-btn {
-      padding: 8px 22px;
+      padding: 10px 26px;
       border-radius: 6px;
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
       text-decoration: none;
@@ -166,11 +170,10 @@
       background: rgba(255, 255, 255, 0.2);
     }
 
-    /* --- تأثير شتاء الإيموجي المطور 🙄 --- */
+    /* --- تأثير شتاء الإيموجي المطور بأحجام عشوائية --- */
     .emoji-rain {
       position: fixed;
-      top: -50px;
-      font-size: 28px;
+      top: -60px;
       pointer-events: none;
       z-index: 99999;
       animation: fall linear forwards;
@@ -178,7 +181,7 @@
 
     @keyframes fall {
       to {
-        transform: translateY(110vh) rotate(360deg);
+        transform: translateY(115vh) rotate(360deg);
       }
     }
 
@@ -546,14 +549,7 @@
   <div id="delegateContent">
     <header>
       <div class="logo-container">
-        <img src="logo.jpeg.JPG" alt="School Logo" onclick="toggleLogoPopup(event)">
-        <div class="logo-popup" id="logoQuestionPopup">
-          <p>Did you ask yourself how we made it?</p>
-          <div class="popup-btns">
-            <a href="https://youtu.be/RrOzHILUwUo?si=iM50FyjflGtHMDXF" target="_blank" class="popup-btn yes" onclick="closeLogoPopup()">Yes</a>
-            <button class="popup-btn no" onclick="startEmojiRain(event)">No</button>
-          </div>
-        </div>
+        <img src="logo.jpeg.JPG" alt="School Logo" onclick="openLogoModal(event)">
       </div>
       
       <div class="header-text">
@@ -661,6 +657,16 @@
     </div>
   </div>
 
+  <div class="logo-popup-modal" id="logoQuestionModal">
+    <div class="logo-popup-content">
+      <p>Did you ask yourself how we made it?</p>
+      <div class="popup-btns">
+        <a href="https://youtu.be/RrOzHILUwUo?si=iM50FyjflGtHMDXF" target="_blank" class="popup-btn yes" onclick="closeLogoModal()">Yes</a>
+        <button class="popup-btn no" onclick="startEmojiRain(event)">No</button>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <p>Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-gold);">franmun2025@gmail.com</a></p>
     <p>Franciscan Sister's School Nazareth</p>
@@ -670,45 +676,48 @@
   </footer>
 
   <script>
-    function toggleLogoPopup(event) {
-      event.stopPropagation(); 
-      const popup = document.getElementById("logoQuestionPopup");
-      popup.style.display = (popup.style.display === "block") ? "none" : "block";
+    /* --- دالات التحكم بنافذة اللوجو المنبثقة في منتصف الشاشة --- */
+    function openLogoModal(event) {
+      if(event) event.stopPropagation();
+      document.getElementById("logoQuestionModal").style.display = "flex";
     }
 
-    function closeLogoPopup() {
-      document.getElementById("logoQuestionPopup").style.display = "none";
+    function closeLogoModal() {
+      document.getElementById("logoQuestionModal").style.display = "none";
     }
 
-    document.addEventListener("click", function(event) {
-      const popup = document.getElementById("logoQuestionPopup");
-      if (popup && popup.style.display === "block") {
-        popup.style.display = "none";
-      }
-    });
-
+    /* --- دالة شتاء الإيموجي المطور بأحجام وسرعات مختلفة لمدة 5 ثوانٍ --- */
     function startEmojiRain(event) {
-      if(event) event.stopPropagation(); // تأمين الضغط المنفصل للزر
-      closeLogoPopup();
+      if(event) event.stopPropagation();
+      closeLogoModal(); // إغلاق النافذة فوراً
       
       const rainInterval = setInterval(() => {
         const emoji = document.createElement("div");
         emoji.innerText = "🙄";
         emoji.className = "emoji-rain";
         
-        emoji.style.left = Math.random() * 95 + "vw"; // ضبط العرض لمنع ظهور الـ Scroll Bar العرضي
+        // توزيع الإيموجي أفقياً عبر عرض الشاشة بشكل آمن
+        emoji.style.left = Math.random() * 95 + "vw"; 
+        
+        // توليد أحجام مختلفة عشوائياً بين 18px و 45px لتنويع الشكل بالكامل
+        const randomSize = Math.floor(Math.random() * (45 - 18 + 1)) + 18;
+        emoji.style.fontSize = randomSize + "px";
+        
+        // سرعة هبوط عشوائية منسقة لتتحرك الإيموجيات بشكل حركي ممتاز
         emoji.style.animationDuration = Math.random() * 1.5 + 1.2 + "s";
         
         document.body.appendChild(emoji);
         
+        // إزالة عنصر الـ DOM بعد الخروج لعدم استهلاك الذاكرة
         setTimeout(() => {
           emoji.remove();
-        }, 2500);
-      }, 60); 
+        }, 3000);
+      }, 50); 
 
+      // إيقاف التوليد بعد 5 ثوانٍ (5000ms) بالظبط وثبات الباقي ليخرج من الشاشة
       setTimeout(() => {
         clearInterval(rainInterval);
-      }, 3000); // يستمر في التوليد لـ 3 ثوانٍ كاملة
+      }, 5000); 
     }
 
     const committeeData = {
@@ -819,10 +828,16 @@
       document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
     }, 1000);
 
+    /* إغلاق أي نافذة مفتوحة عند الضغط بالخارج */
     window.onclick = function(event) {
       const committeeModal = document.getElementById("committeeModal");
+      const logoModal = document.getElementById("logoQuestionModal");
+      
       if (event.target === committeeModal) {
         committeeModal.style.display = "none";
+      }
+      if (event.target === logoModal) {
+        closeLogoModal();
       }
     }
 
