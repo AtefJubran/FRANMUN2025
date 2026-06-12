@@ -32,6 +32,42 @@
       color: var(--text-light);
       line-height: 1.6;
       overflow-x: hidden;
+      position: relative; /* ضروري لتحديد أبعاد اللوجو في الخلفية بدقة */
+    }
+
+    /* تأثير اللوجو الدائري الكبير والباهت في منتصف خلفية الصفحة الرئيسية */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      
+      /* حجم اللوجو الكبير (مأخوذ من كود الكرايسس المحدث) */
+      width: 80vw; 
+      height: 80vw;
+      max-width: 750px; 
+      max-height: 750px;
+      
+      /* الإبقاء على اسم اللوجو القديم كما هو دون تغيير */
+      background-image: url('logo.jpeg.JPG'); 
+      background-size: cover; /* لملء الدائرة بالكامل دون تشويه */
+      background-repeat: no-repeat;
+      background-position: center;
+      
+      /* جعل اللوجو دائرياً */
+      border-radius: 50%; 
+      
+      /* درجة البهتان الأنيقة مريحة للعين فوق الـ Cards */
+      opacity: 0.04; 
+      pointer-events: none; /* تضمن ألا يمنع اللوجو الضغط على أي زر */
+      z-index: 0; /* خلف الكروت تماماً */
+    }
+
+    /* تأمين ظهور عناصر ومحتويات الصفحة فوق اللوجو الشفاف */
+    #delegateContent, header, .main-container, footer {
+      position: relative;
+      z-index: 1;
     }
 
     /* --- PREMIUM HEADER --- */
