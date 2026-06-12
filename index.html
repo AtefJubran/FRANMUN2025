@@ -863,26 +863,15 @@
         topics: "The Fall of Constantina: Managing immediate dynamic updates, intelligence, and clandestine operations.",
         report: "https://google.com",
         chairs: [
-          { name: "Jamal Elias", img: "crisis_chair1.png", bio: "      "CRISIS": {
-        topics: "The Fall of Constantina: Managing immediate dynamic updates, intelligence, and clandestine operations.",
-        report: "https://google.com",
-        chairs: [
           { 
             name: "Jamal Elias", 
             img: "crisis_chair1.png", 
             bio: `Hello dear delegates !!!
 My name is Jamal and I’m so excited to be serving as a chair in FRANMUN 2026 !!
 My MUN journey started one year ago and it was one of the best things that happened in my life , i met new friends , I developed my speaking skills in english and I improved my communication skills and confidence .
-Come with full energies and excitement and do your best and don’t forget to have fun !!` 
+Come with full energies and excitement and do your best and don’t forget to have fun !!`
           },
           { name: "Tala Saffury", img: "crisis_chair2.png", bio: "BIO COMING SOON..." }
-        ],
-        backroom: [
-          { name: "Jana Abd Elheem", img: "jana_profile.png", bio: "BIO COMING SOON..." },
-          { name: "Yousef Sarji", img: "crisis_backroom2.png", bio: "BIO COMING SOON..." }
-        ]
-      }
-" }
         ],
         backroom: [
           { name: "Jana Abd Elheem", img: "jana_profile.png", bio: "BIO COMING SOON..." },
@@ -895,7 +884,11 @@ Come with full energies and excitement and do your best and don’t forget to ha
       imgElement.src = "who.png";
     }
 
+    // لتخزين اسم اللجنة النشطة حالياً لتسهيل جلب البيانات
+    let currentActiveCommittee = "";
+
     function openModal(committee) {
+      currentActiveCommittee = committee;
       document.getElementById("committeeModal").style.display = "flex";
       document.getElementById("modalTitle").innerText = committee;
       
@@ -908,10 +901,9 @@ Come with full energies and excitement and do your best and don’t forget to ha
         document.getElementById("modalReportLink").href = data.report || "https://google.com";
         
         let chairsHTML = "";
-        data.chairs.forEach((chair) => {
-          const escapedBio = chair.bio.replace(/'/g, "\\'").replace(/"/g, '"');
+        data.chairs.forEach((chair, index) => {
           chairsHTML += `
-            <div class="chair-box" onclick="openBioPopup(event, '${chair.name}', '${chair.img}', '${escapedBio}')">
+            <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'chairs')">
               <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
               <div class="chair-name">${chair.name}</div>
             </div>`;
@@ -923,10 +915,9 @@ Come with full energies and excitement and do your best and don’t forget to ha
           backroomChairsContainer.style.display = "flex";
           
           let backroomHTML = "";
-          data.backroom.forEach((bChair) => {
-            const escapedBBio = bChair.bio.replace(/'/g, "\\'").replace(/"/g, '"');
+          data.backroom.forEach((bChair, index) => {
             backroomHTML += `
-              <div class="chair-box" onclick="openBioPopup(event, '${bChair.name}', '${bChair.img}', '${escapedBBio}')">
+              <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'backroom')">
                 <img src="${bChair.img}" alt="${bChair.name}" class="chair-img" style="border-color:#e74c3c;" onerror="this.src='logo.jpeg.JPG'">
                 <div class="chair-name" style="color:#e74c3c; font-weight:bold;">${bChair.name}</div>
               </div>`;
@@ -939,12 +930,20 @@ Come with full energies and excitement and do your best and don’t forget to ha
       }
     }
 
-    function openBioPopup(event, name, img, bio) {
-      if(event) event.stopPropagation(); // منع التسكير التلقائي الفوري عند الضغط لفتح البايو
-      document.getElementById("popupChairName").innerText = name;
-      document.getElementById("popupChairImg").src = img;
+    // دالة جديدة كلياً تفتح الـ Popup بأمان بناءً على الـ Index والـ Type
+    function openBioPopupFromIndex(event, index, type) {
+      if(event) event.stopPropagation();
+      
+      const committee = committeeData[currentActiveCommittee];
+      if(!committee) return;
+      
+      const targetChair = (type === 'backroom') ? committee.backroom[index] : committee.chairs[index];
+      if(!targetChair) return;
+
+      document.getElementById("popupChairName").innerText = targetChair.name;
+      document.getElementById("popupChairImg").src = targetChair.img;
       document.getElementById("popupChairImg").onerror = function() { this.src = 'logo.jpeg.JPG'; };
-      document.getElementById("popupChairBio").innerText = bio;
+      document.getElementById("popupChairBio").innerText = targetChair.bio;
       document.getElementById("bioPopupModal").style.display = "flex";
     }
 
@@ -982,23 +981,20 @@ Come with full energies and excitement and do your best and don’t forget to ha
       document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
     }, 1000);
 
-    /* --- التعديل السحري هنا: نظام إغلاق مستقل لكل نافذة بمجرد الضغط خارجها --- */
+    /* --- نظام إغلاق مستقل لكل نافذة بمجرد الضغط خارجها --- */
     window.onclick = function(event) {
       const committeeModal = document.getElementById("committeeModal");
       const bioPopupModal = document.getElementById("bioPopupModal");
       const logoModal = document.getElementById("logoQuestionModal");
       
-      // إذا كان منبثق الـ Bio مفتوحاً وضغطت وراه بالخلفية المعتمة، يسكر الـ Bio فقط
       if (event.target === bioPopupModal) {
         bioPopupModal.style.display = "none";
       }
       
-      // إذا كان منبثق اللجنة (الكوميتي) مفتوحاً وضغطت وراه، يسكر الـ الكوميتي بالكامل
       if (event.target === committeeModal) {
         committeeModal.style.display = "none";
       }
       
-      // إذا كان منبثق السؤال عن اللوجو مفتوحاً وضغطت وراه، يسكر
       if (event.target === logoModal) {
         closeLogoModal();
       }
