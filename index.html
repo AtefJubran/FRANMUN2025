@@ -463,7 +463,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 35px 25px 25px 25px;
       border-radius: 18px;
-      max-width: 460px;
+      max-width: 480px; /* تمديد بسيط للاتساع ليتناسب مع 3 تشيرز بصف واحد بشكل مريح */
       width: 100%;
       text-align: center;
       position: relative;
@@ -520,7 +520,7 @@
       background: rgba(0, 5, 10, 0.9);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      z-index: 20000; /* أعلى من كل شيء لضمان ظهورها المثالي فوق الـ modal الأساسي */
+      z-index: 20000; 
       justify-content: center;
       align-items: center;
       padding: 20px;
@@ -581,12 +581,11 @@
       font-size: 15px;
       text-align: justify;
       line-height: 1.6;
-      max-height: 250px; /* لضمان التعامل السلس والنظيف إذا كان النص طويلاً جداً */
+      max-height: 250px; 
       overflow-y: auto;
       padding-right: 8px;
     }
 
-    /* تخصيص السكرول بار للنصوص الطويلة */
     .bio-popup-text::-webkit-scrollbar {
       width: 5px;
     }
@@ -753,7 +752,7 @@
     </div>
   </div>
 
-  <!-- النافذة المنبثقة التفاعلية الجديدة (Pop-up) والمستقلة لعرض صورة التشير الكبيرة والـ Bio الطويل جداً -->
+  <!-- النافذة المنبثقة التفاعلية للـ Bio لعرض صورة التشير الكبيرة والـ Bio الطويل جداً -->
   <div id="bioPopupModal" class="bio-popup-modal">
     <div class="bio-popup-content">
       <span class="close-bio-btn" onclick="closeBioPopup()">×</span>
@@ -817,14 +816,15 @@
       }, 5000); 
     }
 
-    /* قاعدة البيانات المحدثة: تقسيم لجنة الـ Crisis لـ Chairs و Backroom مخصص لـ جنى */
+    /* قاعدة البيانات المحدثة: 3 تشيرز لكل اللجان، ولجنة الكرايسس مقسمة (2 تشيرز + جنى باكروم) */
     const committeeData = {
       "UNWOMEN": {
         topics: "Empowering women in post-conflict economic restructuring and ensuring political representation.",
         report: "https://google.com", 
         chairs: [
-          { name: "Maya Lin", img: "unwomen_chair1.png", bio: "Maya is an International Relations major with 4 years of MUN experience. She is passionate about human rights and diplomatic solutions. This text can be as long as you want because it will open inside a dedicated and scrollable responsive premium pop-up modal." }, 
-          { name: "Sarah J.", img: "unwomen_chair2.png", bio: "Sarah focuses on economic development policy and loves guiding new delegates to find their voices during complex resolution structuring phases." }
+          { name: "Maya Lin", img: "unwomen_chair1.png", bio: "Maya is an International Relations major with 4 years of MUN experience. She is passionate about human rights and diplomatic solutions." }, 
+          { name: "Sarah J.", img: "unwomen_chair2.png", bio: "Sarah focuses on economic development policy and loves guiding new delegates to find their voices during complex resolution structuring phases." },
+          { name: "Chloe Smith", img: "unwomen_chair3.png", bio: "Chloe is a human rights advocate specializing in gender equality legislation and legal reform in emerging democracies." }
         ]
       },
       "UNHRC": {
@@ -832,7 +832,8 @@
         report: "https://google.com",
         chairs: [
           { name: "Alex Wong", img: "unhrc_chair1.png", bio: "Alex has chaired over 10 conferences globally. He specializes in international humanitarian law and geopolitical affairs." },
-          { name: "Elena Rostova", img: "unhrc_chair2.png", bio: "Elena is a political analyst passionate about digital civil liberties, metadata rights, and international network security protocols." }
+          { name: "Elena Rostova", img: "unhrc_chair2.png", bio: "Elena is a political analyst passionate about digital civil liberties, metadata rights, and international network security protocols." },
+          { name: "David K.", img: "unhrc_chair3.png", bio: "David focuses on civil liberties, minority protections, and monitoring structural institutional compliance worldwide." }
         ]
       },
       "DISEC": {
@@ -840,7 +841,8 @@
         report: "https://google.com",
         chairs: [
           { name: "David Miller", img: "disec_chair1.png", bio: "David is a security strategy consultant who values strict procedural knowledge and intense, comprehensive security policy tracking." },
-          { name: "Sana Ahmed", img: "disec_chair2.png", bio: "Sana studies cybersecurity policy and brings a fresh technical lens to international security frameworks and global modern warfare protocols." }
+          { name: "Sana Ahmed", img: "disec_chair2.png", bio: "Sana studies cybersecurity policy and brings a fresh technical lens to international security frameworks and global modern warfare protocols." },
+          { name: "Michael Chang", img: "disec_chair3.png", bio: "Michael specializes in non-proliferation treaties, tactical arms reduction modeling, and modern orbital space defense initiatives." }
         ]
       },
       "WHO": {
@@ -848,7 +850,8 @@
         report: "https://google.com",
         chairs: [
           { name: "Dr. Omar Farooq", img: "who_chair1.png", bio: "Omar is a public health researcher who loves seeing innovative solutions applied directly to modern healthcare crisis structures and epidemiological systems." },
-          { name: "Lisa Chang", img: "who_chair2.png", bio: "Lisa enjoys guiding delegates through intricate statistical medical data to construct highly realistic, executable global policy frameworks." }
+          { name: "Lisa Chang", img: "who_chair2.png", bio: "Lisa enjoys guiding delegates through intricate statistical medical data to construct highly realistic, executable global policy frameworks." },
+          { name: "Anna Schmidt", img: "who_chair3.png", bio: "Anna is a bioethicist dedicated to global healthcare distribution equity, medical supply chain resilience, and vaccine diplomacy." }
         ]
       },
       "UNHSC": {
@@ -856,7 +859,8 @@
         report: "https://google.com",
         chairs: [
           { name: "James Sterling", img: "unhsc_chair1.png", bio: "James is a history professor enthusiast who expects deep contextual accuracy and chronological awareness from his council delegates." },
-          { name: "Nina Patel", img: "unhsc_chair2.png", bio: "Nina specializes in global diplomatic milestones and highly dynamic historic crisis steering simulations." }
+          { name: "Nina Patel", img: "unhsc_chair2.png", bio: "Nina specializes in global diplomatic milestones and highly dynamic historic crisis steering simulations." },
+          { name: "Robert Vance", img: "unhsc_chair3.png", bio: "Robert is a geopolitical archivist focusing on Cold War proxy dynamics and the operational evolution of UN peacekeeping mandates." }
         ]
       },
       "CRISIS": {
@@ -888,7 +892,7 @@
         document.getElementById("modalTopics").innerText = data.topics;
         document.getElementById("modalReportLink").href = data.report || "https://google.com";
         
-        // بناء رؤساء اللجان العاديين
+        // بناء الـ Chairs
         let chairsHTML = "";
         data.chairs.forEach((chair) => {
           const escapedBio = chair.bio.replace(/'/g, "\\'").replace(/"/g, '&quot;');
@@ -966,7 +970,7 @@
       document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
     }, 1000);
 
-    /* نظام الإغلاق الذكي عند الضغط خارج النوافذ لتسهيل التصفح للوفود */
+    /* نظام الإغلاق الذكي عند الضغط خارج النوافذ */
     window.onclick = function(event) {
       const committeeModal = document.getElementById("committeeModal");
       const logoModal = document.getElementById("logoQuestionModal");
