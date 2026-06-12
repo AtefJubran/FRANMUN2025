@@ -43,7 +43,7 @@
       width: 70vw;
       height: 70vw;
       max-width: 600px;
-      max-height: 600px;
+      max-max-height: 600px;
       background-image: url('logo.jpeg.JPG');
       background-size: cover;
       background-repeat: no-repeat;
@@ -98,7 +98,7 @@
 
     /* --- MAIN DASHBOARD INTERFACE (HIDDEN BY DEFAULT) --- */
     .dashboard-container {
-      display: none; /* تظهر بعد التسجيل الناجح */
+      display: none; 
       position: relative;
       z-index: 1;
       max-width: 1400px;
@@ -341,7 +341,7 @@
       <input type="text" id="usernameInput" placeholder="Username">
       <input type="password" id="passwordInput" placeholder="Password">
       <div class="error-msg" id="loginError">Invalid Username or Password!</div>
-      <button class="btn btn-gold" style="width: 100%; padding: 12px;" onclick="handleLogin()">Login to Dashboard</button>
+      <button class="btn btn-gold" style="width: 100%; padding: 12px;" onclick="handleLogin(event)">Login to Dashboard</button>
     </div>
   </div>
 
@@ -444,7 +444,9 @@
     let speakerRunning = false;
 
     /* ================= AUTHENTICATION SYSTEM ================= */
-    function handleLogin() {
+    function handleLogin(event) {
+      if(event) event.preventDefault(); // منع الصفحة من الـ Refresh التلقائي المحبط!
+      
       const user = document.getElementById("usernameInput").value.trim();
       const pass = document.getElementById("passwordInput").value.trim();
       const error = document.getElementById("loginError");
@@ -479,7 +481,7 @@
         if(country.status === "Present") badgeClass = "status-present";
         if(country.status === "Present & Voting") badgeClass = "status-voting";
 
-        // تقنية الـ Fast-Add: إضافة زر الإضافة السريعة للقائمة فقط إذا كانت الدولة حاضرة
+        // تقنية الـ Fast-Add
         const fastAddButton = country.status !== "Absent" 
           ? `<button class="btn-fast-add" onclick="fastAddSpeaker('${country.name}')">+ Add to List</button>` 
           : '';
@@ -517,7 +519,6 @@
     function toggleStatus(index) {
       const current = countries[index].status;
       
-      // فحص إذا كانت اللجنة الحالية هي الـ Crisis لإلغاء الـ Present & Voting تلقائياً
       if (currentCommittee && currentCommittee.isCrisis) {
         countries[index].status = (current === "Absent") ? "Present" : "Absent";
       } else {
@@ -530,7 +531,6 @@
 
     /* ================= FAST SPEAKERS ADD TECHNIQUE ================= */
     function fastAddSpeaker(countryName) {
-      // منع تكرار نفس الدولة المتحدثة مباشرة وراء بعضها لتسهيل العمل
       speakersQueue.push(countryName);
       renderSpeakers();
     }
@@ -567,7 +567,7 @@
       if(speakersQueue.length > 0) {
         speakersQueue.shift();
         renderSpeakers();
-        resetSpeakerTimer(); // تصفير عداد المتحدث الفردي تلقائياً عند الانتقال للتالي
+        resetSpeakerTimer(); 
       }
     }
 
@@ -577,8 +577,6 @@
     }
 
     /* ================= SYSTEM DUAL TIMERS ENGINES ================= */
-    
-    // 1. إدارة تايمر الموشن الكلي (بالدقائق)
     function updateMotionDisplay() {
       const mins = Math.floor(motionSeconds / 60);
       const secs = motionSeconds % 60;
@@ -614,7 +612,6 @@
       updateMotionDisplay();
     }
 
-    // 2. إدارة تايمر المتحدث الفردي (بالثواني)
     function updateSpeakerDisplay() {
       const mins = Math.floor(speakerSeconds / 60);
       const secs = speakerSeconds % 60;
