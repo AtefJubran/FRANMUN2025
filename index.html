@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="logo.jpeg.JPG"/>
   <title>FRANMUN</title>
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <style>
@@ -32,7 +32,7 @@
       color: var(--text-light);
       line-height: 1.6;
       overflow-x: hidden;
-      position: relative; /* ضروري لتحديد أبعاد اللوجو في الخلفية بدقة */
+      position: relative; 
     }
 
     /* تأثير اللوجو الدائري الكبير والباهت في منتصف خلفية الصفحة الرئيسية */
@@ -42,26 +42,18 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      
-      /* حجم اللوجو الكبير (مأخوذ من كود الكرايسس المحدث) */
       width: 80vw; 
       height: 80vw;
       max-width: 750px; 
       max-height: 750px;
-      
-      /* الإبقاء على اسم اللوجو القديم كما هو دون تغيير */
       background-image: url('logo.jpeg.JPG'); 
-      background-size: cover; /* لملء الدائرة بالكامل دون تشويه */
+      background-size: cover; 
       background-repeat: no-repeat;
       background-position: center;
-      
-      /* جعل اللوجو دائرياً */
       border-radius: 50%; 
-      
-      /* درجة البهتان الأنيقة مريحة للعين فوق الـ Cards */
       opacity: 0.04; 
-      pointer-events: none; /* تضمن ألا يمنع اللوجو الضغط على أي زر */
-      z-index: 0; /* خلف الكروت تماماً */
+      pointer-events: none; 
+      z-index: 0; 
     }
 
     /* تأمين ظهور عناصر ومحتويات الصفحة فوق اللوجو الشفاف */
@@ -85,35 +77,112 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
+    /* منطقة اللوجو والفقاعة */
+    .logo-container {
+      position: relative;
+      display: inline-block;
+    }
+
     header img {
       max-width: 85px;
       height: auto;
       filter: drop-shadow(0 0 12px rgba(223, 183, 44, 0.3));
       transition: var(--transition-smooth);
+      cursor: pointer; /* جعل اللوجو كبسة */
     }
     
     header img:hover {
       transform: scale(1.05);
     }
 
-    .header-text {
-      flex: 1;
+    /* --- تصميم فقاعة الأسئلة (Popup) --- */
+    .logo-popup {
+      display: none; /* مخفية بالوضع الطبيعي */
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 15px;
+      background: #001a33;
+      border: 1px solid var(--accent-gold);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      z-index: 200;
+      width: 260px;
+      text-align: center;
     }
 
-    header h1 {
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 5px;
-      background: linear-gradient(120deg, #ffffff 50%, var(--accent-gold) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      word-wrap: break-word;
+    /* السهم الصغير الموجه لأعلى الفقاعة */
+    .logo-popup::before {
+      content: "";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 8px;
+      border-style: solid;
+      border-color: transparent transparent var(--accent-gold) transparent;
     }
 
-    .highlight {
-      color: var(--accent-gold);
+    .logo-popup p {
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 12px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+
+    .popup-btns {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .popup-btn {
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-size: 13px;
       font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .popup-btn.yes {
+      background: var(--accent-gold);
+      color: var(--primary-dark);
+      border: none;
+    }
+
+    .popup-btn.yes:hover {
+      background: var(--accent-gold-hover);
+    }
+
+    .popup-btn.no {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .popup-btn.no:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* --- تأثير شتاء الإيموجي 🙄 --- */
+    .emoji-rain {
+      position: fixed;
+      top: -50px;
+      font-size: 24px;
+      pointer-events: none;
+      z-index: 99999;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(105vh) rotate(360deg);
+      }
     }
 
     /* --- LAYOUT CONTAINER --- */
@@ -479,7 +548,17 @@
 
   <div id="delegateContent">
     <header>
-      <img src="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" alt="School Logo">
+      <div class="logo-container">
+        <img src="logo.jpeg.JPG" alt="School Logo" onclick="toggleLogoPopup(event)">
+        <div class="logo-popup" id="logoQuestionPopup">
+          <p>Did you ask yourself how we made it?</p>
+          <div class="popup-btns">
+            <a href="https://www.youtube.com/YOUR_VIDEO_URL" target="_blank" class="popup-btn yes" onclick="closeLogoPopup()">Yes</a>
+            <button class="popup-btn no" onclick="startEmojiRain()">No</button>
+          </div>
+        </div>
+      </div>
+      
       <div class="header-text">
         <h1>Franciscan Sister's School MUN</h1>
         <p><span class="highlight">FRANMUN</span> | First Annual Conference</p>
@@ -594,6 +673,54 @@
   </footer>
 
   <script>
+    /* --- كود التحكم بالـ Popup الخاص باللوجو ومطر الإيموجي --- */
+    function toggleLogoPopup(event) {
+      event.stopPropagation(); // منع إغلاق الفقاعة فوراً عند الضغط عليها
+      const popup = document.getElementById("logoQuestionPopup");
+      popup.style.display = (popup.style.display === "block") ? "none" : "block";
+    }
+
+    function closeLogoPopup() {
+      document.getElementById("logoQuestionPopup").style.display = "none";
+    }
+
+    // إغلاق بوب أب اللوجو إذا ضغط المستخدم في أي مكان خارجها
+    document.addEventListener("click", function(event) {
+      const popup = document.getElementById("logoQuestionPopup");
+      if (popup && popup.style.display === "block") {
+        popup.style.display = "none";
+      }
+    });
+
+    function startEmojiRain() {
+      closeLogoPopup();
+      
+      // بدء توليد المطر لمدة 3 ثوانٍ
+      const rainInterval = setInterval(() => {
+        const emoji = document.createElement("div");
+        emoji.innerText = "🙄";
+        emoji.className = "emoji-rain";
+        
+        // توزيع عشوائي للإيموجي على عرض الشاشة بالكامل
+        emoji.style.left = Math.random() * 100 + "vw";
+        // سرعة هبوط عشوائية خفيفة
+        emoji.style.animationDuration = Math.random() * 1.5 + 1.5 + "s";
+        
+        document.body.appendChild(emoji);
+        
+        // مسح عنصر الإيموجي من الـ DOM بعد انتهاء الحركة
+        setTimeout(() => {
+          emoji.remove();
+        }, 3000);
+      }, 70); // يولد إيموجي كل 70 مللي ثانية
+
+      // إيقاف التوليد بعد 3 ثوانٍ بالظبط
+      setTimeout(() => {
+        clearInterval(rainInterval);
+      }, 3000);
+    }
+
+
     const committeeData = {
       "UNWOMEN": {
         topics: "Topic A: Coming Soon\nTopic B: Coming Soon",
