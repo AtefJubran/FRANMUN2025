@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FRANMUN | Chairs Dashboard</title>
+  <style>
+    /* --- DESIGN SYSTEM FOR PROJECTOR VISIBILITY (DARK MODE) --- */
+    :root {
+      --bg-dark: #0a1128;
+      --card-bg: #111a36;
+      --accent-gold: #dfb72c;
+      --text-light: #ffffff;
+      --text-muted: #a0aec0;
+      --btn-green: #2ecc71;
+      --btn-red: #e74c3c;
+      --btn-blue: #3498db;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #112244 0%, var(--bg-dark) 100%);
+      background-attachment: fixed;
+      color: var(--text-light);
+      padding: 20px;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* تأثير اللوجو الشفاف في الخلفية مثل باقي الصفحات */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70vw;
+      height: 70vw;
+      max-width: 600px;
+      max-height: 600px;
+      background-image: url('logo.jpeg.JPG');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 50%;
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .dashboard-container {
+      position: relative;
+      z-index: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 2px solid var(--accent-gold);
+      padding-bottom: 15px;
+    }
+
+    header h1 {
+      color: var(--accent-gold);
+      font-size: 32px;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    /* --- GRID LAYOUT --- */
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 25px;
+    }
+
+    @media (max-width: 950px) {
+      .grid-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    }
+
+    .panel h2 {
+      color: var(--accent-gold);
+      font-size: 20px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 8px;
+    }
+
+    /* --- TIMER CONTROL SYSTEM --- */
+    .timer-section {
+      grid-column: 1 / -1;
+      text-align: center;
+      background: #0d1730;
+      border: 2px solid var(--accent-gold);
+    }
+
+    .timer-display {
+      font-size: 90px;
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      color: var(--text-light);
+      margin: 10px 0;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .timer-display.warning {
+      color: #f1c40f;
+    }
+
+    .timer-display.danger {
+      color: var(--btn-red);
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0.5; }
+    }
+
+    .timer-inputs {
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .timer-inputs input {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--text-muted);
+      color: white;
+      padding: 8px;
+      border-radius: 6px;
+      width: 100px;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.9;
+    }
+
+    .btn-start { background: var(--btn-green); color: white; }
+    .btn-pause { background: var(--btn-blue); color: white; }
+    .btn-reset { background: var(--btn-red); color: white; }
+    .btn-gold { background: var(--accent-gold); color: var(--bg-dark); }
+
+    /* --- ROLL CALL SYSTEM --- */
+    .input-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .input-group input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      padding: 10px;
+      color: white;
+      font-size: 14px;
+    }
+
+    .rollcall-list {
+      max-height: 400px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      padding: 5px;
+    }
+
+    .country-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .country-name {
+      font-size: 15px;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    .status-badge {
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    .status-absent { background: #555; color: #ccc; }
+    .status-present { background: #2980b9; color: white; }
+    .status-voting { background: #27ae60; color: white; }
+
+    .btn-remove {
+      background: transparent;
+      border: none;
+      color: #e74c3c;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 0 5px;
+    }
+
+    /* --- SPEAKERS LIST SYSTEM --- */
+    .speakers-queue {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      min-height: 150px;
+      padding: 10px;
+      margin-bottom: 15px;
+    }
+
+    .speaker-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      margin-bottom: 8px;
+      padding: 12px 15px;
+      border-radius: 6px;
+      border-left: 4px solid var(--accent-gold);
+    }
+
+    .speaker-item:first-child {
+      background: rgba(223, 183, 44, 0.15);
+      border-left: 4px solid #fff;
+    }
+
+    .speaker-index {
+      font-weight: bold;
+      color: var(--accent-gold);
+      margin-right: 10px;
+    }
+
+    .speaker-controls {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .speaker-controls select {
+      flex: 1;
+      background: #0a1128;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard-container">
+    <header>
+      <h1>FRANMUN | Chairs Console</h1>
+      <p>Screen layout optimized for high-clarity Projector casting</p>
+    </header>
+
+    <div class="grid-layout">
+      
+      <!-- ================= TIMER PANEL ================= -->
+      <div class="panel timer-section">
+        <h2>Session Countdown Timer</h2>
+        <div class="timer-inputs">
+          <label>Set Seconds:</label>
+          <input type="number" id="timerInput" value="60" min="1">
+          <button class="btn btn-gold" onclick="setPresetTimer(60)">GSL (60s)</button>
+          <button class="btn btn-gold" onclick="setPresetTimer(90)">Mod (90s)</button>
+        </div>
+        
+        <div class="timer-display" id="clockDisplay">01:00</div>
+        
+        <div style="display: flex; justify-content: center; gap: 15px; margin-top: 10px;">
+          <button class="btn btn-start" id="startBtn" onclick="startTimer()">Start</button>
+          <button class="btn btn-pause" id="pauseBtn" onclick="pauseTimer()">Pause</button>
+          <button class="btn btn-reset" id="resetBtn" onclick="resetTimer()">Reset</button>
+        </div>
+      </div>
+
+      <!-- ================= ROLL CALL PANEL ================= -->
+      <div class="panel">
+        <h2>Roll Call & Countries List</h2>
+        <div class="input-group">
+          <input type="text" id="countryInput" placeholder="Enter country name...">
+          <button class="btn btn-start" onclick="addCountry()">Add</button>
+        </div>
+        <div class="rollcall-list" id="rollcallContainer">
+          <!-- Countries will render here dynamically -->
+        </div>
+      </div>
+
+      <!-- ================= SPEAKERS LIST PANEL ================= -->
+      <div class="panel">
+        <h2>Speakers List Management</h2>
+        <div class="speaker-controls">
+          <select id="countrySelect">
+            <option value="">-- Select Country to Add --</option>
+          </select>
+          <button class="btn btn-start" onclick="addSpeakerToQueue()">Add to List</button>
+        </div>
+        
+        <div class="speakers-queue" id="speakersContainer">
+          <!-- Speakers flow will display here -->
+        </div>
+        
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-reset" style="width: 100%;" onclick="clearFinishedSpeaker()">Remove Current Speaker</button>
+          <button class="btn btn-pause" style="width: 100%; background-color: #7f8c8d;" onclick="clearAllSpeakers()">Clear All</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // --- INITIAL DATA & COUNTRIES BASE ---
+    let countries = [
+      { name: "United States", status: "Present & Voting" },
+      { name: "United Kingdom", status: "Present" },
+      { name: "France", status: "Present" },
+      { name: "Saudi Arabia", status: "Absent" },
+      { name: "Palestine", status: "Present & Voting" },
+      { name: "Egypt", status: "Present" },
+      { name: "China", status: "Absent" }
+    ];
+
+    let speakersQueue = [];
+
+    // --- TIMER VARIABLES ---
+    let countdown;
+    let totalSeconds = 60;
+    let initialSeconds = 60;
+    let isRunning = false;
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+      renderRollCall();
+      updateSpeakerDropdown();
+      updateTimerDisplay();
+    };
+
+    /* ================= ROLL CALL LOGIC ================= */
+    function renderRollCall() {
+      const container = document.getElementById("rollcallContainer");
+      container.innerHTML = "";
+      
+      countries.sort((a,b) => a.name.localeCompare(b.name)).forEach((country, index) => {
+        let badgeClass = "status-absent";
+        if(country.status === "Present") badgeClass = "status-present";
+        if(country.status === "Present & Voting") badgeClass = "status-voting";
+
+        container.innerHTML += `
+          <div class="country-row">
+            <span class="country-name">${country.name}</span>
+            <div>
+              <span class="status-badge ${badgeClass}" onclick="toggleStatus(${index})">${country.status}</span>
+              <button class="btn-remove" onclick="removeCountry(${index})">×</button>
+            </div>
+          </div>
+        `;
+      });
+      updateSpeakerDropdown();
+    }
+
+    function addCountry() {
+      const input = document.getElementById("countryInput");
+      const name = input.value.trim();
+      if(name) {
+        countries.push({ name: name, status: "Present" });
+        input.value = "";
+        renderRollCall();
+      }
+    }
+
+    function removeCountry(index) {
+      countries.splice(index, 1);
+      renderRollCall();
+    }
+
+    function toggleStatus(index) {
+      const current = countries[index].status;
+      if(current === "Absent") countries[index].status = "Present";
+      else if(current === "Present") countries[index].status = "Present & Voting";
+      else countries[index].status = "Absent";
+      renderRollCall();
+    }
+
+    function updateSpeakerDropdown() {
+      const select = document.getElementById("countrySelect");
+      select.innerHTML = '<option value="">-- Select Country to Add --</option>';
+      
+      // فقط الدول الحاضرة تظهر في قائمة المتحدثين
+      countries.filter(c => c.status !== "Absent").forEach(c => {
+        select.innerHTML += `<option value="${c.name}">${c.name}</option>`;
+      });
+    }
+
+
+    /* ================= SPEAKERS LIST LOGIC ================= */
+    function renderSpeakers() {
+      const container = document.getElementById("speakersContainer");
+      container.innerHTML = "";
+
+      if(speakersQueue.length === 0) {
+        container.innerHTML = '<div style="color:var(--text-muted); text-align:center; padding-top:60px;">No speakers in queue.</div>';
+        return;
+      }
+
+      speakersQueue.forEach((speaker, index) => {
+        const label = index === 0 ? " [Speaking]" : "";
+        container.innerHTML += `
+          <div class="speaker-item">
+            <div>
+              <span class="speaker-index">#${index + 1}</span>
+              <strong>${speaker}</strong> ${label}
+            </div>
+            <button class="btn-remove" onclick="removeSpecificSpeaker(${index})">×</button>
+          </div>
+        `;
+      });
+    }
+
+    function addSpeakerToQueue() {
+      const select = document.getElementById("countrySelect");
+      const selectedCountry = select.value;
+      if(selectedCountry) {
+        speakersQueue.push(selectedCountry);
+        select.value = "";
+        renderSpeakers();
+      }
+    }
+
+    function removeSpecificSpeaker(index) {
+      speakersQueue.splice(index, 1);
+      renderSpeakers();
+    }
+
+    function clearFinishedSpeaker() {
+      if(speakersQueue.length > 0) {
+        speakersQueue.shift(); // حذف المتحدث الحالي والانتقال للتالي
+        renderSpeakers();
+        resetTimer(); // تصفير العداد للمتحدث الجديد تلقائياً
+      }
+    }
+
+    function clearAllSpeakers() {
+      speakersQueue = [];
+      renderSpeakers();
+    }
+
+
+    /* ================= TIMER LOGIC ================= */
+    function updateTimerDisplay() {
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      const display = document.getElementById("clockDisplay");
+      
+      display.innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+      
+      // ألوان تحذيرية للمشروع على الشاشة
+      display.className = "timer-display";
+      if(totalSeconds <= 10 && totalSeconds > 0) {
+        display.classList.add("warning");
+      } else if (totalSeconds === 0) {
+        display.classList.add("danger");
+      }
+    }
+
+    function startTimer() {
+      if (isRunning) return;
+      
+      // قراءة المدة المدخلة إذا تم تحديثها يدوياً والعداد متوقف
+      if (totalSeconds === initialSeconds) {
+        const inputVal = parseInt(document.getElementById("timerInput").value);
+        if(!isNaN(inputVal) && inputVal > 0 && initialSeconds !== inputVal) {
+          totalSeconds = inputVal;
+          initialSeconds = inputVal;
+        }
+      }
+
+      isRunning = true;
+      countdown = setInterval(() => {
+        if(totalSeconds > 0) {
+          totalSeconds--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(countdown);
+          isRunning = false;
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(countdown);
+      isRunning = false;
+    }
+
+    function resetTimer() {
+      clearInterval(countdown);
+      isRunning = false;
+      const inputVal = parseInt(document.getElementById("timerInput").value);
+      totalSeconds = !isNaN(inputVal) ? inputVal : 60;
+      initialSeconds = totalSeconds;
+      updateTimerDisplay();
+    }
+
+    function setPresetTimer(seconds) {
+      document.getElementById("timerInput").value = seconds;
+      resetTimer();
+    }
+  </script>
+</body>
+</html>
