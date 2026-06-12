@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="logo.jpeg.JPG"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FRANMUN</title>
-  <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
+  <link rel="icon" type="image/png" href="logo.jpeg.JPG">
   <style>
     /* --- CSS MODERN DESIGN SYSTEM --- */
     :root {
@@ -88,16 +88,16 @@
       height: auto;
       filter: drop-shadow(0 0 12px rgba(223, 183, 44, 0.3));
       transition: var(--transition-smooth);
-      cursor: pointer; /* جعل اللوجو كبسة */
+      cursor: pointer; 
     }
     
     header img:hover {
       transform: scale(1.05);
     }
 
-    /* --- تصميم فقاعة الأسئلة (Popup) --- */
+    /* --- إصلاح تصميم فقاعة الأسئلة (Popup) لتناسب كل الشاشات --- */
     .logo-popup {
-      display: none; /* مخفية بالوضع الطبيعي */
+      display: none; 
       position: absolute;
       top: 100%;
       left: 50%;
@@ -109,7 +109,7 @@
       border-radius: 12px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.6);
       z-index: 200;
-      width: 260px;
+      width: 280px; /* حجم ثابت ومناسب للشاشات الصغيرة والكبيرة */
       text-align: center;
     }
 
@@ -130,7 +130,6 @@
       font-weight: 600;
       color: #fff;
       margin-bottom: 12px;
-      font-family: 'Segoe UI', Arial, sans-serif;
     }
 
     .popup-btns {
@@ -140,7 +139,7 @@
     }
 
     .popup-btn {
-      padding: 6px 16px;
+      padding: 8px 20px;
       border-radius: 6px;
       font-size: 13px;
       font-weight: 700;
@@ -541,6 +540,15 @@
       .header-text {
         text-align: right;
       }
+      /* على الشاشات الكبيرة نغير مكان بوب أب اللوجو قليلاً ليظهر بشكل ممتاز */
+      .logo-popup {
+        left: 0;
+        transform: translateX(0);
+      }
+      .logo-popup::before {
+        left: 40px;
+        transform: translateX(0);
+      }
     }
   </style>
 </head>
@@ -673,9 +681,8 @@
   </footer>
 
   <script>
-    /* --- كود التحكم بالـ Popup الخاص باللوجو ومطر الإيموجي --- */
     function toggleLogoPopup(event) {
-      event.stopPropagation(); // منع إغلاق الفقاعة فوراً عند الضغط عليها
+      event.stopPropagation(); 
       const popup = document.getElementById("logoQuestionPopup");
       popup.style.display = (popup.style.display === "block") ? "none" : "block";
     }
@@ -684,7 +691,6 @@
       document.getElementById("logoQuestionPopup").style.display = "none";
     }
 
-    // إغلاق بوب أب اللوجو إذا ضغط المستخدم في أي مكان خارجها
     document.addEventListener("click", function(event) {
       const popup = document.getElementById("logoQuestionPopup");
       if (popup && popup.style.display === "block") {
@@ -695,31 +701,25 @@
     function startEmojiRain() {
       closeLogoPopup();
       
-      // بدء توليد المطر لمدة 3 ثوانٍ
       const rainInterval = setInterval(() => {
         const emoji = document.createElement("div");
         emoji.innerText = "🙄";
         emoji.className = "emoji-rain";
         
-        // توزيع عشوائي للإيموجي على عرض الشاشة بالكامل
         emoji.style.left = Math.random() * 100 + "vw";
-        // سرعة هبوط عشوائية خفيفة
         emoji.style.animationDuration = Math.random() * 1.5 + 1.5 + "s";
         
         document.body.appendChild(emoji);
         
-        // مسح عنصر الإيموجي من الـ DOM بعد انتهاء الحركة
         setTimeout(() => {
           emoji.remove();
         }, 3000);
-      }, 70); // يولد إيموجي كل 70 مللي ثانية
+      }, 70); 
 
-      // إيقاف التوليد بعد 3 ثوانٍ بالظبط
       setTimeout(() => {
         clearInterval(rainInterval);
       }, 3000);
     }
-
 
     const committeeData = {
       "UNWOMEN": {
