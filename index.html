@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FRANMUN</title>
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     /* --- CSS MODERN DESIGN SYSTEM --- */
     :root {
@@ -17,6 +22,10 @@
       --text-light: #ffffff;
       --text-muted: #a0aec0;
       --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      /* تعيين الخطوط الجديدة في النظام */
+      --font-heading: 'Cinzel', Georgia, serif;
+      --font-body: 'Montserrat', sans-serif;
     }
 
     * {
@@ -26,13 +35,14 @@
     }
     
     body {
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: var(--font-body); /* الخط الافتراضي للنصوص */
       background: radial-gradient(circle at top, var(--secondary-blue) 0%, var(--primary-dark) 100%);
       background-attachment: fixed;
       color: var(--text-light);
       line-height: 1.6;
       overflow-x: hidden;
       position: relative; 
+      -webkit-font-smoothing: antialiased;
     }
 
     body::before {
@@ -90,6 +100,18 @@
     
     header img:hover {
       transform: scale(1.05);
+    }
+
+    header h1 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    header p {
+      font-weight: 400;
+      letter-spacing: 1px;
+      font-size: 14px;
     }
 
     /* --- LOGO POPUP MODAL --- */
@@ -202,10 +224,12 @@
     }
 
     .section h2 {
-      font-size: 24px;
+      font-family: var(--font-heading);
+      font-size: 26px;
       color: var(--accent-gold);
-      margin-bottom: 10px;
-      letter-spacing: 1px;
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+      font-weight: 700;
     }
 
     /* --- GLASSMORPHISM CARDS --- */
@@ -230,16 +254,19 @@
     }
 
     .card h3 {
-      font-size: 19px;
+      font-family: var(--font-heading);
+      font-size: 20px;
       color: var(--accent-gold);
-      margin-bottom: 15px;
+      margin-bottom: 18px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.5px;
+      font-weight: 700;
     }
 
     .card p {
       color: #e2e8f0;
       font-size: 15px;
+      font-weight: 400;
     }
 
     /* --- INTERACTIVE BUTTONS --- */
@@ -270,6 +297,7 @@
       flex: 1;
       min-width: 250px; 
       max-width: 320px;
+      letter-spacing: 0.5px;
     }
 
     .button:hover {
@@ -304,7 +332,7 @@
     }
 
     .countdown-number {
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       display: block;
       color: var(--accent-gold);
@@ -315,7 +343,8 @@
       font-size: 10px;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      font-weight: 500;
     }
 
     /* --- COMMITTEES DASHBOARD --- */
@@ -363,14 +392,15 @@
 
     /* --- CHAIRS PROFILES --- */
     .chairs-title {
-      font-weight: 600;
+      font-family: var(--font-heading);
+      font-weight: 700;
       margin-top: 25px;
       color: var(--text-light);
       border-top: 1px solid rgba(255, 255, 255, 0.1);
       padding-top: 15px;
       text-transform: uppercase;
-      font-size: 13px;
-      letter-spacing: 0.5px;
+      font-size: 14px;
+      letter-spacing: 1px;
     }
     
     .chairs-container {
@@ -413,12 +443,13 @@
 
     /* قسم مخصص وعنوان فرعي للباكروم بداخل الكرايسس */
     .backroom-section-title {
-      font-weight: 600;
+      font-family: var(--font-heading);
+      font-weight: 700;
       margin-top: 20px;
       color: #e74c3c;
       text-transform: uppercase;
-      font-size: 13px;
-      letter-spacing: 0.5px;
+      font-size: 14px;
+      letter-spacing: 1px;
     }
 
     .report-btn {
@@ -434,6 +465,7 @@
       font-size: 13px;
       font-weight: 600;
       transition: var(--transition-smooth);
+      letter-spacing: 0.5px;
     }
     
     .report-btn:hover {
@@ -491,6 +523,7 @@
     }
 
     .modal-close-button {
+      font-family: var(--font-body);
       display: block;
       width: 100%;
       max-width: 140px;
@@ -570,20 +603,23 @@
     }
 
     .bio-popup-name {
-      font-size: 20px;
+      font-family: var(--font-heading);
+      font-size: 22px;
       color: #fff;
       font-weight: 700;
       margin-bottom: 15px;
+      letter-spacing: 1px;
     }
 
     .bio-popup-text {
       color: #edf2f7;
       font-size: 15px;
       text-align: justify;
-      line-height: 1.6;
+      line-height: 1.7;
       max-height: 250px; 
       overflow-y: auto;
       padding-right: 8px;
+      font-weight: 400;
     }
 
     .bio-popup-text::-webkit-scrollbar {
@@ -610,13 +646,14 @@
     }
 
     .credits {
+      font-family: var(--font-heading);
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid rgba(255, 255, 255, 0.05);
       font-size: 13px;
       color: var(--accent-gold);
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      font-weight: 700;
+      letter-spacing: 1px;
     }
 
     @media (min-width: 768px) {
@@ -729,10 +766,10 @@
   <div id="committeeModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">×</span>
-      <h2 id="modalTitle" style="color: var(--accent-gold);">Committee Name</h2>
+      <h2 id="modalTitle" style="color: var(--accent-gold); font-family: var(--font-heading); letter-spacing: 1.5px;">Committee Name</h2>
       
       <div style="text-align: left; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
-        <strong style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase;">Topic:</strong>
+        <strong style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase; font-family: var(--font-heading); letter-spacing: 0.5px;">Topic:</strong>
         <p id="modalTopics" style="margin-top: 6px; color: #e2e8f0; font-size: 14px; white-space: pre-line;">Committee topic will go here.</p>
       </div>
 
@@ -762,7 +799,7 @@
 
   <div class="logo-popup-modal" id="logoQuestionModal">
     <div class="logo-popup-content">
-      <p>Did you ask yourself how we made it?</p>
+      <p style="font-family: var(--font-heading); letter-spacing: 0.5px;">Did you ask yourself how we made it?</p>
       <div class="popup-btns">
         <a href="https://youtu.be/RrOzHILUwUo?si=iM50FyjflGtHMDXF" target="_blank" class="popup-btn yes" onclick="closeLogoModal()">Yes</a>
         <button class="popup-btn no" onclick="startEmojiRain(event)">No</button>
@@ -884,7 +921,6 @@ Come with full energies and excitement and do your best and don’t forget to ha
       imgElement.src = "who.png";
     }
 
-    // لتخزين اسم اللجنة النشطة حالياً لتسهيل جلب البيانات
     let currentActiveCommittee = "";
 
     function openModal(committee) {
@@ -930,7 +966,6 @@ Come with full energies and excitement and do your best and don’t forget to ha
       }
     }
 
-    // دالة جديدة كلياً تفتح الـ Popup بأمان بناءً على الـ Index والـ Type
     function openBioPopupFromIndex(event, index, type) {
       if(event) event.stopPropagation();
       
@@ -981,7 +1016,6 @@ Come with full energies and excitement and do your best and don’t forget to ha
       document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
     }, 1000);
 
-    /* --- نظام إغلاق مستقل لكل نافذة بمجرد الضغط خارجها --- */
     window.onclick = function(event) {
       const committeeModal = document.getElementById("committeeModal");
       const bioPopupModal = document.getElementById("bioPopupModal");
