@@ -33,7 +33,6 @@
       position: relative;
     }
 
-    /* تأثير اللوجو الشفاف في الخلفية بثبات كامل */
     body::before {
       content: "";
       position: fixed;
@@ -43,7 +42,7 @@
       width: 70vw;
       height: 70vw;
       max-width: 600px;
-      max-max-height: 600px;
+      max-height: 600px;
       background-image: url('logo.jpeg.JPG');
       background-size: cover;
       background-repeat: no-repeat;
@@ -96,7 +95,7 @@
       display: none;
     }
 
-    /* --- MAIN DASHBOARD INTERFACE (HIDDEN BY DEFAULT) --- */
+    /* --- MAIN DASHBOARD INTERFACE --- */
     .dashboard-container {
       display: none; 
       position: relative;
@@ -107,7 +106,7 @@
 
     header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       border-bottom: 2px solid var(--accent-gold);
       padding-bottom: 15px;
     }
@@ -116,6 +115,41 @@
       color: var(--accent-gold);
       font-size: 34px;
       letter-spacing: 1px;
+    }
+
+    /* --- DYNAMIC & EDITABLE MOTION BOX --- */
+    .motion-topic-box {
+      background: rgba(223, 183, 44, 0.06);
+      border: 2px dashed var(--accent-gold);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .motion-topic-box label {
+      display: block;
+      font-size: 13px;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+
+    .motion-input-text {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      font-size: 26px;
+      font-weight: bold;
+      text-align: center;
+      outline: none;
+    }
+
+    .motion-input-text::placeholder {
+      color: rgba(255, 255, 255, 0.2);
     }
 
     /* --- GRID LAYOUT --- */
@@ -147,30 +181,42 @@
       padding-bottom: 8px;
     }
 
-    /* --- DUAL TIMERS CONTROL SYSTEM --- */
+    /* --- MASTER DUAL TIMERS SYSTEM --- */
     .timers-wrapper {
       grid-column: 1 / -1;
+      background: #0d1730;
+      border: 2px solid var(--accent-gold);
+      border-radius: 14px;
+      padding: 25px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    }
+
+    .timers-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 30px;
+      margin-bottom: 20px;
     }
 
     @media (max-width: 768px) {
-      .timers-wrapper {
+      .timers-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    .timer-card {
-      background: #0d1730;
-      border: 2px solid var(--accent-gold);
-      border-radius: 12px;
-      padding: 20px;
+    .timer-section {
       text-align: center;
+      padding: 10px;
+    }
+
+    .timer-section h3 {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
     }
 
     .timer-display {
-      font-size: 75px;
+      font-size: 80px;
       font-family: 'Courier New', Courier, monospace;
       font-weight: bold;
       color: var(--text-light);
@@ -190,7 +236,6 @@
       justify-content: center;
       align-items: center;
       gap: 8px;
-      margin-bottom: 10px;
       font-size: 14px;
       color: var(--text-muted);
     }
@@ -205,14 +250,22 @@
       text-align: center;
     }
 
+    .master-controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 20px;
+    }
+
     .btn {
-      padding: 8px 16px;
+      padding: 12px 30px;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
       transition: all 0.2s ease;
-      font-size: 13px;
+      font-size: 15px;
     }
 
     .btn:hover { transform: translateY(-1px); opacity: 0.9; }
@@ -335,6 +388,7 @@
 </head>
 <body>
 
+  <!-- ================= LOG IN BOX ================= -->
   <div class="login-container" id="loginBox">
     <h2>FRANMUN Chairs Login</h2>
     <div class="login-form">
@@ -345,63 +399,76 @@
     </div>
   </div>
 
+  <!-- ================= MAIN CHAIRS INTERFACE ================= -->
   <div class="dashboard-container" id="mainDashboard">
     <header>
       <h1 id="committeeHeaderTitle">FRANMUN | Committee Dashboard</h1>
     </header>
 
+    <!-- خانة نص الموشن الكبيرة والقابلة للتعديل بأي وقت -->
+    <div class="motion-topic-box">
+      <label>Current Motion / Topic</label>
+      <input type="text" class="motion-input-text" id="motionTopicInput" placeholder="Click here to type the motion topic..." value="Discussion on the current agenda item">
+    </div>
+
     <div class="grid-layout">
       
+      <!-- ================= MASTER DUAL TIMERS PANEL ================= -->
       <div class="timers-wrapper">
-        
-        <div class="timer-card">
-          <h2 style="font-size: 16px; margin-bottom: 10px;">Total Motion Time</h2>
-          <div class="timer-setup">
-            <label>Minutes:</label>
-            <input type="number" id="motionMinutesInput" value="10" min="1">
+        <div class="timers-grid">
+          
+          <!-- التايمر الأول: الدقائق الكلية للموشن -->
+          <div class="timer-section">
+            <h3>Total Motion Time</h3>
+            <div class="timer-setup">
+              <label>Minutes:</label>
+              <input type="number" id="motionMinutesInput" value="10" min="1" oninput="applyMotionInputTime()">
+            </div>
+            <div class="timer-display" id="motionClock">10:00</div>
           </div>
-          <div class="timer-display" id="motionClock">10:00</div>
-          <div style="display: flex; justify-content: center; gap: 8px;">
-            <button class="btn btn-start" onclick="startMotionTimer()">Start</button>
-            <button class="btn btn-pause" onclick="pauseMotionTimer()">Pause</button>
-            <button class="btn btn-reset" onclick="resetMotionTimer()">Reset</button>
+
+          <!-- التايمر الثاني: الثواني لكل متحدث -->
+          <div class="timer-section">
+            <h3>Individual Speaker Time</h3>
+            <div class="timer-setup">
+              <label>Seconds:</label>
+              <input type="number" id="speakerSecondsInput" value="60" min="1" oninput="applySpeakerInputTime()">
+            </div>
+            <div class="timer-display" id="speakerClock">01:00</div>
           </div>
+
         </div>
 
-        <div class="timer-card">
-          <h2 style="font-size: 16px; margin-bottom: 10px;">Individual Speaker Time</h2>
-          <div class="timer-setup">
-            <label>Seconds:</label>
-            <input type="number" id="speakerSecondsInput" value="60" min="1">
-          </div>
-          <div class="timer-display" id="speakerClock">01:00</div>
-          <div style="display: flex; justify-content: center; gap: 8px;">
-            <button class="btn btn-start" onclick="startSpeakerTimer()">Start</button>
-            <button class="btn btn-pause" onclick="pauseSpeakerTimer()">Pause</button>
-            <button class="btn btn-reset" onclick="resetSpeakerTimer()">Reset</button>
-          </div>
+        <!-- أزرار التحكم المشتركة الموحدة -->
+        <div class="master-controls">
+          <button class="btn btn-start" onclick="startMasterTimers()">Start Both</button>
+          <button class="btn btn-pause" onclick="pauseMasterTimers()">Pause Both</button>
+          <button class="btn btn-reset" onclick="resetMasterTimers()">Reset Both</button>
         </div>
-
       </div>
 
+      <!-- ================= ROLL CALL PANEL ================= -->
       <div class="panel">
         <h2>Roll Call & Countries Base</h2>
         <div class="input-group">
           <input type="text" id="countryInput" placeholder="Add custom country...">
-          <button class="btn btn-start" onclick="addCountry()">Add</button>
+          <button class="btn btn-start" style="padding: 10px 20px;" onclick="addCountry()">Add</button>
         </div>
         <div class="rollcall-list" id="rollcallContainer">
-          </div>
+          <!-- برمجية العرض التلقائي -->
+        </div>
       </div>
 
+      <!-- ================= SPEAKERS LIST PANEL ================= -->
       <div class="panel">
         <h2>Speakers List Management</h2>
         <div class="speakers-queue" id="speakersContainer">
-          </div>
+          <!-- قائمة الترتيب المطور -->
+        </div>
         
         <div style="display: flex; gap: 10px;">
-          <button class="btn btn-reset" style="width: 100%;" onclick="clearFinishedSpeaker()">Remove Current Speaker</button>
-          <button class="btn btn-pause" style="width: 100%; background-color: #7f8c8d;" onclick="clearAllSpeakers()">Clear All</button>
+          <button class="btn btn-reset" style="width: 100%; padding: 10px;" onclick="clearFinishedSpeaker()">Remove Current Speaker</button>
+          <button class="btn btn-pause" style="width: 100%; padding: 10px; background-color: #7f8c8d;" onclick="clearAllSpeakers()">Clear All</button>
         </div>
       </div>
 
@@ -435,17 +502,15 @@
     let speakersQueue = [];
 
     // --- TIMERS VARIABLES ---
-    let motionCountdown;
-    let motionSeconds = 600; 
-    let motionRunning = false;
+    let masterInterval; 
+    let masterRunning = false;
 
-    let speakerCountdown;
+    let motionSeconds = 600; 
     let speakerSeconds = 60;
-    let speakerRunning = false;
 
     /* ================= AUTHENTICATION SYSTEM ================= */
     function handleLogin(event) {
-      if(event) event.preventDefault(); // منع الصفحة من الـ Refresh التلقائي المحبط!
+      if(event) event.preventDefault(); 
       
       const user = document.getElementById("usernameInput").value.trim();
       const pass = document.getElementById("passwordInput").value.trim();
@@ -454,18 +519,14 @@
       if (committeeAccounts[user] && committeeAccounts[user].pass === pass) {
         currentCommittee = committeeAccounts[user];
         
-        // إخفاء الـ Login وإظهار الـ Dashboard
         document.getElementById("loginBox").style.display = "none";
         document.getElementById("mainDashboard").style.display = "block";
         
-        // تعديل هيدر الصفحة باسم اللجنة فوراً
         document.getElementById("committeeHeaderTitle").innerText = currentCommittee.name;
         
-        // تحديث وعرض البيانات بناءً على شروط اللجنة المفتوحة
         renderRollCall();
         renderSpeakers();
-        resetMotionTimer();
-        resetSpeakerTimer();
+        resetMasterTimers();
       } else {
         error.style.display = "block";
       }
@@ -481,7 +542,6 @@
         if(country.status === "Present") badgeClass = "status-present";
         if(country.status === "Present & Voting") badgeClass = "status-voting";
 
-        // تقنية الـ Fast-Add
         const fastAddButton = country.status !== "Absent" 
           ? `<button class="btn-fast-add" onclick="fastAddSpeaker('${country.name}')">+ Add to List</button>` 
           : '';
@@ -567,7 +627,11 @@
       if(speakersQueue.length > 0) {
         speakersQueue.shift();
         renderSpeakers();
-        resetSpeakerTimer(); 
+        
+        // إعادة تصفير تايمر المتحدث الفردي فقط عند تبديل الدور وتجهيزه للبدء من جديد
+        const inputVal = parseInt(document.getElementById("speakerSecondsInput").value);
+        speakerSeconds = !isNaN(inputVal) && inputVal > 0 ? inputVal : 60;
+        updateSpeakerDisplay();
       }
     }
 
@@ -576,40 +640,28 @@
       renderSpeakers();
     }
 
-    /* ================= SYSTEM DUAL TIMERS ENGINES ================= */
+    /* ================= INTEGRATED MASTER TIMERS ENGINE ================= */
+    
+    function applyMotionInputTime() {
+      if (masterRunning) return; 
+      const inputVal = parseInt(document.getElementById("motionMinutesInput").value);
+      motionSeconds = !isNaN(inputVal) && inputVal > 0 ? inputVal * 60 : 0;
+      updateMotionDisplay();
+    }
+
+    function applySpeakerInputTime() {
+      if (masterRunning) return; 
+      const inputVal = parseInt(document.getElementById("speakerSecondsInput").value);
+      speakerSeconds = !isNaN(inputVal) && inputVal > 0 ? inputVal : 0;
+      updateSpeakerDisplay();
+    }
+
     function updateMotionDisplay() {
       const mins = Math.floor(motionSeconds / 60);
       const secs = motionSeconds % 60;
       const display = document.getElementById("motionClock");
       display.innerText = `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
       display.className = (motionSeconds === 0) ? "timer-display danger" : "timer-display";
-    }
-
-    function startMotionTimer() {
-      if (motionRunning) return;
-      motionRunning = true;
-      motionCountdown = setInterval(() => {
-        if(motionSeconds > 0) {
-          motionSeconds--;
-          updateMotionDisplay();
-        } else {
-          clearInterval(motionCountdown);
-          motionRunning = false;
-        }
-      }, 1000);
-    }
-
-    function pauseMotionTimer() {
-      clearInterval(motionCountdown);
-      motionRunning = false;
-    }
-
-    function resetMotionTimer() {
-      clearInterval(motionCountdown);
-      motionRunning = false;
-      const inputVal = parseInt(document.getElementById("motionMinutesInput").value);
-      motionSeconds = !isNaN(inputVal) && inputVal > 0 ? inputVal * 60 : 600;
-      updateMotionDisplay();
     }
 
     function updateSpeakerDisplay() {
@@ -620,30 +672,55 @@
       display.className = (speakerSeconds === 0) ? "timer-display danger" : "timer-display";
     }
 
-    function startSpeakerTimer() {
-      if (speakerRunning) return;
-      speakerRunning = true;
-      speakerCountdown = setInterval(() => {
-        if(speakerSeconds > 0) {
+    // تشغيل التايمرز معاً
+    function startMasterTimers() {
+      if (masterRunning) return;
+      if (motionSeconds === 0 && speakerSeconds === 0) return;
+      
+      masterRunning = true;
+      masterInterval = setInterval(() => {
+        let updated = false;
+
+        // عداد الموشن الكلي
+        if (motionSeconds > 0) {
+          motionSeconds--;
+          updateMotionDisplay();
+          updated = true;
+        }
+
+        // عداد المتحدث الفردي
+        if (speakerSeconds > 0) {
           speakerSeconds--;
           updateSpeakerDisplay();
-        } else {
-          clearInterval(speakerCountdown);
-          speakerRunning = false;
+          updated = true;
+        }
+
+        // إذا انتهى الوقتان بالكامل يتم إيقاف العداد
+        if (!updated) {
+          clearInterval(masterInterval);
+          masterRunning = false;
         }
       }, 1000);
     }
 
-    function pauseSpeakerTimer() {
-      clearInterval(speakerCountdown);
-      speakerRunning = false;
+    // إيقاف مؤقت للاثنين معاً
+    function pauseMasterTimers() {
+      clearInterval(masterInterval);
+      masterRunning = false;
     }
 
-    function resetSpeakerTimer() {
-      clearInterval(speakerCountdown);
-      speakerRunning = false;
-      const inputVal = parseInt(document.getElementById("speakerSecondsInput").value);
-      speakerSeconds = !isNaN(inputVal) && inputVal > 0 ? inputVal : 60;
+    // تصفير وتحديث الاثنين معاً بناءً على الخانات المكتوبة
+    function resetMasterTimers() {
+      clearInterval(masterInterval);
+      masterRunning = false;
+
+      const motionVal = parseInt(document.getElementById("motionMinutesInput").value);
+      motionSeconds = !isNaN(motionVal) && motionVal > 0 ? motionVal * 60 : 600;
+
+      const speakerVal = parseInt(document.getElementById("speakerSecondsInput").value);
+      speakerSeconds = !isNaN(speakerVal) && speakerVal > 0 ? speakerVal : 60;
+
+      updateMotionDisplay();
       updateSpeakerDisplay();
     }
   </script>
