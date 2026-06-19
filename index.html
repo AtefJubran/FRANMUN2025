@@ -14,6 +14,7 @@
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
+    /* --- CSS MODERN DESIGN SYSTEM --- */
     :root {
       --primary-dark: #001122;    
       --secondary-blue: #002244;  
@@ -28,7 +29,11 @@
       --font-body: 'Montserrat', sans-serif;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     
     body {
       font-family: var(--font-body);
@@ -42,114 +47,529 @@
     }
 
     body::before {
-      content: ""; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 80vw; height: 80vw; max-width: 750px; max-height: 750px;
-      background-image: url('logo.jpeg.JPG'); background-size: cover; background-repeat: no-repeat; background-position: center;
-      border-radius: 50%; opacity: 0.04; pointer-events: none; z-index: 0; 
+      content: "";
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80vw; 
+      height: 80vw;
+      max-width: 750px; 
+      max-height: 750px;
+      background-image: url('logo.jpeg.JPG'); 
+      background-size: cover; 
+      background-repeat: no-repeat;
+      background-position: center;
+      border-radius: 50%; 
+      opacity: 0.04; 
+      pointer-events: none; 
+      z-index: 0; 
     }
 
-    #delegateContent, header, .main-container, footer { position: relative; z-index: 1; }
+    #delegateContent, header, .main-container, footer {
+      position: relative;
+      z-index: 1;
+    }
 
+    /* --- PREMIUM HEADER --- */
     header {
       background: linear-gradient(180deg, rgba(0,17,34,0.95) 0%, rgba(0,34,68,0.7) 100%);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-      padding: 30px 40px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px;
-      border-bottom: 2px solid var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 30px 40px;
+      display: flex;
+      flex-direction: column; 
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+      border-bottom: 2px solid var(--accent-gold);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
-    header img { max-width: 85px; height: auto; filter: drop-shadow(0 0 12px rgba(223, 183, 44, 0.3)); transition: var(--transition-smooth); cursor: pointer; }
-    header img:hover { transform: scale(1.05); }
-    header h1 { font-family: var(--font-heading); font-weight: 700; letter-spacing: 2px; }
-    header p { font-weight: 400; letter-spacing: 1px; font-size: 14px; }
+    .logo-container {
+      position: relative;
+      display: inline-block;
+    }
 
-    .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    header img {
+      max-width: 85px;
+      height: auto;
+      filter: drop-shadow(0 0 12px rgba(223, 183, 44, 0.3));
+      transition: var(--transition-smooth);
+      cursor: pointer; 
+    }
+    
+    header img:hover {
+      transform: scale(1.05);
+    }
+
+    /* --- LAYOUT CONTAINER --- */
+    .main-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
 
     .section { 
-      padding: 30px 20px; text-align: center; background: var(--card-bg); border: 1px solid var(--card-border);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); margin-bottom: 25px; border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      padding: 30px 20px;
+      text-align: center;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      margin-bottom: 25px;
+      border-radius: 14px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
     }
-    .section h2 { font-family: var(--font-heading); font-size: 26px; color: var(--accent-gold); margin-bottom: 12px; letter-spacing: 2px; font-weight: 700; }
 
+    .section h2 {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      color: var(--accent-gold);
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    /* --- GLASSMORPHISM CARDS --- */
     .card {
-      background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      margin: 20px auto; padding: 30px 25px; border-radius: 14px; width: 100%; box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center; transition: var(--transition-smooth);
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      margin: 20px auto;
+      padding: 30px 25px;
+      border-radius: 14px;
+      width: 100%; 
+      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+      text-align: center;
+      transition: var(--transition-smooth);
     }
-    .card:hover { transform: translateY(-3px); border-color: rgba(223, 183, 44, 0.25); box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45); }
-    .card h3 { font-family: var(--font-heading); font-size: 20px; color: var(--accent-gold); margin-bottom: 18px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
 
-    .button-container { text-align: center; margin: 25px auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; }
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(223, 183, 44, 0.25);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+    }
+
+    .card h3 {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      color: var(--accent-gold);
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 700;
+    }
+
+    .card p {
+      color: #e2e8f0;
+      font-size: 15px;
+    }
+
+    /* --- INTERACTIVE BUTTONS --- */
+    .button-container {
+      text-align: center;
+      margin: 25px auto;
+      display: flex;
+      flex-wrap: wrap; 
+      justify-content: center;
+      gap: 15px;
+      width: 100%;
+    }
+
     .button {
-      display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%);
-      color: var(--primary-dark); font-weight: 700; padding: 14px 24px; border-radius: 8px; text-decoration: none; cursor: pointer; font-size: 15px;
-      transition: var(--transition-smooth); box-shadow: 0 8px 20px rgba(223, 183, 44, 0.15); flex: 1; min-width: 250px; max-width: 320px; letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%);
+      color: var(--primary-dark);
+      font-weight: 700;
+      padding: 14px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 15px;
+      transition: var(--transition-smooth);
+      box-shadow: 0 8px 20px rgba(223, 183, 44, 0.15);
+      flex: 1;
+      min-width: 250px; 
+      max-width: 320px;
+      letter-spacing: 0.5px;
     }
-    .button:hover { background: linear-gradient(135deg, var(--accent-gold-hover) 0%, var(--accent-gold) 100%); transform: translateY(-2px); box-shadow: 0 12px 25px rgba(223, 183, 44, 0.3); }
 
-    .countdown-container { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-    .countdown-box { background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(223, 183, 44, 0.15); color: var(--text-light); padding: 12px; border-radius: 10px; min-width: 70px; flex: 1; max-width: 90px; }
-    .countdown-number { font-size: 24px; font-weight: 700; display: block; color: var(--accent-gold); font-family: monospace; }
-    .countdown-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
+    .button:hover {
+      background: linear-gradient(135deg, var(--accent-gold-hover) 0%, var(--accent-gold) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(223, 183, 44, 0.3);
+    }
 
-    .committee-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 20px; padding: 5px; }
-    @media (max-width: 520px) { .committee-grid { grid-template-columns: repeat(2, 1fr); } }
-    
+    /* --- COUNTDOWN STYLING --- */
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .countdown-box {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(223, 183, 44, 0.15);
+      color: var(--text-light);
+      padding: 12px;
+      border-radius: 10px;
+      min-width: 70px;
+      flex: 1;
+      max-width: 90px;
+      transition: var(--transition-smooth);
+    }
+
+    .countdown-box:hover {
+      border-color: var(--accent-gold);
+    }
+
+    .countdown-number {
+      font-size: 24px;
+      font-weight: 700;
+      display: block;
+      color: var(--accent-gold);
+      font-family: monospace;
+    }
+
+    .countdown-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 500;
+    }
+
+    /* --- COMMITTEES DASHBOARD --- */
+    .committee-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 20px;
+      padding: 5px;
+    }
+
+    @media (max-width: 520px) {
+      .committee-grid {
+        grid-template-columns: repeat(2, 1fr); 
+      }
+    }
+
     .committee-icon {
-      width: 100%; aspect-ratio: 1 / 1; cursor: pointer; transition: var(--transition-smooth); border-radius: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.08); background-color: rgba(255, 255, 255, 0.02); padding: 15px; display: flex; align-items: center; justify-content: center;
+      width: 100%;
+      aspect-ratio: 1 / 1; 
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background-color: rgba(255, 255, 255, 0.02);
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .committee-icon:hover { transform: scale(1.06); background-color: rgba(255, 255, 255, 0.05); box-shadow: 0 0 20px rgba(223, 183, 44, 0.25); border: 1px solid var(--accent-gold); }
-    .committee-icon img { width: 95%; height: 95%; object-fit: contain; }
 
-    .chairs-title { font-family: var(--font-heading); font-weight: 700; margin-top: 25px; color: var(--text-light); border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
-    .chairs-container { display: flex; justify-content: center; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
-    .chair-box { text-align: center; flex: 0 1 calc(33.33% - 10px); min-width: 85px; cursor: pointer; }
-    .chair-img { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--accent-gold); object-fit: cover; background-color: #001a33; padding: 2px; transition: var(--transition-smooth); }
-    .chair-box:hover .chair-img { transform: scale(1.05); box-shadow: 0 0 12px rgba(223, 183, 44, 0.4); }
-    .chair-name { font-size: 12px; font-weight: 500; color: #cbd5e0; margin-top: 6px; }
-    .backroom-section-title { font-family: var(--font-heading); font-weight: 700; margin-top: 20px; color: #e74c3c; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
+    .committee-icon:hover {
+      transform: scale(1.06);
+      background-color: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 20px rgba(223, 183, 44, 0.25);
+      border: 1px solid var(--accent-gold);
+    }
 
+    .committee-icon img {
+      width: 95%;
+      height: 95%;
+      object-fit: contain;
+    }
+
+    /* --- CHAIRS PROFILES --- */
+    .chairs-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      margin-top: 25px;
+      color: var(--text-light);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 15px;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    
+    .chairs-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+    
+    .chair-box {
+      text-align: center;
+      flex: 0 1 calc(33.33% - 10px);
+      min-width: 85px;
+      cursor: pointer;
+    }
+    
+    .chair-img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-gold);
+      object-fit: cover;
+      background-color: #001a33;
+      padding: 2px;
+      transition: var(--transition-smooth);
+    }
+
+    .chair-box:hover .chair-img {
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(223, 183, 44, 0.4);
+    }
+    
+    .chair-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: #cbd5e0;
+      margin-top: 6px;
+    }
+
+    .backroom-section-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      margin-top: 20px;
+      color: #e74c3c;
+      text-transform: uppercase;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .report-btn {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 20px;
+      background-color: transparent;
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      transition: var(--transition-smooth);
+    }
+    
+    .report-btn:hover {
+      background-color: var(--accent-gold);
+      color: var(--primary-dark);
+    }
+
+    /* --- PREMIUM MODAL SYSTEM --- */
     .modal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 8, 16, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      z-index: 10000; justify-content: center; align-items: center; padding: 20px;
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 8, 16, 0.85); 
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
+
     .modal-content {
-      background: #001a33; border: 1px solid rgba(255, 255, 255, 0.1); padding: 35px 25px 25px 25px; border-radius: 18px;
-      max-width: 480px; width: 100%; text-align: center; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      background: #001a33;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 35px 25px 25px 25px;
+      border-radius: 18px;
+      max-width: 480px; 
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+      animation: modalFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .modal-content .close-btn { position: absolute; top: 8px; right: 18px; cursor: pointer; font-size: 30px; color: var(--text-muted); }
-    .modal-close-button { font-family: var(--font-body); display: block; width: 100%; max-width: 140px; margin: 25px auto 0 auto; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: var(--transition-smooth); }
-    .modal-close-button:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
 
+    @keyframes modalFadeIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-content .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 18px;
+      cursor: pointer;
+      font-size: 30px; 
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+    }
+
+    .modal-content .close-btn:hover {
+      color: var(--accent-gold);
+    }
+
+    .modal-close-button {
+      font-family: var(--font-body);
+      display: block;
+      width: 100%;
+      max-width: 140px;
+      margin: 25px auto 0 auto;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      transition: var(--transition-smooth);
+    }
+
+    .modal-close-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #fff;
+    }
+
+    /* --- BIO POP-UP MODAL --- */
     .bio-popup-modal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 5, 10, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-      z-index: 20000; justify-content: center; align-items: center; padding: 20px;
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 5, 10, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 20000; 
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
-    .bio-popup-content {
-      background: #002244; border: 2px solid var(--accent-gold); padding: 35px 25px 25px 25px; border-radius: 20px;
-      max-width: 480px; width: 100%; text-align: center; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.7);
-    }
-    .bio-popup-content .close-bio-btn { position: absolute; top: 10px; right: 20px; cursor: pointer; font-size: 32px; color: var(--text-muted); }
-    .large-chair-img { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--accent-gold); object-fit: cover; margin: 0 auto 15px auto; background-color: #001122; }
-    .bio-popup-name { font-family: var(--font-heading); font-size: 22px; color: #fff; font-weight: 700; margin-bottom: 15px; }
-    .bio-popup-text { color: #edf2f7; font-size: 15px; text-align: justify; line-height: 1.7; max-height: 250px; overflow-y: auto; padding-right: 8px; }
 
+    .bio-popup-content {
+      background: #002244;
+      border: 2px solid var(--accent-gold);
+      padding: 35px 25px 25px 25px;
+      border-radius: 20px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.7);
+      animation: bioPopupAnimation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes bioPopupAnimation {
+      from { transform: scale(0.85); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .bio-popup-content .close-bio-btn {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 32px;
+      color: var(--text-muted);
+      transition: var(--transition-smooth);
+    }
+
+    .large-chair-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-gold);
+      object-fit: cover;
+      margin: 0 auto 15px auto;
+      box-shadow: 0 10px 25px rgba(223,183,44,0.3);
+      background-color: #001122;
+    }
+
+    .bio-popup-name {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+
+    .bio-popup-text {
+      color: #edf2f7;
+      font-size: 15px;
+      text-align: justify;
+      line-height: 1.7;
+      max-height: 250px; 
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .bio-popup-text::-webkit-scrollbar { width: 5px; }
+    .bio-popup-text::-webkit-scrollbar-thumb { background: var(--accent-gold); border-radius: 10px; }
+
+    /* --- ADMIN DASHBOARD PANEL STYLES --- */
     #adminDashboardView { display: none; max-width: 850px; margin: 40px auto; padding: 0 20px; }
-    .admin-card { background: rgba(0, 26, 51, 0.95); border: 2px solid var(--accent-gold); padding: 30px; border-radius: 18px; }
+    .admin-card { background: rgba(0, 26, 51, 0.95); border: 2px solid var(--accent-gold); padding: 30px; border-radius: 18px; box-shadow: 0 25px 50px rgba(0,0,0,0.7); }
     .admin-form-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
     .admin-form-group label { font-weight: 600; font-size: 14px; color: #cbd5e0; }
     .admin-input, .admin-select, .admin-textarea { background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); padding: 12px; border-radius: 8px; color: #fff; font-family: var(--font-body); }
     .admin-toggle-box { display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 12px; }
-    .admin-btn { background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%); color: var(--primary-dark); font-weight: 700; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; }
+    .admin-btn { background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%); color: var(--primary-dark); font-weight: 700; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; transition: var(--transition-smooth); }
+    .admin-btn:hover { background: linear-gradient(135deg, var(--accent-gold-hover) 0%, var(--accent-gold) 100%); transform: translateY(-1px); }
 
-    footer { background-color: #000c18; color: var(--text-muted); text-align: center; padding: 35px 20px; font-size: 14px; margin-top: 50px; border-top: 1px solid rgba(223, 183, 44, 0.2); }
-    .footer-info { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; font-style: normal; color: #cbd5e0; }
+    /* --- FOOTER & CREDITS --- */
+    footer {
+      background-color: #000c18;
+      color: var(--text-muted);
+      text-align: center;
+      padding: 35px 20px;
+      font-size: 14px;
+      margin-top: 50px;
+      border-top: 1px solid rgba(223, 183, 44, 0.2);
+    }
+
+    .footer-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+      font-style: normal;
+      color: #cbd5e0;
+    }
+    
     .footer-info span { display: block; }
     .footer-info a { color: var(--accent-gold); text-decoration: none; transition: var(--transition-smooth); }
     .footer-info a:hover { color: var(--accent-gold-hover); text-decoration: underline; }
-    .credits { font-family: var(--font-heading); margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; color: var(--accent-gold); font-weight: 700; }
-    @media (min-width: 768px) { header { flex-direction: row; padding: 25px 50px; justify-content: space-between; } .header-text { text-align: right; } .footer-info { flex-direction: row; justify-content: center; gap: 30px; } }
+
+    .credits {
+      font-family: var(--font-heading);
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 13px;
+      color: var(--accent-gold);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    @media (min-width: 768px) {
+      header {
+        flex-direction: row; 
+        padding: 25px 50px;
+        justify-content: space-between;
+      }
+      header h1 { font-size: 28px; }
+      .header-text { text-align: right; }
+      .footer-info { flex-direction: row; justify-content: center; gap: 30px; }
+    }
   </style>
 </head>
 <body>
@@ -157,8 +577,9 @@
   <div id="delegateContent">
     <header>
       <div class="logo-container">
-        <img src="logo.jpeg.JPG" alt="School Logo" ondblclick="triggerAdminGate()">
+        <img src="logo.jpeg.JPG" alt="School Logo" onclick="triggerAdminGate()">
       </div>
+      
       <div class="header-text">
         <h1>Franciscan Sister's School MUN</h1>
         <p><span class="highlight">FRANMUN</span> | First Annual Conference</p>
@@ -166,6 +587,7 @@
     </header>
 
     <div class="main-container">
+      
       <section class="section">
         <h2>FRANMUN</h2>
         <p>Franciscan Sister's School's First Model United Nations Conference</p>
@@ -182,6 +604,17 @@
       </div>
 
       <div class="button-container" id="liveRegButtons"></div>
+      
+      <div style="text-align: center; margin-bottom: 30px;">
+        <p style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 10px 20px; border-radius: 30px; display: inline-block; color: var(--text-muted); font-size: 13px;">
+          Registration includes a parent/guardian signature requirement
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>About Our Conference</h3>
+        <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference! Join us for an exciting event where students will engage in diplomatic discussions, problem-solving, and resolution writing while representing countries from around the world.</p>
+      </div>
 
       <div class="card">
         <h3>Committees</h3>
@@ -189,18 +622,19 @@
           <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="UNWOMEN" /></div>
           <div class="committee-icon" onclick="openModal('UNHRC')"><img src="unhrc.png" alt="UNHRC" /></div>
           <div class="committee-icon" onclick="openModal('DISEC')"><img src="disec.png" alt="DISEC" /></div>
-          <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" /></div>
+          <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="handleWhoImageError(this)" /></div>
           <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
           <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
         </div>
       </div>
+      
     </div>
   </div>
 
   <div id="adminDashboardView">
     <div class="admin-card">
       <h2>FRANMUN Global Control Panel ⚙️</h2>
-      <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">أي تغيير هنا سيحفظ سحابياً ويظهر فوراً عند جميع المستخدمين!</p>
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">Any change made here syncs live to the database instantly!</p>
       
       <div class="admin-toggle-box">
         <input type="checkbox" id="admChairCheck">
@@ -219,16 +653,16 @@
       <div class="admin-form-group" style="border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
         <label>Select Chair to Edit Bio:</label>
         <select id="admChairSelect" class="admin-select" onchange="loadSelectedChairBioToPanel()">
-          <optgroup label="WHO Committee">
-            <option value="WHO_0">Ameer Ashqar (Chair 1)</option>
-            <option value="WHO_1">To be announced (Chair 2)</option>
-            <option value="WHO_2">To be announced (Chair 3)</option>
-          </optgroup>
           <optgroup label="Crisis Committee">
             <option value="CRISIS_0">Jamal Elias (Frontroom 1)</option>
             <option value="CRISIS_1">Tala Saffury (Frontroom 2)</option>
             <option value="CRISIS_B0">Jana Abd Elheem (Backroom 1)</option>
             <option value="CRISIS_B1">Yousef Sarji (Backroom 2)</option>
+          </optgroup>
+          <optgroup label="WHO Committee">
+            <option value="WHO_0">Ameer Ashqar (Chair 1)</option>
+            <option value="WHO_1">To be announced (Chair 2)</option>
+            <option value="WHO_2">To be announced (Chair 3)</option>
           </optgroup>
           <optgroup label="UN Women Committee">
             <option value="UNWOMEN_0">Adam Abo Ahmad (Chair 1)</option>
@@ -268,15 +702,23 @@
   <div id="committeeModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">×</span>
-      <h2 id="modalTitle">Committee Name</h2>
+      <h2 id="modalTitle" style="color: var(--accent-gold);">Committee Name</h2>
+      
       <div style="text-align: left; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
-        <strong style="color: var(--accent-gold); font-size: 14px;">Topic:</strong>
+        <strong style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase;">Topic:</strong>
         <p id="modalTopics" style="margin-top: 6px; color: #e2e8f0; font-size: 14px; white-space: pre-line;"></p>
       </div>
+
       <div class="chairs-title">Committee Chairs</div>
       <div class="chairs-container" id="modalChairs"></div>
+
       <div class="backroom-section-title" id="backroomTitle" style="display: none;">Backroom:</div>
       <div class="chairs-container" id="modalBackroomChairs" style="display: none;"></div>
+
+      <div style="margin-top: 20px;">
+        <a id="modalReportLink" href="https://google.com" target="_blank" class="report-btn">📄 View Research Report</a>
+      </div>
+
       <button class="modal-close-button" onclick="closeModal()">Close</button>
     </div>
   </div>
@@ -284,22 +726,25 @@
   <div id="bioPopupModal" class="bio-popup-modal">
     <div class="bio-popup-content">
       <span class="close-bio-btn" onclick="closeBioPopup()">×</span>
-      <img src="" id="popupChairImg" class="large-chair-img" alt="Chair Photo">
+      <img src="" id="popupChairImg" class="large-chair-img" alt="Chair Large Photo">
       <div id="popupChairName" class="bio-popup-name"></div>
       <div id="popupChairBio" class="bio-popup-text"></div>
-      <button class="modal-close-button" onclick="closeBioPopup()">Close</button>
+      <button class="modal-close-button" style="margin-top:20px; max-width:110px;" onclick="closeBioPopup()">Close</button>
     </div>
   </div>
 
   <footer>
     <address class="footer-info">
-      <span>📍 <strong>Location:</strong> Nazareth, Israel</span>
+      <span>📍 <strong>Location:</strong> <a href="https://maps.google.com" target="_blank" style="color: #fff; text-decoration: underline;">Nazareth, Israel</a></span>
       <span>📧 <strong>Email:</strong> <a href="mailto:franmun2026@gmail.com">franmun2026@gmail.com</a></span>
     </address>
+    <p>Franciscan Sister's School Nazareth</p>
+    <p style="margin-top: 15px; opacity: 0.4; font-size: 12px;">© 2026 Franciscan Sister's School MUN. All rights reserved.</p>
     <div class="credits">Website made by Atef Jubran</div>
   </footer>
 
   <script>
+    // --- FIREBASE DATABASE INITIALIZATION ---
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
@@ -314,21 +759,80 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
+    // Default Fallback Configurations
     const defaultData = {
-      chairsOpen: true, delegatesOpen: false, targetDate: "September 1, 2026 00:00:00",
+      chairsOpen: true, 
+      delegatesOpen: true, 
+      targetDate: "September 1, 2026 00:00:00",
       committees: {
-        "UNWOMEN": { topics: "Empowering women in post-conflict economic restructuring and resource allocation.", chairs: [{ name: "Adam Abo Ahmad", img: "unwomen_chair1.png", bio: "Greetings delegates, I am Adam Abo Ahmad, head chair of UNWOMEN. Looking forward to productive debates." }, { name: "To be announced", img: "unwomen_chair2.png", bio: "Biography to be completed." }, { name: "To be announced", img: "unwomen_chair3.png", bio: "Biography to be completed." }] },
-        "UNHRC": { topics: "Addressing freedom of speech and digital surveillance parameters.", chairs: [{ name: "To be announced", img: "unhrc_chair1.png", bio: "Biography to be completed." }, { name: "To be announced", img: "unhrc_chair2.png", bio: "Biography to be completed." }, { name: "To be announced", img: "unhrc_chair3.png", bio: "Biography to be completed." }] },
-        "DISEC": { topics: "Preventing the militarization of AI systems and autonomous weapons technology.", chairs: [{ name: "Issa Sabbagh", img: "disec_chair1.png", bio: "Hello everyone, I am Issa Sabbagh, head chair of DISEC. Let's make this conference remarkable." }, { name: "To be announced", img: "disec_chair2.png", bio: "Biography to be completed." }, { name: "To be announced", img: "disec_chair3.png", bio: "Biography to be completed." }] },
-        "WHO": { topics: "Global framework policies for pandemic prevention and medical chain infrastructure.", chairs: [{ name: "Ameer Ashqar", img: "who_chair1.png", bio: "Hii Delegates, I’m Ameer Ashqar, your head chair for the WHO committee. Ready for exceptional solutions!" }, { name: "to be announced", img: "who_chair2.png", bio: "Biography to be completed." }, { name: "to be announced", img: "who_chair3.png", bio: "Biography to be completed." }] },
-        "UNHSC": { topics: "The historical re-evaluation of security council decisions during international interventions.", chairs: [{ name: "Ahmad Zoabi", img: "unhsc_chair1.png", bio: "Welcome delegates, I am Ahmad Zoabi, head chair of UNHSC. Prepare well for rigorous diplomatic challenges." }, { name: "Shawqe Fahoum", img: "unhsc_chair2.png", bio: "Hello delegates, I am Shawqe Fahoum, co-chair of UNHSC. Excited to meet you all." }, { name: "To be announced", img: "unhsc_chair3.png", bio: "Biography to be completed." }] },
-        "CRISIS": { topics: "The Fall of Constantina: Simulating unexpected regional escalations.", chairs: [{ name: "Jamal Elias", img: "crisis_chair1.png", bio: "Hello dear delegates, I am Jamal Elias, Frontroom Director. Get ready for quick shifts and continuous surprises." }, { name: "Tala Saffury", img: "crisis_chair2.png", bio: "Heyyy delegates! Tala Saffury here, co-chairing the Frontroom. Can't wait to see your fast reactions." }], backroom: [{ name: "Jana Abd Elheem", img: "jana_profile.png", bio: "Welcome to the backroom! I am Jana Abd Elheem, Backroom Director. We will be watching your directives carefully." }, { name: "Yousef Sarji", img: "crisis_backroom2.png", bio: "Hello everyone, Yousef Sarji, Backroom Coordinator. Keep your ideas strategic and realistic." }] }
+        "UNWOMEN": {
+          topics: "Empowering women in post-conflict economic restructuring and ensuring political representation.",
+          report: "https://google.com", 
+          chairs: [
+            { name: "Adam Abo Ahmad", img: "unwomen_chair1.png", bio: "BIO COMING SOON..." }, 
+            { name: "To be announced", img: "unwomen_chair2.png", bio: "BIO COMING SOON..." },
+            { name: "To be announced", img: "unwomen_chair3.png", bio: "BIO COMING SOON..." }
+          ]
+        },
+        "UNHRC": {
+          topics: "Addressing freedom of speech and protecting journalists in escalating global digital surveillance states.",
+          report: "https://google.com",
+          chairs: [
+            { name: "To be announced", img: "unhrc_chair1.png", bio: "BIO COMING SOON..." },
+            { name: "To be announced", img: "unhrc_chair2.png", bio: "BIO COMING SOON..." },
+            { name: "To be announced", img: "unhrc_chair3.png", bio: "BIO COMING SOON..." }
+          ]
+        },
+        "DISEC": {
+          topics: "Preventing the militarization of artificial intelligence and autonomous weapons systems in warfare.",
+          report: "https://google.com",
+          chairs: [
+            { name: "Issa Sabbagh", img: "disec_chair1.png", bio: "BIO COMING SOON..." },
+            { name: "To be announced", img: "disec_chair2.png", bio: "BIO COMING SOON..." },
+            { name: "To be announced", img: "disec_chair3.png", bio: "BIO COMING SOON..." }
+          ]
+        },
+        "WHO": {
+          topics: "Global framework policies for combating antibiotic resistance and pandemic preparedness strategies.",
+          report: "https://google.com",
+          chairs: [
+            { name: "Ameer Ashqar", img: "who_chair1.png", bio: "BIO COMING SOON..." },
+            { name: "to be announced", img: "who_chair2.png", bio: "BIO COMING SOON..." },
+            { name: "to be announced", img: "who_chair3.png", bio: "BIO COMING SOON..." }
+          ]
+        },
+        "UNHSC": {
+          topics: "The historical re-evaluation of the 1994 Rwandan Crisis and redefining rapid intervention protocols.",
+          report: "https://google.com",
+          chairs: [
+            { name: "Ahmad Zoabi", img: "unhsc_chair1.png", bio: "BIO COMING SOON...." },
+            { name: "Shawqe Fahoum", img: "unhsc_chair2.png", bio: "BIO COMING SOON..." }, 
+            { name: "To be announced", img: "unhsc_chair3.png", bio: "BIO COMING SOON..." }
+          ]
+        },
+        "CRISIS": {
+          topics: "The Fall of Constantina: Managing immediate dynamic updates, intelligence, and clandestine operations.",
+          report: "https://google.com",
+          chairs: [
+            { 
+              name: "Jamal Elias", 
+              img: "crisis_chair1.png", 
+              bio: "Hello dear delegates !!!\nMy name is Jamal and I’m so excited to be serving as a chair in FRANMUN 2026 !!\nMy MUN journey started one year ago and it was one of the best things that happened in my life , i met new friends , I developed my speaking skills in english and I improved my communication skills and confidence .\nCome with full energies and excitement and do your best and don’t forget to have fun !!"
+            },
+            { name: "Tala Saffury", img: "crisis_chair2.png", bio: "BIO COMING SOON..." }
+          ],
+          backroom: [
+            { name: "Jana Abd Elheem", img: "jana_profile.png", bio: "BIO COMING SOON..." },
+            { name: "Yousef Sarji", img: "crisis_backroom2.png", bio: "BIO COMING SOON..." }
+          ]
+        }
       }
     };
 
     let appData = defaultData;
     let currentActiveCommittee = "";
 
+    // Realtime Database Sync Listener
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
         appData = snapshot.val();
@@ -354,6 +858,72 @@
       container.innerHTML = html;
     }
 
+    function handleWhoImageError(imgElement) {
+      imgElement.src = "who.png";
+    }
+
+    function openModal(committee) {
+      currentActiveCommittee = committee;
+      document.getElementById("committeeModal").style.display = "flex";
+      document.getElementById("modalTitle").innerText = committee;
+      
+      const data = appData.committees[committee];
+      const backroomTitle = document.getElementById("backroomTitle");
+      const backroomChairsContainer = document.getElementById("modalBackroomChairs");
+
+      if (data) {
+        document.getElementById("modalTopics").innerText = data.topics;
+        document.getElementById("modalReportLink").href = data.report || "https://google.com";
+        
+        let chairsHTML = "";
+        data.chairs.forEach((chair, index) => {
+          chairsHTML += `
+            <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'chairs')">
+              <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
+              <div class="chair-name">${chair.name}</div>
+            </div>`;
+        });
+        document.getElementById("modalChairs").innerHTML = chairsHTML;
+
+        if(committee === "CRISIS" && data.backroom) {
+          backroomTitle.style.display = "block";
+          backroomChairsContainer.style.display = "flex";
+          
+          let backroomHTML = "";
+          data.backroom.forEach((bChair, index) => {
+            backroomHTML += `
+              <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'backroom')">
+                <img src="${bChair.img}" alt="${bChair.name}" class="chair-img" style="border-color:#e74c3c;" onerror="this.src='logo.jpeg.JPG'">
+                <div class="chair-name" style="color:#e74c3c; font-weight:bold;">${bChair.name}</div>
+              </div>`;
+          });
+          backroomChairsContainer.innerHTML = backroomHTML;
+        } else {
+          backroomTitle.style.display = "none";
+          backroomChairsContainer.style.display = "none";
+        }
+      }
+    }
+
+    function openBioPopupFromIndex(event, index, type) {
+      if(event) event.stopPropagation();
+      const committee = appData.committees[currentActiveCommittee];
+      if(!committee) return;
+      
+      const targetChair = (type === 'backroom') ? committee.backroom[index] : committee.chairs[index];
+      if(!targetChair) return;
+
+      document.getElementById("popupChairName").innerText = targetChair.name;
+      document.getElementById("popupChairImg").src = targetChair.img;
+      document.getElementById("popupChairImg").onerror = function() { this.src = 'logo.jpeg.JPG'; };
+      document.getElementById("popupChairBio").innerText = targetChair.bio;
+      document.getElementById("bioPopupModal").style.display = "flex";
+    }
+
+    function closeBioPopup() { document.getElementById("bioPopupModal").style.display = "none"; }
+    function closeModal() { document.getElementById("committeeModal").style.display = "none"; }
+
+    // --- GATEWAY INTO THE SECURE PANEL (CLICK LOGO) ---
     function triggerAdminGate() {
       const password = prompt("Enter Administration Password:");
       if(password === "1234") {
@@ -412,67 +982,53 @@
       }
 
       database.ref("homepage_data").set(appData).then(() => {
-        alert("Global Live Update Synced Successfuly! ✨");
+        alert("Global Live Update Synced Successfully! ✨");
         exitAdminPanel();
       });
     }
 
-    function openModal(committee) {
-      currentActiveCommittee = committee;
-      document.getElementById("committeeModal").style.display = "flex";
-      document.getElementById("modalTitle").innerText = committee;
-      const data = appData.committees[committee];
-      if (data) {
-        document.getElementById("modalTopics").innerText = data.topics;
-        let chairsHTML = "";
-        data.chairs.forEach((chair, index) => {
-          chairsHTML += `<div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'chairs')"><img src="${chair.img}" class="chair-img" onerror="this.src='logo.jpeg.JPG'"><div class="chair-name">${chair.name}</div></div>`;
-        });
-        document.getElementById("modalChairs").innerHTML = chairsHTML;
+    // --- COUNTDOWN TIMER ---
+    const countdownInterval = setInterval(function() {
+      const targetDateMs = new Date(appData.targetDate || "September 1, 2026 00:00:00").getTime();
+      const now = new Date().getTime();
+      const difference = targetDateMs - now;
 
-        if(committee === "CRISIS" && data.backroom) {
-          document.getElementById("backroomTitle").style.display = "block";
-          document.getElementById("modalBackroomChairs").style.display = "flex";
-          let backroomHTML = "";
-          data.backroom.forEach((bChair, index) => {
-            backroomHTML += `<div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'backroom')"><img src="${bChair.img}" class="chair-img" style="border-color:#e74c3c;" onerror="this.src='logo.jpeg.JPG'"><div class="chair-name" style="color:#e74c3c; font-weight:bold;">${bChair.name}</div></div>`;
-          });
-          document.getElementById("modalBackroomChairs").innerHTML = backroomHTML;
-        } else {
-          document.getElementById("backroomTitle").style.display = "none";
-          document.getElementById("modalBackroomChairs").style.display = "none";
-        }
+      if (difference < 0) {
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("minutes").innerText = "00";
+        document.getElementById("seconds").innerText = "00";
+        return;
       }
-    }
 
-    function openBioPopupFromIndex(event, index, type) {
-      event.stopPropagation();
-      const committee = appData.committees[currentActiveCommittee];
-      const targetChair = (type === 'backroom') ? committee.backroom[index] : committee.chairs[index];
-      document.getElementById("popupChairName").innerText = targetChair.name;
-      document.getElementById("popupChairImg").src = targetChair.img;
-      document.getElementById("popupChairImg").onerror = function() { this.src = 'logo.jpeg.JPG'; };
-      document.getElementById("popupChairBio").innerText = targetChair.bio;
-      document.getElementById("bioPopupModal").style.display = "flex";
-    }
+      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
-    function closeBioPopup() { document.getElementById("bioPopupModal").style.display = "none"; }
-    function closeModal() { document.getElementById("committeeModal").style.display = "none"; }
-
-    setInterval(function() {
-      const targetDateMs = new Date(appData.targetDate).getTime();
-      const difference = targetDateMs - new Date().getTime();
-      if (difference < 0) return;
-      document.getElementById("days").innerText = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0');
-      document.getElementById("hours").innerText = String(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-      document.getElementById("minutes").innerText = String(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-      document.getElementById("seconds").innerText = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
+      document.getElementById("days").innerText = String(days).padStart(2, '0');
+      document.getElementById("hours").innerText = String(hours).padStart(2, '0');
+      document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
+      document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
     }, 1000);
 
+    // --- UNIVERSAL OUTSIDE CLICK MODAL CLOSER ---
     window.onclick = function(event) {
-      if (event.target === document.getElementById("bioPopupModal")) closeBioPopup();
-      if (event.target === document.getElementById("committeeModal")) closeModal();
+      const committeeModal = document.getElementById("committeeModal");
+      const bioPopupModal = document.getElementById("bioPopupModal");
+      
+      if (event.target === bioPopupModal) closeBioPopup();
+      if (event.target === committeeModal) closeModal();
     }
+
+    // --- SECURITY BLOCKS (INSPECT DEFIANCE) ---
+    document.addEventListener('contextmenu', event => event.preventDefault());
+    document.onkeydown = function(e) {
+      if (e.keyCode == 123) return false;
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
+      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
+      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
+    };
   </script>
 </body>
 </html>
