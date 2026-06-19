@@ -8,9 +8,8 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=500;700;800&family=Montserrat:wght=300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- مكتبات الفايربيز المحدثة والمتوافقة -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -144,18 +143,20 @@
     .admin-toggle-box { display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 12px; }
     .admin-btn { background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%); color: var(--primary-dark); font-weight: 700; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; }
 
-    footer { background-color: #000c18; color: var(--text-muted); text-align: center; padding: 35px 20px; font-size: 13px; margin-top: 50px; border-top: 1px solid rgba(223, 183, 44, 0.2); }
-    .credits { font-family: var(--font-heading); margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; color: var(--accent-gold); font-weight: 700; }
-    @media (min-width: 768px) { header { flex-direction: row; padding: 25px 50px; justify-content: space-between; } .header-text { text-align: right; } }
+    footer { background-color: #000c18; color: var(--text-muted); text-align: center; padding: 35px 20px; font-size: 14px; margin-top: 50px; border-top: 1px solid rgba(223, 183, 44, 0.2); }
+    .footer-info { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; font-style: normal; color: #cbd5e0; }
+    .footer-info span { display: block; }
+    .footer-info a { color: var(--accent-gold); text-decoration: none; transition: var(--transition-smooth); }
+    .footer-info a:hover { color: var(--accent-gold-hover); text-decoration: underline; }
+    .credits { font-family: var(--font-heading); margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; color: var(--accent-gold); font-weight: 700; }
+    @media (min-width: 768px) { header { flex-direction: row; padding: 25px 50px; justify-content: space-between; } .header-text { text-align: right; } .footer-info { flex-direction: row; justify-content: center; gap: 30px; } }
   </style>
 </head>
 <body>
 
-  <!-- واجهة الزوار والمستخدمين -->
   <div id="delegateContent">
     <header>
       <div class="logo-container">
-        <!-- دبل كليك هنا يفتح لوحة التحكم السرية -->
         <img src="logo.jpeg.JPG" alt="School Logo" ondblclick="triggerAdminGate()">
       </div>
       <div class="header-text">
@@ -196,7 +197,6 @@
     </div>
   </div>
 
-  <!-- لوحة التحكم السحابية والسرية العاطف جبرا -->
   <div id="adminDashboardView">
     <div class="admin-card">
       <h2>FRANMUN Global Control Panel ⚙️</h2>
@@ -265,7 +265,6 @@
     </div>
   </div>
 
-  <!-- الـ Modals والنوافذ المنبثقة -->
   <div id="committeeModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">×</span>
@@ -293,11 +292,14 @@
   </div>
 
   <footer>
+    <address class="footer-info">
+      <span>📍 <strong>Location:</strong> Nazareth, Israel</span>
+      <span>📧 <strong>Email:</strong> <a href="mailto:franmun2026@gmail.com">franmun2026@gmail.com</a></span>
+    </address>
     <div class="credits">Website made by Atef Jubran</div>
   </footer>
 
   <script>
-    // تم ربطها تلقائياً بمعلومات مشروع الـ Firebase الخاص بك
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
@@ -315,12 +317,12 @@
     const defaultData = {
       chairsOpen: true, delegatesOpen: false, targetDate: "September 1, 2026 00:00:00",
       committees: {
-        "UNWOMEN": { topics: "Empowering women in post-conflict economic restructuring...", chairs: [{ name: "Adam Abo Ahmad", img: "unwomen_chair1.png", bio: "BIO..." }, { name: "To be announced", img: "unwomen_chair2.png", bio: "BIO..." }, { name: "To be announced", img: "unwomen_chair3.png", bio: "BIO..." }] },
-        "UNHRC": { topics: "Addressing freedom of speech...", chairs: [{ name: "To be announced", img: "unhrc_chair1.png", bio: "BIO..." }, { name: "To be announced", img: "unhrc_chair2.png", bio: "BIO..." }, { name: "To be announced", img: "unhrc_chair3.png", bio: "BIO..." }] },
-        "DISEC": { topics: "Preventing the militarization of AI...", chairs: [{ name: "Issa Sabbagh", img: "disec_chair1.png", bio: "BIO..." }, { name: "To be announced", img: "disec_chair2.png", bio: "BIO..." }, { name: "To be announced", img: "disec_chair3.png", bio: "BIO..." }] },
-        "WHO": { topics: "Global framework policies...", chairs: [{ name: "Ameer Ashqar", img: "who_chair1.png", bio: "Hii Delegates, I’m Ameer..." }, { name: "to be announced", img: "who_chair2.png", bio: "BIO..." }, { name: "to be announced", img: "who_chair3.png", bio: "BIO..." }] },
-        "UNHSC": { topics: "The historical re-evaluation...", chairs: [{ name: "Ahmad Zoabi", img: "unhsc_chair1.png", bio: "BIO..." }, { name: "Shawqe Fahoum", img: "unhsc_chair2.png", bio: "BIO..." }, { name: "To be announced", img: "unhsc_chair3.png", bio: "BIO..." }] },
-        "CRISIS": { topics: "The Fall of Constantina...", chairs: [{ name: "Jamal Elias", img: "crisis_chair1.png", bio: "Hello dear..." }, { name: "Tala Saffury", img: "crisis_chair2.png", bio: "Heyyy..." }], backroom: [{ name: "Jana Abd Elheem", img: "jana_profile.png", bio: "BIO..." }, { name: "Yousef Sarji", img: "crisis_backroom2.png", bio: "BIO..." }] }
+        "UNWOMEN": { topics: "Empowering women in post-conflict economic restructuring and resource allocation.", chairs: [{ name: "Adam Abo Ahmad", img: "unwomen_chair1.png", bio: "Greetings delegates, I am Adam Abo Ahmad, head chair of UNWOMEN. Looking forward to productive debates." }, { name: "To be announced", img: "unwomen_chair2.png", bio: "Biography to be completed." }, { name: "To be announced", img: "unwomen_chair3.png", bio: "Biography to be completed." }] },
+        "UNHRC": { topics: "Addressing freedom of speech and digital surveillance parameters.", chairs: [{ name: "To be announced", img: "unhrc_chair1.png", bio: "Biography to be completed." }, { name: "To be announced", img: "unhrc_chair2.png", bio: "Biography to be completed." }, { name: "To be announced", img: "unhrc_chair3.png", bio: "Biography to be completed." }] },
+        "DISEC": { topics: "Preventing the militarization of AI systems and autonomous weapons technology.", chairs: [{ name: "Issa Sabbagh", img: "disec_chair1.png", bio: "Hello everyone, I am Issa Sabbagh, head chair of DISEC. Let's make this conference remarkable." }, { name: "To be announced", img: "disec_chair2.png", bio: "Biography to be completed." }, { name: "To be announced", img: "disec_chair3.png", bio: "Biography to be completed." }] },
+        "WHO": { topics: "Global framework policies for pandemic prevention and medical chain infrastructure.", chairs: [{ name: "Ameer Ashqar", img: "who_chair1.png", bio: "Hii Delegates, I’m Ameer Ashqar, your head chair for the WHO committee. Ready for exceptional solutions!" }, { name: "to be announced", img: "who_chair2.png", bio: "Biography to be completed." }, { name: "to be announced", img: "who_chair3.png", bio: "Biography to be completed." }] },
+        "UNHSC": { topics: "The historical re-evaluation of security council decisions during international interventions.", chairs: [{ name: "Ahmad Zoabi", img: "unhsc_chair1.png", bio: "Welcome delegates, I am Ahmad Zoabi, head chair of UNHSC. Prepare well for rigorous diplomatic challenges." }, { name: "Shawqe Fahoum", img: "unhsc_chair2.png", bio: "Hello delegates, I am Shawqe Fahoum, co-chair of UNHSC. Excited to meet you all." }, { name: "To be announced", img: "unhsc_chair3.png", bio: "Biography to be completed." }] },
+        "CRISIS": { topics: "The Fall of Constantina: Simulating unexpected regional escalations.", chairs: [{ name: "Jamal Elias", img: "crisis_chair1.png", bio: "Hello dear delegates, I am Jamal Elias, Frontroom Director. Get ready for quick shifts and continuous surprises." }, { name: "Tala Saffury", img: "crisis_chair2.png", bio: "Heyyy delegates! Tala Saffury here, co-chairing the Frontroom. Can't wait to see your fast reactions." }], backroom: [{ name: "Jana Abd Elheem", img: "jana_profile.png", bio: "Welcome to the backroom! I am Jana Abd Elheem, Backroom Director. We will be watching your directives carefully." }, { name: "Yousef Sarji", img: "crisis_backroom2.png", bio: "Hello everyone, Yousef Sarji, Backroom Coordinator. Keep your ideas strategic and realistic." }] }
       }
     };
 
