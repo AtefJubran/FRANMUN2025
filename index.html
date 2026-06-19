@@ -633,7 +633,7 @@
 
   <div id="adminDashboardView">
     <div class="admin-card">
-      <h2>FRANMUN Global Control Panel ⚙️</h2>
+      <h2>FRANMUN Global Control Panel</h2>
       <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">Any change made here syncs live to the database instantly!</p>
       
       <div class="admin-toggle-box">
@@ -651,40 +651,26 @@
       </div>
 
       <div class="admin-form-group" style="border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
+        <label>Select Committee to Manage Report & Chairs:</label>
+        <select id="admCommSelect" class="admin-select" onchange="loadCommitteeDataToPanel()">
+          <option value="UNWOMEN">UN Women</option>
+          <option value="UNHRC">UNHRC</option>
+          <option value="DISEC">DISEC</option>
+          <option value="WHO">WHO</option>
+          <option value="UNHSC">UNHSC</option>
+          <option value="CRISIS">Crisis Committee</option>
+        </select>
+      </div>
+
+      <div class="admin-form-group">
+        <label>Search Report URL:</label>
+        <input type="url" id="admCommReportUrl" class="admin-input" placeholder="https://example.com/report.pdf">
+      </div>
+
+      <div class="admin-form-group">
         <label>Select Chair to Edit Bio:</label>
         <select id="admChairSelect" class="admin-select" onchange="loadSelectedChairBioToPanel()">
-          <optgroup label="Crisis Committee">
-            <option value="CRISIS_0">Jamal Elias (Frontroom 1)</option>
-            <option value="CRISIS_1">Tala Saffury (Frontroom 2)</option>
-            <option value="CRISIS_B0">Jana Abd Elheem (Backroom 1)</option>
-            <option value="CRISIS_B1">Yousef Sarji (Backroom 2)</option>
-          </optgroup>
-          <optgroup label="WHO Committee">
-            <option value="WHO_0">Ameer Ashqar (Chair 1)</option>
-            <option value="WHO_1">To be announced (Chair 2)</option>
-            <option value="WHO_2">To be announced (Chair 3)</option>
-          </optgroup>
-          <optgroup label="UN Women Committee">
-            <option value="UNWOMEN_0">Adam Abo Ahmad (Chair 1)</option>
-            <option value="UNWOMEN_1">To be announced (Chair 2)</option>
-            <option value="UNWOMEN_2">To be announced (Chair 3)</option>
-          </optgroup>
-          <optgroup label="DISEC Committee">
-            <option value="DISEC_0">Issa Sabbagh (Chair 1)</option>
-            <option value="DISEC_1">To be announced (Chair 2)</option>
-            <option value="DISEC_2">To be announced (Chair 3)</option>
-          </optgroup>
-          <optgroup label="UNHSC Committee">
-            <option value="UNHSC_0">Ahmad Zoabi (Chair 1)</option>
-            <option value="UNHSC_1">Shawqe Fahoum (Chair 2)</option>
-            <option value="UNHSC_2">To be announced (Chair 3)</option>
-          </optgroup>
-          <optgroup label="UNHRC Committee">
-            <option value="UNHRC_0">To be announced (Chair 1)</option>
-            <option value="UNHRC_1">To be announced (Chair 2)</option>
-            <option value="UNHRC_2">To be announced (Chair 3)</option>
-          </optgroup>
-        </select>
+          </select>
       </div>
 
       <div class="admin-form-group">
@@ -693,7 +679,7 @@
       </div>
 
       <div style="display:flex; gap:10px; margin-top:20px;">
-        <button class="admin-btn" onclick="saveAdminSettings()">💾 Global Sync & Save</button>
+        <button class="admin-btn" onclick="saveAdminSettings()">Global Sync & Save</button>
         <button class="admin-btn" style="background:#e74c3c; color:#fff;" onclick="exitAdminPanel()">Close Control Panel</button>
       </div>
     </div>
@@ -716,7 +702,7 @@
       <div class="chairs-container" id="modalBackroomChairs" style="display: none;"></div>
 
       <div style="margin-top: 20px;">
-        <a id="modalReportLink" href="https://google.com" target="_blank" class="report-btn">📄 View Research Report</a>
+        <a id="modalReportLink" href="#" target="_blank" class="report-btn">View Research Report</a>
       </div>
 
       <button class="modal-close-button" onclick="closeModal()">Close</button>
@@ -734,12 +720,10 @@
   </div>
 
   <footer>
-    <address class="footer-info">
-      <span>📍 <strong>Location:</strong> <a href="https://maps.google.com" target="_blank" style="color: #fff; text-decoration: underline;">Nazareth, Israel</a></span>
-      <span>📧 <strong>Email:</strong> <a href="mailto:franmun2026@gmail.com">franmun2026@gmail.com</a></span>
-    </address>
+    <p>Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-gold);">franmun2025@gmail.com</a></p>
     <p>Franciscan Sister's School Nazareth</p>
-    <p style="margin-top: 15px; opacity: 0.4; font-size: 12px;">© 2026 Franciscan Sister's School MUN. All rights reserved.</p>
+    <p><a href="https://maps.google.com" target="_blank" style="color: #fff; text-decoration: underline;">View Location</a></p>
+    <p style="margin-top: 15px; opacity: 0.4; font-size: 12px;">© 2025 Franciscan Sister's School MUN. All rights reserved.</p>
     <div class="credits">Website made by Atef Jubran</div>
   </footer>
 
@@ -759,7 +743,6 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    // Default Fallback Configurations
     const defaultData = {
       chairsOpen: true, 
       delegatesOpen: true, 
@@ -832,7 +815,6 @@
     let appData = defaultData;
     let currentActiveCommittee = "";
 
-    // Realtime Database Sync Listener
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
         appData = snapshot.val();
@@ -848,12 +830,12 @@
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration →</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:linear-gradient(135deg, #4a5568 0%, #2d3748 100%); color:#a0aec0; cursor:not-allowed;" onclick="event.preventDefault();">Delegates Registration (Closed) 🔒</a>`;
+        html += `<a href="#" class="button" style="background:linear-gradient(135deg, #4a5568 0%, #2d3748 100%); color:#a0aec0; cursor:not-allowed;" onclick="event.preventDefault();">Delegates Registration (Closed)</a>`;
       }
       if (appData.chairsOpen) {
         html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration →</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:linear-gradient(135deg, #4a5568 0%, #2d3748 100%); color:#a0aec0; cursor:not-allowed;" onclick="event.preventDefault();">Chairs Registration (Closed) 🔒</a>`;
+        html += `<a href="#" class="button" style="background:linear-gradient(135deg, #4a5568 0%, #2d3748 100%); color:#a0aec0; cursor:not-allowed;" onclick="event.preventDefault();">Chairs Registration (Closed)</a>`;
       }
       container.innerHTML = html;
     }
@@ -873,7 +855,7 @@
 
       if (data) {
         document.getElementById("modalTopics").innerText = data.topics;
-        document.getElementById("modalReportLink").href = data.report || "https://google.com";
+        document.getElementById("modalReportLink").href = data.report || "#";
         
         let chairsHTML = "";
         data.chairs.forEach((chair, index) => {
@@ -946,17 +928,48 @@
         const tzoffset = (new Date()).getTimezoneOffset() * 60000;
         document.getElementById("admCountDate").value = (new Date(d - tzoffset)).toISOString().slice(0, 16);
       }
+      loadCommitteeDataToPanel();
+    }
+
+    // Loads current committee URL and dynamic chair list
+    function loadCommitteeDataToPanel() {
+      const commKey = document.getElementById("admCommSelect").value;
+      const committee = appData.committees[commKey];
+      
+      // Load current Report URL
+      document.getElementById("admCommReportUrl").value = committee.report || "";
+
+      // Load dynamic dropdown options for chairs
+      const chairSelect = document.getElementById("admChairSelect");
+      let optionsHTML = "";
+
+      committee.chairs.forEach((chair, idx) => {
+        optionsHTML += `<option value="chairs_${idx}">${chair.name}</option>`;
+      });
+
+      if (commKey === "CRISIS" && committee.backroom) {
+        committee.backroom.forEach((bChair, idx) => {
+          optionsHTML += `<option value="backroom_${idx}">${bChair.name} (Backroom)</option>`;
+        });
+      }
+
+      chairSelect.innerHTML = optionsHTML;
       loadSelectedChairBioToPanel();
     }
 
     function loadSelectedChairBioToPanel() {
-      const key = document.getElementById("admChairSelect").value;
-      const parts = key.split("_");
-      const com = parts[0]; const index = parts[1];
-      if(index.startsWith("B")) {
-        document.getElementById("admChairTextArea").value = appData.committees[com].backroom[parseInt(index.substring(1))].bio;
+      const commKey = document.getElementById("admCommSelect").value;
+      const chairVal = document.getElementById("admChairSelect").value;
+      if(!chairVal) return;
+
+      const parts = chairVal.split("_");
+      const type = parts[0]; 
+      const index = parseInt(parts[1]);
+
+      if(type === "backroom") {
+        document.getElementById("admChairTextArea").value = appData.committees[commKey].backroom[index].bio || "";
       } else {
-        document.getElementById("admChairTextArea").value = appData.committees[com].chairs[parseInt(index)].bio;
+        document.getElementById("admChairTextArea").value = appData.committees[commKey].chairs[index].bio || "";
       }
     }
 
@@ -970,19 +983,28 @@
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
 
-      const key = document.getElementById("admChairSelect").value;
-      const parts = key.split("_");
-      const com = parts[0]; const index = parts[1];
-      const newBio = document.getElementById("admChairTextArea").value;
+      const commKey = document.getElementById("admCommSelect").value;
+      
+      // Save updated Report URL for this specific committee
+      appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
 
-      if(index.startsWith("B")) {
-        appData.committees[com].backroom[parseInt(index.substring(1))].bio = newBio;
-      } else {
-        appData.committees[com].chairs[parseInt(index)].bio = newBio;
+      // Save updated Chair bio
+      const chairVal = document.getElementById("admChairSelect").value;
+      if(chairVal) {
+        const parts = chairVal.split("_");
+        const type = parts[0]; 
+        const index = parseInt(parts[1]);
+        const newBio = document.getElementById("admChairTextArea").value;
+
+        if(type === "backroom") {
+          appData.committees[commKey].backroom[index].bio = newBio;
+        } else {
+          appData.committees[commKey].chairs[index].bio = newBio;
+        }
       }
 
       database.ref("homepage_data").set(appData).then(() => {
-        alert("Global Live Update Synced Successfully! ✨");
+        alert("Global Live Update Synced Successfully!");
         exitAdminPanel();
       });
     }
@@ -1012,7 +1034,6 @@
       document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
     }, 1000);
 
-    // --- UNIVERSAL OUTSIDE CLICK MODAL CLOSER ---
     window.onclick = function(event) {
       const committeeModal = document.getElementById("committeeModal");
       const bioPopupModal = document.getElementById("bioPopupModal");
@@ -1021,7 +1042,7 @@
       if (event.target === committeeModal) closeModal();
     }
 
-    // --- SECURITY BLOCKS (INSPECT DEFIANCE) ---
+    // --- SECURITY BLOCKS ---
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.onkeydown = function(e) {
       if (e.keyCode == 123) return false;
