@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FRANMUN | Control Panel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=700&family=Montserrat:wght=400;600;700&display=swap" rel="stylesheet">
   
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -175,7 +175,7 @@
 
       <div class="admin-toggle-box coming-soon-highlight">
         <input type="checkbox" id="admChairsComingSoon">
-        <label for="admChairsComingSoon" style="color: var(--accent-gold);">Hide Chairs and Show "Coming Soon" for this Committee</label>
+        <label for="admChairsComingSoon" style="color: var(--accent-gold);">Hide Chairs and Show "TOP SECRET" Stamp for this Committee</label>
       </div>
 
       <div class="admin-form-group">
@@ -189,7 +189,7 @@
       </div>
 
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
-        <label>Select Chair to Edit Bio (Visible only if Coming Soon is turned off):</label>
+        <label>Select Chair to Edit Bio (Visible only if TOP SECRET is turned off):</label>
         <select id="admChairSelect" class="admin-select" onchange="loadSelectedChairBioToPanel()">
           </select>
       </div>
@@ -230,7 +230,7 @@
         initializePanelFetch();
       } else {
         alert("Access Denied! Wrong Password.");
-        window.location.href = "index.html"; // طرده إلى الصفحة الرئيسية
+        window.location.href = "index.html";
       }
     };
 
@@ -262,12 +262,10 @@
       const committee = appData.committees[commKey];
       if(!committee) return;
       
-      // تحميل موضوع اللجنة والرابط وحالة الـ Coming soon
       document.getElementById("admCommTopic").value = committee.topics || "";
       document.getElementById("admCommReportUrl").value = committee.report || "";
       document.getElementById("admChairsComingSoon").checked = committee.chairsComingSoon || false;
 
-      // تحميل قائمة الـ Chairs التابعة للجنة المحددة
       const chairSelect = document.getElementById("admChairSelect");
       let optionsHTML = "";
 
@@ -320,12 +318,10 @@
       const commKey = document.getElementById("admCommSelect").value;
       if(!appData.committees[commKey]) appData.committees[commKey] = {};
       
-      // حفظ البيانات المحدثة للجنة المحددة
       appData.committees[commKey].topics = document.getElementById("admCommTopic").value;
       appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
       appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
 
-      // حفظ الـ Bio للـ Chair المحدد
       const chairVal = document.getElementById("admChairSelect").value;
       if(chairVal) {
         const parts = chairVal.split("_");
@@ -340,7 +336,6 @@
         }
       }
 
-      // رفع وتحديث قاعدة البيانات مباشرة
       database.ref("homepage_data").set(appData).then(() => {
         alert("Global Sync Completed Successfully!");
         loadCommitteeDataToPanel();
