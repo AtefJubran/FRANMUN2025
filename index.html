@@ -364,6 +364,33 @@
       color: var(--primary-dark);
     }
 
+    /* --- TOP SECRET DRAMATIC STAMP (Inspired by image.png) --- */
+    .top-secret-stamp {
+      display: inline-block;
+      border: 4px double #e74c3c;
+      color: #e74c3c;
+      font-family: 'Cinzel', Georgia, serif;
+      font-size: 26px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 10px 30px;
+      margin: 20px auto;
+      letter-spacing: 3px;
+      transform: rotate(-12deg);
+      background: rgba(231, 76, 60, 0.05);
+      box-shadow: 0 0 15px rgba(231, 76, 60, 0.2);
+      border-radius: 4px;
+      position: relative;
+      text-shadow: 0 0 1px rgba(231, 76, 60, 0.5);
+      opacity: 0.95;
+      animation: stampIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    @keyframes stampIn {
+      from { transform: scale(1.6) rotate(-25deg); opacity: 0; filter: blur(4px); }
+      to { transform: scale(1) rotate(-12deg); opacity: 0.95; filter: blur(0); }
+    }
+
     /* --- PREMIUM MODAL SYSTEM --- */
     .modal {
       display: none;
@@ -706,12 +733,12 @@
         
         let chairsHTML = "";
         
-        // التحقق مما إذا كان خيار Coming Soon مفعلاً لهذه اللجنة
+        // التحقق مما إذا كان خيار الإخفاء مفعلاً لهذه اللجنة
         if (data.chairsComingSoon) {
+          // استبدال الصور والأسماء بختم TOP SECRET دراماتيكي مائل مستوحى من image.png
           chairsHTML = `
-            <div class="chair-box" style="cursor:default;">
-              <img src="logo.jpeg.JPG" alt="Coming Soon" class="chair-img">
-              <div class="chair-name">Coming Soon</div>
+            <div style="width: 100%; text-align: center; padding: 15px 0;">
+              <div class="top-secret-stamp">Top Secret</div>
             </div>`;
           document.getElementById("modalChairs").innerHTML = chairsHTML;
           backroomTitle.style.display = "none";
