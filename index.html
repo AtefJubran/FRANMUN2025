@@ -364,7 +364,7 @@
       color: var(--primary-dark);
     }
 
-    /* --- TOP SECRET DRAMATIC STAMP (Inspired by image.png) --- */
+    /* --- TOP SECRET DRAMATIC STAMP --- */
     .top-secret-stamp {
       display: inline-block;
       border: 4px double #e74c3c;
@@ -537,6 +537,62 @@
     .bio-popup-text::-webkit-scrollbar { width: 5px; }
     .bio-popup-text::-webkit-scrollbar-thumb { background: var(--accent-gold); border-radius: 10px; }
 
+    /* --- MAINTENANCE SCREEN STYLE --- */
+    #maintenanceContent {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at top, #002244 0%, #001122 100%);
+      z-index: 999999;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .maintenance-card {
+      background: rgba(0, 26, 51, 0.6);
+      border: 1px solid var(--accent-gold);
+      padding: 40px 30px;
+      border-radius: 20px;
+      max-width: 550px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+    }
+
+    .maintenance-card h2 {
+      font-family: var(--font-heading);
+      color: var(--accent-gold);
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .maintenance-card p {
+      font-size: 16px;
+      color: #edf2f7;
+      margin-bottom: 25px;
+    }
+
+    .insta-badge {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: 0.5px;
+      box-shadow: 0 8px 20px rgba(220, 39, 67, 0.3);
+      transition: var(--transition-smooth);
+    }
+
+    .insta-badge:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 25px rgba(220, 39, 67, 0.5);
+    }
+
     /* --- FOOTER & CREDITS --- */
     footer {
       background-color: #000c18;
@@ -571,6 +627,16 @@
   </style>
 </head>
 <body>
+
+  <div id="maintenanceContent">
+    <div class="maintenance-card">
+      <img src="logo.jpeg.JPG" style="width: 90px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(223,183,44,0.3));">
+      <h2>Under Maintenance</h2>
+      <p>Our website is undergoing crucial updates to serve you better. We'll be back online very soon!</p>
+      <p style="color: var(--accent-gold); font-size: 14px; font-weight:600;">Stay tuned and follow our Instagram for live announcements:</p>
+      <a href="https://www.instagram.com/franciscan_munners" target="_blank" class="insta-badge">@franciscan_munners</a>
+    </div>
+  </div>
 
   <div id="delegateContent">
     <header>
@@ -693,6 +759,16 @@
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
         appData = snapshot.val();
+        
+        // التحقق من تفعيل وضع الصيانة أم لا
+        const maintenanceOverlay = document.getElementById("maintenanceContent");
+        if (appData.maintenanceMode) {
+          maintenanceOverlay.style.display = "flex";
+          return; // منع أي شيء آخر من التحميل
+        } else {
+          maintenanceOverlay.style.display = "none";
+        }
+
         renderRegistrationButtons();
       }
     });
@@ -733,9 +809,7 @@
         
         let chairsHTML = "";
         
-        // التحقق مما إذا كان خيار الإخفاء مفعلاً لهذه اللجنة
         if (data.chairsComingSoon) {
-          // استبدال الصور والأسماء بختم TOP SECRET دراماتيكي مائل مستوحى من image.png
           chairsHTML = `
             <div style="width: 100%; text-align: center; padding: 15px 0;">
               <div class="top-secret-stamp">Top Secret</div>
@@ -744,7 +818,6 @@
           backroomTitle.style.display = "none";
           backroomChairsContainer.style.display = "none";
         } else {
-          // عرض الـ Chairs العاديين إذا لم يتم التفعيل
           if(data.chairs) {
             data.chairs.forEach((chair, index) => {
               chairsHTML += `
