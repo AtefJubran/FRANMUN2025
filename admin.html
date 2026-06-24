@@ -3,324 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN | Admin Dashboard</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>FRANMUN | Control Panel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   
-  <style>
-    :root {
-      --primary-dark: #001122;    
-      --secondary-blue: #002244;  
-      --accent-gold: #dfb72c;     
-      --card-bg: rgba(255, 255, 255, 0.04); 
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text-light: #ffffff;
-    }
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-    body {
-      font-family: 'Montserrat', sans-serif;
-      background: radial-gradient(circle at top, var(--secondary-blue) 0%, var(--primary-dark) 100%);
-      color: var(--text-light);
-      min-height: 100vh;
-      padding: 40px 20px;
-      margin: 0;
-    }
-
-    .admin-container {
-      max-width: 850px;
-      margin: 0 auto;
-    }
-
-    h1 {
-      font-family: 'Cinzel', serif;
-      color: var(--accent-gold);
-      text-align: center;
-      margin-bottom: 30px;
-      letter-spacing: 2px;
-      border-bottom: 2px solid var(--accent-gold);
-      padding-bottom: 15px;
-    }
-
-    .section-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      padding: 25px;
-      border-radius: 14px;
-      margin-bottom: 25px;
-      box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-    }
-
-    h2 {
-      font-family: 'Cinzel', serif;
-      color: var(--accent-gold);
-      font-size: 20px;
-      margin-top: 0;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    label {
-      font-weight: 600;
-      font-size: 14px;
-      color: #cbd5e0;
-    }
-
-    input[type="text"], input[type="datetime-local"], textarea, select {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid var(--card-border);
-      padding: 12px;
-      border-radius: 8px;
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 14px;
-      transition: all 0.3s;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      border-color: var(--accent-gold);
-      outline: none;
-    }
-
-    .toggle-container {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      background: rgba(0,0,0,0.2);
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-
-    .switch {
-      position: relative;
-      display: inline-block;
-      width: 50px;
-      height: 26px;
-    }
-
-    .switch input { opacity: 0; width: 0; height: 0; }
-
-    .slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #4a5568;
-      transition: .4s;
-      border-radius: 34px;
-    }
-
-    .slider:before {
-      position: absolute;
-      content: "";
-      height: 18px;
-      width: 18px;
-      left: 4px;
-      bottom: 4px;
-      background-color: white;
-      transition: .4s;
-      border-radius: 50%;
-    }
-
-    input:checked + .slider { background-color: var(--accent-gold); }
-    input:checked + .slider:before { transform: translateX(24px); }
-
-    .btn {
-      background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%);
-      color: var(--primary-dark);
-      font-weight: 700;
-      padding: 14px 20px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      width: 100%;
-      font-size: 16px;
-      transition: all 0.3s;
-      margin-top: 15px;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(223, 183, 44, 0.3);
-    }
-
-    .btn-secondary {
-      background: #e74c3c;
-      color: white;
-    }
-    .btn-secondary:hover {
-      background: #c0392b;
-      box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
-    }
-
-    .output-box {
-      background: #000c18;
-      border: 1px solid var(--accent-gold);
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 15px;
-      display: none;
-    }
-
-    textarea.code-area {
-      width: 100%;
-      height: 200px;
-      font-family: monospace;
-      font-size: 12px;
-      background: #050505;
-      color: #00ff00;
-      box-sizing: border-box;
-    }
-  </style>
-</head>
-<body>
-
-  <div class="admin-container">
-    <h1>FRANMUN Control Panel</h1>
-
-    <!-- 1. التحكم بالتسجيل -->
-    <div class="section-card">
-      <h2>1. Registration Settings (فتح وإغلاق التسجيل)</h2>
-      
-      <div class="toggle-container">
-        <label class="switch">
-          <input type="checkbox" id="chairsToggle" checked>
-          <span class="slider"></span>
-        </label>
-        <label for="chairsToggle">Chairs Registration (Open / Closed)</label>
-      </div>
-
-      <div class="toggle-container">
-        <label class="switch">
-          <input type="checkbox" id="delegatesToggle">
-          <span class="slider"></span>
-        </label>
-        <label for="delegatesToggle">Delegates Registration (Open / Closed)</label>
-      </div>
-    </div>
-
-    <!-- 2. عداد التنازلي -->
-    <div class="section-card">
-      <h2>2. Conference Countdown</h2>
-      <div class="form-group">
-        <label>Target Date & Time:</label>
-        <input type="datetime-local" id="countdownDate" value="2026-09-01T00:00">
-      </div>
-    </div>
-
-    <!-- 3. تعديل بايو الـ Chairs -->
-    <div class="section-card">
-      <h2>3. Edit Chairs Bios</h2>
-      
-      <div class="form-group">
-        <label>Select Chair to Edit:</label>
-        <select id="chairSelector" onchange="loadChairBio()">
-          <option value="CRISIS_Jamal">Crisis - Jamal Elias</option>
-          <option value="CRISIS_Tala">Crisis - Tala Saffury</option>
-          <option value="WHO_Ameer">WHO - Ameer Ashqar</option>
-          <option value="UNWOMEN_Adam">UN Women - Adam Abo Ahmad</option>
-          <option value="DISEC_Issa">DISEC - Issa Sabbagh</option>
-          <option value="UNHSC_Ahmad">UNHSC - Ahmad Zoabi</option>
-          <option value="UNHSC_Shawqe">UNHSC - Shawqe Fahoum</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>Biography Text:</label>
-        <textarea id="chairBioText" rows="6" placeholder="Enter bio here..."></textarea>
-      </div>
-      <button class="btn" onclick="saveChairBio()" style="padding: 8px 15px; font-size:14px; max-width:200px;">Save Current Chair Bio</button>
-    </div>
-
-    <!-- 4. توليد الكود الجديد للموقع -->
-    <div class="section-card" style="text-align: center;">
-      <h2>4. Export Your Changes</h2>
-      <p style="font-size:13px; color:#a0aec0; margin-bottom:15px;">بعد الانتهاء من كل التعديلات، اضغط على الزر بالأسفل لتوليد كود الـ HomePage المحدث فوراً.</p>
-      <button class="btn" onclick="generateNewHTML()">✨ توليد كود الـ HomePage المحدث</button>
-      
-      <div class="output-box" id="outputBox">
-        <p style="color:var(--accent-gold); font-weight:bold; font-size:14px; margin-bottom:10px;">👇 انسخ الكود من الصندوق بالأسفل وضعه في ملف الـ index.html الرئيسي:</p>
-        <textarea class="code-area" id="codeOutput" readonly onclick="this.select()"></textarea>
-        <button class="btn btn-secondary" onclick="navigator.clipboard.writeText(document.getElementById('codeOutput').value); alert('تم نسخ الكود بنجاح!');">نسخ الكود بالكامل 📋</button>
-      </div>
-    </div>
-
-  </div>
-
-  <script>
-    // قاعدة بيانات البايو الافتراضية المأخوذة من ملفك الأصلي
-    let biosDB = {
-      "CRISIS_Jamal": `Hello dear delegates !!!\nMy name is Jamal and I’m so excited to be serving as a chair in FRANMUN 2026 !!\nMy MUN journey started one year ago and it was one of the best things that happened in my life , i met new friends , I developed my speaking skills in english and I improved my communication skills and confidence .\nCome with full energies and excitement and do your best and don’t forget to have fun !!`,
-      "CRISIS_Tala": `Heyyy I’m Tala, and I honestly couldn’t be happier to be chairing this Crisis Committee.\nMUN has become such a huge part of my journey and getting the chance to now help lead a committee and create an amazing experience for others means a lot to me.`,
-      "WHO_Ameer": `Hii Delegates,\nI’m Ameer, and I’m truly honored to be your Chair at FRANMUN 2026. Every MUN conference I’ve been part of taught me the same thing: don’t hold back Raise your placard, take the floor, respond without fear of being wrong because this is exactly where you learn how to become a stronger speaker.\nI can’t wait to see you all, and witness your creativity, ideas, and energy. Most importantly, let’s enjoy every moment and turn this experience into memories we’ll never forget .`,
-      "UNWOMEN_Adam": "BIO COMING SOON...",
-      "DISEC_Issa": "BIO COMING SOON...",
-      "UNHSC_Ahmad": "BIO COMING SOON....",
-      "UNHSC_Shawqe": "BIO COMING SOON..."
-    };
-
-    // تحميل البايو عند فتح الصفحة أول مرة
-    window.onload = function() {
-      loadChairBio();
-    };
-
-    function loadChairBio() {
-      const selected = document.getElementById("chairSelector").value;
-      document.getElementById("chairBioText").value = biosDB[selected];
-    }
-
-    function saveChairBio() {
-      const selected = document.getElementById("chairSelector").value;
-      biosDB[selected] = document.getElementById("chairBioText").value;
-      alert("تم حفظ بايو التشير الحالي في الذاكرة المؤقتة للوحة التحكم!");
-    }
-
-    // الدالة السحرية التي تأخذ القوالب وتدمج المدخلات الجديدة فيها لتنتج ملف الـ HomePage المحدث بالكامل!
-    function generateNewHTML() {
-      const chairsOpen = document.getElementById("chairsToggle").checked;
-      const delegatesOpen = document.getElementById("delegatesToggle").checked;
-      const dateVal = document.getElementById("countdownDate").value;
-      
-      // تنسيق التاريخ للـ JavaScript الخاص بالـ HomePage
-      let formattedDate = "September 1, 2026 00:00:00";
-      if(dateVal) {
-        const d = new Date(dateVal);
-        const options = { month: 'long', day: 'numeric', year: 'numeric' };
-        const timeStr = d.toTimeString().split(' ')[0];
-        formattedDate = `${d.toLocaleDateString('en-US', options)} ${timeStr}`;
-      }
-
-      // بناء أزرار التسجيل ديناميكياً بناءً على وضعية الـ Toggle (مفتوح / مغلق)
-      let buttonsHTML = "";
-      if (delegatesOpen) {
-        buttonsHTML += `        <a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration →</a>\n`;
-      } else {
-        buttonsHTML += `        <a href="#" class="button" style="background:linear-gradient(135deg, #4a5568 0%, #2d3748 100%); color:#a0aec0; cursor:not-allowed;" onclick="event.preventDefault(); alert('Delegates Registration is currently closed! Stay tuned.');">Delegates Registration (Closed) 🔒</a>\n`;
-      }
-
-      if (chairsOpen) {
-        buttonsHTML += `        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration →</a>`;
-      } else {
-        buttonsHTML += `        <a href="#" class="button" style="background:linear-gradient(135deg, #4a5568 0%, #2d3748 100%); color:#a0aec0; cursor:not-allowed;" onclick="event.preventDefault(); alert('Chairs Registration is currently closed!');">Chairs Registration (Closed) 🔒</a>`;
-      }
-
-      // تجهيز نصوص البايو للحقن داخل كود الـ JavaScript لـ HomePage
-      const finalHTML = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FRANMUN</title>
-  <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary-dark: #001122;    
@@ -331,323 +19,334 @@
       --card-border: rgba(255, 255, 255, 0.08);
       --text-light: #ffffff;
       --text-muted: #a0aec0;
-      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --font-heading: 'Cinzel', Georgia, serif;
-      --font-body: 'Montserrat', sans-serif;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      font-family: var(--font-body);
+      font-family: 'Montserrat', sans-serif;
       background: radial-gradient(circle at top, var(--secondary-blue) 0%, var(--primary-dark) 100%);
-      background-attachment: fixed;
       color: var(--text-light);
-      line-height: 1.6;
-      overflow-x: hidden;
-      position: relative; 
-      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: none; /* يتم إظهاره فقط بعد كتابة كلمة المرور الصالحة */
     }
-    body::before {
-      content: ""; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 80vw; height: 80vw; max-width: 750px; max-height: 750px;
-      background-image: url('logo.jpeg.JPG'); background-size: cover; background-repeat: no-repeat;
-      background-position: center; border-radius: 50%; opacity: 0.04; pointer-events: none; z-index: 0; 
+
+    .admin-container {
+      max-width: 750px;
+      margin: 0 auto;
     }
-    #delegateContent, header, .main-container, footer { position: relative; z-index: 1; }
-    header {
-      background: linear-gradient(180deg, rgba(0,17,34,0.95) 0%, rgba(0,34,68,0.7) 100%);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); padding: 30px 40px;
-      display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px;
-      border-bottom: 2px solid var(--accent-gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+    .admin-card {
+      background: rgba(0, 26, 51, 0.95);
+      border: 2px solid var(--accent-gold);
+      padding: 35px;
+      border-radius: 18px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.7);
     }
-    .logo-container { position: relative; display: inline-block; }
-    header img { max-width: 85px; height: auto; filter: drop-shadow(0 0 12px rgba(223, 183, 44, 0.3)); transition: var(--transition-smooth); cursor: pointer; }
-    header img:hover { transform: scale(1.05); }
-    header h1 { font-family: var(--font-heading); font-weight: 700; letter-spacing: 2px; }
-    header p { font-weight: 400; letter-spacing: 1px; font-size: 14px; }
-    .logo-popup-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 8, 16, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 15000; justify-content: center; align-items: center; padding: 20px; }
-    .logo-popup-content { background: #001a33; border: 2px solid var(--accent-gold); padding: 30px 25px; border-radius: 18px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.6); animation: popupFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-    @keyframes popupFadeIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .logo-popup-content p { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 20px; }
-    .popup-btns { display: flex; justify-content: center; gap: 12px; }
-    .popup-btn { padding: 10px 26px; border-radius: 6px; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: none; transition: var(--transition-smooth); }
-    .popup-btn.yes { background: var(--accent-gold); color: var(--primary-dark); border: none; }
-    .popup-btn.yes:hover { background: var(--accent-gold-hover); }
-    .popup-btn.no { background: rgba(255, 255, 255, 0.08); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); }
-    .popup-btn.no:hover { background: rgba(255, 255, 255, 0.2); }
-    .emoji-rain { position: fixed; top: -60px; pointer-events: none; z-index: 99999; animation: fall linear forwards; }
-    @keyframes fall { to { transform: translateY(115vh) rotate(360deg); } }
-    .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
-    .section { padding: 30px 20px; text-align: center; background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); margin-bottom: 25px; border-radius: 14px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
-    .section h2 { font-family: var(--font-heading); font-size: 26px; color: var(--accent-gold); margin-bottom: 12px; letter-spacing: 2px; font-weight: 700; }
-    .card { background: var(--card-bg); border: 1px solid var(--card-border); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); margin: 20px auto; padding: 30px 25px; border-radius: 14px; width: 100%; box-shadow: 0 15px 35px rgba(0,0,0,0.3); text-align: center; transition: var(--transition-smooth); }
-    .card:hover { transform: translateY(-3px); border-color: rgba(223, 183, 44, 0.25); box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45); }
-    .card h3 { font-family: var(--font-heading); font-size: 20px; color: var(--accent-gold); margin-bottom: 18px; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
-    .card p { color: #e2e8f0; font-size: 15px; font-weight: 400; }
-    .button-container { text-align: center; margin: 25px auto; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; width: 100%; }
-    .button { display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%); color: var(--primary-dark); font-weight: 700; padding: 14px 24px; border-radius: 8px; text-decoration: none; cursor: pointer; font-size: 15px; transition: var(--transition-smooth); box-shadow: 0 8px 20px rgba(223, 183, 44, 0.15); flex: 1; min-width: 250px; max-width: 320px; letter-spacing: 0.5px; }
-    .button:hover { background: linear-gradient(135deg, var(--accent-gold-hover) 0%, var(--accent-gold) 100%); transform: translateY(-2px); box-shadow: 0 12px 25px rgba(223, 183, 44, 0.3); }
-    .countdown-container { display: flex; justify-content: center; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
-    .countdown-box { background: rgba(0, 0, 0, 0.35); border: 1px solid rgba(223, 183, 44, 0.15); color: var(--text-light); padding: 12px; border-radius: 10px; min-width: 70px; flex: 1; max-width: 90px; transition: var(--transition-smooth); }
-    .countdown-box:hover { border-color: var(--accent-gold); }
-    .countdown-number { font-size: 24px; font-weight: 700; display: block; color: var(--accent-gold); font-family: monospace; }
-    .countdown-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
-    .committee-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 20px; padding: 5px; }
-    @media (max-width: 520px) { .committee-grid { grid-template-columns: repeat(2, 1fr); } }
-    .committee-icon { width: 100%; aspect-ratio: 1 / 1; cursor: pointer; transition: var(--transition-smooth); border-radius: 14px; border: 1px solid rgba(255, 255, 255, 0.08); background-color: rgba(255, 255, 255, 0.02); padding: 15px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-    .committee-icon:hover { transform: scale(1.06); background-color: rgba(255, 255, 255, 0.05); box-shadow: 0 0 20px rgba(223, 183, 44, 0.25); border: 1px solid var(--accent-gold); }
-    .committee-icon img { width: 95%; height: 95%; object-fit: contain; }
-    .chairs-title { font-family: var(--font-heading); font-weight: 700; margin-top: 25px; color: var(--text-light); border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
-    .chairs-container { display: flex; justify-content: center; gap: 15px; margin-top: 15px; flex-wrap: wrap; }
-    .chair-box { text-align: center; flex: 0 1 calc(33.33% - 10px); min-width: 85px; cursor: pointer; }
-    .chair-img { width: 72px; height: 72px; border-radius: 50%; border: 2px solid var(--accent-gold); object-fit: cover; background-color: #001a33; padding: 2px; transition: var(--transition-smooth); }
-    .chair-box:hover .chair-img { transform: scale(1.05); box-shadow: 0 0 12px rgba(223, 183, 44, 0.4); }
-    .chair-name { font-size: 12px; font-weight: 500; color: #cbd5e0; margin-top: 6px; }
-    .backroom-section-title { font-family: var(--font-heading); font-weight: 700; margin-top: 20px; color: #e74c3c; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; }
-    .report-btn { display: inline-flex; align-items: center; margin-top: 20px; background-color: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 10px 20px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; transition: var(--transition-smooth); letter-spacing: 0.5px; }
-    .report-btn:hover { background-color: var(--accent-gold); color: var(--primary-dark); }
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 8, 16, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 10000; justify-content: center; align-items: center; padding: 20px; }
-    .modal-content { background: #001a33; border: 1px solid rgba(255, 255, 255, 0.1); padding: 35px 25px 25px 25px; border-radius: 18px; max-width: 480px; width: 100%; text-align: center; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.5); animation: modalFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-    @keyframes modalFadeIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .modal-content .close-btn { position: absolute; top: 8px; right: 18px; cursor: pointer; font-size: 30px; color: var(--text-muted); transition: var(--transition-smooth); }
-    .modal-content .close-btn:hover { color: var(--accent-gold); }
-    .modal-close-button { font-family: var(--font-body); display: block; width: 100%; max-width: 140px; margin: 25px auto 0 auto; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 10px; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; transition: var(--transition-smooth); }
-    .modal-close-button:hover { background: rgba(255, 255, 255, 0.1); border-color: #fff; }
-    .bio-popup-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 5, 10, 0.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 20000; justify-content: center; align-items: center; padding: 20px; }
-    .bio-popup-content { background: #002244; border: 2px solid var(--accent-gold); padding: 35px 25px 25px 25px; border-radius: 20px; max-width: 480px; width: 100%; text-align: center; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.7); animation: bioPopupAnimation 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    @keyframes bioPopupAnimation { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-    .bio-popup-content .close-bio-btn { position: absolute; top: 10px; right: 20px; cursor: pointer; font-size: 32px; color: var(--text-muted); transition: var(--transition-smooth); }
-    .bio-popup-content .close-bio-btn:hover { color: var(--accent-gold); }
-    .large-chair-img { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--accent-gold); object-fit: cover; margin: 0 auto 15px auto; box-shadow: 0 10px 25px rgba(223,183,44,0.3); background-color: #001122; }
-    .bio-popup-name { font-family: var(--font-heading); font-size: 22px; color: #fff; font-weight: 700; margin-bottom: 15px; letter-spacing: 1px; }
-    .bio-popup-text { color: #edf2f7; font-size: 15px; text-align: justify; line-height: 1.7; max-height: 250px; overflow-y: auto; padding-right: 8px; font-weight: 400; }
-    .bio-popup-text::-webkit-scrollbar { width: 5px; }
-    .bio-popup-text::-webkit-scrollbar-thumb { background: var(--accent-gold); border-radius: 10px; }
-    footer { background-color: #000c18; color: var(--text-muted); text-align: center; padding: 35px 20px; font-size: 13px; margin-top: 50px; border-top: 1px solid rgba(223, 183, 44, 0.2); }
-    footer p { margin-bottom: 6px; }
-    .credits { font-family: var(--font-heading); margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 13px; color: var(--accent-gold); font-weight: 700; letter-spacing: 1px; }
-    @media (min-width: 768px) { header { flex-direction: row; padding: 25px 50px; justify-content: space-between; } header h1 { font-size: 28px; } .header-text { text-align: right; } }
+
+    h2 {
+      font-family: 'Cinzel', Georgia, serif;
+      color: var(--accent-gold);
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 25px;
+    }
+
+    .admin-form-group {
+      margin-bottom: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .admin-form-group label {
+      font-weight: 600;
+      font-size: 14px;
+      color: #cbd5e0;
+    }
+
+    .admin-input, .admin-select, .admin-textarea {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid var(--card-border);
+      padding: 12px;
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .admin-input:focus, .admin-select:focus, .admin-textarea:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+    }
+
+    .admin-toggle-box {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--card-border);
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .admin-toggle-box label {
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .admin-toggle-box input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .coming-soon-highlight {
+      background: rgba(223, 183, 44, 0.05);
+      border: 1px dashed var(--accent-gold);
+    }
+
+    .btn-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .admin-btn {
+      background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%);
+      color: var(--primary-dark);
+      font-weight: 700;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      flex: 1;
+      text-align: center;
+    }
+
+    .admin-btn:hover {
+      background: linear-gradient(135deg, var(--accent-gold-hover) 0%, var(--accent-gold) 100%);
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body>
-  <div id="delegateContent">
-    <header>
-      <div class="logo-container"><img src="logo.jpeg.JPG" alt="School Logo" onclick="openLogoModal(event)"></div>
-      <div class="header-text">
-        <h1>Franciscan Sister's School MUN</h1>
-        <p><span class="highlight">FRANMUN</span> | First Annual Conference</p>
-      </div>
-    </header>
-    <div class="main-container">
-      <section class="section">
-        <h2>FRANMUN</h2>
-        <p>Franciscan Sister's School's First Model United Nations Conference</p>
-      </section>
-      <div class="card">
-        <h3>Conference Countdown</h3>
-        <div class="countdown-container">
-          <div class="countdown-box"><span class="countdown-number" id="days">00</span><span class="countdown-label">Days</span></div>
-          <div class="countdown-box"><span class="countdown-number" id="hours">00</span><span class="countdown-label">Hours</span></div>
-          <div class="countdown-box"><span class="countdown-number" id="minutes">00</span><span class="countdown-label">Min</span></div>
-          <div class="countdown-box"><span class="countdown-number" id="seconds">00</span><span class="countdown-label">Sec</span></div>
-        </div>
-      </div>
-      <div class="card">
-        <h3>Coming Soon!</h3>
-        <p>We're excited to announce our first MUN conference.</p>
-        <p style="margin-top: 5px;">Stay tuned for updates!</p>
-      </div>
-      <div class="button-container">
-${buttonsHTML}      </div>
-      <div style="text-align: center; margin-bottom: 30px;">
-        <p style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 10px 20px; border-radius: 30px; display: inline-block; color: var(--text-muted); font-size: 13px;">
-          Registration includes a parent/guardian signature requirement
-        </p>
-      </div>
-      <div class="card">
-        <h3>About Our Conference</h3>
-        <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference! Join us for an exciting event where students will engage in diplomatic discussions, problem-solving, and resolution writing while representing countries from around the world.</p>
-      </div>
-      <div class="card">
-        <h3>Committees</h3>
-        <div class="committee-grid">
-          <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="UNWOMEN Icon" /></div>
-          <div class="committee-icon" onclick="openModal('UNHRC')"><img src="unhrc.png" alt="UNHRC Icon" /></div>
-          <div class="committee-icon" onclick="openModal('DISEC')"><img src="disec.png" alt="DISEC Icon" /></div>
-          <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO Icon" id="whoImage" onerror="handleWhoImageError(this)" /></div>
-          <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC Icon" /></div>
-          <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS Icon" /></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="committeeModal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">×</span>
-      <h2 id="modalTitle" style="color: var(--accent-gold); font-family: var(--font-heading); letter-spacing: 1.5px;">Committee Name</h2>
-      <div style="text-align: left; margin-top: 20px; background: rgba(0,0,0,0.2); padding: 15px; border-radius: 8px;">
-        <strong style="color: var(--accent-gold); font-size: 14px; text-transform: uppercase; font-family: var(--font-heading); letter-spacing: 0.5px;">Topic:</strong>
-        <p id="modalTopics" style="margin-top: 6px; color: #e2e8f0; font-size: 14px; white-space: pre-line;">Committee topic will go here.</p>
-      </div>
-      <div class="chairs-title" id="chairsLabel text">Committee Chairs</div>
-      <div class="chairs-container" id="modalChairs"></div>
-      <div class="backroom-section-title" id="backroomTitle" style="display: none;">Backroom:</div>
-      <div class="chairs-container" id="modalBackroomChairs" style="display: none;"></div>
-      <div style="margin-top: 20px;"><a id="modalReportLink" href="https://google.com" target="_blank" class="report-btn">📄 View Research Report</a></div>
-      <button class="modal-close-button" onclick="closeModal()">Close</button>
-    </div>
-  </div>
-  <div id="bioPopupModal" class="bio-popup-modal">
-    <div class="bio-popup-content">
-      <span class="close-bio-btn" onclick="closeBioPopup()">×</span>
-      <img src="" id="popupChairImg" class="large-chair-img" alt="Chair Large Photo">
-      <div id="popupChairName" class="bio-popup-name">Chair Name</div>
-      <div id="popupChairBio" class="bio-popup-text">Chair long bio text...</div>
-      <button class="modal-close-button" style="margin-top:20px; max-width:110px;" onclick="closeBioPopup()">Close</button>
-    </div>
-  </div>
-  <div class="logo-popup-modal" id="logoQuestionModal">
-    <div class="logo-popup-content">
-      <p style="font-family: var(--font-heading); letter-spacing: 0.5px;">Wanna know how did we did it?</p>
-      <div class="popup-btns">
-        <a href="https://youtu.be/RrOzHILUwUo?si=iM50FyjflGtHMDXF" target="_blank" class="popup-btn yes" onclick="closeLogoModal()">Yes</a>
-        <button class="popup-btn no" onclick="startEmojiRain(event)">No</button>
-      </div>
-    </div>
-  </div>
-  <footer>
-    <p>Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-gold);">franmun2025@gmail.com</a></p>
-    <p>Add us on INSTAGRAM: <a href="https://instagram.com/Franciscan_munners" target="_blank" style="color: var(--accent-gold); font-weight: 600; text-decoration: none;">@Franciscan_munners</a></p>
-    <p>Franciscan Sister's School Nazareth</p>
-    <p><a href="https://maps.google.com" target="_blank" style="color: #fff; text-decoration: underline;">View Location</a></p>
-    <p style="margin-top: 15px; opacity: 0.4; font-size: 12px;">© 2025 Franciscan Sister's School MUN. All rights reserved.</p>
-    <div class="credits">Website made by Atef Jubran</div>
-  </footer>
-  <script>
-    function openLogoModal(event) { if(event) event.stopPropagation(); document.getElementById("logoQuestionModal").style.display = "flex"; }
-    function closeLogoModal() { document.getElementById("logoQuestionModal").style.display = "none"; }
-    function startEmojiRain(event) {
-      if(event) event.stopPropagation(); closeLogoModal();
-      const rainInterval = setInterval(() => {
-        const emoji = document.createElement("div"); emoji.innerText = "🙄"; emoji.className = "emoji-rain";
-        emoji.style.left = Math.random() * 95 + "vw"; const randomSize = Math.floor(Math.random() * (45 - 18 + 1)) + 18;
-        emoji.style.fontSize = randomSize + "px"; emoji.style.animationDuration = Math.random() * 1.5 + 1.2 + "s";
-        document.body.appendChild(emoji); setTimeout(() => { emoji.remove(); }, 3000);
-      }, 50); setTimeout(() => { clearInterval(rainInterval); }, 5000);
-    }
-    const committeeData = {
-      "UNWOMEN": {
-        topics: "Empowering women in post-conflict economic restructuring and ensuring political representation.", report: "https://google.com", 
-        chairs: [
-          { name: "Adam Abo Ahmad", img: "unwomen_chair1.png", bio: \`${biosDB['UNWOMEN_Adam'].replace(/`/g, '\\`').replace(/\$/g, '\\$')}\` }, 
-          { name: "To be announced", img: "unwomen_chair2.png", bio: "BIO COMING SOON..." },
-          { name: "To be announced", img: "unwomen_chair3.png", bio: "BIO COMING SOON..." }
-        ]
-      },
-      "UNHRC": {
-        topics: "Addressing freedom of speech and protecting journalists in escalating global digital surveillance states.", report: "https://google.com",
-        chairs: [
-          { name: "To be announced", img: "unhrc_chair1.png", bio: "BIO COMING SOON..." },
-          { name: "To be announced", img: "unhrc_chair2.png", bio: "BIO COMING SOON..." },
-          { name: "To be announced", img: "unhrc_chair3.png", bio: "BIO COMING SOON..." }
-        ]
-      },
-      "DISEC": {
-        topics: "Preventing the militarization of artificial intelligence and autonomous weapons systems in warfare.", report: "https://google.com",
-        chairs: [
-          { name: "Issa Sabbagh", img: "disec_chair1.png", bio: \`${biosDB['DISEC_Issa'].replace(/`/g, '\\`').replace(/\$/g, '\\$')}\` },
-          { name: "To be announced", img: "disec_chair2.png", bio: "BIO COMING SOON..." },
-          { name: "To be announced", img: "disec_chair3.png", bio: "BIO COMING SOON..." }
-        ]
-      },
-      "WHO": {
-        topics: "Global framework policies for combating antibiotic resistance and pandemic preparedness strategies.", report: "https://google.com",
-        chairs: [
-          { name: "Ameer Ashqar", img: "who_chair1.png", bio: \`${biosDB['WHO_Ameer'].replace(/`/g, '\\`').replace(/\$/g, '\\$')}\` },
-          { name: "to be announced", img: "who_chair2.png", bio: "BIO COMING SOON..." },
-          { name: "to be announced", img: "who_chair3.png", bio: "BIO COMING SOON..." }
-        ]
-      },
-      "UNHSC": {
-        topics: "The historical re-evaluation of the 1994 Rwandan Crisis and redefining rapid intervention protocols.", report: "https://google.com",
-        chairs: [
-          { name: "Ahmad Zoabi", img: "unhsc_chair1.png", bio: \`${biosDB['UNHSC_Ahmad'].replace(/`/g, '\\`').replace(/\$/g, '\\$')}\` },
-          { name: "Shawqe Fahoum", img: "unhsc_chair2.png", bio: \`${biosDB['UNHSC_Shawqe'].replace(/`/g, '\\`').replace(/\$/g, '\\$')}\` }, 
-          { name: "To be announced", img: "unhsc_chair3.png", bio: "BIO COMING SOON..." }
-        ]
-      },
-      "CRISIS": {
-        topics: "The Fall of Constantina: Managing immediate dynamic updates, intelligence, and clandestine operations.", report: "https://google.com",
-        chairs: [
-          { name: "Jamal Elias", img: "crisis_chair1.png", bio: \`${biosDB['CRISIS_Jamal'].replace(/`/g, '\\`').replace(/\$/g, '\\$')}\` },
-          { name: "Tala Saffury", img: "crisis_chair2.png", bio: \`${biosDB['CRISIS_Tala'].replace(/`/g, '\\`').replace(/\$/g, '\\$')}\` }
-        ],
-        backroom: [
-          { name: "Jana Abd Elheem", img: "jana_profile.png", bio: "BIO COMING SOON..." },
-          { name: "Yousef Sarji", img: "crisis_backroom2.png", bio: "BIO COMING SOON..." }
-        ]
-      }
-    };
-    function handleWhoImageError(imgElement) { imgElement.src = "who.png"; }
-    let currentActiveCommittee = "";
-    function openModal(committee) {
-      currentActiveCommittee = committee; document.getElementById("committeeModal").style.display = "flex";
-      document.getElementById("modalTitle").innerText = committee;
-      const data = committeeData[committee]; const backroomTitle = document.getElementById("backroomTitle");
-      const backroomChairsContainer = document.getElementById("modalBackroomChairs");
-      if (data) {
-        document.getElementById("modalTopics").innerText = data.topics; document.getElementById("modalReportLink").href = data.report || "https://google.com";
-        let chairsHTML = ""; data.chairs.forEach((chair, index) => {
-          chairsHTML += \`<div class="chair-box" onclick="openBioPopupFromIndex(event, \${index}, 'chairs')"><img src="\${chair.img}" alt="\${chair.name}" class="chair-img" onerror="this.src='logo.jpeg.JPG'"><div class="chair-name">\${chair.name}</div></div>\`;
-        });
-        document.getElementById("modalChairs").innerHTML = chairsHTML;
-        if(committee === "CRISIS" && data.backroom) {
-          backroomTitle.style.display = "block"; backroomChairsContainer.style.display = "flex";
-          let backroomHTML = ""; data.backroom.forEach((bChair, index) => {
-            backroomHTML += \`<div class="chair-box" onclick="openBioPopupFromIndex(event, \${index}, 'backroom')"><img src="\${bChair.img}" alt="\${bChair.name}" class="chair-img" style="border-color:#e74c3c;" onerror="this.src='logo.jpeg.JPG'"><div class="chair-name" style="color:#e74c3c; font-weight:bold;">\${bChair.name}</div></div>\`;
-          });
-          backroomChairsContainer.innerHTML = backroomHTML;
-        } else { backroomTitle.style.display = "none"; backroomChairsContainer.style.display = "none"; }
-      }
-    }
-    function openBioPopupFromIndex(event, index, type) {
-      if(event) event.stopPropagation(); const committee = committeeData[currentActiveCommittee]; if(!committee) return;
-      const targetChair = (type === 'backroom') ? committee.backroom[index] : committee.chairs[index]; if(!targetChair) return;
-      document.getElementById("popupChairName").innerText = targetChair.name; document.getElementById("popupChairImg").src = targetChair.img;
-      document.getElementById("popupChairImg").onerror = function() { this.src = 'logo.jpeg.JPG'; };
-      document.getElementById("popupChairBio").innerText = targetChair.bio; document.getElementById("bioPopupModal").style.display = "flex";
-    }
-    function closeBioPopup() { document.getElementById("bioPopupModal").style.display = "none"; }
-    function closeModal() { document.getElementById("committeeModal").style.display = "none"; }
-    
-    const targetDate = new Date("${formattedDate}").getTime();
-    const countdownInterval = setInterval(function() {
-      const now = new Date().getTime(); const difference = targetDate - now;
-      if (difference < 0) {
-        clearInterval(countdownInterval); document.getElementById("days").innerText = "00"; document.getElementById("hours").innerText = "00"; document.getElementById("minutes").innerText = "00"; document.getElementById("seconds").innerText = "00"; return;
-      }
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24)); const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-      document.getElementById("days").innerText = days < 10 ? "0" + days : days; document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours; document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes; document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-    }, 1000);
-    window.onclick = function(event) {
-      const committeeModal = document.getElementById("committeeModal"); const bioPopupModal = document.getElementById("bioPopupModal"); const logoModal = document.getElementById("logoQuestionModal");
-      if (event.target === bioPopupModal) { bioPopupModal.style.display = "none"; }
-      if (event.target === committeeModal) { committeeModal.style.display = "none"; }
-      if (event.target === logoModal) { closeLogoModal(); }
-    }
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.onkeydown = function(e) {
-      if (e.keyCode == 123) return false;
-      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
-    };
-  </script>
-</body>
-</html>`;
 
-      document.getElementById("codeOutput").value = finalHTML;
-      document.getElementById("outputBox").style.display = "block";
-      document.getElementById("outputBox").scrollIntoView({ behavior: 'smooth' });
+  <div class="admin-container">
+    <div class="admin-card">
+      <h2>FRANMUN Global Control Panel</h2>
+      <p class="subtitle">Any change made here syncs live to the database instantly</p>
+      
+      <div class="admin-toggle-box">
+        <input type="checkbox" id="admChairCheck">
+        <label for="admChairCheck">Chairs Registration (Open / Active)</label>
+      </div>
+      <div class="admin-toggle-box">
+        <input type="checkbox" id="admDelCheck">
+        <label for="admDelCheck">Delegates Registration (Open / Active)</label>
+      </div>
+
+      <div class="admin-form-group">
+        <label>Conference Target Date:</label>
+        <input type="datetime-local" id="admCountDate" class="admin-input">
+      </div>
+
+      <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        <label>Select Committee to Manage:</label>
+        <select id="admCommSelect" class="admin-select" onchange="loadCommitteeDataToPanel()">
+          <option value="UNWOMEN">UN Women</option>
+          <option value="UNHRC">UNHRC</option>
+          <option value="DISEC">DISEC</option>
+          <option value="WHO">WHO</option>
+          <option value="UNHSC">UNHSC</option>
+          <option value="CRISIS">Crisis Committee</option>
+        </select>
+      </div>
+
+      <div class="admin-toggle-box coming-soon-highlight">
+        <input type="checkbox" id="admChairsComingSoon">
+        <label for="admChairsComingSoon" style="color: var(--accent-gold);">Hide Chairs and Show "Coming Soon" for this Committee</label>
+      </div>
+
+      <div class="admin-form-group">
+        <label>Committee Topic Title:</label>
+        <textarea id="admCommTopic" class="admin-textarea" rows="3" placeholder="Enter the official topic description for this committee..."></textarea>
+      </div>
+
+      <div class="admin-form-group">
+        <label>Search Report URL:</label>
+        <input type="url" id="admCommReportUrl" class="admin-input" placeholder="https://example.com/report.pdf">
+      </div>
+
+      <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+        <label>Select Chair to Edit Bio (Visible only if Coming Soon is turned off):</label>
+        <select id="admChairSelect" class="admin-select" onchange="loadSelectedChairBioToPanel()">
+          </select>
+      </div>
+
+      <div class="admin-form-group">
+        <label>Chair Biography Text:</label>
+        <textarea id="admChairTextArea" class="admin-textarea" rows="4"></textarea>
+      </div>
+
+      <div class="btn-container">
+        <button class="admin-btn" onclick="saveAdminSettings()">Global Sync & Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- FIREBASE CONFIGURATION ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
+      authDomain: "franmun-f5498.firebaseapp.com",
+      databaseURL: "https://franmun-f5498-default-rtdb.firebaseio.com",
+      projectId: "franmun-f5498",
+      storageBucket: "franmun-f5498.firebasestorage.app",
+      messagingSenderId: "574017816071",
+      appId: "1:574017816071:web:1968d9a793dec6a6cacca2",
+      measurementId: "G-WRXCD54P71"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    let appData = {};
+
+    // بوابه الحماية عند فتح الصفحة المباشر
+    window.onload = function() {
+      const password = prompt("Enter Administration Password to access Control Panel:");
+      if (password === "1234") {
+        document.body.style.display = "block";
+        initializePanelFetch();
+      } else {
+        alert("Access Denied! Wrong Password.");
+        window.location.href = "index.html"; // طرده إلى الصفحة الرئيسية
+      }
+    };
+
+    function initializePanelFetch() {
+      database.ref("homepage_data").once("value", (snapshot) => {
+        if (snapshot.exists()) {
+          appData = snapshot.val();
+          loadSettingsToAdminPanel();
+        }
+      });
+    }
+
+    function loadSettingsToAdminPanel() {
+      document.getElementById("admChairCheck").checked = appData.chairsOpen || false;
+      document.getElementById("admDelCheck").checked = appData.delegatesOpen || false;
+      
+      if(appData.targetDate) {
+        const d = new Date(appData.targetDate);
+        if(!isNaN(d.getTime())) {
+          const tzoffset = (new Date()).getTimezoneOffset() * 60000;
+          document.getElementById("admCountDate").value = (new Date(d - tzoffset)).toISOString().slice(0, 16);
+        }
+      }
+      loadCommitteeDataToPanel();
+    }
+
+    function loadCommitteeDataToPanel() {
+      const commKey = document.getElementById("admCommSelect").value;
+      const committee = appData.committees[commKey];
+      if(!committee) return;
+      
+      // تحميل موضوع اللجنة والرابط وحالة الـ Coming soon
+      document.getElementById("admCommTopic").value = committee.topics || "";
+      document.getElementById("admCommReportUrl").value = committee.report || "";
+      document.getElementById("admChairsComingSoon").checked = committee.chairsComingSoon || false;
+
+      // تحميل قائمة الـ Chairs التابعة للجنة المحددة
+      const chairSelect = document.getElementById("admChairSelect");
+      let optionsHTML = "";
+
+      if(committee.chairs) {
+        committee.chairs.forEach((chair, idx) => {
+          optionsHTML += `<option value="chairs_${idx}">${chair.name}</option>`;
+        });
+      }
+
+      if (commKey === "CRISIS" && committee.backroom) {
+        committee.backroom.forEach((bChair, idx) => {
+          optionsHTML += `<option value="backroom_${idx}">${bChair.name} (Backroom)</option>`;
+        });
+      }
+
+      chairSelect.innerHTML = optionsHTML;
+      loadSelectedChairBioToPanel();
+    }
+
+    function loadSelectedChairBioToPanel() {
+      const commKey = document.getElementById("admCommSelect").value;
+      const chairVal = document.getElementById("admChairSelect").value;
+      if(!chairVal) {
+        document.getElementById("admChairTextArea").value = "";
+        return;
+      }
+
+      const parts = chairVal.split("_");
+      const type = parts[0]; 
+      const index = parseInt(parts[1]);
+      const committee = appData.committees[commKey];
+
+      if(type === "backroom") {
+        document.getElementById("admChairTextArea").value = committee.backroom[index].bio || "";
+      } else {
+        document.getElementById("admChairTextArea").value = committee.chairs[index].bio || "";
+      }
+    }
+
+    function saveAdminSettings() {
+      appData.chairsOpen = document.getElementById("admChairCheck").checked;
+      appData.delegatesOpen = document.getElementById("admDelCheck").checked;
+      
+      const dateVal = document.getElementById("admCountDate").value;
+      if(dateVal) {
+        const d = new Date(dateVal);
+        appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
+      }
+
+      const commKey = document.getElementById("admCommSelect").value;
+      if(!appData.committees[commKey]) appData.committees[commKey] = {};
+      
+      // حفظ البيانات المحدثة للجنة المحددة
+      appData.committees[commKey].topics = document.getElementById("admCommTopic").value;
+      appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
+      appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
+
+      // حفظ الـ Bio للـ Chair المحدد
+      const chairVal = document.getElementById("admChairSelect").value;
+      if(chairVal) {
+        const parts = chairVal.split("_");
+        const type = parts[0]; 
+        const index = parseInt(parts[1]);
+        const newBio = document.getElementById("admChairTextArea").value;
+
+        if(type === "backroom") {
+          appData.committees[commKey].backroom[index].bio = newBio;
+        } else {
+          appData.committees[commKey].chairs[index].bio = newBio;
+        }
+      }
+
+      // رفع وتحديث قاعدة البيانات مباشرة
+      database.ref("homepage_data").set(appData).then(() => {
+        alert("Global Sync Completed Successfully!");
+        loadCommitteeDataToPanel();
+      }).catch((err) => {
+        alert("Error saving data: " + err.message);
+      });
     }
   </script>
 </body>
