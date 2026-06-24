@@ -96,11 +96,6 @@
       height: auto;
       filter: drop-shadow(0 0 12px rgba(223, 183, 44, 0.3));
       transition: var(--transition-smooth);
-      cursor: pointer; 
-    }
-    
-    header img:hover {
-      transform: scale(1.05);
     }
 
     /* --- LAYOUT CONTAINER --- */
@@ -515,16 +510,6 @@
     .bio-popup-text::-webkit-scrollbar { width: 5px; }
     .bio-popup-text::-webkit-scrollbar-thumb { background: var(--accent-gold); border-radius: 10px; }
 
-    /* --- ADMIN DASHBOARD PANEL STYLES --- */
-    #adminDashboardView { display: none; max-width: 850px; margin: 40px auto; padding: 0 20px; }
-    .admin-card { background: rgba(0, 26, 51, 0.95); border: 2px solid var(--accent-gold); padding: 30px; border-radius: 18px; box-shadow: 0 25px 50px rgba(0,0,0,0.7); }
-    .admin-form-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
-    .admin-form-group label { font-weight: 600; font-size: 14px; color: #cbd5e0; }
-    .admin-input, .admin-select, .admin-textarea { background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); padding: 12px; border-radius: 8px; color: #fff; font-family: var(--font-body); }
-    .admin-toggle-box { display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 12px; }
-    .admin-btn { background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%); color: var(--primary-dark); font-weight: 700; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; transition: var(--transition-smooth); }
-    .admin-btn:hover { background: linear-gradient(135deg, var(--accent-gold-hover) 0%, var(--accent-gold) 100%); transform: translateY(-1px); }
-
     /* --- FOOTER & CREDITS --- */
     footer {
       background-color: #000c18;
@@ -535,19 +520,6 @@
       margin-top: 50px;
       border-top: 1px solid rgba(223, 183, 44, 0.2);
     }
-
-    .footer-info {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 15px;
-      font-style: normal;
-      color: #cbd5e0;
-    }
-    
-    .footer-info span { display: block; }
-    .footer-info a { color: var(--accent-gold); text-decoration: none; transition: var(--transition-smooth); }
-    .footer-info a:hover { color: var(--accent-gold-hover); text-decoration: underline; }
 
     .credits {
       font-family: var(--font-heading);
@@ -568,7 +540,6 @@
       }
       header h1 { font-size: 28px; }
       .header-text { text-align: right; }
-      .footer-info { flex-direction: row; justify-content: center; gap: 30px; }
     }
   </style>
 </head>
@@ -577,7 +548,7 @@
   <div id="delegateContent">
     <header>
       <div class="logo-container">
-        <img src="logo.jpeg.JPG" alt="School Logo" onclick="triggerAdminGate()">
+        <img src="logo.jpeg.JPG" alt="School Logo">
       </div>
       
       <div class="header-text">
@@ -628,60 +599,6 @@
         </div>
       </div>
       
-    </div>
-  </div>
-
-  <div id="adminDashboardView">
-    <div class="admin-card">
-      <h2>FRANMUN Global Control Panel</h2>
-      <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">Any change made here syncs live to the database instantly!</p>
-      
-      <div class="admin-toggle-box">
-        <input type="checkbox" id="admChairCheck">
-        <label for="admChairCheck">Chairs Registration (Open / Active)</label>
-      </div>
-      <div class="admin-toggle-box">
-        <input type="checkbox" id="admDelCheck">
-        <label for="admDelCheck">Delegates Registration (Open / Active)</label>
-      </div>
-
-      <div class="admin-form-group">
-        <label>Conference Target Date:</label>
-        <input type="datetime-local" id="admCountDate" class="admin-input">
-      </div>
-
-      <div class="admin-form-group" style="border-top:1px solid rgba(255,255,255,0.1); padding-top:15px;">
-        <label>Select Committee to Manage Report & Chairs:</label>
-        <select id="admCommSelect" class="admin-select" onchange="loadCommitteeDataToPanel()">
-          <option value="UNWOMEN">UN Women</option>
-          <option value="UNHRC">UNHRC</option>
-          <option value="DISEC">DISEC</option>
-          <option value="WHO">WHO</option>
-          <option value="UNHSC">UNHSC</option>
-          <option value="CRISIS">Crisis Committee</option>
-        </select>
-      </div>
-
-      <div class="admin-form-group">
-        <label>Search Report URL:</label>
-        <input type="url" id="admCommReportUrl" class="admin-input" placeholder="https://example.com/report.pdf">
-      </div>
-
-      <div class="admin-form-group">
-        <label>Select Chair to Edit Bio:</label>
-        <select id="admChairSelect" class="admin-select" onchange="loadSelectedChairBioToPanel()">
-          </select>
-      </div>
-
-      <div class="admin-form-group">
-        <label>Chair Biography Text:</label>
-        <textarea id="admChairTextArea" class="admin-textarea" rows="5"></textarea>
-      </div>
-
-      <div style="display:flex; gap:10px; margin-top:20px;">
-        <button class="admin-btn" onclick="saveAdminSettings()">Global Sync & Save</button>
-        <button class="admin-btn" style="background:#e74c3c; color:#fff;" onclick="exitAdminPanel()">Close Control Panel</button>
-      </div>
     </div>
   </div>
 
@@ -743,89 +660,19 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    const defaultData = {
-      chairsOpen: true, 
-      delegatesOpen: true, 
-      targetDate: "September 1, 2026 00:00:00",
-      committees: {
-        "UNWOMEN": {
-          topics: "Empowering women in post-conflict economic restructuring and ensuring political representation.",
-          report: "https://google.com", 
-          chairs: [
-            { name: "Adam Abo Ahmad", img: "unwomen_chair1.png", bio: "BIO COMING SOON..." }, 
-            { name: "To be announced", img: "unwomen_chair2.png", bio: "BIO COMING SOON..." },
-            { name: "To be announced", img: "unwomen_chair3.png", bio: "BIO COMING SOON..." }
-          ]
-        },
-        "UNHRC": {
-          topics: "Addressing freedom of speech and protecting journalists in escalating global digital surveillance states.",
-          report: "https://google.com",
-          chairs: [
-            { name: "To be announced", img: "unhrc_chair1.png", bio: "BIO COMING SOON..." },
-            { name: "To be announced", img: "unhrc_chair2.png", bio: "BIO COMING SOON..." },
-            { name: "To be announced", img: "unhrc_chair3.png", bio: "BIO COMING SOON..." }
-          ]
-        },
-        "DISEC": {
-          topics: "Preventing the militarization of artificial intelligence and autonomous weapons systems in warfare.",
-          report: "https://google.com",
-          chairs: [
-            { name: "Issa Sabbagh", img: "disec_chair1.png", bio: "BIO COMING SOON..." },
-            { name: "To be announced", img: "disec_chair2.png", bio: "BIO COMING SOON..." },
-            { name: "To be announced", img: "disec_chair3.png", bio: "BIO COMING SOON..." }
-          ]
-        },
-        "WHO": {
-          topics: "Global framework policies for combating antibiotic resistance and pandemic preparedness strategies.",
-          report: "https://google.com",
-          chairs: [
-            { name: "Ameer Ashqar", img: "who_chair1.png", bio: "BIO COMING SOON..." },
-            { name: "to be announced", img: "who_chair2.png", bio: "BIO COMING SOON..." },
-            { name: "to be announced", img: "who_chair3.png", bio: "BIO COMING SOON..." }
-          ]
-        },
-        "UNHSC": {
-          topics: "The historical re-evaluation of the 1994 Rwandan Crisis and redefining rapid intervention protocols.",
-          report: "https://google.com",
-          chairs: [
-            { name: "Ahmad Zoabi", img: "unhsc_chair1.png", bio: "BIO COMING SOON...." },
-            { name: "Shawqe Fahoum", img: "unhsc_chair2.png", bio: "BIO COMING SOON..." }, 
-            { name: "To be announced", img: "unhsc_chair3.png", bio: "BIO COMING SOON..." }
-          ]
-        },
-        "CRISIS": {
-          topics: "The Fall of Constantina: Managing immediate dynamic updates, intelligence, and clandestine operations.",
-          report: "https://google.com",
-          chairs: [
-            { 
-              name: "Jamal Elias", 
-              img: "crisis_chair1.png", 
-              bio: "Hello dear delegates !!!\nMy name is Jamal and I’m so excited to be serving as a chair in FRANMUN 2026 !!\nMy MUN journey started one year ago and it was one of the best things that happened in my life , i met new friends , I developed my speaking skills in english and I improved my communication skills and confidence .\nCome with full energies and excitement and do your best and don’t forget to have fun !!"
-            },
-            { name: "Tala Saffury", img: "crisis_chair2.png", bio: "BIO COMING SOON..." }
-          ],
-          backroom: [
-            { name: "Jana Abd Elheem", img: "jana_profile.png", bio: "BIO COMING SOON..." },
-            { name: "Yousef Sarji", img: "crisis_backroom2.png", bio: "BIO COMING SOON..." }
-          ]
-        }
-      }
-    };
-
-    let appData = defaultData;
+    let appData = {};
     let currentActiveCommittee = "";
 
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
         appData = snapshot.val();
-      } else {
-        database.ref("homepage_data").set(defaultData);
+        renderRegistrationButtons();
       }
-      renderRegistrationButtons();
     });
 
     function renderRegistrationButtons() {
       const container = document.getElementById("liveRegButtons");
+      if(!container) return;
       let html = "";
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration →</a>`;
@@ -854,35 +701,51 @@
       const backroomChairsContainer = document.getElementById("modalBackroomChairs");
 
       if (data) {
-        document.getElementById("modalTopics").innerText = data.topics;
+        document.getElementById("modalTopics").innerText = data.topics || "Topic coming soon...";
         document.getElementById("modalReportLink").href = data.report || "#";
         
         let chairsHTML = "";
-        data.chairs.forEach((chair, index) => {
-          chairsHTML += `
-            <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'chairs')">
-              <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
-              <div class="chair-name">${chair.name}</div>
+        
+        // التحقق مما إذا كان خيار Coming Soon مفعلاً لهذه اللجنة
+        if (data.chairsComingSoon) {
+          chairsHTML = `
+            <div class="chair-box" style="cursor:default;">
+              <img src="logo.jpeg.JPG" alt="Coming Soon" class="chair-img">
+              <div class="chair-name">Coming Soon</div>
             </div>`;
-        });
-        document.getElementById("modalChairs").innerHTML = chairsHTML;
-
-        if(committee === "CRISIS" && data.backroom) {
-          backroomTitle.style.display = "block";
-          backroomChairsContainer.style.display = "flex";
-          
-          let backroomHTML = "";
-          data.backroom.forEach((bChair, index) => {
-            backroomHTML += `
-              <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'backroom')">
-                <img src="${bChair.img}" alt="${bChair.name}" class="chair-img" style="border-color:#e74c3c;" onerror="this.src='logo.jpeg.JPG'">
-                <div class="chair-name" style="color:#e74c3c; font-weight:bold;">${bChair.name}</div>
-              </div>`;
-          });
-          backroomChairsContainer.innerHTML = backroomHTML;
-        } else {
+          document.getElementById("modalChairs").innerHTML = chairsHTML;
           backroomTitle.style.display = "none";
           backroomChairsContainer.style.display = "none";
+        } else {
+          // عرض الـ Chairs العاديين إذا لم يتم التفعيل
+          if(data.chairs) {
+            data.chairs.forEach((chair, index) => {
+              chairsHTML += `
+                <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'chairs')">
+                  <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="chair-name">${chair.name}</div>
+                </div>`;
+            });
+          }
+          document.getElementById("modalChairs").innerHTML = chairsHTML;
+
+          if(committee === "CRISIS" && data.backroom) {
+            backroomTitle.style.display = "block";
+            backroomChairsContainer.style.display = "flex";
+            
+            let backroomHTML = "";
+            data.backroom.forEach((bChair, index) => {
+              backroomHTML += `
+                <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'backroom')">
+                  <img src="${bChair.img}" alt="${bChair.name}" class="chair-img" style="border-color:#e74c3c;" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="chair-name" style="color:#e74c3c; font-weight:bold;">${bChair.name}</div>
+                </div>`;
+            });
+            backroomChairsContainer.innerHTML = backroomHTML;
+          } else {
+            backroomTitle.style.display = "none";
+            backroomChairsContainer.style.display = "none";
+          }
         }
       }
     }
@@ -890,7 +753,7 @@
     function openBioPopupFromIndex(event, index, type) {
       if(event) event.stopPropagation();
       const committee = appData.committees[currentActiveCommittee];
-      if(!committee) return;
+      if(!committee || committee.chairsComingSoon) return;
       
       const targetChair = (type === 'backroom') ? committee.backroom[index] : committee.chairs[index];
       if(!targetChair) return;
@@ -905,113 +768,10 @@
     function closeBioPopup() { document.getElementById("bioPopupModal").style.display = "none"; }
     function closeModal() { document.getElementById("committeeModal").style.display = "none"; }
 
-    // --- GATEWAY INTO THE SECURE PANEL (CLICK LOGO) ---
-    function triggerAdminGate() {
-      const password = prompt("Enter Administration Password:");
-      if(password === "1234") {
-        document.getElementById("delegateContent").style.display = "none";
-        document.getElementById("adminDashboardView").style.display = "block";
-        loadSettingsToAdminPanel();
-      } else if (password !== null) { alert("Wrong Password!"); }
-    }
-
-    function exitAdminPanel() {
-      document.getElementById("adminDashboardView").style.display = "none";
-      document.getElementById("delegateContent").style.display = "block";
-    }
-
-    function loadSettingsToAdminPanel() {
-      document.getElementById("admChairCheck").checked = appData.chairsOpen;
-      document.getElementById("admDelCheck").checked = appData.delegatesOpen;
-      const d = new Date(appData.targetDate);
-      if(!isNaN(d.getTime())) {
-        const tzoffset = (new Date()).getTimezoneOffset() * 60000;
-        document.getElementById("admCountDate").value = (new Date(d - tzoffset)).toISOString().slice(0, 16);
-      }
-      loadCommitteeDataToPanel();
-    }
-
-    // Loads current committee URL and dynamic chair list
-    function loadCommitteeDataToPanel() {
-      const commKey = document.getElementById("admCommSelect").value;
-      const committee = appData.committees[commKey];
-      
-      // Load current Report URL
-      document.getElementById("admCommReportUrl").value = committee.report || "";
-
-      // Load dynamic dropdown options for chairs
-      const chairSelect = document.getElementById("admChairSelect");
-      let optionsHTML = "";
-
-      committee.chairs.forEach((chair, idx) => {
-        optionsHTML += `<option value="chairs_${idx}">${chair.name}</option>`;
-      });
-
-      if (commKey === "CRISIS" && committee.backroom) {
-        committee.backroom.forEach((bChair, idx) => {
-          optionsHTML += `<option value="backroom_${idx}">${bChair.name} (Backroom)</option>`;
-        });
-      }
-
-      chairSelect.innerHTML = optionsHTML;
-      loadSelectedChairBioToPanel();
-    }
-
-    function loadSelectedChairBioToPanel() {
-      const commKey = document.getElementById("admCommSelect").value;
-      const chairVal = document.getElementById("admChairSelect").value;
-      if(!chairVal) return;
-
-      const parts = chairVal.split("_");
-      const type = parts[0]; 
-      const index = parseInt(parts[1]);
-
-      if(type === "backroom") {
-        document.getElementById("admChairTextArea").value = appData.committees[commKey].backroom[index].bio || "";
-      } else {
-        document.getElementById("admChairTextArea").value = appData.committees[commKey].chairs[index].bio || "";
-      }
-    }
-
-    function saveAdminSettings() {
-      appData.chairsOpen = document.getElementById("admChairCheck").checked;
-      appData.delegatesOpen = document.getElementById("admDelCheck").checked;
-      
-      const dateVal = document.getElementById("admCountDate").value;
-      if(dateVal) {
-        const d = new Date(dateVal);
-        appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
-      }
-
-      const commKey = document.getElementById("admCommSelect").value;
-      
-      // Save updated Report URL for this specific committee
-      appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
-
-      // Save updated Chair bio
-      const chairVal = document.getElementById("admChairSelect").value;
-      if(chairVal) {
-        const parts = chairVal.split("_");
-        const type = parts[0]; 
-        const index = parseInt(parts[1]);
-        const newBio = document.getElementById("admChairTextArea").value;
-
-        if(type === "backroom") {
-          appData.committees[commKey].backroom[index].bio = newBio;
-        } else {
-          appData.committees[commKey].chairs[index].bio = newBio;
-        }
-      }
-
-      database.ref("homepage_data").set(appData).then(() => {
-        alert("Global Live Update Synced Successfully!");
-        exitAdminPanel();
-      });
-    }
-
     // --- COUNTDOWN TIMER ---
-    const countdownInterval = setInterval(function() {
-      const targetDateMs = new Date(appData.targetDate || "September 1, 2026 00:00:00").getTime();
+    setInterval(function() {
+      if(!appData.targetDate) return;
+      const targetDateMs = new Date(appData.targetDate).getTime();
       const now = new Date().getTime();
       const difference = targetDateMs - now;
 
@@ -1037,12 +797,11 @@
     window.onclick = function(event) {
       const committeeModal = document.getElementById("committeeModal");
       const bioPopupModal = document.getElementById("bioPopupModal");
-      
       if (event.target === bioPopupModal) closeBioPopup();
       if (event.target === committeeModal) closeModal();
     }
 
-    // --- SECURITY BLOCKS ---
+    // Security blocks
     document.addEventListener('contextmenu', event => event.preventDefault());
     document.onkeydown = function(e) {
       if (e.keyCode == 123) return false;
