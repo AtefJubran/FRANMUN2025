@@ -27,7 +27,7 @@
       color: var(--text-light);
       min-height: 100vh;
       padding: 40px 20px;
-      display: none; /* يتم إظهاره فقط بعد كتابة كلمة المرور الصالحة */
+      display: none;
     }
 
     .admin-container {
@@ -109,6 +109,11 @@
       cursor: pointer;
     }
 
+    .maintenance-highlight {
+      background: rgba(231, 76, 60, 0.1);
+      border: 1px dashed #e74c3c;
+    }
+
     .coming-soon-highlight {
       background: rgba(223, 183, 44, 0.05);
       border: 1px dashed var(--accent-gold);
@@ -147,6 +152,11 @@
       <h2>FRANMUN Global Control Panel</h2>
       <p class="subtitle">Any change made here syncs live to the database instantly</p>
       
+      <div class="admin-toggle-box maintenance-highlight">
+        <input type="checkbox" id="admMaintenanceMode">
+        <label for="admMaintenanceMode" style="color: #e74c3c; font-weight: bold;">Activate Website Maintenance Mode (Shows Instagram Notice)</label>
+      </div>
+
       <div class="admin-toggle-box">
         <input type="checkbox" id="admChairCheck">
         <label for="admChairCheck">Chairs Registration (Open / Active)</label>
@@ -189,9 +199,14 @@
       </div>
 
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
-        <label>Select Chair to Edit Bio (Visible only if TOP SECRET is turned off):</label>
+        <label>Select Chair to Modify:</label>
         <select id="admChairSelect" class="admin-select" onchange="loadSelectedChairBioToPanel()">
           </select>
+      </div>
+
+      <div class="admin-form-group">
+        <label>Chair Display Name:</label>
+        <input type="text" id="admChairNameInput" class="admin-input" placeholder="Chair Full Name">
       </div>
 
       <div class="admin-form-group">
@@ -222,7 +237,6 @@
     const database = firebase.database();
     let appData = {};
 
-    // بوابه الحماية عند فتح الصفحة المباشر
     window.onload = function() {
       const password = prompt("Enter Administration Password to access Control Panel:");
       if (password === "1234") {
@@ -244,6 +258,7 @@
     }
 
     function loadSettingsToAdminPanel() {
+      document.getElementById("admMaintenanceMode").checked = appData.maintenanceMode || false;
       document.getElementById("admChairCheck").checked = appData.chairsOpen || false;
       document.getElementById("admDelCheck").checked = appData.delegatesOpen || false;
       
@@ -289,6 +304,7 @@
       const commKey = document.getElementById("admCommSelect").value;
       const chairVal = document.getElementById("admChairSelect").value;
       if(!chairVal) {
+        document.getElementById("admChairNameInput").value = "";
         document.getElementById("admChairTextArea").value = "";
         return;
       }
@@ -299,13 +315,17 @@
       const committee = appData.committees[commKey];
 
       if(type === "backroom") {
+        document.getElementById("admChairNameInput").value = committee.backroom[index].name || "";
         document.getElementById("admChairTextArea").value = committee.backroom[index].bio || "";
       } else {
+        document.getElementById("admChairNameInput").value = committee.chairs[index].name || "";
         document.getElementById("admChairTextArea").value = committee.chairs[index].bio || "";
       }
     }
 
     function saveAdminSettings() {
+      // حفظ وضع الصيانة الجديد
+      appData.maintenanceMode = document.getElementById("admMaintenanceMode").checked;
       appData.chairsOpen = document.getElementById("admChairCheck").checked;
       appData.delegatesOpen = document.getElementById("admDelCheck").checked;
       
@@ -327,11 +347,15 @@
         const parts = chairVal.split("_");
         const type = parts[0]; 
         const index = parseInt(parts[1]);
+        
+        const newName = document.getElementById("admChairNameInput").value;
         const newBio = document.getElementById("admChairTextArea").value;
 
         if(type === "backroom") {
+          appData.committees[commKey].backroom[index].name = newName;
           appData.committees[commKey].backroom[index].bio = newBio;
         } else {
+          appData.committees[commKey].chairs[index].name = newName;
           appData.committees[commKey].chairs[index].bio = newBio;
         }
       }
