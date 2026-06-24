@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=500;700;800&family=Montserrat:wght=300;400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Firebase Legacy SDKs for Realtime Sync -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -628,12 +629,13 @@
 </head>
 <body>
 
+  <!-- LIVE MAINTENANCE OVERLAY SCREEN (UPDATED TEXT) -->
   <div id="maintenanceContent">
     <div class="maintenance-card">
       <img src="logo.jpeg.JPG" style="width: 90px; margin-bottom: 20px; filter: drop-shadow(0 0 10px rgba(223,183,44,0.3));">
-      <h2>Under Maintenance</h2>
-      <p>Our website is undergoing crucial updates to serve you better. We'll be back online very soon!</p>
-      <p style="color: var(--accent-gold); font-size: 14px; font-weight:600;">Stay tuned and follow our Instagram for live announcements:</p>
+      <h2>🚧 Crisis Alert!</h2>
+      <p>Even our website needed an unexpected recess! We are currently undergoing crucial upgrades and hunting down bugs behind the scenes.</p>
+      <p style="color: var(--accent-gold); font-size: 15px; font-weight:600; margin-bottom: 20px;">Don't panic! Just follow the Security Council on Instagram for live, ASAP announcements:</p>
       <a href="https://www.instagram.com/franciscan_munners" target="_blank" class="insta-badge">@franciscan_munners</a>
     </div>
   </div>
@@ -667,6 +669,7 @@
         </div>
       </div>
 
+      <!-- Live Dynamic Registration Buttons Container -->
       <div class="button-container" id="liveRegButtons"></div>
       
       <div style="text-align: center; margin-bottom: 30px;">
@@ -695,6 +698,7 @@
     </div>
   </div>
 
+  <!-- MAIN COMMITTEE MODAL -->
   <div id="committeeModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">×</span>
@@ -719,6 +723,7 @@
     </div>
   </div>
 
+  <!-- CHAIR DETAILS POPUP MODAL -->
   <div id="bioPopupModal" class="bio-popup-modal">
     <div class="bio-popup-content">
       <span class="close-bio-btn" onclick="closeBioPopup()">×</span>
@@ -760,11 +765,11 @@
       if (snapshot.exists()) {
         appData = snapshot.val();
         
-        // التحقق من تفعيل وضع الصيانة أم لا
+        // التحقق من وضع الصيانة
         const maintenanceOverlay = document.getElementById("maintenanceContent");
         if (appData.maintenanceMode) {
           maintenanceOverlay.style.display = "flex";
-          return; // منع أي شيء آخر من التحميل
+          return; 
         } else {
           maintenanceOverlay.style.display = "none";
         }
