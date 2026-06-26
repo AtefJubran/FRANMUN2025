@@ -26,7 +26,7 @@
       background: radial-gradient(circle at top, var(--secondary-blue) 0%, var(--primary-dark) 100%);
       color: var(--text-light);
       min-height: 100vh;
-      padding: 40px 20px;
+      padding: 40px 20px 100px 20px; /* زيادة السبيس السفلي للشريط */
       display: none;
     }
 
@@ -119,29 +119,73 @@
       border: 1px dashed var(--accent-gold);
     }
 
-    .btn-container {
+    /* 🌟 شريط الحفظ العائم الجديد 🌟 */
+    .floating-save-bar {
+      position: fixed;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 40px);
+      max-width: 750px;
+      background: #112233;
+      border: 2px solid var(--accent-gold);
+      border-radius: 14px;
+      padding: 15px 25px;
       display: flex;
-      gap: 15px;
-      margin-top: 30px;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+      transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 9999;
+      box-sizing: border-box;
     }
 
-    .admin-btn {
-      background: linear-gradient(135deg, var(--accent-gold) 0%, #c59f23 100%);
-      color: var(--primary-dark);
-      font-weight: 700;
-      padding: 14px 28px;
-      border: none;
-      border-radius: 8px;
+    .floating-save-bar.active {
+      bottom: 25px;
+    }
+
+    .bar-text h4 {
+      margin: 0;
+      color: var(--accent-gold);
+      font-size: 14px;
+    }
+
+    .bar-text p {
+      margin: 2px 0 0 0;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .bar-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid var(--text-muted);
+      color: var(--text-light);
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 13px;
       cursor: pointer;
-      font-size: 15px;
-      transition: all 0.2s ease;
-      flex: 1;
-      text-align: center;
     }
 
-    .admin-btn:hover {
-      background: linear-gradient(135deg, var(--accent-gold-hover) 0%, var(--accent-gold) 100%);
-      transform: translateY(-1px);
+    .btn-save {
+      background: var(--accent-gold);
+      color: var(--primary-dark);
+      border: none;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(223, 183, 44, 0.2);
+    }
+
+    .btn-save:hover {
+      background: var(--accent-gold-hover);
     }
   </style>
 </head>
@@ -150,30 +194,31 @@
   <div class="admin-container">
     <div class="admin-card">
       <h2>FRANMUN Global Control Panel</h2>
-      <p class="subtitle">Any change made here syncs live to the database instantly</p>
+      <p class="subtitle">Modify anything freely. Changes will apply only when you click Sync.</p>
       
       <div class="admin-toggle-box maintenance-highlight">
-        <input type="checkbox" id="admMaintenanceMode">
+        <input type="checkbox" id="admMaintenanceMode" onchange="trackLocalChange()">
         <label for="admMaintenanceMode" style="color: #e74c3c; font-weight: bold;">Activate Website Maintenance Mode (Shows Instagram Notice)</label>
       </div>
 
       <div class="admin-toggle-box">
-        <input type="checkbox" id="admChairCheck">
+        <input type="checkbox" id="admChairCheck" onchange="trackLocalChange()">
         <label for="admChairCheck">Chairs Registration (Open / Active)</label>
       </div>
       <div class="admin-toggle-box">
-        <input type="checkbox" id="admDelCheck">
+        <input type="checkbox" id="admDelCheck" onchange="trackLocalChange()">
         <label for="admDelCheck">Delegates Registration (Open / Active)</label>
       </div>
 
       <div class="admin-form-group">
         <label>Conference Target Date:</label>
-        <input type="datetime-local" id="admCountDate" class="admin-input">
+        <input type="datetime-local" id="admCountDate" class="admin-input" onchange="trackLocalChange()">
       </div>
 
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
         <label>Select Committee to Manage:</label>
-        <select id="admCommSelect" class="admin-select" onchange="loadCommitteeDataToPanel()">
+        <!-- عند تغيير اللجنة، نحفظ بيانات الـ Chair الحالي أولاً حتى لا تضيع -->
+        <select id="admCommSelect" class="admin-select" onchange="saveCurrentChairStateTemporarily(); loadCommitteeDataToPanel();">
           <option value="UNWOMEN">UN Women</option>
           <option value="UNHRC">UNHRC</option>
           <option value="DISEC">DISEC</option>
@@ -184,39 +229,48 @@
       </div>
 
       <div class="admin-toggle-box coming-soon-highlight">
-        <input type="checkbox" id="admChairsComingSoon">
+        <input type="checkbox" id="admChairsComingSoon" onchange="trackLocalChange()">
         <label for="admChairsComingSoon" style="color: var(--accent-gold);">Hide Chairs and Show "TOP SECRET" Stamp for this Committee</label>
       </div>
 
       <div class="admin-form-group">
         <label>Committee Topic Title:</label>
-        <textarea id="admCommTopic" class="admin-textarea" rows="3" placeholder="Enter the official topic description for this committee..."></textarea>
+        <textarea id="admCommTopic" class="admin-textarea" rows="3" placeholder="Enter the official topic description for this committee..." oninput="trackLocalChange()"></textarea>
       </div>
 
       <div class="admin-form-group">
         <label>Search Report URL:</label>
-        <input type="url" id="admCommReportUrl" class="admin-input" placeholder="https://example.com/report.pdf">
+        <input type="url" id="admCommReportUrl" class="admin-input" placeholder="https://example.com/report.pdf" oninput="trackLocalChange()">
       </div>
 
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
         <label>Select Chair to Modify:</label>
-        <select id="admChairSelect" class="admin-select" onchange="loadSelectedChairBioToPanel()">
-          </select>
+        <!-- نفس الشيء عند الانتقال بين Chairs اللحنة الواحدة -->
+        <select id="admChairSelect" class="admin-select" onchange="saveCurrentChairStateTemporarily(); loadSelectedChairBioToPanel();">
+        </select>
       </div>
 
       <div class="admin-form-group">
         <label>Chair Display Name:</label>
-        <input type="text" id="admChairNameInput" class="admin-input" placeholder="Chair Full Name">
+        <input type="text" id="admChairNameInput" class="admin-input" placeholder="Chair Full Name" oninput="trackLocalChange()">
       </div>
 
       <div class="admin-form-group">
         <label>Chair Biography Text:</label>
-        <textarea id="admChairTextArea" class="admin-textarea" rows="4"></textarea>
+        <textarea id="admChairTextArea" class="admin-textarea" rows="4" oninput="trackLocalChange()"></textarea>
       </div>
+    </div>
+  </div>
 
-      <div class="btn-container">
-        <button class="admin-btn" onclick="saveAdminSettings()">Global Sync & Save</button>
-      </div>
+  <!-- 🌟 عنصر شريط الحفظ العائم التلقائي 🌟 -->
+  <div id="floatingSaveBar" class="floating-save-bar">
+    <div class="bar-text">
+      <h4>Unsaved Changes Detected</h4>
+      <p>You have made updates on the panel. Click sync to push changes live.</p>
+    </div>
+    <div class="bar-buttons">
+      <button class="btn-cancel" onclick="discardLocalChanges()">Discard</button>
+      <button class="btn-save" onclick="saveAdminSettings()">Global Sync & Save</button>
     </div>
   </div>
 
@@ -235,7 +289,10 @@
 
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
-    let appData = {};
+    
+    let originalData = {}; // لحفظ النسخة القادمة من السيرفر كمرجع للـ Discard
+    let appData = {};      // الـ Draft Object الذي نجمع فيه كل التعديلات اللحظية
+    let currentChairKey = ""; // لملاحقة الـ Chair المفتوح حالياً قبل التغيير
 
     window.onload = function() {
       const password = prompt("Enter Administration Password to access Control Panel:");
@@ -251,7 +308,9 @@
     function initializePanelFetch() {
       database.ref("homepage_data").once("value", (snapshot) => {
         if (snapshot.exists()) {
-          appData = snapshot.val();
+          originalData = snapshot.val();
+          // نعمل كولون/نسخة عميقة حتى لا نعدل على الأصل في الذاكرة مباشرة
+          appData = JSON.parse(JSON.stringify(originalData));
           loadSettingsToAdminPanel();
         }
       });
@@ -303,6 +362,10 @@
     function loadSelectedChairBioToPanel() {
       const commKey = document.getElementById("admCommSelect").value;
       const chairVal = document.getElementById("admChairSelect").value;
+      
+      // حفظ المفتاح الحالي لنعرف أين نسجل التعديل لاحقاً
+      currentChairKey = chairVal;
+
       if(!chairVal) {
         document.getElementById("admChairNameInput").value = "";
         document.getElementById("admChairTextArea").value = "";
@@ -323,8 +386,72 @@
       }
     }
 
+    // 🌟 دالة هامة جداً: تحفظ أي تعديل للـ Chair في الـ Object المحلي قبل التبديل للجنة أو تشير آخر
+    function saveCurrentChairStateTemporarily() {
+      const commKey = document.getElementById("admCommSelect").value;
+      if(!currentChairKey || !appData.committees[commKey]) return;
+
+      const parts = currentChairKey.split("_");
+      const type = parts[0]; 
+      const index = parseInt(parts[1]);
+
+      const updatedName = document.getElementById("admChairNameInput").value;
+      const updatedBio = document.getElementById("admChairTextArea").value;
+
+      if(type === "backroom" && appData.committees[commKey].backroom) {
+        appData.committees[commKey].backroom[index].name = updatedName;
+        appData.committees[commKey].backroom[index].bio = updatedBio;
+      } else if(type === "chairs" && appData.committees[commKey].chairs) {
+        appData.committees[commKey].chairs[index].name = updatedName;
+        appData.committees[commKey].chairs[index].bio = updatedBio;
+      }
+    }
+
+    // فحص التغييرات اللحظية ومقارنتها بالأصل لتفعيل أو إخفاء الـ Bar السفلي
+    function trackLocalChange() {
+      // نقوم بتحديث الـ Object العام بالقيم السطحية أولاً للفحص الدقيق
+      appData.maintenanceMode = document.getElementById("admMaintenanceMode").checked;
+      appData.chairsOpen = document.getElementById("admChairCheck").checked;
+      appData.delegatesOpen = document.getElementById("admDelCheck").checked;
+      
+      const dateVal = document.getElementById("admCountDate").value;
+      if(dateVal) {
+        const d = new Date(dateVal);
+        appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
+      }
+
+      const commKey = document.getElementById("admCommSelect").value;
+      if(appData.committees[commKey]) {
+        appData.committees[commKey].topics = document.getElementById("admCommTopic").value;
+        appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
+        appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
+      }
+
+      // ترحيل بيانات التشير المفتوح حالياً أيضاً لغايات المقارنة
+      saveCurrentChairStateTemporarily();
+
+      // مقارنة الـ Object الحالي مع السيرفر الأصلي
+      const isDifferent = JSON.stringify(appData) !== JSON.stringify(originalData);
+      
+      if(isDifferent) {
+        document.getElementById("floatingSaveBar").classList.add("active");
+      } else {
+        document.getElementById("floatingSaveBar").classList.remove("active");
+      }
+    }
+
+    // إلغاء كافة التغييرات المعلقة والعودة للأصل
+    function discardLocalChanges() {
+      if(confirm("Are you sure you want to discard all pending changes?")) {
+        appData = JSON.parse(JSON.stringify(originalData));
+        loadSettingsToAdminPanel();
+        document.getElementById("floatingSaveBar").classList.remove("active");
+      }
+    }
+
+    // الحفظ النهائي الكلي بـ Single Request لقاعدة البيانات
     function saveAdminSettings() {
-      // حفظ وضع الصيانة الجديد
+      // حفظ حالة المدخلات الأخيرة كخطوة احتياطية نهائية
       appData.maintenanceMode = document.getElementById("admMaintenanceMode").checked;
       appData.chairsOpen = document.getElementById("admChairCheck").checked;
       appData.delegatesOpen = document.getElementById("admDelCheck").checked;
@@ -342,26 +469,14 @@
       appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
       appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
 
-      const chairVal = document.getElementById("admChairSelect").value;
-      if(chairVal) {
-        const parts = chairVal.split("_");
-        const type = parts[0]; 
-        const index = parseInt(parts[1]);
-        
-        const newName = document.getElementById("admChairNameInput").value;
-        const newBio = document.getElementById("admChairTextArea").value;
+      // ترحيل بيانات التشير النهائي المفتوح قبل الضغط على الحفظ
+      saveCurrentChairStateTemporarily();
 
-        if(type === "backroom") {
-          appData.committees[commKey].backroom[index].name = newName;
-          appData.committees[commKey].backroom[index].bio = newBio;
-        } else {
-          appData.committees[commKey].chairs[index].name = newName;
-          appData.committees[commKey].chairs[index].bio = newBio;
-        }
-      }
-
+      // إرسال كائن التعديلات بالكامل دفعة واحدة إلى قاعدة البيانات
       database.ref("homepage_data").set(appData).then(() => {
-        alert("Global Sync Completed Successfully!");
+        alert("Global Sync Completed Successfully! 🎉 All features updated.");
+        originalData = JSON.parse(JSON.stringify(appData)); // تحديث المرجع الأصلي ليطابق الحالي
+        document.getElementById("floatingSaveBar").classList.remove("active");
         loadCommitteeDataToPanel();
       }).catch((err) => {
         alert("Error saving data: " + err.message);
