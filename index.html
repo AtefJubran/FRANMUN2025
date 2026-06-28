@@ -3,25 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN 2026 | Franciscan Model United Nations</title>
+  <title>FRANMUN 2026 | Official Portal</title>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=500;700;800&family=Montserrat:wght=300;500;600;700&display=swap" rel="stylesheet">
   
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
   <style>
     :root {
       --bg-gradient: radial-gradient(circle at 50% -20%, #002244 0%, #001122 70%, #000811 100%);
       --premium-gold: linear-gradient(135deg, #fcd444 0%, #dfb72c 50%, #aa830e 100%);
       --gold-solid: #dfb72c;
-      --glass-card: rgba(0, 26, 51, 0.45);
+      --glass-card: rgba(0, 26, 51, 0.55);
       --glass-border: rgba(223, 183, 44, 0.15);
       --text-light: #f7fafc;
       --text-muted: #a0aec0;
-    }
-
-    /* تأثيرات الحركة لإعطاء حيوية للموقع */
-    @keyframes ambientGlow {
-      0% { opacity: 0.6; transform: translateY(0px); }
-      50% { opacity: 0.9; transform: translateY(-10px); }
-      100% { opacity: 0.6; transform: translateY(0px); }
     }
 
     body {
@@ -32,24 +28,10 @@
       color: var(--text-light);
       min-height: 100vh;
       overflow-x: hidden;
-      position: relative;
+      scroll-behavior: smooth;
     }
 
-    /* إضافة إضاءة خلفية عامة تكسر جمود الورقة البيضاء */
-    body::before {
-      content: '';
-      position: absolute;
-      top: 15%;
-      left: 20%;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(223, 183, 44, 0.08) 0%, transparent 70%);
-      z-index: 0;
-      pointer-events: none;
-      animation: ambientGlow 8s ease-in-out infinite;
-    }
-
-    /* الهيدر والنافبار الاحترافي الطافي */
+    /* هيدر زجاجي طافي */
     header {
       position: sticky;
       top: 20px;
@@ -60,7 +42,7 @@
     }
 
     .navbar {
-      background: rgba(0, 17, 34, 0.65);
+      background: rgba(0, 17, 34, 0.7);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--glass-border);
@@ -69,7 +51,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     .logo {
@@ -93,8 +75,8 @@
     .nav-links a {
       color: var(--text-light);
       text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 600;
       letter-spacing: 1px;
       transition: all 0.3s ease;
       opacity: 0.8;
@@ -103,153 +85,199 @@
     .nav-links a:hover {
       opacity: 1;
       color: var(--gold-solid);
-      text-shadow: 0 0 10px rgba(223, 183, 44, 0.4);
+      text-shadow: 0 0 10px rgba(223, 183, 44, 0.5);
     }
 
-    /* سكشن البطولة (Hero Section) الفخم */
+    /* سكشن الـ Home */
     .hero-section {
       max-width: 1000px;
-      margin: 100px auto 60px auto;
+      margin: 80px auto 40px auto;
       text-align: center;
-      position: relative;
-      z-index: 1;
       padding: 0 20px;
-    }
-
-    .hero-badge {
-      background: rgba(223, 183, 44, 0.1);
-      border: 1px solid var(--gold-solid);
-      color: var(--gold-solid);
-      padding: 6px 16px;
-      border-radius: 30px;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      display: inline-block;
-      margin-bottom: 25px;
-      box-shadow: 0 0 15px rgba(223, 183, 44, 0.1);
     }
 
     h1 {
       font-family: 'Cinzel', serif;
-      font-size: 56px;
-      font-weight: 700;
-      margin: 0 0 20px 0;
-      letter-spacing: 3px;
-      background: linear-gradient(135deg, #ffffff 30%, #e2e8f0 70%, var(--gold-solid) 100%);
+      font-size: 52px;
+      margin: 0 0 15px 0;
+      background: linear-gradient(135deg, #ffffff 40%, var(--gold-solid) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      line-height: 1.1;
     }
 
-    .hero-p {
-      font-size: 16px;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto 40px auto;
-      line-height: 1.8;
-      font-weight: 300;
+    /* العداد التنازلي الزجاجي الفخم */
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 40px 0;
     }
 
-    /* كروت العرض الزجاجية (The Luxury Glass Cards) */
-    .grid-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-      padding: 40px 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .premium-card {
+    .countdown-box {
       background: var(--glass-card);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--glass-border);
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0px rgba(255,255,255,0.05);
-      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-      position: relative;
-      overflow: hidden;
+      backdrop-filter: blur(10px);
+      padding: 15px;
+      border-radius: 12px;
+      min-width: 80px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
 
-    /* إضافة خط نيون علوي ناعم يتوهج عند تمرير الماوس */
-    .premium-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: var(--premium-gold);
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
-
-    .premium-card:hover {
-      transform: translateY(-8px);
-      border-color: rgba(223, 183, 44, 0.4);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 25px rgba(223, 183, 44, 0.15);
-    }
-
-    .premium-card:hover::before {
-      opacity: 1;
-    }
-
-    .card-icon {
-      font-size: 32px;
-      color: var(--gold-solid);
-      margin-bottom: 20px;
-      display: inline-block;
-      text-shadow: 0 0 10px rgba(223, 183, 44, 0.3);
-    }
-
-    .card-title {
-      font-family: 'Cinzel', serif;
-      font-size: 20px;
-      margin: 0 0 12px 0;
-      color: #fff;
-      letter-spacing: 1px;
-    }
-
-    .card-text {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin: 0;
-      font-weight: 400;
-    }
-
-    /* الأزرار الفخمة (Buttons) */
-    .btn-gold {
-      background: var(--premium-gold);
-      color: #001122;
+    .countdown-num {
+      font-size: 28px;
       font-weight: 700;
-      padding: 14px 35px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 14px;
-      letter-spacing: 1.5px;
-      display: inline-block;
-      box-shadow: 0 5px 20px rgba(223, 183, 44, 0.3);
-      transition: all 0.3s ease;
+      color: var(--gold-solid);
+      display: block;
+    }
+
+    .countdown-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 1px;
       text-transform: uppercase;
     }
 
-    .btn-gold:hover {
-      box-shadow: 0 8px 30px rgba(223, 183, 44, 0.5);
-      transform: translateY(-2px);
-      filter: brightness(1.1);
+    /* سكشن الـ Leadership (SG, ASG, DSG) */
+    .leadership-container {
+      display: flex;
+      justify-content: center;
+      gap: 50px;
+      flex-wrap: wrap;
+      margin-top: 60px;
     }
 
-    @media (max-width: 768px) {
-      h1 { font-size: 38px; }
-      .navbar { padding: 15px 20px; }
-      .nav-links { display: none; } /* يمكن تحويلها لهامبرغر منيو لاحقاً */
+    .leader-card {
+      text-align: center;
+      width: 160px;
     }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 130px;
+      height: 130px;
+      margin: 0 auto 15px auto;
+    }
+
+    .leader-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold-solid);
+      box-shadow: 0 0 20px rgba(223, 183, 44, 0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .leader-card:hover .leader-avatar {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(223, 183, 44, 0.4);
+    }
+
+    .leader-role {
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      color: var(--gold-solid);
+      margin: 5px 0;
+      font-weight: 700;
+    }
+
+    .leader-name {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* سكشن اللجان الست (Committees) */
+    .section-title {
+      font-family: 'Cinzel', serif;
+      text-align: center;
+      font-size: 32px;
+      color: #fff;
+      margin: 80px 0 40px 0;
+      letter-spacing: 2px;
+    }
+
+    .committees-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 0 20px;
+    }
+
+    .comm-card {
+      background: var(--glass-card);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 30px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .comm-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(223, 183, 44, 0.4);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 15px rgba(223, 183, 44, 0.1);
+    }
+
+    .comm-logo {
+      width: 75px;
+      height: 75px;
+      margin-bottom: 15px;
+      filter: drop-shadow(0 0 8px rgba(223, 183, 44, 0.2));
+    }
+
+    .comm-title {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      margin: 0 0 10px 0;
+    }
+
+    /* سكشن الـ Chairs المنبثق التلقائي الفخم */
+    .chairs-display-area {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .chairs-card {
+      background: rgba(0, 15, 30, 0.85);
+      border: 1px solid var(--gold-solid);
+      border-radius: 16px;
+      padding: 30px;
+      display: none; /* يظهر بالـ JS عند الضغط على لجنة */
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    /* سكشن الصور المقفل (Photos Section) */
+    .photos-section {
+      max-width: 1000px;
+      margin: 80px auto;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .locked-gallery {
+      background: rgba(255,255,255,0.02);
+      border: 2px dashed var(--glass-border);
+      border-radius: 20px;
+      padding: 60px 20px;
+      backdrop-filter: blur(8px);
+      position: relative;
+    }
+
+    .lock-icon {
+      font-size: 48px;
+      color: var(--gold-solid);
+      margin-bottom: 15px;
+      display: block;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
   </style>
 </head>
 <body>
@@ -260,42 +288,172 @@
       <ul class="nav-links">
         <li><a href="#home">HOME</a></li>
         <li><a href="#committees">COMMITTEES</a></li>
-        <li><a href="#secretariat">SECRETARIAT</a></li>
-        <li><a href="#register">REGISTER</a></li>
+        <li><a href="#photos">PHOTOS</a></li>
       </ul>
     </nav>
   </header>
 
   <section class="hero-section" id="home">
-    <div class="hero-badge">THE FIRST INAUGURAL CONFERENCE</div>
-    <h1>DIPLOMACY IN A NEW ERA</h1>
-    <p class="hero-p">
-      Join the most prestigious youth diplomatic gathering at the Franciscan Sister's School, Nazareth. Shape the global resolutions of tomorrow, today.
-    </p>
-    <a href="#register" class="btn-gold">Explore Applications</a>
+    <h1>FRANMUN 2026</h1>
+    <p style="color: var(--text-muted); letter-spacing: 1px;">Franciscan Sister's School Model United Nations</p>
+    
+    <div class="countdown-container" id="countdown">
+      <div class="countdown-box"><span class="countdown-num" id="days">00</span><span class="countdown-label">Days</span></div>
+      <div class="countdown-box"><span class="countdown-num" id="hours">00</span><span class="countdown-label">Hrs</span></div>
+      <div class="countdown-box"><span class="countdown-num" id="minutes">00</span><span class="countdown-label">Min</span></div>
+      <div class="countdown-box"><span class="countdown-num" id="seconds">00</span><span class="countdown-label">Sec</span></div>
+    </div>
+
+    <div class="leadership-container">
+      <div class="leader-card">
+        <div class="avatar-wrapper"><img src="https://via.placeholder.com/150" class="leader-avatar" alt="SG"></div>
+        <div class="leader-role">Secretary-General</div>
+        <div class="leader-name">SG Executive</div>
+      </div>
+      <div class="leader-card">
+        <div class="avatar-wrapper"><img src="https://via.placeholder.com/150" class="leader-avatar" alt="ASG"></div>
+        <div class="leader-role">Deputy SG</div>
+        <div class="leader-name">DSG Executive</div>
+      </div>
+      <div class="leader-card">
+        <div class="avatar-wrapper"><img src="https://via.placeholder.com/150" class="leader-avatar" alt="DSG"></div>
+        <div class="leader-role">Asst. SG</div>
+        <div class="leader-name">ASG Executive</div>
+      </div>
+    </div>
   </section>
 
-  <main class="grid-container" id="committees">
-    
-    <div class="premium-card">
-      <span class="card-icon">🏛️</span>
-      <h3 class="card-title">UN Women</h3>
-      <p class="card-text">Discussing gender equity and pioneering structural solutions for empowering women in governance globally.</p>
+  <section id="committees">
+    <h2 class="section-title">The Committees</h2>
+    <div class="committees-grid">
+      <div class="comm-card" onclick="viewCommitteeChairs('UNWOMEN')">
+        <img src="https://cdn-icons-png.flaticon.com/512/2900/2900742.png" class="comm-logo" alt="UN Women">
+        <h3 class="comm-title">UN Women</h3>
+      </div>
+      <div class="comm-card" onclick="viewCommitteeChairs('UNHRC')">
+        <img src="https://cdn-icons-png.flaticon.com/512/2934/2934273.png" class="comm-logo" alt="UNHRC">
+        <h3 class="comm-title">UNHRC</h3>
+      </div>
+      <div class="comm-card" onclick="viewCommitteeChairs('DISEC')">
+        <img src="https://cdn-icons-png.flaticon.com/512/2530/2530757.png" class="comm-logo" alt="DISEC">
+        <h3 class="comm-title">DISEC</h3>
+      </div>
+      <div class="comm-card" onclick="viewCommitteeChairs('WHO')">
+        <img src="https://cdn-icons-png.flaticon.com/512/2965/2965319.png" class="comm-logo" alt="WHO">
+        <h3 class="comm-title">WHO</h3>
+      </div>
+      <div class="comm-card" onclick="viewCommitteeChairs('UNHSC')">
+        <img src="https://cdn-icons-png.flaticon.com/512/1041/1041916.png" class="comm-logo" alt="UNHSC">
+        <h3 class="comm-title">UNHSC</h3>
+      </div>
+      <div class="comm-card" onclick="viewCommitteeChairs('CRISIS')">
+        <img src="https://cdn-icons-png.flaticon.com/512/595/595067.png" class="comm-logo" alt="Crisis">
+        <h3 class="comm-title">Crisis Committee</h3>
+      </div>
     </div>
 
-    <div class="premium-card">
-      <span class="card-icon">🌍</span>
-      <h3 class="card-title">UNHRC</h3>
-      <p class="card-text">Debating human rights frameworks and maintaining diplomatic oversight across modern global crises.</p>
+    <div class="chairs-display-area">
+      <div id="chairsDetailsCard" class="chairs-card">
+        <h3 id="displayCommTitle" style="font-family: 'Cinzel', serif; color: var(--gold-solid); margin-top: 0;"></h3>
+        <p id="displayCommTopic" style="font-size: 14px; color: var(--text-muted); line-height: 1.6;"></p>
+        <div id="chairsListContainer" style="margin-top: 25px; display: flex; gap: 30px; flex-wrap: wrap;">
+          </div>
+      </div>
     </div>
+  </section>
 
-    <div class="premium-card">
-      <span class="card-icon">🛡️</span>
-      <h3 class="card-title">Crisis Committee</h3>
-      <p class="card-text">A fast-paced, classified environment where every directive changes the immediate course of history.</p>
+  <section class="photos-section" id="photos">
+    <h2 class="section-title">Conference Gallery</h2>
+    <div class="locked-gallery">
+      <span class="lock-icon">🔒</span>
+      <h3 style="font-family: 'Cinzel', serif; margin: 0; color: #fff;">Gallery is Temporarily Locked</h3>
+      <p style="color: var(--text-muted); font-size: 13px; max-width: 500px; margin: 10px auto 0 auto; line-height: 1.6;">
+        Official event photographs and session snapshots will be unlocked and uploaded here directly following the conclusion of the FRANMUN 2026 sessions. Stay tuned!
+      </p>
     </div>
+  </section>
 
-  </main>
+  <script>
+    // نفس إعدادات الـ Firebase التي وضعتها في لوحة التحكم ليعملا معاً كجسد واحد 💎
+    const firebaseConfig = {
+      apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
+      authDomain: "franmun-f5498.firebaseapp.com",
+      databaseURL: "https://franmun-f5498-default-rtdb.firebaseio.com",
+      projectId: "franmun-f5498",
+      storageBucket: "franmun-f5498.firebasestorage.app",
+      messagingSenderId: "574017816071",
+      appId: "1:574017816071:web:1968d9a793dec6a6cacca2",
+      measurementId: "G-WRXCD54P71"
+    };
 
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    let globalLiveRepository = {};
+
+    // قراءة البيانات فورا بمجرد فتح الصفحة الكبرى
+    window.onload = function() {
+      database.ref("homepage_data").on("value", (snapshot) => {
+        if (snapshot.exists()) {
+          globalLiveRepository = snapshot.val();
+          startLiveCountdown(globalLiveRepository.targetDate);
+        }
+      });
+    };
+
+    // تشغيل عداد الوقت بناء على الـ Target Date المحفوظ بالـ لوحة التحكم
+    function startLiveCountdown(targetDateString) {
+      if (!targetDateString) return;
+      
+      setInterval(() => {
+        const total = Date.parse(targetDateString) - Date.parse(new Date());
+        if (total <= 0) return;
+
+        const seconds = Math.floor((total / 1000) % 60);
+        const minutes = Math.floor((total / 1000 / 60) % 60);
+        const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+        const days = Math.floor(total / (1000 * 60 * 60 * 24));
+
+        document.getElementById("days").innerText = days < 10 ? '0' + days : days;
+        document.getElementById("hours").innerText = hours < 10 ? '0' + hours : hours;
+        document.getElementById("minutes").innerText = minutes < 10 ? '0' + minutes : minutes;
+        document.getElementById("seconds").innerText = seconds < 10 ? '0' + seconds : seconds;
+      }, 1000);
+    }
+
+    // عرض الـ Chairs والـ Bio التابع للجنة المضغوط عليها بشكل فوري وتفاعلي
+    function viewCommitteeChairs(committeeKey) {
+      const committee = globalLiveRepository.committees[committeeKey];
+      const detailsCard = document.getElementById("chairsDetailsCard");
+      
+      if (!committee) return;
+
+      document.getElementById("displayCommTitle").innerText = committeeKey + " Committee Details";
+      document.getElementById("displayCommTopic").innerText = committee.topics || "Topic description has not been updated yet.";
+      
+      const listContainer = document.getElementById("chairsListContainer");
+      let listHTML = "";
+
+      // التحقق مما إذا كانت اللوحة تخفي الـ Chairs بختم الـ Top Secret للجنة الحالية
+      if (committee.chairsComingSoon) {
+        listHTML = `<div style="color: var(--gold-solid); font-family: 'Cinzel', serif; font-weight: bold; font-size: 18px; padding: 20px; border: 1px dashed var(--gold-solid); width: 100%; text-align: center;">🕵️ TOP SECRET - CHAIRS REVEALING SOON</div>`;
+      } else {
+        if (committee.chairs) {
+          committee.chairs.forEach(chair => {
+            listHTML += `
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); padding: 20px; border-radius: 12px; flex: 1; min-width: 250px;">
+                <h4 style="margin: 0 0 5px 0; color: #fff; font-size: 16px;">${chair.name}</h4>
+                <p style="margin: 0; color: var(--text-muted); font-size: 13px; line-height: 1.5;">${chair.bio || 'Biography text coming soon.'}</p>
+              </div>`;
+          });
+        }
+      }
+
+      listContainer.innerHTML = listHTML;
+      detailsCard.style.display = "block";
+      
+      // التمرير التلقائي الناعم لأسفل لعرض كارت التفاصيل الفخم
+      detailsCard.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
