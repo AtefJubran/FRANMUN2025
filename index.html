@@ -10,33 +10,34 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+  <!-- Firebase Legacy SDKs for Realtime Sync -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
-    /* --- COUTURIER DESIGN SYSTEM (HUMANIZED & ULTRA-RESPONSIVE) --- */
+    /* --- MODERN COUTURIER DESIGN SYSTEM --- */
     :root {
-      --bg-main: #0b1324;
-      --bg-card: #111c30;
+      --bg-main: #060b13;
+      --bg-card: rgba(15, 27, 47, 0.6);
       
-      --accent-gold: #F5C754;
-      --accent-gold-hover: #FFE072;
-      --accent-red: #FA5B4A;
+      --accent-gold: #E4B343;
+      --accent-gold-hover: #FFF1CD;
+      --accent-red: #EF4444;
 
-      --glass-bg: rgba(17, 28, 48, 0.7);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --glass-border-hover: rgba(245, 199, 84, 0.3);
+      --glass-bg: rgba(15, 27, 47, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --glass-border-hover: rgba(228, 179, 67, 0.25);
       
       --text-light: #FFFFFF;
-      --text-muted: #8ed6ffc4;
-      --text-body: #d1dcfa;
+      --text-muted: #94A3B8;
+      --text-body: #CBD5E1;
       --font-heading: 'Cinzel', Georgia, serif;
       --font-body: 'Inter', sans-serif;
       
-      --radius-card: 16px;
+      --radius-card: 20px;
       --radius-button: 100px;
       --radius-modal: 24px;
-      --transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * {
@@ -49,37 +50,31 @@
       font-family: var(--font-body);
       background-color: var(--bg-main);
       color: var(--text-light);
-      line-height: 1.6;
+      line-height: 1.5;
       overflow-x: hidden;
-      position: relative; 
       -webkit-font-smoothing: antialiased;
     }
 
-    #delegateContent, header, .main-container, footer {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* --- PREMIUM HEADER & NAVIGATION --- */
+    /* --- SLEEK FLOATING HEADER --- */
     header {
       position: fixed;
-      top: 20px;
+      top: 16px;
       left: 50%;
       transform: translateX(-50%);
-      width: 90%;
-      max-width: 1100px;
+      width: 92%;
+      max-width: 1200px;
       z-index: 1000;
-      background: rgba(11, 19, 36, 0.85);
+      background: rgba(6, 11, 19, 0.8);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      padding: 12px 28px;
+      padding: 12px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border: 1px solid var(--glass-border);
       border-radius: 100px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.25);
-      transition: transform 0.4s var(--transition-smooth), opacity 0.4s var(--transition-smooth);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
     header.nav-hidden {
@@ -90,279 +85,159 @@
     .logo-container {
       display: flex;
       align-items: center;
+      gap: 12px;
     }
 
     header img {
-      max-width: 48px;
+      max-width: 42px;
       height: auto;
-      transition: var(--transition-smooth);
     }
 
-    /* Mobile Nav Toggle Button */
+    .header-text h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFF;
+    }
+
+    .header-text p {
+      font-size: 11px;
+      color: var(--accent-gold);
+    }
+
     .menu-toggle {
       display: none;
       background: transparent;
       border: none;
       color: var(--text-light);
-      font-size: 24px;
+      font-size: 22px;
       cursor: pointer;
-      padding: 4px;
     }
 
     .nav-tabs {
       display: flex;
       gap: 4px;
-      background: rgba(255, 255, 255, 0.03);
-      padding: 4px;
-      border-radius: 100px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .tab-btn {
       background: transparent;
       border: none;
-      color: var(--text-body);
+      color: var(--text-muted);
       font-family: var(--font-body);
       font-weight: 500;
       font-size: 13px;
-      padding: 8px 20px;
+      padding: 8px 18px;
       border-radius: 100px;
       cursor: pointer;
-      letter-spacing: 0.03em;
       transition: var(--transition-smooth);
     }
 
     .tab-btn:hover {
       color: var(--text-light);
-      background: rgba(255, 255, 255, 0.03);
     }
 
     .tab-btn.active {
-      background: var(--accent-gold);
-      color: #0A1324;
-      font-weight: 600;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-light);
     }
 
-    /* --- PAGE MANAGEMENT SYSTEM --- */
-    .page-view {
-      display: none; 
-      animation: pageFadeIn 0.5s var(--transition-smooth) forwards;
-    }
-
-    .page-view.active-page {
-      display: block; 
-    }
-
-    @keyframes pageFadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* --- LAYOUT CONTAINER --- */
+    /* --- MAIN STRUCTURAL CONTAINER --- */
     .main-container {
-      max-width: 960px;
+      max-width: 1000px;
       margin: 0 auto;
-      padding: 140px 20px 60px 20px;
-      min-height: 80vh;
+      padding: 120px 20px 60px 20px;
+      min-height: 85vh;
     }
 
-    .section { 
-      padding: 20px 10px;
+    /* --- HERO SECTION --- */
+    .hero-section { 
+      padding: 40px 0 24px 0;
       text-align: center;
-      margin-bottom: 32px;
     }
 
-    .section h2 {
+    .hero-section h2 {
       font-family: var(--font-heading);
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
       font-weight: 700;
-      line-height: 1.1;
+      line-height: 1.2;
       color: #FFFFFF;
-      letter-spacing: 0.02em;
-      margin-bottom: 12px;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
     }
 
-    .section p {
-      font-size: clamp(0.9rem, 2vw, 1.1rem);
+    .hero-section p {
+      font-size: clamp(0.85rem, 1.8vw, 1.05rem);
       text-transform: uppercase;
       letter-spacing: 0.15em;
       color: var(--accent-gold);
       font-weight: 500;
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
     }
 
-    /* --- PREMIUM CLEAN CARDS --- */
+    /* --- ULTRA PREMIUM CARDS --- */
     .card {
-      background: var(--glass-bg);
+      background: var(--bg-card);
       border: 1px solid var(--glass-border);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      margin: 0 auto 24px auto;
-      padding: 32px 24px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      margin-bottom: 24px;
+      padding: 32px;
       border-radius: var(--radius-card);
-      width: 100%; 
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
       text-align: center;
-      transition: transform 0.4s var(--transition-smooth), border-color 0.4s var(--transition-smooth), box-shadow 0.4s var(--transition-smooth);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
       border-color: var(--glass-border-hover);
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 15px 40px rgba(228, 179, 67, 0.05);
     }
 
     .card h3 {
       font-family: var(--font-body);
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--accent-gold);
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
       margin-bottom: 20px;
     }
 
     .card p {
       color: var(--text-body);
-      font-size: 15.5px;
-      line-height: 1.65;
+      font-size: 15px;
+      line-height: 1.6;
     }
 
-    /* --- SECRETARIAT PORTRAITS --- */
-    .premium-leadership-team {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      margin: 10px 0;
-      flex-wrap: wrap;
-    }
-
-    .premium-leader-avatar-box {
-      text-align: center;
-      width: 140px;
-    }
-
-    .premium-leader-img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 2px solid var(--glass-border);
-      object-fit: cover;
-      background: var(--bg-main);
-      padding: 4px;
-      transition: var(--transition-smooth);
-    }
-
-    .premium-leader-avatar-box:hover .premium-leader-img {
-      border-color: var(--accent-gold);
-      transform: translateY(-2px);
-    }
-
-    .premium-leader-title {
-      font-family: var(--font-body);
-      font-size: 13px;
-      color: var(--text-light);
-      margin-top: 12px;
-      font-weight: 600;
-    }
-
-    .premium-leader-name {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    /* --- VAULT-STYLE GALLERY SECTION --- */
-    .locked-gallery-wrapper {
-      background: var(--glass-bg);
-      border: 1px dashed var(--glass-border);
-      padding: 60px 24px;
-      border-radius: var(--radius-card);
-    }
-
-    .lock-glyph {
-      font-size: 28px;
-      color: var(--accent-gold);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 56px;
-      height: 56px;
-      background: rgba(245, 199, 84, 0.08);
-      border: 1px solid rgba(245, 199, 84, 0.2);
-      border-radius: 50%;
-      margin-bottom: 16px;
-    }
-
-    /* --- INTERACTIVE BUTTONS --- */
-    .button-container {
-      text-align: center;
-      margin: 24px auto;
-      display: flex;
-      flex-wrap: wrap; 
-      justify-content: center;
-      gap: 12px;
-      width: 100%;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--accent-gold);
-      color: #0A1324;
-      font-weight: 600;
-      padding: 14px 28px;
-      border-radius: var(--radius-button);
-      text-decoration: none;
-      cursor: pointer;
-      font-size: 14px;
-      border: none;
-      transition: var(--transition-smooth);
-      flex: 1;
-      min-width: 240px; 
-      max-width: 300px;
-    }
-
-    .button:hover {
-      background: var(--accent-gold-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(245, 199, 84, 0.2);
-    }
-
-    /* --- COUNTDOWN --- */
+    /* --- PERFECT GRID COUNTDOWN --- */
     .countdown-container {
-      display: flex;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
       gap: 12px;
-      margin-top: 10px;
-      flex-wrap: wrap;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     .countdown-box {
       background: rgba(255, 255, 255, 0.02);
       border: 1px solid var(--glass-border);
-      color: var(--text-light);
-      padding: 14px 8px;
+      padding: 14px 10px;
       border-radius: 12px;
-      min-width: 80px;
-      flex: 1;
-      max-width: 100px;
     }
 
     .countdown-number {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 700;
       display: block;
-      font-family: var(--font-body);
+      color: #FFF;
     }
 
     .countdown-label {
       font-size: 10px;
-      color: var(--accent-gold);
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      font-weight: 600;
       margin-top: 2px;
     }
 
@@ -371,26 +246,24 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
-      margin-top: 20px;
     }
 
     .committee-icon {
-      width: 100%;
       aspect-ratio: 1 / 1; 
       cursor: pointer;
-      transition: var(--transition-smooth);
       border-radius: 16px;
       border: 1px solid var(--glass-border);
-      background-color: rgba(255, 255, 255, 0.01);
-      padding: 20px;
+      background: rgba(255, 255, 255, 0.01);
+      padding: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: var(--transition-smooth);
     }
 
     .committee-icon:hover {
       transform: translateY(-4px);
-      background-color: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.03);
       border-color: var(--accent-gold);
     }
 
@@ -400,10 +273,45 @@
       object-fit: contain;
     }
 
-    /* --- CHAIRS PROFILES --- */
-    .chairs-title {
-      font-family: var(--font-body);
+    /* --- LEADERSHIP & CHAIRS --- */
+    .premium-leadership-team {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .premium-leader-avatar-box {
+      text-align: center;
+      width: 130px;
+    }
+
+    .premium-leader-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      object-fit: cover;
+      padding: 4px;
+      transition: 0.3s ease;
+    }
+
+    .premium-leader-avatar-box:hover .premium-leader-img {
+      border-color: var(--accent-gold);
+    }
+
+    .premium-leader-title {
+      font-size: 12px;
       font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .premium-leader-name {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .chairs-title {
       margin-top: 24px;
       color: var(--text-muted);
       border-top: 1px solid rgba(255, 255, 255, 0.06);
@@ -416,336 +324,162 @@
     .chairs-container {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      gap: 16px;
       margin-top: 16px;
       flex-wrap: wrap;
     }
     
     .chair-box {
       text-align: center;
-      flex: 0 1 calc(33.33% - 14px);
-      min-width: 90px;
-      cursor: pointer;
+      flex: 0 1 calc(33.33% - 12px);
+      min-width: 85px;
     }
     
     .chair-img {
-      width: 70px;
-      height: 70px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       border: 1px solid var(--glass-border);
       object-fit: cover;
-      padding: 3px;
-      transition: var(--transition-smooth);
-    }
-
-    .chair-box:hover .chair-img {
-      border-color: var(--accent-gold);
     }
     
     .chair-name {
       font-size: 12px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.9);
-      margin-top: 6px;
+      color: var(--text-body);
+      margin-top: 4px;
     }
 
-    .backroom-section-title {
-      font-family: var(--font-body);
-      font-weight: 600;
-      margin-top: 20px;
-      color: var(--accent-red);
-      text-transform: uppercase;
-      font-size: 11px;
-      letter-spacing: 0.1em;
+    /* --- PREMIUM INTERACTIVE BUTTONS --- */
+    .button-container {
+      margin: 24px 0;
+      display: flex;
+      flex-wrap: wrap; 
+      justify-content: center;
+      gap: 12px;
     }
 
-    .report-btn {
+    .button {
       display: inline-flex;
       align-items: center;
-      margin-top: 16px;
-      background-color: transparent;
-      border: 1px solid var(--glass-border);
-      color: #FFFFFF;
-      padding: 10px 24px;
+      justify-content: center;
+      background: var(--accent-gold);
+      color: #060b13;
+      font-weight: 600;
+      padding: 12px 28px;
       border-radius: var(--radius-button);
       text-decoration: none;
-      font-size: 13px;
+      font-size: 14px;
       transition: var(--transition-smooth);
-    }
-    
-    .report-btn:hover {
-      border-color: var(--accent-gold);
-      color: var(--accent-gold);
+      flex: 1;
+      min-width: 240px; 
+      max-width: 280px;
     }
 
-    .top-secret-stamp {
-      display: inline-block;
-      border: 1px solid var(--accent-red);
-      color: var(--accent-red);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      padding: 4px 14px;
-      margin: 12px auto;
-      letter-spacing: 0.1em;
-      transform: rotate(-3deg);
-      background: rgba(250, 91, 74, 0.05);
-      border-radius: 4px;
+    .button:hover {
+      background: var(--accent-gold-hover);
+      transform: translateY(-1px);
     }
 
-    /* --- CLEAN MODAL SYSTEM --- */
-    .modal {
+    /* --- SYSTEM MODALS --- */
+    .modal, .bio-popup-modal {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(5, 10, 19, 0.8); 
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
+      background: rgba(3, 7, 13, 0.85); 
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 10000;
       justify-content: center;
       align-items: center;
       padding: 16px;
     }
 
-    .modal-content {
-      background: #111c30;
+    .modal-content, .bio-popup-content {
+      background: #0f1b2f;
       border: 1px solid var(--glass-border);
-      padding: 36px 24px 24px 24px;
+      padding: 32px 24px;
       border-radius: var(--radius-modal);
-      max-width: 480px; 
+      max-width: 440px; 
       width: 100%;
       text-align: center;
       position: relative;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      animation: modalFadeIn 0.4s var(--transition-smooth);
     }
 
-    @keyframes modalFadeIn {
-      from { transform: scale(0.97); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .modal-content .close-btn, .bio-popup-content .close-bio-btn {
+    .close-btn, .close-bio-btn {
       position: absolute;
-      top: 12px; right: 20px;
+      top: 12px; right: 16px;
       cursor: pointer;
       font-size: 24px; 
       color: var(--text-muted);
     }
 
     .modal-close-button {
-      font-family: var(--font-body);
-      display: block;
-      width: 100%;
-      max-width: 120px;
-      margin: 24px auto 0 auto;
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--glass-border);
       color: white;
-      padding: 10px;
+      padding: 10px 24px;
       border-radius: var(--radius-button);
-      font-weight: 500;
       cursor: pointer;
       font-size: 12px;
-      transition: var(--transition-smooth);
+      margin-top: 20px;
     }
 
-    .modal-close-button:hover {
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    /* --- BIO POP-UP MODAL --- */
-    .bio-popup-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(5, 10, 19, 0.85);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      z-index: 20000; 
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-    }
-
-    .bio-popup-content {
-      background: #111c30;
-      border: 1px solid var(--glass-border);
-      padding: 36px 24px 24px 24px;
-      border-radius: var(--radius-modal);
-      max-width: 460px;
-      width: 100%;
-      text-align: center;
-      position: relative;
-      animation: modalFadeIn 0.4s var(--transition-smooth);
-    }
-
-    .large-chair-img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 1px solid var(--glass-border);
-      object-fit: cover;
-      margin: 0 auto 16px auto;
-    }
-
-    .bio-popup-name {
-      font-family: var(--font-body);
-      font-size: 18px;
-      color: #FFF;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .bio-popup-text {
-      color: var(--text-body);
-      font-size: 14px;
-      text-align: left;
-      line-height: 1.6;
-      max-height: 180px; 
-      overflow-y: auto;
-    }
-
-    /* --- MAINTENANCE OVERLAY --- */
-    #maintenanceContent {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--bg-main);
-      z-index: 999999;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 16px;
-    }
-
-    .maintenance-card {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      padding: 40px 24px;
-      border-radius: var(--radius-card);
-      max-width: 460px;
-    }
-
-    .maintenance-card h2 {
-      color: #FFFFFF;
-      font-size: 24px;
-      margin-bottom: 12px;
-    }
-
-    .insta-badge {
-      display: inline-flex;
-      align-items: center;
-      background: #FFFFFF;
-      color: var(--bg-main);
-      padding: 12px 28px;
-      border-radius: var(--radius-button);
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 13px;
-    }
-
-    /* --- FOOTER --- */
-    footer {
-      color: var(--text-muted);
-      text-align: center;
-      padding: 60px 20px 30px 20px;
-      font-size: 13px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    footer a {
-      text-decoration: none;
-      color: var(--accent-gold);
-    }
-
-    .credits {
-      margin-top: 16px;
-      padding-top: 16px;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 11px;
-      color: rgba(255,255,255,0.4);
-    }
-
-    /* ================= MAC & IPAD & PHONE RESPONSIVE QUERIES ================= */
+    /* --- RESPONSIVE ROUTINES --- */
     
-    /* iPads / Tablets (Portrait & Landscape) */
     @media (max-width: 1024px) {
-      header {
-        width: 92%;
-        padding: 10px 24px;
-      }
-      .main-container {
-        padding-top: 120px;
-      }
-      .committee-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 items per row on iPad */
-        gap: 14px;
-      }
+      .committee-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
-    /* Mobile Phones (Large & Small) */
     @media (max-width: 768px) {
-      .menu-toggle {
-        display: block; /* Show hamburger button */
+      header {
+        border-radius: 24px;
+        padding: 10px 16px;
       }
-
+      .header-text {
+        display: none; /* Hide long school name on mobile header bar */
+      }
+      .menu-toggle {
+        display: block;
+      }
       .nav-tabs {
-        display: none; /* Hide default navbar links on mobile */
+        display: none;
         flex-direction: column;
         position: absolute;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background: #111c30;
+        top: 64px; left: 0; width: 100%;
+        background: #0f1b2f;
         border-radius: 16px;
-        padding: 12px;
+        padding: 8px;
         border: 1px solid var(--glass-border);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        gap: 8px;
+        gap: 4px;
       }
-
       .nav-tabs.mobile-open {
-        display: flex; /* Toggle via JS */
+        display: flex;
       }
-
       .tab-btn {
         width: 100%;
         text-align: center;
-        padding: 12px;
+        padding: 10px;
       }
-
-      .section h2 {
-        font-size: 2.5rem;
+      .countdown-container {
+        grid-template-columns: repeat(2, 1fr); /* Neat 2x2 grid on mobile */
       }
-
-      .committee-grid {
-        grid-template-columns: 1fr; /* 1 item per row on Phone */
-      }
-
-      .premium-leadership-team {
-        gap: 16px;
-      }
-
-      .premium-leader-avatar-box {
-        width: 45%; /* Two leaders per row layout on tiny screens */
-      }
-
-      .chair-box {
-        flex: 0 1 calc(50% - 10px);
-      }
+      .committee-grid { grid-template-columns: 1fr; }
+      .chair-box { flex: 0 1 calc(50% - 10px); }
     }
+
+    .page-view { display: none; animation: fadeIn 0.4s ease forwards; }
+    .page-view.active-page { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <div id="maintenanceContent">
-    <div class="maintenance-card">
-      <img src="logo.jpeg.JPG" style="width: 60px; margin-bottom: 16px;">
+  <!-- LIVE MAINTENANCE OVERLAY SCREEN -->
+  <div id="maintenanceContent" style="display:none;">
+    <div style="text-align:center; padding:40px;">
       <h2>Crisis Alert!</h2>
-      <p style="margin-bottom: 16px; color:var(--text-body);">Even our website needed an unexpected recess. We are currently undergoing crucial upgrades and hunting down bugs behind the scenes.</p>
-      <p style="color: var(--accent-gold); font-size: 13px; font-weight:500; margin-bottom: 24px;">Don't panic! Just follow the Security Council on Instagram for live announcements:</p>
-      <a href="https://www.instagram.com/franciscan_munners" target="_blank" class="insta-badge">@franciscan_munners</a>
+      <p>Undergoing upgrades. Follow us on Instagram:</p>
+      <a href="https://www.instagram.com/franciscan_munners" target="_blank">@franciscan_munners</a>
     </div>
   </div>
 
@@ -753,13 +487,12 @@
     <header>
       <div class="logo-container">
         <img src="logo.jpeg.JPG" alt="School Logo">
+        <div class="header-text">
+          <h1>Franciscan School</h1>
+          <p>FRANMUN 2026</p>
+        </div>
       </div>
       
-      <div class="header-text">
-        <h1>Franciscan Sister's School Nazareth</h1>
-        <p><span class="highlight">FRANMUN</span> | First Annual Conference</p>
-      </div>
-
       <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
 
       <div class="nav-tabs" id="navTabs">
@@ -771,8 +504,9 @@
 
     <div class="main-container">
       
+      <!-- ================= PAGE 1: HOME ================= -->
       <div id="page-home" class="page-view active-page">
-        <section class="section">
+        <section class="hero-section">
           <h2>FRANMUN</h2>
           <p>First Annual Model United Nations Conference</p>
         </section>
@@ -787,6 +521,7 @@
           </div>
         </div>
 
+        <!-- Secretariat Section -->
         <div class="card">
           <h3>The Secretariat</h3>
           <div class="premium-leadership-team">
@@ -808,22 +543,18 @@
           </div>
         </div>
 
+        <!-- Live Dynamic Registration Buttons Container -->
         <div class="button-container" id="liveRegButtons"></div>
-        
-        <div style="text-align: center; margin-bottom: 32px;">
-          <p style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 8px 16px; border-radius: 100px; display: inline-block; color: var(--text-muted); font-size: 11px; font-weight: 500;">
-            Registration requires parent/guardian signature endorsement
-          </p>
-        </div>
 
         <div class="card">
           <h3>About Our Conference</h3>
-          <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference. Join us for an elite event where students engage in advanced diplomatic discussions, master geo-political problem solving, and draft high-impact resolutions representing nations globally.</p>
+          <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference. Join us for an elite event where students engage in advanced diplomatic discussions, master geo-political problem solving, and draft high-impact resolutions.</p>
         </div>
       </div>
 
+      <!-- ================= PAGE 2: COMMITTEES ================= -->
       <div id="page-committees" class="page-view">
-        <div class="card" style="margin-top: 0;">
+        <div class="card">
           <h3>Committees</h3>
           <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Select a committee shield to review its agenda and presiding chairs.</p>
           <div class="committee-grid">
@@ -837,12 +568,13 @@
         </div>
       </div>
 
+      <!-- ================= PAGE 3: GALLERY ================= -->
       <div id="page-gallery" class="page-view">
-        <div class="locked-gallery-wrapper" style="text-align: center;">
-          <span class="lock-glyph">🔒</span>
-          <h3 style="color: var(--text-light); font-size: 15px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.1em;">Conference Gallery Locked</h3>
-          <p style="color: var(--text-body); font-size: 13.5px; max-width: 480px; margin: 0 auto; line-height: 1.6;">
-            The photographic archives and session media folders are currently sealed. All official highlights and visual documentations will be published here dynamically following the conference proceedings.
+        <div class="card" style="padding: 60px 20px;">
+          <span style="font-size:32px;">🔒</span>
+          <h3>Conference Gallery Locked</h3>
+          <p style="color: var(--text-muted); max-width: 440px; margin: 10px auto 0 auto;">
+            The photographic archives will be published dynamically following the conference proceedings.
           </p>
         </div>
       </div>
@@ -850,50 +582,45 @@
     </div>
   </div>
 
+  <!-- MAIN COMMITTEE MODAL -->
   <div id="committeeModal" class="modal">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()">×</span>
-      <h2 id="modalTitle" style="color: #FFFFFF; font-family: var(--font-body); font-weight: 600; font-size: 22px;">Committee Name</h2>
-      
-      <div style="text-align: left; margin-top: 20px; background: rgba(0,0,0,0.15); padding: 16px; border-radius: 12px; border: 1px solid var(--glass-border);">
-        <strong style="color: var(--accent-gold); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">Topic Focus</strong>
-        <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line; line-height: 1.5;"></p>
+      <h2 id="modalTitle" style="color: #FFFFFF; font-weight: 600; font-size: 20px; margin-bottom:12px;">Committee Name</h2>
+      <div style="text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border);">
+        <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
       </div>
-
       <div class="chairs-title">Committee Chairs</div>
       <div class="chairs-container" id="modalChairs"></div>
-
-      <div class="backroom-section-title" id="backroomTitle" style="display: none;">Backroom:</div>
+      <div id="backroomTitle" style="display: none; margin-top:12px; font-size:11px; color:var(--accent-red);">BACKROOM:</div>
       <div class="chairs-container" id="modalBackroomChairs" style="display: none;"></div>
-
-      <div style="margin-top: 20px;">
-        <a id="modalReportLink" href="#" target="_blank" class="report-btn">View Research Report</a>
+      <div style="margin-top: 16px;">
+        <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px;">View Research Report</a>
       </div>
-
       <button class="modal-close-button" onclick="closeModal()">Close</button>
     </div>
   </div>
 
+  <!-- CHAIR DETAILS POPUP MODAL -->
   <div id="bioPopupModal" class="bio-popup-modal">
     <div class="bio-popup-content">
       <span class="close-bio-btn" onclick="closeBioPopup()">×</span>
       <img src="" id="popupChairImg" class="large-chair-img" alt="Chair Photo">
       <div id="popupChairName" class="bio-popup-name"></div>
       <div id="popupChairBio" class="bio-popup-text"></div>
-      <button class="modal-close-button" style="margin-top:24px; max-width:110px;" onclick="closeBioPopup()">Close</button>
+      <button class="modal-close-button" onclick="closeBioPopup()">Close</button>
     </div>
   </div>
 
   <footer>
     <p>Email: <a href="mailto:franmun2025@gmail.com">franmun2025@gmail.com</a></p>
     <p style="margin-top: 4px; color: #FFF;">Franciscan Sister's School Nazareth</p>
-    <p style="margin-top: 4px;"><a href="https://maps.google.com" target="_blank" style="color: var(--text-muted); text-decoration: underline;">View Location</a></p>
-    <p style="margin-top: 20px; opacity: 0.4; font-size: 11px;">© 2026 Franciscan Sister's School MUN. All rights reserved.</p>
+    <p style="margin-top: 16px; opacity: 0.4; font-size: 11px;">© 2026 Franciscan Sister's School MUN. All rights reserved.</p>
     <div class="credits">Website engineered by Atef Jubran</div>
   </footer>
 
   <script>
-    // Intelligent Scroll Header Animation Module
+    // Header Scroll Animation
     let lastScrollY = window.scrollY;
     const globalHeader = document.querySelector('header');
     window.addEventListener('scroll', () => {
@@ -905,27 +632,20 @@
       lastScrollY = window.scrollY;
     });
 
-    // Mobile Hamburger Toggle
     function toggleMobileMenu() {
-      const tabs = document.getElementById('navTabs');
-      tabs.classList.toggle('mobile-open');
+      document.getElementById('navTabs').classList.toggle('mobile-open');
     }
 
-    // Smart Routing System
     function switchPage(pageId) {
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-page'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      
       document.getElementById('page-' + pageId).classList.add('active-page');
       document.getElementById('btn-' + pageId).classList.add('active');
-      
-      // Close mobile menu if open
       document.getElementById('navTabs').classList.remove('mobile-open');
-      
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- FIREBASE DATABASE INITIALIZATION ---
+    // --- FIREBASE INTERACTION ---
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
@@ -939,22 +659,21 @@
 
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
-
     let appData = {};
     let currentActiveCommittee = "";
 
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
         appData = snapshot.val();
-        
         const maintenanceOverlay = document.getElementById("maintenanceContent");
         if (appData.maintenanceMode) {
-          maintenanceOverlay.style.display = "flex";
+          maintenanceOverlay.style.display = "block";
+          document.getElementById("delegateContent").style.display = "none";
           return; 
         } else {
           maintenanceOverlay.style.display = "none";
+          document.getElementById("delegateContent").style.display = "block";
         }
-
         renderRegistrationButtons();
       }
     });
@@ -966,87 +685,47 @@
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration →</a>`;
       } else {
-        html += `<a href="#" class="button" style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Delegates Registration (Closed)</a>`;
+        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
       }
       if (appData.chairsOpen) {
         html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration →</a>`;
       } else {
-        html += `<a href="#" class="button" style="background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Chairs Registration (Closed)</a>`;
+        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
       }
       container.innerHTML = html;
     }
 
-    function handleWhoImageError(imgElement) {
-      imgElement.src = "who.png";
-    }
+    function handleWhoImageError(imgElement) { imgElement.src = "who.png"; }
 
     function openModal(committee) {
       currentActiveCommittee = committee;
       document.getElementById("committeeModal").style.display = "flex";
       document.getElementById("modalTitle").innerText = committee;
-      
       const data = appData.committees[committee];
-      const backroomTitle = document.getElementById("backroomTitle");
-      const backroomChairsContainer = document.getElementById("modalBackroomChairs");
-
       if (data) {
         document.getElementById("modalTopics").innerText = data.topics || "Topic coming soon...";
         document.getElementById("modalReportLink").href = data.report || "#";
-        
         let chairsHTML = "";
-        
-        if (data.chairsComingSoon) {
-          chairsHTML = `
-            <div style="width: 100%; text-align: center; padding: 10px 0;">
-              <div class="top-secret-stamp">Top Secret</div>
-            </div>`;
-          document.getElementById("modalChairs").innerHTML = chairsHTML;
-          backroomTitle.style.display = "none";
-          backroomChairsContainer.style.display = "none";
-        } else {
-          if(data.chairs) {
-            data.chairs.forEach((chair, index) => {
-              chairsHTML += `
-                <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'chairs')">
-                  <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="chair-name">${chair.name}</div>
-                </div>`;
-            });
-          }
-          document.getElementById("modalChairs").innerHTML = chairsHTML;
-
-          if(committee === "CRISIS" && data.backroom) {
-            backroomTitle.style.display = "block";
-            backroomChairsContainer.style.display = "flex";
-            
-            let backroomHTML = "";
-            data.backroom.forEach((bChair, index) => {
-              backroomHTML += `
-                <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'backroom')">
-                  <img src="${bChair.img}" alt="${bChair.name}" class="chair-img" style="border-color: var(--accent-red);" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="chair-name" style="color: var(--accent-red); font-weight: 500;">${bChair.name}</div>
-                </div>`;
-            });
-            backroomChairsContainer.innerHTML = backroomHTML;
-          } else {
-            backroomTitle.style.display = "none";
-            backroomChairsContainer.style.display = "none";
-          }
+        if(data.chairs) {
+          data.chairs.forEach((chair, index) => {
+            chairsHTML += `
+              <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'chairs')">
+                <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
+                <div class="chair-name">${chair.name}</div>
+              </div>`;
+          });
         }
+        document.getElementById("modalChairs").innerHTML = chairsHTML;
       }
     }
 
     function openBioPopupFromIndex(event, index, type) {
       if(event) event.stopPropagation();
       const committee = appData.committees[currentActiveCommittee];
-      if(!committee || committee.chairsComingSoon) return;
-      
-      const targetChair = (type === 'backroom') ? committee.backroom[index] : committee.chairs[index];
+      const targetChair = committee.chairs[index];
       if(!targetChair) return;
-
       document.getElementById("popupChairName").innerText = targetChair.name;
       document.getElementById("popupChairImg").src = targetChair.img;
-      document.getElementById("popupChairImg").onerror = function() { this.src = 'logo.jpeg.JPG'; };
       document.getElementById("popupChairBio").innerText = targetChair.bio;
       document.getElementById("bioPopupModal").style.display = "flex";
     }
@@ -1054,47 +733,22 @@
     function closeBioPopup() { document.getElementById("bioPopupModal").style.display = "none"; }
     function closeModal() { document.getElementById("committeeModal").style.display = "none"; }
 
-    // --- COUNTDOWN TIMER ---
+    // Countdown logic
     setInterval(function() {
       if(!appData.targetDate) return;
-      const targetDateMs = new Date(appData.targetDate).getTime();
-      const now = new Date().getTime();
-      const difference = targetDateMs - now;
-
-      if (difference < 0) {
-        document.getElementById("days").innerText = "00";
-        document.getElementById("hours").innerText = "00";
-        document.getElementById("minutes").innerText = "00";
-        document.getElementById("seconds").innerText = "00";
-        return;
-      }
-
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      document.getElementById("days").innerText = String(days).padStart(2, '0');
-      document.getElementById("hours").innerText = String(hours).padStart(2, '0');
-      document.getElementById("minutes").innerText = String(minutes).padStart(2, '0');
-      document.getElementById("seconds").innerText = String(seconds).padStart(2, '0');
+      const difference = new Date(appData.targetDate).getTime() - new Date().getTime();
+      if (difference < 0) return;
+      document.getElementById("days").innerText = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0');
+      document.getElementById("hours").innerText = String(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+      document.getElementById("minutes").innerText = String(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+      document.getElementById("seconds").innerText = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
     }, 1000);
 
-    window.onclick = function(event) {
-      const committeeModal = document.getElementById("committeeModal");
-      const bioPopupModal = document.getElementById("bioPopupModal");
-      if (event.target === bioPopupModal) closeBioPopup();
-      if (event.target === committeeModal) closeModal();
+    window.onclick = function(e) {
+      if (e.target === document.getElementById("bioPopupModal")) closeBioPopup();
+      if (e.target === document.getElementById("committeeModal")) closeModal();
     }
-
-    // Security blocks
-    document.addEventListener('contextmenu', event => event.preventDefault());
-    document.onkeydown = function(e) {
-      if (e.keyCode == 123) return false;
-      if (e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) return false;
-      if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) return false;
-      if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) return false;
-    };
+    document.addEventListener('contextmenu', e => e.preventDefault());
   </script>
 </body>
 </html>
