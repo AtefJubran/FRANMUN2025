@@ -3,7 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN | Crisis Suite</title>
+  <title>FRANMUN 2026 Crisis Suite | Official Delegate & Backrooms Console</title>
+  
+  <meta name="description" content="Access the official FRANMUN 2026 Crisis Suite backrooms workspace. Realtime crisis tracking timelines, updates, intelligence reports, and directive transmission terminals for delegates.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://franmun.org/crisis.html"> <meta property="og:type" content="webpage">
+  <meta property="og:title" content="FRANMUN 2026 Crisis Suite | Official Backrooms Workspace">
+  <meta property="og:description" content="Track live updates, read intelligence briefs, and securely log into your personal console to construct and transmit tactical directives.">
+  <meta property="og:url" content="https://franmun.org/crisis.html">
+  <meta property="og:site_name" content="FRANMUN">
+  <meta property="og:image" content="logo.jpeg.JPG">
+  <meta property="og:image:alt" content="FRANMUN Crisis Executive Command Seal Logo">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FRANMUN 2026 Crisis Suite | Official Backrooms Workspace">
+  <meta name="twitter:description" content="Track live updates, read intelligence briefs, and securely log into your personal console to construct and transmit tactical directives.">
+  <meta name="twitter:image" content="logo.jpeg.JPG">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://franmun.org/crisis.html#webpage",
+    "url": "https://franmun.org/crisis.html",
+    "name": "FRANMUN 2026 Crisis Suite | Official Delegate & Backrooms Console",
+    "description": "Access the official FRANMUN 2026 Crisis Suite backrooms workspace. Realtime crisis tracking timelines, updates, intelligence reports, and directive transmission terminals for delegates.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "FRANMUN 2026",
+      "url": "https://franmun.org/"
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://franmun.org/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Crisis Suite",
+        "item": "https://franmun.org/crisis.html"
+      }]
+    }
+  }
+  </script>
+
   <style>
     :root {
       --primary-dark: #000c18;    
@@ -200,7 +246,7 @@
 </head>
 <body>
 
-  <div class="public-page">
+  <main class="public-page">
     <header>
       <div>
         <h1>Crisis Backrooms Workspace</h1>
@@ -208,7 +254,7 @@
       </div>
     </header>
 
-    <div class="status-board">
+    <section class="status-board" aria-label="Crisis Room Operations Status">
       <div class="status-info">
         <h3>Backrooms Status</h3>
         <div class="status-value status-open" id="currentStatus">
@@ -216,16 +262,17 @@
         </div>
       </div>
       <div style="font-size: 13px; color: var(--text-muted); text-align: right;">Realtime connection active</div>
-    </div>
+    </section>
 
-    <div class="crisis-updates">
+    <section class="crisis-updates">
       <h2>📢 Live Crisis Timeline</h2>
       <div class="timeline" id="timelineContainer"></div>
-    </div>
+    </section>
+  </main>
 
-  <div class="panel-toggle-btn" onclick="toggleSidePanel()" id="toggleBtn">💻 Personal Space</div>
+  <div class="panel-toggle-btn" onclick="toggleSidePanel()" id="toggleBtn" role="button" aria-controls="sidePanel" aria-expanded="false">💻 Personal Space</div>
   
-  <div class="side-panel" id="sidePanel">
+  <aside class="side-panel" id="sidePanel" aria-label="Delegate Control Console Panel">
     <div class="panel-header">
       <div>
         <h2>🔐 Personal Console</h2>
@@ -234,21 +281,21 @@
     </div>
 
     <div class="panel-body">
-      <div class="panel-login-form" id="panelLoginForm">
+      <section class="panel-login-form" id="panelLoginForm" aria-label="Console Access Authentication Form">
         <form onsubmit="handlePanelLogin(event)">
           <div class="form-group">
-            <label>Username</label>
+            <label for="panelUser">Username</label>
             <input type="text" id="panelUser" required>
           </div>
           <div class="form-group">
-            <label>Password</label>
+            <label for="panelPass">Password</label>
             <input type="password" id="panelPass" required>
           </div>
           <button type="submit" class="action-btn">Authorize Entry</button>
         </form>
-      </div>
+      </section>
 
-      <div class="private-dashboard" id="privateDashboard">
+      <section class="private-dashboard" id="privateDashboard" aria-label="Secure Delegate Workspace Control Center">
         <div class="delegate-welcome" id="delegateNameHeader">Welcome</div>
         
         <div style="margin-bottom: 20px;">
@@ -265,7 +312,7 @@
           </h4>
           <form onsubmit="submitDirective(event)">
             <div class="form-group">
-              <label>Type</label>
+              <label for="directiveType">Type</label>
               <select id="directiveType" required onchange="autoSaveDraft()">
                 <option value="Private">Private Directive</option>
                 <option value="Public">Public Directive</option>
@@ -280,12 +327,12 @@
             </div>
 
             <div class="form-group" id="jointDelegateSection">
-              <label>Partners</label>
+              <label for="partnerName">Partners</label>
               <input type="text" id="partnerName" oninput="autoSaveDraft()">
             </div>
 
             <div class="form-group">
-              <label>Content / Orders</label>
+              <label for="directiveOrders">Content / Orders</label>
               <textarea id="directiveOrders" rows="5" oninput="autoSaveDraft()" required></textarea>
             </div>
 
@@ -293,9 +340,9 @@
             <button type="submit" class="action-btn">Transmit Online</button>
           </form>
         </div>
-      </div>
+      </section>
     </div>
-  </div>
+  </aside>
 
   <script>
     let globalStatus = "Opened";
@@ -337,7 +384,7 @@
               <div class="report-card">
                 <div class="report-title">📄 ${report.title}</div>
                 <div class="report-meta">Published: ${report.date || 'Today'}</div>
-                <a href="${report.url}" target="_blank" class="report-link">👁️ View Report</a>
+                <a href="${report.url}" target="_blank" class="report-link" rel="noopener">👁️ View Report</a>
               </div>`;
           });
           reportsContainer.innerHTML = html;
@@ -353,7 +400,9 @@
     function toggleSidePanel() {
       const p = document.getElementById("sidePanel");
       p.classList.toggle("active");
-      document.getElementById("toggleBtn").innerText = p.classList.contains("active") ? "✖ Close" : "💻 Personal Space";
+      const isActive = p.classList.contains("active");
+      document.getElementById("toggleBtn").innerText = isActive ? "✖ Close" : "💻 Personal Space";
+      document.getElementById("toggleBtn").setAttribute("aria-expanded", isActive);
     }
 
     function handlePanelLogin(event) {
