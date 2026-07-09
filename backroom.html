@@ -1,9 +1,62 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN | Executive Control Console</title>
+  
+  <title>FRANMUN 2026 Backroom Portal | Executive Control Console</title>
+  <meta name="description" content="Secure, real-time executive dashboard for the FRANMUN 2026 backroom and crisis staff. Manage live directives, issue urgent crisis news broadcasts, and link cloud delegate accounts.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://franmun.org/backroom.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="FRANMUN 2026 Backroom Portal | Executive Control Console">
+  <meta property="og:description" content="Secure, real-time executive dashboard for the FRANMUN 2026 backroom and crisis staff. Manage live directives, issue urgent crisis news broadcasts, and link cloud delegate accounts.">
+  <meta property="og:url" content="https://franmun.org/backroom.html">
+  <meta property="og:site_name" content="FRANMUN">
+  <meta property="og:image" content="logo.jpeg.JPG">
+  <meta property="og:image:alt" content="FRANMUN Executive Staff Seal Logo">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FRANMUN 2026 Backroom Portal | Executive Control Console">
+  <meta name="twitter:description" content="Secure, real-time executive dashboard for the FRANMUN 2026 backroom and crisis staff. Manage live directives, issue urgent crisis news broadcasts, and link cloud delegate accounts.">
+  <meta name="twitter:image" content="logo.jpeg.JPG">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://franmun.org/backroom.html#webpage",
+    "url": "https://franmun.org/backroom.html",
+    "name": "FRANMUN 2026 Backroom Portal | Executive Control Console",
+    "description": "Secure, real-time executive dashboard for the FRANMUN 2026 backroom and crisis staff. Manage live directives, issue urgent crisis news broadcasts, and link cloud delegate accounts.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "FRANMUN 2026",
+      "url": "https://franmun.org/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://franmun.org/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://franmun.org/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Backroom Portal",
+        "item": "https://franmun.org/backroom.html"
+      }]
+    }
+  }
+  </script>
+
   <style>
     :root {
       --bg-dark: #060d16; --panel-bg: #0b1523; --accent-gold: #dfb72c; --accent-gold-hover: #fcd444;
@@ -104,12 +157,11 @@
 </head>
 <body>
 
-  <!-- SIDEBAR CONTROL -->
-  <div class="sidebar">
-    <h2>FRANMUN Staff</h2>
+  <aside class="sidebar" aria-label="Executive Control Sidebar">
+    <h1>FRANMUN Staff</h1>
     <div class="card" style="padding:10px; background:rgba(0,0,0,0.3)">
       <div class="form-group">
-        <label>Room Universal Status</label>
+        <label for="roomStatusSelect">Room Universal Status</label>
         <select id="roomStatusSelect" onchange="updateRoomStatus()">
           <option value="Opened">Opened</option>
           <option value="Closed">Closed</option>
@@ -117,83 +169,79 @@
         </select>
       </div>
     </div>
-  </div>
+  </aside>
 
-  <!-- MAIN WORKSPACE WITH TAB VIEW -->
-  <div class="main-workspace">
-    <div class="tabs-nav">
+  <main class="main-workspace">
+    <nav class="tabs-nav" aria-label="Control Console Modules">
       <button class="tab-btn active" onclick="switchTab('tabTimeline')">📰 1. Timeline Updates</button>
       <button class="tab-btn" onclick="switchTab('tabIncoming')">📥 2. Pipeline & Accounts</button>
       <button class="tab-btn" onclick="switchTab('tabArchive')">🗄️ 3. Directives Archive</button>
-    </div>
+    </nav>
 
-    <!-- TAB 1: TIMELINE MANAGEMENT -->
     <div id="tabTimeline" class="tab-content active">
       <div style="display: flex; gap: 20px;">
-        <div class="card" style="flex: 1; max-width: 350px;">
-          <h3 id="newsFormTitle">Broadcast Crisis News</h3>
+        <section class="card" style="flex: 1; max-width: 350px;" aria-labelledby="newsFormTitle">
+          <h2 id="newsFormTitle" style="font-size: 1.17em; font-weight: bold; margin-bottom: 10px;">Broadcast Crisis News</h2>
           <form onsubmit="handleBroadcastSubmit(event)">
             <input type="hidden" id="editUpdateKey" value="">
             <div class="form-group">
-              <label>Time</label>
+              <label for="updateTime">Time</label>
               <input type="text" id="updateTime" placeholder="e.g., 11:30 AM" required>
             </div>
             <div class="form-group">
-              <label>Headline Title</label>
+              <label for="updateTitle">Headline Title</label>
               <input type="text" id="updateTitle" placeholder="Crisis Alert Title" required>
             </div>
             <div class="form-group">
-              <label>Description</label>
+              <label for="updateDesc">Description</label>
               <textarea id="updateDesc" rows="4" placeholder="Details..." required></textarea>
             </div>
             <button type="submit" class="btn btn-gold" id="newsSubmitBtn">Publish Broadcast</button>
           </form>
-        </div>
+        </section>
         
-        <div style="flex: 2;">
-          <h2>Active Timeline List (Live Control)</h2>
+        <section style="flex: 2;" aria-labelledby="activeTimelineHeading">
+          <h2 id="activeTimelineHeading">Active Timeline List (Live Control)</h2>
           <div id="timelineManageContainer" style="margin-top: 15px;"></div>
-        </div>
+        </section>
       </div>
     </div>
 
-    <!-- TAB 2: INCOMING PIPELINE & ACCOUNTS -->
     <div id="tabIncoming" class="tab-content">
       <div style="display: flex; gap:25px;">
-        <div style="flex: 2;">
-          <h2>📥 Pending Directives Inbox</h2>
+        <section style="flex: 2;" aria-labelledby="pendingDirectivesHeading">
+          <h2 id="pendingDirectivesHeading">📥 Pending Directives Inbox</h2>
           <div id="directivesPipeline" style="margin-top:15px;"></div>
-        </div>
+        </section>
         
-        <div class="card" style="flex: 1; max-width: 320px; height: fit-content;">
-          <h3>➕ Link Cloud Delegate Profile</h3>
+        <section class="card" style="flex: 1; max-width: 320px; height: fit-content;" aria-labelledby="linkCloudHeading">
+          <h2 id="linkCloudHeading" style="font-size: 1.17em; font-weight: bold; margin-bottom: 10px;">➕ Link Cloud Delegate Profile</h2>
           <form onsubmit="createNewDelegate(event)">
-            <div class="form-group"><label>Username</label><input type="text" id="newUsername" required></div>
-            <div class="form-group"><label>Password</label><input type="text" id="newPassword" required></div>
-            <div class="form-group"><label>Display Name</label><input type="text" id="newDisplayName" required></div>
+            <div class="form-group"><label for="newUsername">Username</label><input type="text" id="newUsername" required></div>
+            <div class="form-group"><label for="newPassword">Password</label><input type="text" id="newPassword" required></div>
+            <div class="form-group"><label for="newDisplayName">Display Name</label><input type="text" id="newDisplayName" required></div>
             <button type="submit" class="btn btn-gold">Create Account</button>
           </form>
-        </div>
+        </section>
       </div>
     </div>
 
-    <!-- TAB 3: DIRECTIVES ARCHIVE (ACCEPTED / REJECTED) -->
     <div id="tabArchive" class="tab-content">
       <h2>🗄️ Universal Directives Decisions Archive</h2>
       <p style="color:var(--text-muted); font-size:13px; margin-bottom:20px;">You can change status between Accepted and Rejected, or delete the directive permanently from the archive.</p>
       
       <div class="archive-grid">
-        <div>
-          <h3 style="color: var(--btn-accept); margin-bottom:10px;">🟢 Accepted Panel</h3>
+        <section aria-labelledby="acceptedPanelHeading">
+          <h3 id="acceptedPanelHeading" style="color: var(--btn-accept); margin-bottom:10px;">🟢 Accepted Panel</h3>
           <div id="archiveAcceptedContainer"></div>
-        </div>
-        <div>
-          <h3 style="color: var(--btn-reject); margin-bottom:10px;">🔴 Rejected Panel</h3>
+        </section>
+        <section aria-labelledby="rejectedPanelHeading">
+          <h3 id="rejectedPanelHeading" style="color: var(--btn-reject); margin-bottom:10px;">🔴 Rejected Panel</h3>
           <div id="archiveRejectedContainer"></div>
-        </div>
+        </section>
       </div>
     </div>
-  </div>
+  </main>
 
   <script>
     function switchTab(tabId) {
@@ -221,7 +269,7 @@
               <div class="timeline-manage-item">
                 <div><strong>[${item.time}] ${item.title}</strong><br><span style="color:var(--text-muted); font-size:13px;">${item.desc}</span></div>
                 <div style="display:flex; gap:5px;">
-                  <button class="action-inline-btn" style="background:#34495e;" onclick="triggerEditNews('${key}','${item.time}','${item.title}','${btoa(encodeURIComponent(item.desc))}')">Edit</button>
+                  <button class="action-inline-btn" style="background:#34495e;" onclick="triggerEditNews('${key}','${item.time}','var title = ${JSON.stringify(item.title)}; return title;','${btoa(encodeURIComponent(item.desc))}')">Edit</button>
                   <button class="action-inline-btn" style="background:var(--btn-reject);" onclick="triggerDeleteNews('${key}')">Delete</button>
                 </div>
               </div>`;
@@ -359,3 +407,4 @@
   </script>
 </body>
 </html>
+
