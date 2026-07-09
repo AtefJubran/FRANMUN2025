@@ -3,7 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN | Chairs Portal</title>
+  <title>FRANMUN 2026 Chairs Portal | Committee Dashboard & Management Console</title>
+
+  <meta name="description" content="Access the secure FRANMUN 2026 Chairs Portal. Integrated dais management interface featuring centralized master timers, live speaker queuing systems, and digital roll call modules.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://franmun.org/chairs.html"> <meta property="og:type" content="webpage">
+  <meta property="og:title" content="FRANMUN 2026 Chairs Portal | Committee Dashboard & Management Console">
+  <meta property="og:description" content="Manage your Model UN committee room efficiently with custom visual tracking systems, roll call indicators, and precision dual timers.">
+  <meta property="og:url" content="https://franmun.org/chairs.html">
+  <meta property="og:site_name" content="FRANMUN">
+  <meta property="og:image" content="logo.jpeg.JPG">
+  <meta property="og:image:alt" content="FRANMUN Committee Executive Dais Logo Seal">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FRANMUN 2026 Chairs Portal | Committee Dashboard & Management Console">
+  <meta name="twitter:description" content="Manage your Model UN committee room efficiently with custom visual tracking systems, roll call indicators, and precision dual timers.">
+  <meta name="twitter:image" content="logo.jpeg.JPG">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://franmun.org/chairs.html#webpage",
+    "url": "https://franmun.org/chairs.html",
+    "name": "FRANMUN 2026 Chairs Portal | Committee Dashboard & Management Console",
+    "description": "Access the secure FRANMUN 2026 Chairs Portal. Integrated dais management interface featuring centralized master timers, live speaker queuing systems, and digital roll call modules.",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "FRANMUN 2026",
+      "url": "https://franmun.org/"
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://franmun.org/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Chairs Portal",
+        "item": "https://franmun.org/chairs.html"
+      }]
+    }
+  }
+  </script>
+
   <style>
     /* --- DESIGN SYSTEM FOR PROJECTOR VISIBILITY (DARK MODE) --- */
     :root {
@@ -388,50 +434,44 @@
 </head>
 <body>
 
-  <!-- ================= LOG IN BOX ================= -->
-  <div class="login-container" id="loginBox">
+  <aside class="login-container" id="loginBox" aria-label="Chairs Secure Gate Authentication">
     <h2>FRANMUN Chairs Login</h2>
     <div class="login-form">
-      <input type="text" id="usernameInput" placeholder="Username">
-      <input type="password" id="passwordInput" placeholder="Password">
-      <div class="error-msg" id="loginError">Invalid Username or Password!</div>
+      <input type="text" id="usernameInput" placeholder="Username" aria-label="Dais Account Username">
+      <input type="password" id="passwordInput" placeholder="Password" aria-label="Dais Account Password">
+      <div class="error-msg" id="loginError" role="alert">Invalid Username or Password!</div>
       <button class="btn btn-gold" style="width: 100%; padding: 12px;" onclick="handleLogin(event)">Login to Dashboard</button>
     </div>
-  </div>
+  </aside>
 
-  <!-- ================= MAIN CHAIRS INTERFACE ================= -->
-  <div class="dashboard-container" id="mainDashboard">
+  <main class="dashboard-container" id="mainDashboard">
     <header>
       <h1 id="committeeHeaderTitle">FRANMUN | Committee Dashboard</h1>
     </header>
 
-    <!-- خانة نص الموشن الكبيرة والقابلة للتعديل بأي وقت -->
     <div class="motion-topic-box">
-      <label>Current Motion / Topic</label>
+      <label for="motionTopicInput">Current Motion / Topic</label>
       <input type="text" class="motion-input-text" id="motionTopicInput" placeholder="Click here to type the motion topic..." value="Discussion on the current agenda item">
     </div>
 
     <div class="grid-layout">
       
-      <!-- ================= MASTER DUAL TIMERS PANEL ================= -->
-      <div class="timers-wrapper">
+      <section class="timers-wrapper" aria-label="Centralized Session Timers">
         <div class="timers-grid">
           
-          <!-- التايمر الأول: الدقائق الكلية للموشن -->
           <div class="timer-section">
             <h3>Total Motion Time</h3>
             <div class="timer-setup">
-              <label>Minutes:</label>
+              <label for="motionMinutesInput">Minutes:</label>
               <input type="number" id="motionMinutesInput" value="10" min="1" oninput="applyMotionInputTime()">
             </div>
             <div class="timer-display" id="motionClock">10:00</div>
           </div>
 
-          <!-- التايمر الثاني: الثواني لكل متحدث -->
           <div class="timer-section">
             <h3>Individual Speaker Time</h3>
             <div class="timer-setup">
-              <label>Seconds:</label>
+              <label for="speakerSecondsInput">Seconds:</label>
               <input type="number" id="speakerSecondsInput" value="60" min="1" oninput="applySpeakerInputTime()">
             </div>
             <div class="timer-display" id="speakerClock">01:00</div>
@@ -439,41 +479,36 @@
 
         </div>
 
-        <!-- أزرار التحكم المشتركة الموحدة -->
         <div class="master-controls">
           <button class="btn btn-start" onclick="startMasterTimers()">Start Both</button>
           <button class="btn btn-pause" onclick="pauseMasterTimers()">Pause Both</button>
           <button class="btn btn-reset" onclick="resetMasterTimers()">Reset Both</button>
         </div>
-      </div>
+      </section>
 
-      <!-- ================= ROLL CALL PANEL ================= -->
-      <div class="panel">
+      <section class="panel" aria-label="Attendance Ledger & Roll Call Management">
         <h2>Roll Call & Countries Base</h2>
         <div class="input-group">
-          <input type="text" id="countryInput" placeholder="Add custom country...">
+          <input type="text" id="countryInput" placeholder="Add custom country..." aria-label="Custom Country Addition Input Field">
           <button class="btn btn-start" style="padding: 10px 20px;" onclick="addCountry()">Add</button>
         </div>
         <div class="rollcall-list" id="rollcallContainer">
-          <!-- برمجية العرض التلقائي -->
-        </div>
-      </div>
+          </div>
+      </section>
 
-      <!-- ================= SPEAKERS LIST PANEL ================= -->
-      <div class="panel">
+      <section class="panel" aria-label="Floor Sequence and Speakers List Flow">
         <h2>Speakers List Management</h2>
         <div class="speakers-queue" id="speakersContainer">
-          <!-- قائمة الترتيب المطور -->
-        </div>
+          </div>
         
         <div style="display: flex; gap: 10px;">
           <button class="btn btn-reset" style="width: 100%; padding: 10px;" onclick="clearFinishedSpeaker()">Remove Current Speaker</button>
           <button class="btn btn-pause" style="width: 100%; padding: 10px; background-color: #7f8c8d;" onclick="clearAllSpeakers()">Clear All</button>
         </div>
-      </div>
+      </section>
 
     </div>
-  </div>
+  </main>
 
   <script>
     // --- DATABASE ACCOUNTS CONFIGURATION ---
