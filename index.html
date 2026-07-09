@@ -3,8 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FRANMUN</title>
+  <title>FRANMUN 2026 | Official Franciscan School Model United Nations Conference</title>
+  
+  <!-- Primary SEO Metadata -->
+  <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://franmun.org/" /> <!-- Update with your definitive domain string when live -->
+  <meta name="theme-color" content="#060b13" />
+
+  <!-- Icons & Device Customization -->
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
+  <link rel="apple-touch-icon" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" />
+  
+  <!-- Open Graph / Facebook Protocol -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="FRANMUN 2026 | Franciscan School Model United Nations" />
+  <meta property="og:description" content="Engage in advanced diplomatic discourse at the First Annual Franciscan School Model United Nations Conference. Register today as a delegate or chair." />
+  <meta property="og:url" content="https://franmun.org/" />
+  <meta property="og:site_name" content="FRANMUN" />
+  <meta property="og:image" content="logo.jpeg.JPG" />
+  <meta property="og:image:alt" content="FRANMUN Official Insignia Logo" />
+
+  <!-- Twitter Cards Protocol -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FRANMUN 2026 | Franciscan School Model United Nations" />
+  <meta name="twitter:description" content="Engage in advanced diplomatic discourse at the First Annual Franciscan School Model United Nations Conference. Register today as a delegate or chair." />
+  <meta name="twitter:image" content="logo.jpeg.JPG" />
+
+  <!-- Structured Data JSON-LD Schemas -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "EducationalOrganization",
+        "@id": "https://franmun.org/#organization",
+        "name": "Franciscan Sister's School Nazareth",
+        "url": "https://franmun.org/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://franmun.org/logo.jpeg.JPG",
+          "caption": "Franciscan Sister's School Logo"
+        },
+        "email": "franmun2025@gmail.com",
+        "sameAs": [
+          "https://www.instagram.com/franciscan_munners"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://franmun.org/#website",
+        "url": "https://franmun.org/",
+        "name": "FRANMUN 2026",
+        "description": "First Annual Model United Nations Conference at Franciscan Sister's School Nazareth",
+        "publisher": {
+          "@id": "https://franmun.org/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://franmun.org/?s={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+  </script>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -479,39 +545,39 @@
     <div style="text-align:center; padding:40px;">
       <h2>Crisis Alert!</h2>
       <p>Undergoing upgrades. Follow us on Instagram:</p>
-      <a href="https://www.instagram.com/franciscan_munners" target="_blank">@franciscan_munners</a>
+      <a href="https://www.instagram.com/franciscan_munners" target="_blank" rel="noopener">@franciscan_munners</a>
     </div>
   </div>
 
   <div id="delegateContent">
     <header>
       <div class="logo-container">
-        <img src="logo.jpeg.JPG" alt="School Logo">
+        <img src="logo.jpeg.JPG" alt="Franciscan Sister's School Official Logo">
         <div class="header-text">
           <h1>Franciscan School</h1>
           <p>FRANMUN 2026</p>
         </div>
       </div>
       
-      <button class="menu-toggle" onclick="toggleMobileMenu()">☰</button>
+      <button class="menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu">☰</button>
 
-      <div class="nav-tabs" id="navTabs">
+      <nav class="nav-tabs" id="navTabs">
         <button class="tab-btn active" id="btn-home" onclick="switchPage('home')">HOME</button>
         <button class="tab-btn" id="btn-committees" onclick="switchPage('committees')">COMMITTEES</button>
         <button class="tab-btn" id="btn-gallery" onclick="switchPage('gallery')">GALLERY</button>
-      </div>
+      </nav>
     </header>
 
-    <div class="main-container">
+    <main class="main-container">
       
       <!-- ================= PAGE 1: HOME ================= -->
-      <div id="page-home" class="page-view active-page">
-        <section class="hero-section">
+      <section id="page-home" class="page-view active-page">
+        <div class="hero-section">
           <h2>FRANMUN</h2>
           <p>First Annual Model United Nations Conference</p>
-        </section>
+        </div>
 
-        <div class="card">
+        <article class="card">
           <h3>Conference Countdown</h3>
           <div class="countdown-container">
             <div class="countdown-box"><span class="countdown-number" id="days">00</span><span class="countdown-label">Days</span></div>
@@ -519,73 +585,73 @@
             <div class="countdown-box"><span class="countdown-number" id="minutes">00</span><span class="countdown-label">Min</span></div>
             <div class="countdown-box"><span class="countdown-number" id="seconds">00</span><span class="countdown-label">Sec</span></div>
           </div>
-        </div>
+        </article>
 
         <!-- Secretariat Section -->
-        <div class="card">
+        <article class="card">
           <h3>The Secretariat</h3>
           <div class="premium-leadership-team">
             <div class="premium-leader-avatar-box">
-              <img src="logo.jpeg.JPG" class="premium-leader-img" alt="SG" onerror="this.src='logo.jpeg.JPG'">
+              <img src="logo.jpeg.JPG" class="premium-leader-img" alt="Secretary-General Executive Leadership Image" onerror="this.src='logo.jpeg.JPG'">
               <div class="premium-leader-title">Secretary-General</div>
               <div class="premium-leader-name">SG Executive</div>
             </div>
             <div class="premium-leader-avatar-box">
-              <img src="logo.jpeg.JPG" class="premium-leader-img" alt="DSG" onerror="this.src='logo.jpeg.JPG'">
+              <img src="logo.jpeg.JPG" class="premium-leader-img" alt="Deputy Secretary-General Executive Leadership Image" onerror="this.src='logo.jpeg.JPG'">
               <div class="premium-leader-title">Deputy SG</div>
               <div class="premium-leader-name">DSG Executive</div>
             </div>
             <div class="premium-leader-avatar-box">
-              <img src="logo.jpeg.JPG" class="premium-leader-img" alt="ASG" onerror="this.src='logo.jpeg.JPG'">
+              <img src="logo.jpeg.JPG" class="premium-leader-img" alt="Assistant Secretary-General Executive Leadership Image" onerror="this.src='logo.jpeg.JPG'">
               <div class="premium-leader-title">Asst. SG</div>
               <div class="premium-leader-name">ASG Executive</div>
             </div>
           </div>
-        </div>
+        </article>
 
         <!-- Live Dynamic Registration Buttons Container -->
         <div class="button-container" id="liveRegButtons"></div>
 
-        <div class="card">
+        <article class="card">
           <h3>About Our Conference</h3>
           <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference. Join us for an elite event where students engage in advanced diplomatic discussions, master geo-political problem solving, and draft high-impact resolutions.</p>
-        </div>
-      </div>
+        </article>
+      </section>
 
       <!-- ================= PAGE 2: COMMITTEES ================= -->
-      <div id="page-committees" class="page-view">
-        <div class="card">
+      <section id="page-committees" class="page-view">
+        <article class="card">
           <h3>Committees</h3>
           <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Select a committee shield to review its agenda and presiding chairs.</p>
           <div class="committee-grid">
-            <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="UNWOMEN" /></div>
-            <div class="committee-icon" onclick="openModal('UNHRC')"><img src="unhrc.png" alt="UNHRC" /></div>
-            <div class="committee-icon" onclick="openModal('DISEC')"><img src="disec.png" alt="DISEC" /></div>
-            <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="handleWhoImageError(this)" /></div>
-            <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
-            <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
+            <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="United Nations Entity for Gender Equality and the Empowerment of Women Emblem" /></div>
+            <div class="committee-icon" onclick="openModal('UNHRC')"><img src="unhrc.png" alt="United Nations Human Rights Council Emblem" /></div>
+            <div class="committee-icon" onclick="openModal('DISEC')"><img src="disec.png" alt="Disarmament and International Security Committee Emblem" /></div>
+            <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="World Health Organization Emblem" id="whoImage" onerror="handleWhoImageError(this)" /></div>
+            <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="United Nations Historical Security Council Emblem" /></div>
+            <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="Continuous Crisis Committee Emblem" /></div>
           </div>
-        </div>
-      </div>
+        </article>
+      </section>
 
       <!-- ================= PAGE 3: GALLERY ================= -->
-      <div id="page-gallery" class="page-view">
-        <div class="card" style="padding: 60px 20px;">
+      <section id="page-gallery" class="page-view">
+        <article class="card" style="padding: 60px 20px;">
           <span style="font-size:32px;">🔒</span>
           <h3>Conference Gallery Locked</h3>
           <p style="color: var(--text-muted); max-width: 440px; margin: 10px auto 0 auto;">
             The photographic archives will be published dynamically following the conference proceedings.
           </p>
-        </div>
-      </div>
+        </article>
+      </section>
       
-    </div>
+    </main>
   </div>
 
   <!-- MAIN COMMITTEE MODAL -->
-  <div id="committeeModal" class="modal">
+  <div id="committeeModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">×</span>
+      <span class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</span>
       <h2 id="modalTitle" style="color: #FFFFFF; font-weight: 600; font-size: 20px; margin-bottom:12px;">Committee Name</h2>
       <div style="text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border);">
         <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
@@ -595,24 +661,24 @@
       <div id="backroomTitle" style="display: none; margin-top:12px; font-size:11px; color:var(--accent-red);">BACKROOM:</div>
       <div class="chairs-container" id="modalBackroomChairs" style="display: none;"></div>
       <div style="margin-top: 16px;">
-        <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px;">View Research Report</a>
+        <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px;" rel="noopener">View Research Report</a>
       </div>
       <button class="modal-close-button" onclick="closeModal()">Close</button>
     </div>
   </div>
 
   <!-- CHAIR DETAILS POPUP MODAL -->
-  <div id="bioPopupModal" class="bio-popup-modal">
+  <div id="bioPopupModal" class="bio-popup-modal" role="dialog" aria-labelledby="popupChairName" aria-hidden="true">
     <div class="bio-popup-content">
-      <span class="close-bio-btn" onclick="closeBioPopup()">×</span>
-      <img src="" id="popupChairImg" class="large-chair-img" alt="Chair Photo">
+      <span class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</span>
+      <img src="" id="popupChairImg" class="large-chair-img" alt="Detailed Presiding Committee Chair Portrait Preview">
       <div id="popupChairName" class="bio-popup-name"></div>
       <div id="popupChairBio" class="bio-popup-text"></div>
       <button class="modal-close-button" onclick="closeBioPopup()">Close</button>
     </div>
   </div>
 
-   <footer style="
+  <footer style="
     text-align: center; 
     padding: 40px 20px; 
     margin-top: 60px; 
@@ -626,7 +692,7 @@
       Franciscan Sister's School Nazareth
     </p>
     <p style="font-size: 11px; color: var(--text-muted); opacity: 0.6; margin: 0 0 12px 0; letter-spacing: 0.02em;">
-      © 2026 Franciscan Sister's School MUN. All rights reserved.
+      &copy; 2026 Franciscan Sister's School MUN. All rights reserved.
     </p>
     <div class="credits" style="
       font-size: 12px; 
@@ -705,12 +771,12 @@
       if(!container) return;
       let html = "";
       if (appData.delegatesOpen) {
-        html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration →</a>`;
+        html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration &rarr;</a>`;
       } else {
         html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
       }
       if (appData.chairsOpen) {
-        html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration →</a>`;
+        html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration &rarr;</a>`;
       } else {
         html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
       }
