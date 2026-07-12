@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FRANMUN 2026 | Official Franciscan School Model United Nations Conference</title>
   
-  <!-- Primary SEO Metadata -->
   <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://franmun.org/" />
   <meta name="theme-color" content="#060b13" />
 
-  <!-- Icons & Device Customization -->
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <link rel="apple-touch-icon" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" />
   
-  <!-- Open Graph / Facebook Protocol -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="FRANMUN 2026 | Franciscan School Model United Nations" />
   <meta property="og:description" content="Engage in advanced diplomatic discourse at the First Annual Franciscan School Model United Nations Conference. Register today as a delegate or chair." />
@@ -24,13 +21,11 @@
   <meta property="og:image" content="logo.jpeg.JPG" />
   <meta property="og:image:alt" content="FRANMUN Official Insignia Logo" />
 
-  <!-- Twitter Cards Protocol -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="FRANMUN 2026 | Franciscan School Model United Nations" />
   <meta name="twitter:description" content="Engage in advanced diplomatic discourse at the First Annual Franciscan School Model United Nations Conference. Register today as a delegate or chair." />
   <meta name="twitter:image" content="logo.jpeg.JPG" />
 
-  <!-- Structured Data JSON-LD Schemas -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -55,7 +50,7 @@
         "@id": "https://franmun.org/#website",
         "url": "https://franmun.org/",
         "name": "FRANMUN 2026",
-        "description": "First MUN Conference at Franciscan Sister's School Nazareth",
+        "description": "First Annual Model United Nations Conference at Franciscan Sister's School Nazareth",
         "publisher": {
           "@id": "https://franmun.org/#organization"
         },
@@ -76,7 +71,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Firebase Legacy SDKs for Realtime Sync -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
@@ -121,6 +115,35 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* --- CINEMATIC REVEAL ANIMATION SYSTEM --- */
+    @keyframes cinematicFadeIn {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 20px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    @keyframes headerReveal {
+      from {
+        opacity: 0;
+        transform: translate3d(-50%, -30px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    /* العناصر تبدأ مخفية حتى يشتغل الأنميشن */
+    header, .hero-section, .card, .button-container, footer {
+      opacity: 0;
+      animation-fill-mode: forwards !important;
+    }
+
     /* --- SLEEK FLOATING HEADER --- */
     header {
       position: fixed;
@@ -141,6 +164,9 @@
       border-radius: 100px;
       box-shadow: 0 8px 32px rgba(0,0,0,0.3);
       transition: transform 0.3s ease, opacity 0.3s ease;
+      
+      /* دخول السينمائي للهيدر */
+      animation: headerReveal 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s;
     }
 
     header.nav-hidden {
@@ -219,6 +245,7 @@
     .hero-section { 
       padding: 40px 0 24px 0;
       text-align: center;
+      animation: cinematicFadeIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
     }
 
     .hero-section h2 {
@@ -254,6 +281,16 @@
       text-align: center;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
+
+    /* توزيع أوقات التتابع السينمائي للكروت في الصفحة الرئيسية */
+    #page-home .card:nth-of-type(1) { animation: cinematicFadeIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.7s; }
+    #page-home .card:nth-of-type(2) { animation: cinematicFadeIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.9s; }
+    #liveRegButtons { animation: cinematicFadeIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) 1.1s; }
+    #page-home .card:nth-of-type(3) { animation: cinematicFadeIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) 1.3s; }
+
+    /* توزيع الأنميشن لكروت الصفحات الأخرى لتعمل فور الانتقال إليها */
+    #page-committees .card { opacity: 1; }
+    #page-gallery .card { opacity: 1; }
 
     .card:hover {
       border-color: var(--glass-border-hover);
@@ -587,6 +624,7 @@
       header {
         border-radius: 24px;
         padding: 10px 16px;
+        animation: headerReveal 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.2s;
       }
       .header-text {
         display: none;
@@ -627,10 +665,9 @@
 </head>
 <body>
 
-  <!-- LIVE MAINTENANCE OVERLAY SCREEN -->
   <div id="maintenanceContent" style="display:none;">
     <div style="text-align:center; padding:40px;">
-      <h2>Crisis update</h2>
+      <h2>Crisis Alert!</h2>
       <p>Undergoing upgrades. Follow us on Instagram:</p>
       <a href="https://www.instagram.com/franciscan_munners" target="_blank" rel="noopener">@franciscan_munners</a>
     </div>
@@ -657,7 +694,6 @@
 
     <main class="main-container">
       
-      <!-- ================= PAGE 1: HOME ================= -->
       <section id="page-home" class="page-view active-page">
         <div class="hero-section">
           <h2>FRANMUN</h2>
@@ -674,7 +710,6 @@
           </div>
         </article>
 
-        <!-- Secretariat Section (Team Pop-up Integration) -->
         <article class="card">
           <h3>The Secretariat</h3>
           <div class="premium-leadership-team">
@@ -696,16 +731,14 @@
           </div>
         </article>
 
-        <!-- Live Dynamic Registration Buttons Container -->
         <div class="button-container" id="liveRegButtons"></div>
 
         <article class="card">
           <h3>About Our Conference</h3>
-          <p>Welcome to Franciscan Sister's School's first Model United Nations conference. Join us for an elite event where students engage in advanced diplomatic discussions, master political problem solving, and draft high impact resolutions.</p>
+          <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference. Join us for an elite event where students engage in advanced diplomatic discussions, master geo-political problem solving, and draft high-impact resolutions.</p>
         </article>
       </section>
 
-      <!-- ================= PAGE 2: COMMITTEES ================= -->
       <section id="page-committees" class="page-view">
         <article class="card">
           <h3>Committees</h3>
@@ -721,7 +754,6 @@
         </article>
       </section>
 
-      <!-- ================= PAGE 3: GALLERY ================= -->
       <section id="page-gallery" class="page-view">
         <article class="card" style="padding: 60px 20px;">
           <span style="font-size:32px;">🔒</span>
@@ -735,7 +767,6 @@
     </main>
   </div>
 
-  <!-- MAIN COMMITTEE MODAL -->
   <div id="committeeModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-content">
       <span class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</span>
@@ -752,7 +783,6 @@
     </div>
   </div>
 
-  <!-- UNIVERSAL CHAIR / TEAM DETAILS POPUP MODAL -->
   <div id="bioPopupModal" class="bio-popup-modal" role="dialog" aria-labelledby="popupChairName" aria-hidden="true">
     <div class="bio-popup-content">
       <span class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</span>
@@ -770,6 +800,7 @@
     margin-top: 60px; 
     border-top: 1px solid var(--glass-border); 
     background: rgba(15, 27, 47, 0.2);
+    animation: cinematicFadeIn 1.2s cubic-bezier(0.25, 1, 0.5, 1) 1.5s;
   ">
     <p style="font-size: 14px; color: var(--text-body); margin: 0 0 8px 0;">
       Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-gold); text-decoration: none; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-gold-hover)'" onmouseout="this.style.color='var(--accent-gold)'">franmun2025@gmail.com</a>
@@ -888,7 +919,6 @@
 
     function handleWhoImageError(imgElement) { imgElement.src = "who.png"; }
 
-    // فتح مودال اللجنة وعرض الـ Chairs بشكل صحيح مع دمج الـ 5 كرايسيس
     function openModal(committee) {
       currentActiveCommittee = committee;
       document.getElementById("committeeModal").style.display = "flex";
@@ -901,7 +931,6 @@
         
         let chairsHTML = "";
 
-        // فحص ميزة إخفاء الـ Chairs وعرض كلمة TOP SECRET
         if (data.chairsComingSoon === true) {
           chairsHTML = `
             <div style="text-align: center; width: 100%; padding: 10px 0;">
@@ -912,10 +941,8 @@
           return;
         }
         
-        // بناء قائمة التشيرز المدمجة
         let combinedChairs = [];
 
-        // 1. إضافة الـ Chairs العاديين
         if (data.chairs && Array.isArray(data.chairs)) {
           data.chairs.forEach((chair, index) => {
             combinedChairs.push({
@@ -928,7 +955,6 @@
           });
         }
 
-        // 2. إذا كانت اللجنة CRISIS، نقوم بدمج الـ 2 باكروم
         if (committee === "CRISIS" && data.backroom && Array.isArray(data.backroom)) {
           data.backroom.forEach((bChair, index) => {
             combinedChairs.push({
@@ -956,7 +982,6 @@
       }
     }
 
-    // دالة فتح الـ Pop-up الذكية التي تقرأ المصفوفة الصحيحة بناءً على النوع
     function openBioPopupFromData(type, originalIndex, roleDisplay) {
       if (!appData.committees || !appData.committees[currentActiveCommittee]) return;
       
@@ -978,7 +1003,6 @@
       }
     }
 
-    // فتح الـ Pop-up الخاص بأعضاء الأمانة العامة (The Secretariat)
     function openTeamBioPopup(role) {
       if (!appData.secretariat || !appData.secretariat[role]) return;
       
@@ -995,7 +1019,6 @@
     function closeBioPopup() { document.getElementById("bioPopupModal").style.display = "none"; }
     function closeModal() { document.getElementById("committeeModal").style.display = "none"; }
 
-    // Countdown logic
     setInterval(function() {
       if(!appData.targetDate) return;
       const difference = new Date(appData.targetDate).getTime() - new Date().getTime();
