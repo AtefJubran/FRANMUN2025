@@ -1,25 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FRANMUN 2026 | Conference</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FRANMUN 2026 | Official Franciscan School Model United Nations Conference</title>
   
-  <!-- Firebase SDKs -->
+  <!-- Primary SEO Metadata -->
+  <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://franmun.org/" />
+  <meta name="theme-color" content="#060b13" />
+
+  <!-- Icons & Device Customization -->
+  <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
+  <link rel="apple-touch-icon" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" />
+  
+  <!-- Open Graph / Facebook Protocol -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="FRANMUN 2026 | Franciscan School Model United Nations" />
+  <meta property="og:description" content="Engage in advanced diplomatic discourse at the First Annual Franciscan School Model United Nations Conference. Register today as a delegate or chair." />
+  <meta property="og:url" content="https://franmun.org/" />
+  <meta property="og:site_name" content="FRANMUN" />
+  <meta property="og:image" content="logo.jpeg.JPG" />
+  <meta property="og:image:alt" content="FRANMUN Official Insignia Logo" />
+
+  <!-- Twitter Cards Protocol -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="FRANMUN 2026 | Franciscan School Model United Nations" />
+  <meta name="twitter:description" content="Engage in advanced diplomatic discourse at the First Annual Franciscan School Model United Nations Conference. Register today as a delegate or chair." />
+  <meta name="twitter:image" content="logo.jpeg.JPG" />
+
+  <!-- Structured Data JSON-LD Schemas -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "EducationalOrganization",
+        "@id": "https://franmun.org/#organization",
+        "name": "Franciscan Sister's School Nazareth",
+        "url": "https://franmun.org/",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://franmun.org/logo.jpeg.JPG",
+          "caption": "Franciscan Sister's School Logo"
+        },
+        "email": "franmun2025@gmail.com",
+        "sameAs": [
+          "https://www.instagram.com/franciscan_munners"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://franmun.org/#website",
+        "url": "https://franmun.org/",
+        "name": "FRANMUN 2026",
+        "description": "First Annual Model United Nations Conference at Franciscan Sister's School Nazareth",
+        "publisher": {
+          "@id": "https://franmun.org/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://franmun.org/?s={search_term_string}"
+          },
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+  </script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase Legacy SDKs for Realtime Sync -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
+    /* --- MODERN COUTURIER DESIGN SYSTEM --- */
     :root {
-      --primary-dark: #001122;
-      --secondary-blue: #002244;
-      --accent-gold: #dfb72c;
-      --accent-gold-hover: #fcd444;
-      --text-light: #ffffff;
-      --text-muted: #a0aec0;
-      --card-bg: rgba(255, 255, 255, 0.03);
-      --card-border: rgba(255, 255, 255, 0.08);
+      --bg-main: #060b13;
+      --bg-card: rgba(15, 27, 47, 0.6);
+      
+      --accent-gold: #E4B343;
+      --accent-gold-hover: #FFF1CD;
+      --accent-red: #EF4444;
+
+      --glass-bg: rgba(15, 27, 47, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --glass-border-hover: rgba(228, 179, 67, 0.25);
+      
+      --text-light: #FFFFFF;
+      --text-muted: #94A3B8;
+      --text-body: #CBD5E1;
+      --font-heading: 'Cinzel', Georgia, serif;
+      --font-body: 'Inter', sans-serif;
+      
+      --radius-card: 20px;
+      --radius-button: 100px;
+      --radius-modal: 24px;
+      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * {
@@ -27,232 +111,713 @@
       margin: 0;
       padding: 0;
     }
-
+    
     body {
-      font-family: 'Montserrat', sans-serif;
-      background: radial-gradient(circle at top, var(--secondary-blue) 0%, var(--primary-dark) 100%);
+      font-family: var(--font-body);
+      background-color: var(--bg-main);
       color: var(--text-light);
-      min-height: 100vh;
+      line-height: 1.5;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* Maintenance Overlay */
-    #maintenanceOverlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: #001122;
-      z-index: 10000;
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-    }
-    #maintenanceOverlay h1 {
-      font-family: 'Cinzel', serif;
-      color: var(--accent-gold);
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 60px 20px;
-    }
-
+    /* --- SLEEK FLOATING HEADER --- */
     header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    header h1 {
-      font-family: 'Cinzel', serif;
-      color: var(--accent-gold);
-      font-size: 3rem;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-    }
-
-    /* Committees Navigation Tabs */
-    .tabs-container {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92%;
+      max-width: 1200px;
+      z-index: 1000;
+      background: rgba(6, 11, 19, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 12px 24px;
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--glass-border);
+      border-radius: 100px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    header.nav-hidden {
+      transform: translate(-50%, -140%);
+      opacity: 0;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
       gap: 12px;
-      margin-bottom: 50px;
+    }
+
+    header img {
+      max-width: 42px;
+      height: auto;
+    }
+
+    .header-text h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #FFF;
+    }
+
+    .header-text p {
+      font-size: 11px;
+      color: var(--accent-gold);
+    }
+
+    .menu-toggle {
+      display: none;
+      background: transparent;
+      border: none;
+      color: var(--text-light);
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 4px;
     }
 
     .tab-btn {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--card-border);
-      color: var(--text-light);
-      padding: 12px 24px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
-    }
-
-    .tab-btn.active, .tab-btn:hover {
-      background: var(--accent-gold);
-      color: var(--primary-dark);
-      border-color: var(--accent-gold);
-      box-shadow: 0 4px 15px rgba(223, 183, 44, 0.3);
-    }
-
-    /* Committee Content Display Area */
-    .committee-display {
-      background: rgba(0, 26, 51, 0.6);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 40px;
-      backdrop-filter: blur(10px);
-    }
-
-    .comm-meta h2 {
-      font-family: 'Cinzel', serif;
-      color: var(--accent-gold);
-      font-size: 2rem;
-      margin-bottom: 15px;
-    }
-
-    .comm-topic {
-      font-size: 1.05rem;
-      line-height: 1.6;
-      color: #cbd5e0;
-      margin-bottom: 30px;
-    }
-
-    .btn-report {
-      display: inline-block;
       background: transparent;
-      border: 2px solid var(--accent-gold);
-      color: var(--accent-gold);
-      padding: 10px 25px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.9rem;
-      transition: all 0.3s ease;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 13px;
+      padding: 8px 18px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
     }
 
-    .btn-report:hover {
-      background: var(--accent-gold);
-      color: var(--primary-dark);
-    }
-
-    /* Chairs Display Section */
-    .chairs-section {
-      margin-top: 50px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      padding-top: 40px;
-    }
-
-    .chairs-section h3 {
-      font-family: 'Cinzel', serif;
+    .tab-btn:hover {
       color: var(--text-light);
-      font-size: 1.5rem;
-      margin-bottom: 30px;
-      letter-spacing: 1px;
     }
 
-    .chairs-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
+    .tab-btn.active {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text-light);
     }
 
-    .chair-card {
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--card-border);
-      border-radius: 14px;
-      padding: 25px;
+    /* --- MAIN STRUCTURAL CONTAINER --- */
+    .main-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 120px 20px 60px 20px;
+      min-height: 85vh;
+    }
+
+    /* --- HERO SECTION --- */
+    .hero-section { 
+      padding: 40px 0 24px 0;
       text-align: center;
-      transition: transform 0.3s ease;
     }
 
-    .chair-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(223, 183, 44, 0.3);
-    }
-
-    .chair-avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      margin: 0 auto 15px auto;
-      border: 2px solid var(--accent-gold);
-      object-fit: cover;
-    }
-
-    .chair-name {
-      font-size: 1.2rem;
+    .hero-section h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.2rem, 5vw, 4.2rem);
       font-weight: 700;
-      color: #fff;
-      margin-bottom: 5px;
+      line-height: 1.2;
+      color: #FFFFFF;
+      letter-spacing: 0.03em;
+      margin-bottom: 8px;
     }
 
-    .chair-role {
-      font-size: 0.85rem;
+    .hero-section p {
+      font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent-gold);
+      font-weight: 500;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    /* --- ULTRA PREMIUM CARDS --- */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      margin-bottom: 24px;
+      padding: 32px;
+      border-radius: var(--radius-card);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--glass-border-hover);
+      box-shadow: 0 15px 40px rgba(228, 179, 67, 0.05);
+    }
+
+    .card h3 {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
       color: var(--accent-gold);
       text-transform: uppercase;
-      font-weight: 600;
-      letter-spacing: 1px;
-      margin-bottom: 15px;
+      letter-spacing: 0.15em;
+      margin-bottom: 20px;
     }
 
-    .chair-bio {
-      font-size: 0.9rem;
+    .card p {
+      color: var(--text-body);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* --- PERFECT GRID COUNTDOWN --- */
+    .countdown-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .countdown-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      padding: 14px 10px;
+      border-radius: 12px;
+    }
+
+    .countdown-number {
+      font-size: 28px;
+      font-weight: 700;
+      display: block;
+      color: #FFF;
+    }
+
+    .countdown-box[data-coming-soon="true"] .countdown-number {
+      font-size: 14px;
+      color: var(--accent-gold);
+      padding: 9.5px 0;
+    }
+
+    .countdown-label {
+      font-size: 10px;
       color: var(--text-muted);
-      line-height: 1.5;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 2px;
     }
 
-    /* Top Secret / Coming Soon Badge */
-    .secret-stamp {
-      border: 3px dashed #e74c3c;
-      color: #e74c3c;
-      padding: 20px;
+    /* --- COMMITTEES RESPONSIVE GRID --- */
+    .committee-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .committee-icon {
+      aspect-ratio: 1 / 1; 
+      cursor: pointer;
+      border-radius: 16px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.01);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition-smooth);
+    }
+
+    .committee-icon:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 255, 255, 0.03);
+      border-color: var(--accent-gold);
+    }
+
+    .committee-icon img {
+      width: 90%;
+      height: 90%;
+      object-fit: contain;
+    }
+
+    /* --- LEADERSHIP & CHAIRS --- */
+    .premium-leadership-team {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .premium-leader-avatar-box {
+      text-align: center;
+      width: 130px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    
+    .premium-leader-avatar-box:hover {
+      transform: translateY(-2px);
+    }
+
+    .premium-leader-img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      object-fit: cover;
+      padding: 4px;
+      transition: 0.3s ease;
+    }
+
+    .premium-leader-avatar-box:hover .premium-leader-img {
+      border-color: var(--accent-gold);
+    }
+
+    .premium-leader-title {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .premium-leader-name {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .chairs-title {
+      margin-top: 24px;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 16px;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+    }
+    
+    .chairs-container {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .chair-box {
+      text-align: center;
+      flex: 0 1 calc(33.33% - 12px);
+      min-width: 85px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .chair-box:hover {
+      transform: translateY(-2px);
+    }
+    
+    .chair-img {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      border: 1px solid var(--glass-border);
+      object-fit: cover;
+      transition: border-color 0.3s ease;
+    }
+
+    .chair-box:hover .chair-img {
+      border-color: var(--accent-gold);
+    }
+    
+    .chair-name {
+      font-size: 12px;
+      color: var(--text-body);
+      margin-top: 4px;
+    }
+
+    /* --- PREMIUM INTERACTIVE BUTTONS --- */
+    .button-container {
+      margin: 24px 0;
+      display: flex;
+      flex-wrap: wrap; 
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-gold);
+      color: #060b13;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: var(--radius-button);
+      text-decoration: none;
+      font-size: 14px;
+      transition: var(--transition-smooth);
+      flex: 1;
+      min-width: 240px; 
+      max-width: 280px;
+    }
+
+    .button:hover {
+      background: var(--accent-gold-hover);
+      transform: translateY(-1px);
+    }
+
+    /* --- SYSTEM MODALS --- */
+    .modal, .bio-popup-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(3, 7, 13, 0.85); 
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+
+    .modal-content, .bio-popup-content {
+      background: #0f1b2f;
+      border: 1px solid var(--glass-border);
+      padding: 32px 24px;
+      border-radius: var(--radius-modal);
+      max-width: 440px; 
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .close-btn, .close-bio-btn {
+      position: absolute;
+      top: 12px; right: 16px;
+      cursor: pointer;
+      font-size: 24px; 
+      color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover, .close-bio-btn:hover {
+      color: var(--accent-gold);
+    }
+
+    .large-chair-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-gold);
+      object-fit: cover;
+      margin-bottom: 16px;
+      box-shadow: 0 0 20px rgba(228, 179, 67, 0.2);
+    }
+
+    .bio-popup-name {
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 4px;
+    }
+
+    .bio-popup-title {
+      font-size: 13px;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .bio-popup-text {
+      color: var(--text-body);
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: center;
+      background: rgba(0,0,0,0.2);
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .modal-close-button {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      color: white;
+      padding: 10px 24px;
+      border-radius: var(--radius-button);
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 20px;
+      transition: var(--transition-smooth);
+    }
+
+    .modal-close-button:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--accent-gold);
+    }
+
+    /* Top Secret Stamp inside Modal */
+    .modal-secret-stamp {
+      border: 2px dashed #EF4444;
+      color: #EF4444;
+      padding: 12px;
       border-radius: 8px;
       display: inline-block;
-      font-family: 'Cinzel', serif;
-      font-size: 1.5rem;
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
       font-weight: bold;
-      letter-spacing: 3px;
-      transform: rotate(-3deg);
-      margin: 30px 0;
+      letter-spacing: 2px;
+      transform: rotate(-2deg);
+      margin: 15px 0;
     }
+
+    /* --- RESPONSIVE ROUTINES --- */
+    @media (max-width: 1024px) {
+      .committee-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        border-radius: 24px;
+        padding: 10px 16px;
+      }
+      .header-text {
+        display: none;
+      }
+      .menu-toggle {
+        display: block;
+      }
+      .nav-tabs {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 64px; left: 0; width: 100%;
+        background: #0f1b2f;
+        border-radius: 16px;
+        padding: 8px;
+        border: 1px solid var(--glass-border);
+        gap: 4px;
+      }
+      .nav-tabs.mobile-open {
+        display: flex;
+      }
+      .tab-btn {
+        width: 100%;
+        text-align: center;
+        padding: 10px;
+      }
+      .countdown-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .committee-grid { grid-template-columns: 1fr; }
+      .chair-box { flex: 0 1 calc(50% - 10px); }
+    }
+
+    .page-view { display: none; animation: fadeIn 0.4s ease forwards; }
+    .page-view.active-page { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
 
-  <!-- Maintenance Overlay Panel -->
-  <div id="maintenanceOverlay">
-    <h1>WEBSITE UNDER MAINTENANCE</h1>
-    <p style="color: var(--text-muted);">We are currently updating our systems. Please check our official Instagram for updates.</p>
+  <!-- LIVE MAINTENANCE OVERLAY SCREEN -->
+  <div id="maintenanceContent" style="display:none;">
+    <div style="text-align:center; padding:40px;">
+      <h2>Crisis Alert!</h2>
+      <p>Undergoing upgrades. Follow us on Instagram:</p>
+      <a href="https://www.instagram.com/franciscan_munners" target="_blank" rel="noopener">@franciscan_munners</a>
+    </div>
   </div>
 
-  <div class="container">
+  <div id="delegateContent">
     <header>
-      <h1>FRANMUN 2026</h1>
-      <p style="color: var(--text-muted);">Committees and Academic Leadership Profiles</p>
+      <div class="logo-container">
+        <img src="logo.jpeg.JPG" alt="Franciscan Sister's School Official Logo">
+        <div class="header-text">
+          <h1>Franciscan School</h1>
+          <p>FRANMUN 2026</p>
+        </div>
+      </div>
+      
+      <button class="menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu">☰</button>
+
+      <nav class="nav-tabs" id="navTabs">
+        <button class="tab-btn active" id="btn-home" onclick="switchPage('home')">HOME</button>
+        <button class="tab-btn" id="btn-committees" onclick="switchPage('committees')">COMMITTEES</button>
+        <button class="tab-btn" id="btn-gallery" onclick="switchPage('gallery')">GALLERY</button>
+      </nav>
     </header>
 
-    <!-- Navigation Tabs for Committees -->
-    <div class="tabs-container" id="tabsContainer">
-      <!-- Tabs built dynamically via JS -->
-    </div>
+    <main class="main-container">
+      
+      <!-- ================= PAGE 1: HOME ================= -->
+      <section id="page-home" class="page-view active-page">
+        <div class="hero-section">
+          <h2>FRANMUN</h2>
+          <p>First Annual Model United Nations Conference</p>
+        </div>
 
-    <!-- Main Dynamic Content Box -->
-    <div class="committee-display" id="committeeDisplay">
-      <!-- Committee data built dynamically via JS -->
+        <article class="card">
+          <h3>Conference Countdown</h3>
+          <div class="countdown-container">
+            <div class="countdown-box" id="cbox-days"><span class="countdown-number" id="days">00</span><span class="countdown-label">Days</span></div>
+            <div class="countdown-box" id="cbox-hours"><span class="countdown-number" id="hours">00</span><span class="countdown-label">Hours</span></div>
+            <div class="countdown-box" id="cbox-min"><span class="countdown-number" id="minutes">00</span><span class="countdown-label">Min</span></div>
+            <div class="countdown-box" id="cbox-sec"><span class="countdown-number" id="seconds">00</span><span class="countdown-label">Sec</span></div>
+          </div>
+        </article>
+
+        <!-- Secretariat Section (Team Pop-up Integration) -->
+        <article class="card">
+          <h3>The Secretariat</h3>
+          <div class="premium-leadership-team">
+            <div class="premium-leader-avatar-box" onclick="openTeamBioPopup('sg')">
+              <img id="team-sg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Secretary-General" onerror="this.src='logo.jpeg.JPG'">
+              <div class="premium-leader-title">Secretary-General</div>
+              <div id="team-sg-name" class="premium-leader-name">SG Executive</div>
+            </div>
+            <div class="premium-leader-avatar-box" onclick="openTeamBioPopup('dsg')">
+              <img id="team-dsg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Deputy Secretary-General" onerror="this.src='logo.jpeg.JPG'">
+              <div class="premium-leader-title">Deputy SG</div>
+              <div id="team-dsg-name" class="premium-leader-name">DSG Executive</div>
+            </div>
+            <div class="premium-leader-avatar-box" onclick="openTeamBioPopup('asg')">
+              <img id="team-asg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Assistant Secretary-General" onerror="this.src='logo.jpeg.JPG'">
+              <div class="premium-leader-title">Asst. SG</div>
+              <div id="team-asg-name" class="premium-leader-name">ASG Executive</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Live Dynamic Registration Buttons Container -->
+        <div class="button-container" id="liveRegButtons"></div>
+
+        <article class="card">
+          <h3>About Our Conference</h3>
+          <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference. Join us for an elite event where students engage in advanced diplomatic discussions, master geo-political problem solving, and draft high-impact resolutions.</p>
+        </article>
+      </section>
+
+      <!-- ================= PAGE 2: COMMITTEES ================= -->
+      <section id="page-committees" class="page-view">
+        <article class="card">
+          <h3>Committees</h3>
+          <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Select a committee shield to review its agenda and presiding chairs.</p>
+          <div class="committee-grid">
+            <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="UN Women" /></div>
+            <div class="committee-icon" onclick="openModal('UNHRC')"><img src="unhrc.png" alt="UNHRC" /></div>
+            <div class="committee-icon" onclick="openModal('DISEC')"><img src="disec.png" alt="DISEC" /></div>
+            <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="handleWhoImageError(this)" /></div>
+            <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
+            <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
+          </div>
+        </article>
+      </section>
+
+      <!-- ================= PAGE 3: GALLERY ================= -->
+      <section id="page-gallery" class="page-view">
+        <article class="card" style="padding: 60px 20px;">
+          <span style="font-size:32px;">🔒</span>
+          <h3>Conference Gallery Locked</h3>
+          <p style="color: var(--text-muted); max-width: 440px; margin: 10px auto 0 auto;">
+            The photographic archives will be published dynamically following the conference proceedings.
+          </p>
+        </article>
+      </section>
+      
+    </main>
+  </div>
+
+  <!-- MAIN COMMITTEE MODAL -->
+  <div id="committeeModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</span>
+      <h2 id="modalTitle" style="color: #FFFFFF; font-weight: 600; font-size: 20px; margin-bottom:12px;">Committee Name</h2>
+      <div style="text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border);">
+        <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
+      </div>
+      <div class="chairs-title">Committee Chairs</div>
+      <div class="chairs-container" id="modalChairs"></div>
+      <div style="margin-top: 16px;">
+        <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px;" rel="noopener">View Research Report</a>
+      </div>
+      <button class="modal-close-button" onclick="closeModal()">Close</button>
     </div>
   </div>
 
+  <!-- UNIVERSAL CHAIR / TEAM DETAILS POPUP MODAL -->
+  <div id="bioPopupModal" class="bio-popup-modal" role="dialog" aria-labelledby="popupChairName" aria-hidden="true">
+    <div class="bio-popup-content">
+      <span class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</span>
+      <img src="" id="popupChairImg" class="large-chair-img" alt="Portrait Preview">
+      <div id="popupChairName" class="bio-popup-name"></div>
+      <div id="popupChairTitle" class="bio-popup-title"></div>
+      <div id="popupChairBio" class="bio-popup-text"></div>
+      <button class="modal-close-button" onclick="closeBioPopup()">Close</button>
+    </div>
+  </div>
+
+  <footer style="
+    text-align: center; 
+    padding: 40px 20px; 
+    margin-top: 60px; 
+    border-top: 1px solid var(--glass-border); 
+    background: rgba(15, 27, 47, 0.2);
+  ">
+    <p style="font-size: 14px; color: var(--text-body); margin: 0 0 8px 0;">
+      Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-gold); text-decoration: none; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--accent-gold-hover)'" onmouseout="this.style.color='var(--accent-gold)'">franmun2025@gmail.com</a>
+    </p>
+    <p style="font-size: 14px; color: #FFFFFF; font-weight: 500; margin: 0 0 16px 0;">
+      Franciscan Sister's School Nazareth
+    </p>
+    <p style="font-size: 11px; color: var(--text-muted); opacity: 0.6; margin: 0 0 12px 0; letter-spacing: 0.02em;">
+      &copy; 2026 Franciscan Sister's School MUN. All rights reserved.
+    </p>
+    <div class="credits" style="
+      font-size: 12px; 
+      color: var(--accent-gold); 
+      letter-spacing: 0.05em; 
+      font-weight: 500; 
+      text-transform: uppercase;
+      opacity: 0.8;
+    ">
+      Website engineered by Atef Jubran
+    </div>
+  </footer>
+
   <script>
+    // Header Scroll Animation
+    let lastScrollY = window.scrollY;
+    const globalHeader = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > lastScrollY && window.scrollY > 120) {
+        globalHeader.classList.add('nav-hidden');
+      } else {
+        globalHeader.classList.remove('nav-hidden');
+      }
+      lastScrollY = window.scrollY;
+    });
+
+    function toggleMobileMenu() {
+      document.getElementById('navTabs').classList.toggle('mobile-open');
+    }
+
+    function switchPage(pageId) {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-page'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('page-' + pageId).classList.add('active-page');
+      document.getElementById('btn-' + pageId).classList.add('active');
+      document.getElementById('navTabs').classList.remove('mobile-open');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     // --- FIREBASE CONFIGURATION ---
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
@@ -267,134 +832,193 @@
 
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
+    let appData = {};
+    let currentActiveCommittee = "";
 
-    let serverData = {};
-    let currentActiveTab = "UNWOMEN"; // القيمة الافتراضية عند التحميل
+    database.ref("homepage_data").on("value", (snapshot) => {
+      if (snapshot.exists()) {
+        appData = snapshot.val();
+        
+        // Maintenance Handler
+        const maintenanceOverlay = document.getElementById("maintenanceContent");
+        if (appData.maintenanceMode) {
+          maintenanceOverlay.style.display = "block";
+          document.getElementById("delegateContent").style.display = "none";
+          return; 
+        } else {
+          maintenanceOverlay.style.display = "none";
+          document.getElementById("delegateContent").style.display = "block";
+        }
+        
+        renderRegistrationButtons();
+        syncSecretariatTeamData(); 
+      }
+    });
 
-    // استدعاء البيانات من السيرفر عند تحميل الصفحة
-    window.onload = function() {
-      database.ref("homepage_data").on("value", (snapshot) => {
-        if (snapshot.exists()) {
-          serverData = snapshot.val();
-          
-          // 1. فحص وضع الصيانة أولاً
-          if (serverData.maintenanceMode === true) {
-            document.getElementById("maintenanceOverlay").style.display = "flex";
-            return;
-          } else {
-            document.getElementById("maintenanceOverlay").style.display = "none";
-          }
-
-          // 2. بناء الأزرار واللجان
-          buildCommitteeTabsNav();
-          renderSelectedCommitteeContent(currentActiveTab);
+    function syncSecretariatTeamData() {
+      if (!appData.secretariat) return;
+      
+      const roles = ['sg', 'dsg', 'asg'];
+      roles.forEach(role => {
+        if (appData.secretariat[role]) {
+          const nameEl = document.getElementById(`team-${role}-name`);
+          const imgEl = document.getElementById(`team-${role}-img`);
+          if (nameEl) nameEl.innerText = appData.secretariat[role].name || "";
+          if (imgEl && appData.secretariat[role].img) imgEl.src = appData.secretariat[role].img;
         }
       });
-    };
+    }
 
-    // بناء قائمة التبويبات العلوية للجان
-    function buildCommitteeTabsNav() {
-      const container = document.getElementById("tabsContainer");
-      if(!serverData.committees) return;
-
+    function renderRegistrationButtons() {
+      const container = document.getElementById("liveRegButtons");
+      if(!container) return;
       let html = "";
-      Object.keys(serverData.committees).forEach(key => {
-        const isActive = (key === currentActiveTab) ? "active" : "";
-        html += `<button class="tab-btn ${isActive}" onclick="switchCommitteeTab('${key}')">${key}</button>`;
-      });
+      if (appData.delegatesOpen) {
+        html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration &rarr;</a>`;
+      } else {
+        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
+      }
+      if (appData.chairsOpen) {
+        html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration &rarr;</a>`;
+      } else {
+        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
+      }
       container.innerHTML = html;
     }
 
-    // الانتقال بين اللجان عند الضغط
-    function switchCommitteeTab(key) {
-      currentActiveTab = key;
-      buildCommitteeTabsNav();
-      renderSelectedCommitteeContent(key);
-    }
+    function handleWhoImageError(imgElement) { imgElement.src = "who.png"; }
 
-    // عرض بيانات اللجنة المحددة والـ Chairs التابعين لها
-    function renderSelectedCommitteeContent(key) {
-      const displayArea = document.getElementById("committeeDisplay");
-      const committee = serverData.committees ? serverData.committees[key] : null;
+    // فتح مودال اللجنة وعرض الـ Chairs بشكل صحيح مع دمج الـ 5 كرايسيس
+    function openModal(committee) {
+      currentActiveCommittee = committee;
+      document.getElementById("committeeModal").style.display = "flex";
+      document.getElementById("modalTitle").innerText = committee;
+      
+      if (appData && appData.committees && appData.committees[committee]) {
+        const data = appData.committees[committee];
+        document.getElementById("modalTopics").innerText = data.topics || "Topic coming soon...";
+        document.getElementById("modalReportLink").href = data.report || "#";
+        
+        let chairsHTML = "";
 
-      if (!committee) {
-        displayArea.innerHTML = "<p>No data available for this committee.</p>";
-        return;
-      }
+        // فحص ميزة إخفاء الـ Chairs وعرض كلمة TOP SECRET
+        if (data.chairsComingSoon === true) {
+          chairsHTML = `
+            <div style="text-align: center; width: 100%; padding: 10px 0;">
+              <div class="modal-secret-stamp">TOP SECRET</div>
+              <p style="font-size:11px; color:var(--text-muted);">presiding board details remain restricted.</p>
+            </div>`;
+          document.getElementById("modalChairs").innerHTML = chairsHTML;
+          return;
+        }
+        
+        // بناء قائمة التشيرز المدمجة
+        let combinedChairs = [];
 
-      let html = `
-        <div class="comm-meta">
-          <h2>${key} Committee</h2>
-          <p class="comm-topic">${committee.topics || 'Topic summary will be published soon.'}</p>
-          ${committee.report ? `<a href="${committee.report}" target="_blank" class="btn-report">Download Research Report (PDF)</a>` : ''}
-        </div>
-      `;
-
-      // فحص ختم السرية / إخفاء الـ Chairs
-      if (committee.chairsComingSoon === true) {
-        html += `
-          <div style="text-align: center; margin-top: 40px;">
-            <div class="secret-stamp">TOP SECRET</div>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Chairs identities and allocations are locked until final deployment.</p>
-          </div>
-        `;
-      } else {
-        // بناء الجريد الخاص بالـ Chairs
-        html += `
-          <div class="chairs-section">
-            <h3>Committee Board & Leadership</h3>
-            <div class="chairs-grid" id="chairsGrid">
-        `;
-
-        // 🌟 التعديل السحري الذكي هنا لدمج الـ 5 تشيرز في الكرايسيس 🌟
-        let allChairsList = [];
-
-        // 1. إضافة الـ Chairs العاديين (سواء 3 في الكرايسيس أو أي عدد في اللجان التانية)
-        if (committee.chairs && Array.isArray(committee.chairs)) {
-          committee.chairs.forEach(c => {
-            allChairsList.push({
-              name: c.name,
-              bio: c.bio,
-              role: "Committee Chair"
+        // 1. إضافة الـ Chairs العاديين
+        if (data.chairs && Array.isArray(data.chairs)) {
+          data.chairs.forEach((chair, index) => {
+            combinedChairs.push({
+              name: chair.name,
+              img: chair.img,
+              type: 'chairs',
+              originalIndex: index,
+              roleDisplay: "Committee Chair"
             });
           });
         }
 
-        // 2. فحص إذا كانت اللجنة هي CRISIS وهناك باكروم (تنين باكروم)، نقوم بدمجهم
-        if (key === "CRISIS" && committee.backroom && Array.isArray(committee.backroom)) {
-          committee.backroom.forEach(b => {
-            allChairsList.push({
-              name: b.name,
-              bio: b.bio,
-              role: "Backroom Chair" // تحديد مسمى وظيفي خاص بهم
+        // 2. إذا كانت اللجنة CRISIS، نقوم بدمج الـ 2 باكروم
+        if (committee === "CRISIS" && data.backroom && Array.isArray(data.backroom)) {
+          data.backroom.forEach((bChair, index) => {
+            combinedChairs.push({
+              name: bChair.name,
+              img: bChair.img,
+              type: 'backroom',
+              originalIndex: index,
+              roleDisplay: "Backroom Chair"
             });
           });
         }
 
-        // بناء كروت العرض للـ 5 تشيرز معاً داخل الصفحة
-        if (allChairsList.length > 0) {
-          allChairsList.forEach(chair => {
-            html += `
-              <div class="chair-card">
-                <div class="chair-avatar"></div>
-                <div class="chair-name">${chair.name || 'Name Unassigned'}</div>
-                <div class="chair-role">${chair.role}</div>
-                <p class="chair-bio">${chair.bio || 'Biography parameters pending authorization.'}</p>
-              </div>
-            `;
+        if (combinedChairs.length > 0) {
+          combinedChairs.forEach(chair => {
+            chairsHTML += `
+              <div class="chair-box" onclick="openBioPopupFromData('${chair.type}', ${chair.originalIndex}, '${chair.roleDisplay}')">
+                <img src="${chair.img || 'logo.jpeg.JPG'}" alt="${chair.name || 'Chair'}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
+                <div class="chair-name">${chair.name || 'Chair'}</div>
+              </div>`;
           });
         } else {
-          html += `<p style="color: var(--text-muted);">No chairs assigned yet.</p>`;
+          chairsHTML = "<p style='font-size:12px; color:var(--text-muted);'>Chairs announcement coming soon.</p>";
         }
+        document.getElementById("modalChairs").innerHTML = chairsHTML;
+      }
+    }
 
-        html += `
-            </div>
-          </div>
-        `;
+    // دالة فتح الـ Pop-up الذكية التي تقرأ المصفوفة الصحيحة بناءً على النوع
+    function openBioPopupFromData(type, originalIndex, roleDisplay) {
+      if (!appData.committees || !appData.committees[currentActiveCommittee]) return;
+      
+      const committeeData = appData.committees[currentActiveCommittee];
+      let targetChair = null;
+
+      if (type === 'backroom' && committeeData.backroom && committeeData.backroom[originalIndex]) {
+        targetChair = committeeData.backroom[originalIndex];
+      } else if (type === 'chairs' && committeeData.chairs && committeeData.chairs[originalIndex]) {
+        targetChair = committeeData.chairs[originalIndex];
       }
 
-      displayArea.innerHTML = html;
+      if (targetChair) {
+        document.getElementById("popupChairName").innerText = targetChair.name || "Committee Leader";
+        document.getElementById("popupChairTitle").innerText = `${currentActiveCommittee} ${roleDisplay}`;
+        document.getElementById("popupChairImg").src = targetChair.img || "logo.jpeg.JPG";
+        document.getElementById("popupChairBio").innerText = targetChair.bio || "No biography provided yet.";
+        document.getElementById("bioPopupModal").style.display = "flex";
+      }
     }
+
+    // فتح الـ Pop-up الخاص بأعضاء الأمانة العامة (The Secretariat)
+    function openTeamBioPopup(role) {
+      if (!appData.secretariat || !appData.secretariat[role]) return;
+      
+      const member = appData.secretariat[role];
+      const roleTitles = { 'sg': 'Secretary-General', 'dsg': 'Deputy Secretary-General', 'asg': 'Assistant Secretary-General' };
+      
+      document.getElementById("popupChairName").innerText = member.name || "Secretariat Member";
+      document.getElementById("popupChairTitle").innerText = roleTitles[role] || "Executive Board";
+      document.getElementById("popupChairImg").src = member.img || "logo.jpeg.JPG";
+      document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
+      document.getElementById("bioPopupModal").style.display = "flex";
+    }
+
+    function closeBioPopup() { document.getElementById("bioPopupModal").style.display = "none"; }
+    function closeModal() { document.getElementById("committeeModal").style.display = "none"; }
+
+    // Countdown logic
+    setInterval(function() {
+      if(!appData.targetDate) return;
+      const difference = new Date(appData.targetDate).getTime() - new Date().getTime();
+      
+      if (difference <= 0) {
+        document.getElementById("days").innerText = "00";
+        document.getElementById("hours").innerText = "00";
+        document.getElementById("minutes").innerText = "00";
+        document.getElementById("seconds").innerText = "00";
+        return;
+      }
+      
+      document.getElementById("days").innerText = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0');
+      document.getElementById("hours").innerText = String(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+      document.getElementById("minutes").innerText = String(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+      document.getElementById("seconds").innerText = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
+    }, 1000);
+
+    window.onclick = function(e) {
+      if (e.target === document.getElementById("bioPopupModal")) closeBioPopup();
+      if (e.target === document.getElementById("committeeModal")) closeModal();
+    }
+    document.addEventListener('contextmenu', e => e.preventDefault());
   </script>
 </body>
 </html>
