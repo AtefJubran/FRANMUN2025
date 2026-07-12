@@ -26,7 +26,7 @@
       background: radial-gradient(circle at top, var(--secondary-blue) 0%, var(--primary-dark) 100%);
       color: var(--text-light);
       min-height: 100vh;
-      padding: 40px 20px 100px 20px; /* زيادة السبيس السفلي للشريط */
+      padding: 40px 20px 100px 20px;
       display: none;
     }
 
@@ -127,7 +127,6 @@
       border: 1px dashed var(--accent-gold);
     }
 
-    /* تنسيقات قسم السكرتارية المشترك */
     .secretariat-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -150,7 +149,6 @@
       padding-bottom: 6px;
     }
 
-    /* 🌟 شريط الحفظ العائم التلقائي 🌟 */
     .floating-save-bar {
       position: fixed;
       bottom: -100px;
@@ -246,12 +244,10 @@
         <input type="datetime-local" id="admCountDate" class="admin-input" onchange="trackLocalChange()">
       </div>
 
-      <!-- ================= SECTION: MANAGING TEAM (SECRETARIAT) ================= -->
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
         <h3 class="section-title">Manage Secretariat Executive Team</h3>
         
         <div class="secretariat-grid">
-          <!-- Secretary-General -->
           <div class="secretariat-box">
             <h4>Secretary-General (SG)</h4>
             <input type="text" id="admSgName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
@@ -259,7 +255,6 @@
             <textarea id="admSgBio" class="admin-textarea" rows="3" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
           </div>
 
-          <!-- Deputy SG -->
           <div class="secretariat-box">
             <h4>Deputy SG (DSG)</h4>
             <input type="text" id="admDsgName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
@@ -267,7 +262,6 @@
             <textarea id="admDsgBio" class="admin-textarea" rows="3" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
           </div>
 
-          <!-- Assistant SG -->
           <div class="secretariat-box">
             <h4>Assistant SG (ASG)</h4>
             <input type="text" id="admAsgName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
@@ -277,7 +271,6 @@
         </div>
       </div>
 
-      <!-- ================= SECTION: MANAGING COMMITTEES & CHAIRS ================= -->
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
         <h3 class="section-title">Manage Committees & Committee Chairs</h3>
         <label>Select Committee to Manage:</label>
@@ -324,7 +317,6 @@
     </div>
   </div>
 
-  <!-- 🌟 عنصر شريط الحفظ العائم التلقائي 🌟 -->
   <div id="floatingSaveBar" class="floating-save-bar">
     <div class="bar-text">
       <h4>Unsaved Changes Detected</h4>
@@ -390,7 +382,6 @@
         }
       }
 
-      // تعبئة حقول السكرتارية (Secretariat) من الداتابيز
       if (appData.secretariat) {
         if (appData.secretariat.sg) {
           document.getElementById("admSgName").value = appData.secretariat.sg.name || "";
@@ -424,6 +415,7 @@
       const chairSelect = document.getElementById("admChairSelect");
       let optionsHTML = "";
 
+      // تعديل هام: الترقيم (idx) ينشأ مستقل ومضمون لكل مصفوفة لمنع الخلط البرمجي
       if(committee.chairs) {
         committee.chairs.forEach((chair, idx) => {
           optionsHTML += `<option value="chairs_${idx}">${chair.name}</option>`;
@@ -457,10 +449,11 @@
       const index = parseInt(parts[1]);
       const committee = appData.committees[commKey];
 
-      if(type === "backroom") {
+      // الفحص الآن دقيق ويعتمد على نوع المصفوفة المحددة من الداتابيز
+      if(type === "backroom" && committee.backroom && committee.backroom[index]) {
         document.getElementById("admChairNameInput").value = committee.backroom[index].name || "";
         document.getElementById("admChairTextArea").value = committee.backroom[index].bio || "";
-      } else {
+      } else if(type === "chairs" && committee.chairs && committee.chairs[index]) {
         document.getElementById("admChairNameInput").value = committee.chairs[index].name || "";
         document.getElementById("admChairTextArea").value = committee.chairs[index].bio || "";
       }
@@ -477,16 +470,15 @@
       const updatedName = document.getElementById("admChairNameInput").value;
       const updatedBio = document.getElementById("admChairTextArea").value;
 
-      if(type === "backroom" && appData.committees[commKey].backroom) {
+      if(type === "backroom" && appData.committees[commKey].backroom && appData.committees[commKey].backroom[index]) {
         appData.committees[commKey].backroom[index].name = updatedName;
         appData.committees[commKey].backroom[index].bio = updatedBio;
-      } else if(type === "chairs" && appData.committees[commKey].chairs) {
+      } else if(type === "chairs" && appData.committees[commKey].chairs && appData.committees[commKey].chairs[index]) {
         appData.committees[commKey].chairs[index].name = updatedName;
         appData.committees[commKey].chairs[index].bio = updatedBio;
       }
     }
 
-    // فحص وتتبع التغييرات اللحظية (بما في ذلك مدخلات السكرتارية الجديدة)
     function trackLocalChange() {
       appData.maintenanceMode = document.getElementById("admMaintenanceMode").checked;
       appData.chairsOpen = document.getElementById("admChairCheck").checked;
@@ -498,7 +490,6 @@
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
 
-      // نقل قيم الـ Secretariat الحالية للـ Draft Object للمقارنة الدقيقة
       if (!appData.secretariat) appData.secretariat = {};
       appData.secretariat.sg = {
         name: document.getElementById("admSgName").value,
@@ -525,7 +516,6 @@
 
       saveCurrentChairStateTemporarily();
 
-      // مقارنة الكائن المحلي مع النسخة الأصلية من السيرفر لتفعيل شريط الحفظ
       const isDifferent = JSON.stringify(appData) !== JSON.stringify(originalData);
       
       if(isDifferent) {
@@ -543,7 +533,6 @@
       }
     }
 
-    // مزامنة ورفع كافة المدخلات (تاريخ، لجان، وتيم السكرتارية) بدفعة واحدة للـ Realtime Database
     function saveAdminSettings() {
       appData.maintenanceMode = document.getElementById("admMaintenanceMode").checked;
       appData.chairsOpen = document.getElementById("admChairCheck").checked;
@@ -555,7 +544,6 @@
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
 
-      // ترحيل البيانات النهائية للسكرتارية قبل الإرسال
       if (!appData.secretariat) appData.secretariat = {};
       appData.secretariat.sg = {
         name: document.getElementById("admSgName").value,
@@ -582,9 +570,8 @@
 
       saveCurrentChairStateTemporarily();
 
-      // رفع البيانات الكاملة
       database.ref("homepage_data").set(appData).then(() => {
-        alert("Global Sync Completed Successfully! 🎉 All features and Team data updated.");
+        alert("Global Sync Completed Successfully! 🎉 All features updated.");
         originalData = JSON.parse(JSON.stringify(appData)); 
         document.getElementById("floatingSaveBar").classList.remove("active");
         loadCommitteeDataToPanel();
