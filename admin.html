@@ -50,6 +50,14 @@
       letter-spacing: 1px;
     }
 
+    h3.section-title {
+      color: var(--accent-gold);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 15px;
+    }
+
     .subtitle {
       font-size: 13px;
       color: var(--text-muted);
@@ -119,7 +127,30 @@
       border: 1px dashed var(--accent-gold);
     }
 
-    /* 🌟 شريط الحفظ العائم الجديد 🌟 */
+    /* تنسيقات قسم السكرتارية المشترك */
+    .secretariat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 15px;
+    }
+
+    .secretariat-box {
+      background: rgba(0,0,0,0.2);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .secretariat-box h4 {
+      color: #ffffff;
+      font-size: 13px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding-bottom: 6px;
+    }
+
+    /* 🌟 شريط الحفظ العائم التلقائي 🌟 */
     .floating-save-bar {
       position: fixed;
       bottom: -100px;
@@ -215,9 +246,41 @@
         <input type="datetime-local" id="admCountDate" class="admin-input" onchange="trackLocalChange()">
       </div>
 
+      <!-- ================= SECTION: MANAGING TEAM (SECRETARIAT) ================= -->
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        <h3 class="section-title">Manage Secretariat Executive Team</h3>
+        
+        <div class="secretariat-grid">
+          <!-- Secretary-General -->
+          <div class="secretariat-box">
+            <h4>Secretary-General (SG)</h4>
+            <input type="text" id="admSgName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <input type="text" id="admSgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <textarea id="admSgBio" class="admin-textarea" rows="3" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+          </div>
+
+          <!-- Deputy SG -->
+          <div class="secretariat-box">
+            <h4>Deputy SG (DSG)</h4>
+            <input type="text" id="admDsgName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <input type="text" id="admDsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <textarea id="admDsgBio" class="admin-textarea" rows="3" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+          </div>
+
+          <!-- Assistant SG -->
+          <div class="secretariat-box">
+            <h4>Assistant SG (ASG)</h4>
+            <input type="text" id="admAsgName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <input type="text" id="admAsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <textarea id="admAsgBio" class="admin-textarea" rows="3" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= SECTION: MANAGING COMMITTEES & CHAIRS ================= -->
+      <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        <h3 class="section-title">Manage Committees & Committee Chairs</h3>
         <label>Select Committee to Manage:</label>
-        <!-- عند تغيير اللجنة، نحفظ بيانات الـ Chair الحالي أولاً حتى لا تضيع -->
         <select id="admCommSelect" class="admin-select" onchange="saveCurrentChairStateTemporarily(); loadCommitteeDataToPanel();">
           <option value="UNWOMEN">UN Women</option>
           <option value="UNHRC">UNHRC</option>
@@ -245,7 +308,6 @@
 
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
         <label>Select Chair to Modify:</label>
-        <!-- نفس الشيء عند الانتقال بين Chairs اللحنة الواحدة -->
         <select id="admChairSelect" class="admin-select" onchange="saveCurrentChairStateTemporarily(); loadSelectedChairBioToPanel();">
         </select>
       </div>
@@ -290,9 +352,9 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     
-    let originalData = {}; // لحفظ النسخة القادمة من السيرفر كمرجع للـ Discard
-    let appData = {};      // الـ Draft Object الذي نجمع فيه كل التعديلات اللحظية
-    let currentChairKey = ""; // لملاحقة الـ Chair المفتوح حالياً قبل التغيير
+    let originalData = {}; 
+    let appData = {};      
+    let currentChairKey = ""; 
 
     window.onload = function() {
       const password = prompt("Enter Administration Password to access Control Panel:");
@@ -309,7 +371,6 @@
       database.ref("homepage_data").once("value", (snapshot) => {
         if (snapshot.exists()) {
           originalData = snapshot.val();
-          // نعمل كولون/نسخة عميقة حتى لا نعدل على الأصل في الذاكرة مباشرة
           appData = JSON.parse(JSON.stringify(originalData));
           loadSettingsToAdminPanel();
         }
@@ -328,6 +389,26 @@
           document.getElementById("admCountDate").value = (new Date(d - tzoffset)).toISOString().slice(0, 16);
         }
       }
+
+      // تعبئة حقول السكرتارية (Secretariat) من الداتابيز
+      if (appData.secretariat) {
+        if (appData.secretariat.sg) {
+          document.getElementById("admSgName").value = appData.secretariat.sg.name || "";
+          document.getElementById("admSgImg").value = appData.secretariat.sg.img || "";
+          document.getElementById("admSgBio").value = appData.secretariat.sg.bio || "";
+        }
+        if (appData.secretariat.dsg) {
+          document.getElementById("admDsgName").value = appData.secretariat.dsg.name || "";
+          document.getElementById("admDsgImg").value = appData.secretariat.dsg.img || "";
+          document.getElementById("admDsgBio").value = appData.secretariat.dsg.bio || "";
+        }
+        if (appData.secretariat.asg) {
+          document.getElementById("admAsgName").value = appData.secretariat.asg.name || "";
+          document.getElementById("admAsgImg").value = appData.secretariat.asg.img || "";
+          document.getElementById("admAsgBio").value = appData.secretariat.asg.bio || "";
+        }
+      }
+
       loadCommitteeDataToPanel();
     }
 
@@ -363,7 +444,6 @@
       const commKey = document.getElementById("admCommSelect").value;
       const chairVal = document.getElementById("admChairSelect").value;
       
-      // حفظ المفتاح الحالي لنعرف أين نسجل التعديل لاحقاً
       currentChairKey = chairVal;
 
       if(!chairVal) {
@@ -386,7 +466,6 @@
       }
     }
 
-    // 🌟 دالة هامة جداً: تحفظ أي تعديل للـ Chair في الـ Object المحلي قبل التبديل للجنة أو تشير آخر
     function saveCurrentChairStateTemporarily() {
       const commKey = document.getElementById("admCommSelect").value;
       if(!currentChairKey || !appData.committees[commKey]) return;
@@ -407,9 +486,8 @@
       }
     }
 
-    // فحص التغييرات اللحظية ومقارنتها بالأصل لتفعيل أو إخفاء الـ Bar السفلي
+    // فحص وتتبع التغييرات اللحظية (بما في ذلك مدخلات السكرتارية الجديدة)
     function trackLocalChange() {
-      // نقوم بتحديث الـ Object العام بالقيم السطحية أولاً للفحص الدقيق
       appData.maintenanceMode = document.getElementById("admMaintenanceMode").checked;
       appData.chairsOpen = document.getElementById("admChairCheck").checked;
       appData.delegatesOpen = document.getElementById("admDelCheck").checked;
@@ -420,6 +498,24 @@
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
 
+      // نقل قيم الـ Secretariat الحالية للـ Draft Object للمقارنة الدقيقة
+      if (!appData.secretariat) appData.secretariat = {};
+      appData.secretariat.sg = {
+        name: document.getElementById("admSgName").value,
+        img: document.getElementById("admSgImg").value,
+        bio: document.getElementById("admSgBio").value
+      };
+      appData.secretariat.dsg = {
+        name: document.getElementById("admDsgName").value,
+        img: document.getElementById("admDsgImg").value,
+        bio: document.getElementById("admDsgBio").value
+      };
+      appData.secretariat.asg = {
+        name: document.getElementById("admAsgName").value,
+        img: document.getElementById("admAsgImg").value,
+        bio: document.getElementById("admAsgBio").value
+      };
+
       const commKey = document.getElementById("admCommSelect").value;
       if(appData.committees[commKey]) {
         appData.committees[commKey].topics = document.getElementById("admCommTopic").value;
@@ -427,10 +523,9 @@
         appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
       }
 
-      // ترحيل بيانات التشير المفتوح حالياً أيضاً لغايات المقارنة
       saveCurrentChairStateTemporarily();
 
-      // مقارنة الـ Object الحالي مع السيرفر الأصلي
+      // مقارنة الكائن المحلي مع النسخة الأصلية من السيرفر لتفعيل شريط الحفظ
       const isDifferent = JSON.stringify(appData) !== JSON.stringify(originalData);
       
       if(isDifferent) {
@@ -440,7 +535,6 @@
       }
     }
 
-    // إلغاء كافة التغييرات المعلقة والعودة للأصل
     function discardLocalChanges() {
       if(confirm("Are you sure you want to discard all pending changes?")) {
         appData = JSON.parse(JSON.stringify(originalData));
@@ -449,9 +543,8 @@
       }
     }
 
-    // الحفظ النهائي الكلي بـ Single Request لقاعدة البيانات
+    // مزامنة ورفع كافة المدخلات (تاريخ، لجان، وتيم السكرتارية) بدفعة واحدة للـ Realtime Database
     function saveAdminSettings() {
-      // حفظ حالة المدخلات الأخيرة كخطوة احتياطية نهائية
       appData.maintenanceMode = document.getElementById("admMaintenanceMode").checked;
       appData.chairsOpen = document.getElementById("admChairCheck").checked;
       appData.delegatesOpen = document.getElementById("admDelCheck").checked;
@@ -462,6 +555,24 @@
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
 
+      // ترحيل البيانات النهائية للسكرتارية قبل الإرسال
+      if (!appData.secretariat) appData.secretariat = {};
+      appData.secretariat.sg = {
+        name: document.getElementById("admSgName").value,
+        img: document.getElementById("admSgImg").value,
+        bio: document.getElementById("admSgBio").value
+      };
+      appData.secretariat.dsg = {
+        name: document.getElementById("admDsgName").value,
+        img: document.getElementById("admDsgImg").value,
+        bio: document.getElementById("admDsgBio").value
+      };
+      appData.secretariat.asg = {
+        name: document.getElementById("admAsgName").value,
+        img: document.getElementById("admAsgImg").value,
+        bio: document.getElementById("admAsgBio").value
+      };
+
       const commKey = document.getElementById("admCommSelect").value;
       if(!appData.committees[commKey]) appData.committees[commKey] = {};
       
@@ -469,13 +580,12 @@
       appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
       appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
 
-      // ترحيل بيانات التشير النهائي المفتوح قبل الضغط على الحفظ
       saveCurrentChairStateTemporarily();
 
-      // إرسال كائن التعديلات بالكامل دفعة واحدة إلى قاعدة البيانات
+      // رفع البيانات الكاملة
       database.ref("homepage_data").set(appData).then(() => {
-        alert("Global Sync Completed Successfully! 🎉 All features updated.");
-        originalData = JSON.parse(JSON.stringify(appData)); // تحديث المرجع الأصلي ليطابق الحالي
+        alert("Global Sync Completed Successfully! 🎉 All features and Team data updated.");
+        originalData = JSON.parse(JSON.stringify(appData)); 
         document.getElementById("floatingSaveBar").classList.remove("active");
         loadCommitteeDataToPanel();
       }).catch((err) => {
