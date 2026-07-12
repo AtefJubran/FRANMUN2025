@@ -8,7 +8,7 @@
   <!-- Primary SEO Metadata -->
   <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://franmun.org/" /> <!-- Update with your definitive domain string when live -->
+  <link rel="canonical" href="https://franmun.org/" />
   <meta name="theme-color" content="#060b13" />
 
   <!-- Icons & Device Customization -->
@@ -350,6 +350,12 @@
     .premium-leader-avatar-box {
       text-align: center;
       width: 130px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    
+    .premium-leader-avatar-box:hover {
+      transform: translateY(-2px);
     }
 
     .premium-leader-img {
@@ -399,6 +405,12 @@
       text-align: center;
       flex: 0 1 calc(33.33% - 12px);
       min-width: 85px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .chair-box:hover {
+      transform: translateY(-2px);
     }
     
     .chair-img {
@@ -407,6 +419,11 @@
       border-radius: 50%;
       border: 1px solid var(--glass-border);
       object-fit: cover;
+      transition: border-color 0.3s ease;
+    }
+
+    .chair-box:hover .chair-img {
+      border-color: var(--accent-gold);
     }
     
     .chair-name {
@@ -477,6 +494,50 @@
       cursor: pointer;
       font-size: 24px; 
       color: var(--text-muted);
+      transition: color 0.2s;
+    }
+
+    .close-btn:hover, .close-bio-btn:hover {
+      color: var(--accent-gold);
+    }
+
+    .large-chair-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid var(--accent-gold);
+      object-fit: cover;
+      margin-bottom: 16px;
+      box-shadow: 0 0 20px rgba(228, 179, 67, 0.2);
+    }
+
+    .bio-popup-name {
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 4px;
+    }
+
+    .bio-popup-title {
+      font-size: 13px;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .bio-popup-text {
+      color: var(--text-body);
+      font-size: 14px;
+      line-height: 1.6;
+      text-align: center;
+      background: rgba(0,0,0,0.2);
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      max-height: 180px;
+      overflow-y: auto;
     }
 
     .modal-close-button {
@@ -488,10 +549,15 @@
       cursor: pointer;
       font-size: 12px;
       margin-top: 20px;
+      transition: var(--transition-smooth);
+    }
+
+    .modal-close-button:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--accent-gold);
     }
 
     /* --- RESPONSIVE ROUTINES --- */
-    
     @media (max-width: 1024px) {
       .committee-grid { grid-template-columns: repeat(2, 1fr); }
     }
@@ -502,7 +568,7 @@
         padding: 10px 16px;
       }
       .header-text {
-        display: none; /* Hide long school name on mobile header bar */
+        display: none;
       }
       .menu-toggle {
         display: block;
@@ -527,7 +593,7 @@
         padding: 10px;
       }
       .countdown-container {
-        grid-template-columns: repeat(2, 1fr); /* Neat 2x2 grid on mobile */
+        grid-template-columns: repeat(2, 1fr);
       }
       .committee-grid { grid-template-columns: 1fr; }
       .chair-box { flex: 0 1 calc(50% - 10px); }
@@ -587,24 +653,24 @@
           </div>
         </article>
 
-        <!-- Secretariat Section -->
+        <!-- Secretariat Section (Team Pop-up Integration) -->
         <article class="card">
           <h3>The Secretariat</h3>
           <div class="premium-leadership-team">
-            <div class="premium-leader-avatar-box">
-              <img src="logo.jpeg.JPG" class="premium-leader-img" alt="Secretary-General Executive Leadership Image" onerror="this.src='logo.jpeg.JPG'">
+            <div class="premium-leader-avatar-box" onclick="openTeamBioPopup('sg')">
+              <img id="team-sg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Secretary-General" onerror="this.src='logo.jpeg.JPG'">
               <div class="premium-leader-title">Secretary-General</div>
-              <div class="premium-leader-name">SG Executive</div>
+              <div id="team-sg-name" class="premium-leader-name">SG Executive</div>
             </div>
-            <div class="premium-leader-avatar-box">
-              <img src="logo.jpeg.JPG" class="premium-leader-img" alt="Deputy Secretary-General Executive Leadership Image" onerror="this.src='logo.jpeg.JPG'">
+            <div class="premium-leader-avatar-box" onclick="openTeamBioPopup('dsg')">
+              <img id="team-dsg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Deputy Secretary-General" onerror="this.src='logo.jpeg.JPG'">
               <div class="premium-leader-title">Deputy SG</div>
-              <div class="premium-leader-name">DSG Executive</div>
+              <div id="team-dsg-name" class="premium-leader-name">DSG Executive</div>
             </div>
-            <div class="premium-leader-avatar-box">
-              <img src="logo.jpeg.JPG" class="premium-leader-img" alt="Assistant Secretary-General Executive Leadership Image" onerror="this.src='logo.jpeg.JPG'">
+            <div class="premium-leader-avatar-box" onclick="openTeamBioPopup('asg')">
+              <img id="team-asg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Assistant Secretary-General" onerror="this.src='logo.jpeg.JPG'">
               <div class="premium-leader-title">Asst. SG</div>
-              <div class="premium-leader-name">ASG Executive</div>
+              <div id="team-asg-name" class="premium-leader-name">ASG Executive</div>
             </div>
           </div>
         </article>
@@ -624,12 +690,12 @@
           <h3>Committees</h3>
           <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Select a committee shield to review its agenda and presiding chairs.</p>
           <div class="committee-grid">
-            <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="United Nations Entity for Gender Equality and the Empowerment of Women Emblem" /></div>
-            <div class="committee-icon" onclick="openModal('UNHRC')"><img src="unhrc.png" alt="United Nations Human Rights Council Emblem" /></div>
-            <div class="committee-icon" onclick="openModal('DISEC')"><img src="disec.png" alt="Disarmament and International Security Committee Emblem" /></div>
-            <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="World Health Organization Emblem" id="whoImage" onerror="handleWhoImageError(this)" /></div>
-            <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="United Nations Historical Security Council Emblem" /></div>
-            <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="Continuous Crisis Committee Emblem" /></div>
+            <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="UN Women" /></div>
+            <div class="committee-icon" onclick="openModal('UNHRC')"><img src="unhrc.png" alt="UNHRC" /></div>
+            <div class="committee-icon" onclick="openModal('DISEC')"><img src="disec.png" alt="DISEC" /></div>
+            <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="handleWhoImageError(this)" /></div>
+            <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
+            <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
           </div>
         </article>
       </section>
@@ -658,8 +724,6 @@
       </div>
       <div class="chairs-title">Committee Chairs</div>
       <div class="chairs-container" id="modalChairs"></div>
-      <div id="backroomTitle" style="display: none; margin-top:12px; font-size:11px; color:var(--accent-red);">BACKROOM:</div>
-      <div class="chairs-container" id="modalBackroomChairs" style="display: none;"></div>
       <div style="margin-top: 16px;">
         <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px;" rel="noopener">View Research Report</a>
       </div>
@@ -667,12 +731,13 @@
     </div>
   </div>
 
-  <!-- CHAIR DETAILS POPUP MODAL -->
+  <!-- UNIVERSAL CHAIR / TEAM DETAILS POPUP MODAL -->
   <div id="bioPopupModal" class="bio-popup-modal" role="dialog" aria-labelledby="popupChairName" aria-hidden="true">
     <div class="bio-popup-content">
       <span class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</span>
-      <img src="" id="popupChairImg" class="large-chair-img" alt="Detailed Presiding Committee Chair Portrait Preview">
+      <img src="" id="popupChairImg" class="large-chair-img" alt="Portrait Preview">
       <div id="popupChairName" class="bio-popup-name"></div>
+      <div id="popupChairTitle" class="bio-popup-title"></div>
       <div id="popupChairBio" class="bio-popup-text"></div>
       <button class="modal-close-button" onclick="closeBioPopup()">Close</button>
     </div>
@@ -706,7 +771,6 @@
     </div>
   </footer>
 
-
   <script>
     // Header Scroll Animation
     let lastScrollY = window.scrollY;
@@ -733,7 +797,7 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // --- FIREBASE INTERACTION ---
+    // --- FIREBASE CONFIGURATION ---
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
@@ -753,6 +817,8 @@
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
         appData = snapshot.val();
+        
+        // Maintenance Handler
         const maintenanceOverlay = document.getElementById("maintenanceContent");
         if (appData.maintenanceMode) {
           maintenanceOverlay.style.display = "block";
@@ -762,9 +828,26 @@
           maintenanceOverlay.style.display = "none";
           document.getElementById("delegateContent").style.display = "block";
         }
+        
         renderRegistrationButtons();
+        syncSecretariatTeamData(); // تحديث بيانات الفريق دورياً من الداتابيز
       }
     });
+
+    // مزامنة وعرض بيانات السكرتارية (الاسم والصورة) بالصفحة الرئيسية من الـ Firebase
+    function syncSecretariatTeamData() {
+      if (!appData.secretariat) return;
+      
+      const roles = ['sg', 'dsg', 'asg'];
+      roles.forEach(role => {
+        if (appData.secretariat[role]) {
+          const nameEl = document.getElementById(`team-${role}-name`);
+          const imgEl = document.getElementById(`team-${role}-img`);
+          if (nameEl) nameEl.innerText = appData.secretariat[role].name || "";
+          if (imgEl && appData.secretariat[role].img) imgEl.src = appData.secretariat[role].img;
+        }
+      });
+    }
 
     function renderRegistrationButtons() {
       const container = document.getElementById("liveRegButtons");
@@ -785,36 +868,61 @@
 
     function handleWhoImageError(imgElement) { imgElement.src = "who.png"; }
 
+    // فتح مودال اللجنة وعرض الـ Chairs بشكل صحيح وبدون أخطاء
     function openModal(committee) {
       currentActiveCommittee = committee;
       document.getElementById("committeeModal").style.display = "flex";
       document.getElementById("modalTitle").innerText = committee;
-      const data = appData.committees[committee];
-      if (data) {
+      
+      if (appData && appData.committees && appData.committees[committee]) {
+        const data = appData.committees[committee];
         document.getElementById("modalTopics").innerText = data.topics || "Topic coming soon...";
         document.getElementById("modalReportLink").href = data.report || "#";
+        
         let chairsHTML = "";
-        if(data.chairs) {
+        if (data.chairs && Array.isArray(data.chairs)) {
           data.chairs.forEach((chair, index) => {
             chairsHTML += `
-              <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index}, 'chairs')">
-                <img src="${chair.img}" alt="${chair.name}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
-                <div class="chair-name">${chair.name}</div>
+              <div class="chair-box" onclick="openBioPopupFromIndex(event, ${index})">
+                <img src="${chair.img || 'logo.jpeg.JPG'}" alt="${chair.name || 'Chair'}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
+                <div class="chair-name">${chair.name || 'Chair'}</div>
               </div>`;
           });
+        } else {
+          chairsHTML = "<p style='font-size:12px; color:var(--text-muted);'>Chairs announcement coming soon.</p>";
         }
         document.getElementById("modalChairs").innerHTML = chairsHTML;
       }
     }
 
-    function openBioPopupFromIndex(event, index, type) {
+    // إصلاح خلل فتح الـ Pop-up الخاص بالـ Chairs وعرض البيانات الزجاجية الفخمة
+    function openBioPopupFromIndex(event, index) {
       if(event) event.stopPropagation();
-      const committee = appData.committees[currentActiveCommittee];
-      const targetChair = committee.chairs[index];
-      if(!targetChair) return;
-      document.getElementById("popupChairName").innerText = targetChair.name;
-      document.getElementById("popupChairImg").src = targetChair.img;
-      document.getElementById("popupChairBio").innerText = targetChair.bio;
+      if (!appData.committees || !appData.committees[currentActiveCommittee]) return;
+      
+      const committeeData = appData.committees[currentActiveCommittee];
+      if (committeeData.chairs && committeeData.chairs[index]) {
+        const targetChair = committeeData.chairs[index];
+        
+        document.getElementById("popupChairName").innerText = targetChair.name || "Committee Chair";
+        document.getElementById("popupChairTitle").innerText = `${currentActiveCommittee} Presiding Chair`;
+        document.getElementById("popupChairImg").src = targetChair.img || "logo.jpeg.JPG";
+        document.getElementById("popupChairBio").innerText = targetChair.bio || "No biography provided yet.";
+        document.getElementById("bioPopupModal").style.display = "flex";
+      }
+    }
+
+    // فتح الـ Pop-up الخاص بأعضاء الأمانة العامة (The Secretariat)
+    function openTeamBioPopup(role) {
+      if (!appData.secretariat || !appData.secretariat[role]) return;
+      
+      const member = appData.secretariat[role];
+      const roleTitles = { 'sg': 'Secretary-General', 'dsg': 'Deputy Secretary-General', 'asg': 'Assistant Secretary-General' };
+      
+      document.getElementById("popupChairName").innerText = member.name || "Secretariat Member";
+      document.getElementById("popupChairTitle").innerText = roleTitles[role] || "Executive Board";
+      document.getElementById("popupChairImg").src = member.img || "logo.jpeg.JPG";
+      document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
       document.getElementById("bioPopupModal").style.display = "flex";
     }
 
