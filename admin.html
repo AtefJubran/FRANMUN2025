@@ -127,26 +127,41 @@
       border: 1px dashed var(--accent-gold);
     }
 
-    .secretariat-grid {
+    .secretariat-grid, .theme-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
       margin-bottom: 15px;
     }
 
-    .secretariat-box {
+    .secretariat-box, .theme-box {
       background: rgba(0,0,0,0.2);
       padding: 16px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.04);
     }
 
-    .secretariat-box h4 {
+    .secretariat-box h4, .theme-box h4 {
       color: #ffffff;
       font-size: 13px;
       margin-bottom: 10px;
       border-bottom: 1px solid rgba(255,255,255,0.05);
       padding-bottom: 6px;
+    }
+
+    .color-picker-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .color-picker-input {
+      border: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      cursor: pointer;
+      background: none;
     }
 
     .floating-save-bar {
@@ -242,6 +257,45 @@
       <div class="admin-form-group">
         <label>Conference Target Date:</label>
         <input type="datetime-local" id="admCountDate" class="admin-input" onchange="trackLocalChange()">
+      </div>
+
+      <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+        <h3 class="section-title">🎨 Dynamic Theme Color Control</h3>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Choose live theme colors for the website using the color wheels or hex codes.</p>
+
+        <div class="theme-grid">
+          <div class="theme-box">
+            <h4>Main Background</h4>
+            <div class="color-picker-wrapper">
+              <input type="color" id="pickerBgMain" class="color-picker-input" value="#060B13" oninput="syncColorInput('pickerBgMain', 'hexBgMain')">
+              <input type="text" id="hexBgMain" class="admin-input" value="#060B13" oninput="syncColorPicker('hexBgMain', 'pickerBgMain')">
+            </div>
+          </div>
+
+          <div class="theme-box">
+            <h4>Card Background</h4>
+            <div class="color-picker-wrapper">
+              <input type="color" id="pickerBgCard" class="color-picker-input" value="#0F1B2F" oninput="syncColorInput('pickerBgCard', 'hexBgCard')">
+              <input type="text" id="hexBgCard" class="admin-input" value="#0F1B2F" oninput="syncColorPicker('hexBgCard', 'pickerBgCard')">
+            </div>
+          </div>
+
+          <div class="theme-box">
+            <h4>Accent Color</h4>
+            <div class="color-picker-wrapper">
+              <input type="color" id="pickerAccent" class="color-picker-input" value="#E4B343" oninput="syncColorInput('pickerAccent', 'hexAccent')">
+              <input type="text" id="hexAccent" class="admin-input" value="#E4B343" oninput="syncColorPicker('hexAccent', 'pickerAccent')">
+            </div>
+          </div>
+
+          <div class="theme-box">
+            <h4>Primary Text</h4>
+            <div class="color-picker-wrapper">
+              <input type="color" id="pickerText" class="color-picker-input" value="#FFFFFF" oninput="syncColorInput('pickerText', 'hexText')">
+              <input type="text" id="hexText" class="admin-input" value="#FFFFFF" oninput="syncColorPicker('hexText', 'pickerText')">
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
@@ -369,6 +423,20 @@
       });
     }
 
+    function syncColorInput(pickerId, hexId) {
+      const val = document.getElementById(pickerId).value.toUpperCase();
+      document.getElementById(hexId).value = val;
+      trackLocalChange();
+    }
+
+    function syncColorPicker(hexId, pickerId) {
+      const val = document.getElementById(hexId).value;
+      if (/^#[0-9A-F]{6}$/i.test(val)) {
+        document.getElementById(pickerId).value = val;
+      }
+      trackLocalChange();
+    }
+
     function loadSettingsToAdminPanel() {
       document.getElementById("admMaintenanceMode").checked = appData.maintenanceMode || false;
       document.getElementById("admChairCheck").checked = appData.chairsOpen || false;
@@ -379,6 +447,26 @@
         if(!isNaN(d.getTime())) {
           const tzoffset = (new Date()).getTimezoneOffset() * 60000;
           document.getElementById("admCountDate").value = (new Date(d - tzoffset)).toISOString().slice(0, 16);
+        }
+      }
+
+      // تحميل الألوان المحفوظة من الداتابيز
+      if (appData.themeColors) {
+        if (appData.themeColors.bgMain) {
+          document.getElementById("pickerBgMain").value = appData.themeColors.bgMain;
+          document.getElementById("hexBgMain").value = appData.themeColors.bgMain;
+        }
+        if (appData.themeColors.bgCard) {
+          document.getElementById("pickerBgCard").value = appData.themeColors.bgCard;
+          document.getElementById("hexBgCard").value = appData.themeColors.bgCard;
+        }
+        if (appData.themeColors.accentGold) {
+          document.getElementById("pickerAccent").value = appData.themeColors.accentGold;
+          document.getElementById("hexAccent").value = appData.themeColors.accentGold;
+        }
+        if (appData.themeColors.textLight) {
+          document.getElementById("pickerText").value = appData.themeColors.textLight;
+          document.getElementById("hexText").value = appData.themeColors.textLight;
         }
       }
 
@@ -415,7 +503,6 @@
       const chairSelect = document.getElementById("admChairSelect");
       let optionsHTML = "";
 
-      // تعديل هام: الترقيم (idx) ينشأ مستقل ومضمون لكل مصفوفة لمنع الخلط البرمجي
       if(committee.chairs) {
         committee.chairs.forEach((chair, idx) => {
           optionsHTML += `<option value="chairs_${idx}">${chair.name}</option>`;
@@ -449,7 +536,6 @@
       const index = parseInt(parts[1]);
       const committee = appData.committees[commKey];
 
-      // الفحص الآن دقيق ويعتمد على نوع المصفوفة المحددة من الداتابيز
       if(type === "backroom" && committee.backroom && committee.backroom[index]) {
         document.getElementById("admChairNameInput").value = committee.backroom[index].name || "";
         document.getElementById("admChairTextArea").value = committee.backroom[index].bio || "";
@@ -489,6 +575,15 @@
         const d = new Date(dateVal);
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
+
+      // تتبع تعديلات الألوان في كائن التعديلات المؤقت
+      if (!appData.themeColors) appData.themeColors = {};
+      appData.themeColors = {
+        bgMain: document.getElementById("hexBgMain").value,
+        bgCard: document.getElementById("hexBgCard").value,
+        accentGold: document.getElementById("hexAccent").value,
+        textLight: document.getElementById("hexText").value
+      };
 
       if (!appData.secretariat) appData.secretariat = {};
       appData.secretariat.sg = {
@@ -544,6 +639,14 @@
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
 
+      // حفظ الألوان النهائية
+      appData.themeColors = {
+        bgMain: document.getElementById("hexBgMain").value,
+        bgCard: document.getElementById("hexBgCard").value,
+        accentGold: document.getElementById("hexAccent").value,
+        textLight: document.getElementById("hexText").value
+      };
+
       if (!appData.secretariat) appData.secretariat = {};
       appData.secretariat.sg = {
         name: document.getElementById("admSgName").value,
@@ -571,7 +674,7 @@
       saveCurrentChairStateTemporarily();
 
       database.ref("homepage_data").set(appData).then(() => {
-        alert("Global Sync Completed Successfully! 🎉 All features updated.");
+        alert("Global Sync Completed Successfully! 🎉 All features and Theme Colors updated live.");
         originalData = JSON.parse(JSON.stringify(appData)); 
         document.getElementById("floatingSaveBar").classList.remove("active");
         loadCommitteeDataToPanel();
