@@ -453,17 +453,25 @@
       transform: translateY(-1px);
     }
 
+    /* Modal & Pop-up Base Styles with Ultra-Smooth Cinematic Open Animations */
     .modal, .bio-popup-modal {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(3, 7, 13, 0.85); 
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(3, 7, 13, 0); 
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
       z-index: 10000;
       justify-content: center;
       align-items: center;
       padding: 16px;
+      transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal.active-modal, .bio-popup-modal.active-modal {
+      background: rgba(3, 7, 13, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
     }
 
     .modal-content, .bio-popup-content {
@@ -475,6 +483,15 @@
       width: 100%;
       text-align: center;
       position: relative;
+      opacity: 0;
+      transform: scale(0.85) translateY(30px);
+      transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease;
+    }
+
+    .modal.active-modal .modal-content, 
+    .bio-popup-modal.active-modal .bio-popup-content {
+      opacity: 1;
+      transform: scale(1) translateY(0);
     }
 
     .close-btn, .close-bio-btn {
@@ -514,8 +531,7 @@
     .elite-core-popup .bio-popup-content {
       border: 2px solid var(--accent-gold);
       background: linear-gradient(145deg, #0f1b2f 0%, #162540 100%);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(228, 179, 67, 0.15);
-      animation: cinematicFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(228, 179, 67, 0.2);
     }
 
     .elite-badge-banner {
@@ -537,17 +553,6 @@
     .elite-core-popup .large-chair-img {
       animation: royalGlowPulse 3s infinite ease-in-out;
       border: 3px solid var(--accent-gold);
-    }
-
-    @keyframes cinematicFadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.92) translateY(15px);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
     }
 
     .large-chair-img {
@@ -984,7 +989,6 @@
         return;
       }
 
-      // Convert Firebase object map to array and sort descending by timestamp/date
       let updatesArray = Object.values(appData.updates);
       updatesArray.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
 
@@ -1023,7 +1027,10 @@
 
     function openModal(committee) {
       currentActiveCommittee = committee;
-      document.getElementById("committeeModal").style.display = "flex";
+      const modal = document.getElementById("committeeModal");
+      modal.style.display = "flex";
+      setTimeout(() => modal.classList.add('active-modal'), 10);
+      
       document.getElementById("modalTitle").innerText = committee;
       
       if (appData && appData.committees && appData.committees[committee]) {
@@ -1098,13 +1105,16 @@
 
       if (targetChair) {
         document.getElementById("popupBadgeContainer").innerHTML = "";
-        document.getElementById("bioPopupModal").classList.remove('elite-core-popup');
+        const modalBox = document.getElementById("bioPopupModal");
+        modalBox.classList.remove('elite-core-popup');
         
         document.getElementById("popupChairName").innerText = targetChair.name || "Committee Leader";
         document.getElementById("popupChairTitle").innerText = `${currentActiveCommittee} ${roleDisplay}`;
         document.getElementById("popupChairImg").src = targetChair.img || "logo.jpeg.JPG";
         document.getElementById("popupChairBio").innerText = targetChair.bio || "No biography provided yet.";
-        document.getElementById("bioPopupModal").style.display = "flex";
+        
+        modalBox.style.display = "flex";
+        setTimeout(() => modalBox.classList.add('active-modal'), 10);
       }
     }
 
@@ -1114,7 +1124,6 @@
       const member = appData.secretariat[role];
       const roleTitles = { 'sg': 'Secretary-General', 'dsg': 'Deputy Secretary-General', 'asg': 'Assistant Secretary-General' };
       
-      // Apply Elite Luxury Animation & Styling for Core Secretariat Team
       const modalBox = document.getElementById("bioPopupModal");
       modalBox.classList.add('elite-core-popup');
       document.getElementById("popupBadgeContainer").innerHTML = `<div class="elite-badge-banner">✨ Core Executive Leadership &bull; Mastermind Team ✨</div>`;
@@ -1123,14 +1132,27 @@
       document.getElementById("popupChairTitle").innerText = roleTitles[role] || "Executive Board";
       document.getElementById("popupChairImg").src = member.img || "logo.jpeg.JPG";
       document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
+      
       modalBox.style.display = "flex";
+      setTimeout(() => modalBox.classList.add('active-modal'), 10);
     }
 
     function closeBioPopup() { 
-      document.getElementById("bioPopupModal").style.display = "none";
-      document.getElementById("bioPopupModal").classList.remove('elite-core-popup');
+      const modalBox = document.getElementById("bioPopupModal");
+      modalBox.classList.remove('active-modal');
+      setTimeout(() => {
+        modalBox.style.display = "none";
+        modalBox.classList.remove('elite-core-popup');
+      }, 350);
     }
-    function closeModal() { document.getElementById("committeeModal").style.display = "none"; }
+
+    function closeModal() { 
+      const modal = document.getElementById("committeeModal");
+      modal.classList.remove('active-modal');
+      setTimeout(() => {
+        modal.style.display = "none";
+      }, 350);
+    }
 
     setInterval(function() {
       if(!appData.targetDate) return;
