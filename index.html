@@ -507,54 +507,6 @@
       color: var(--accent-gold);
     }
 
-    /* Luxury Cinematic Animation & Glow Effects for Dedicated Core Team */
-    @keyframes royalGlowPulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(228, 179, 67, 0.6), 0 0 25px rgba(228, 179, 67, 0.3) inset;
-        border-color: rgba(228, 179, 67, 0.8);
-      }
-      50% {
-        box-shadow: 0 0 0 15px rgba(228, 179, 67, 0), 0 0 45px rgba(228, 179, 67, 0.6) inset;
-        border-color: #FFF1CD;
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(228, 179, 67, 0), 0 0 25px rgba(228, 179, 67, 0.3) inset;
-        border-color: rgba(228, 179, 67, 0.8);
-      }
-    }
-
-    @keyframes crownShine {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
-    }
-
-    .elite-core-popup .bio-popup-content {
-      border: 2px solid var(--accent-gold);
-      background: linear-gradient(145deg, #0f1b2f 0%, #162540 100%);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(228, 179, 67, 0.2);
-    }
-
-    .elite-badge-banner {
-      background: linear-gradient(90deg, #b8860b, #E4B343, #FFF1CD, #E4B343, #b8860b);
-      background-size: 200% auto;
-      color: #060b13;
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      padding: 5px 12px;
-      border-radius: 100px;
-      display: inline-block;
-      margin-bottom: 14px;
-      box-shadow: 0 4px 15px rgba(228, 179, 67, 0.3);
-      animation: crownShine 4s linear infinite;
-    }
-
-    .elite-core-popup .large-chair-img {
-      animation: royalGlowPulse 3s infinite ease-in-out;
-      border: 3px solid var(--accent-gold);
-    }
-
     .large-chair-img {
       width: 120px;
       height: 120px;
@@ -868,7 +820,6 @@
   <div id="bioPopupModal" class="bio-popup-modal" role="dialog" aria-labelledby="popupChairName" aria-hidden="true">
     <div class="bio-popup-content">
       <span class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</span>
-      <div id="popupBadgeContainer"></div>
       <img src="" id="popupChairImg" class="large-chair-img" alt="Portrait Preview">
       <div id="popupChairName" class="bio-popup-name"></div>
       <div id="popupChairTitle" class="bio-popup-title"></div>
@@ -1104,9 +1055,7 @@
       }
 
       if (targetChair) {
-        document.getElementById("popupBadgeContainer").innerHTML = "";
         const modalBox = document.getElementById("bioPopupModal");
-        modalBox.classList.remove('elite-core-popup');
         
         document.getElementById("popupChairName").innerText = targetChair.name || "Committee Leader";
         document.getElementById("popupChairTitle").innerText = `${currentActiveCommittee} ${roleDisplay}`;
@@ -1125,8 +1074,6 @@
       const roleTitles = { 'sg': 'Secretary-General', 'dsg': 'Deputy Secretary-General', 'asg': 'Assistant Secretary-General' };
       
       const modalBox = document.getElementById("bioPopupModal");
-      modalBox.classList.add('elite-core-popup');
-      document.getElementById("popupBadgeContainer").innerHTML = `<div class="elite-badge-banner">✨ Core Executive Leadership &bull; Mastermind Team ✨</div>`;
 
       document.getElementById("popupChairName").innerText = member.name || "Secretariat Member";
       document.getElementById("popupChairTitle").innerText = roleTitles[role] || "Executive Board";
@@ -1142,7 +1089,6 @@
       modalBox.classList.remove('active-modal');
       setTimeout(() => {
         modalBox.style.display = "none";
-        modalBox.classList.remove('elite-core-popup');
       }, 350);
     }
 
