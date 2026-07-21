@@ -114,28 +114,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    @keyframes cinematicFadeIn {
-      from {
-        opacity: 0;
-        transform: translate3d(0, 20px, 0);
-      }
-      to {
-        opacity: 1;
-        transform: translate3d(0, 0, 0);
-      }
-    }
-
-    @keyframes headerReveal {
-      from {
-        opacity: 0;
-        transform: translate3d(-50%, -30px, 0);
-      }
-      to {
-        opacity: 1;
-        transform: translate3d(-50%, 0, 0);
-      }
-    }
-
     header, .hero-section, .card, .button-container, footer {
       opacity: 1 !important;
     }
@@ -512,6 +490,66 @@
       color: var(--accent-gold);
     }
 
+    /* Luxury Cinematic Animation & Glow Effects for Dedicated Core Team */
+    @keyframes royalGlowPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(228, 179, 67, 0.6), 0 0 25px rgba(228, 179, 67, 0.3) inset;
+        border-color: rgba(228, 179, 67, 0.8);
+      }
+      50% {
+        box-shadow: 0 0 0 15px rgba(228, 179, 67, 0), 0 0 45px rgba(228, 179, 67, 0.6) inset;
+        border-color: #FFF1CD;
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(228, 179, 67, 0), 0 0 25px rgba(228, 179, 67, 0.3) inset;
+        border-color: rgba(228, 179, 67, 0.8);
+      }
+    }
+
+    @keyframes crownShine {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .elite-core-popup .bio-popup-content {
+      border: 2px solid var(--accent-gold);
+      background: linear-gradient(145deg, #0f1b2f 0%, #162540 100%);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(228, 179, 67, 0.15);
+      animation: cinematicFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .elite-badge-banner {
+      background: linear-gradient(90deg, #b8860b, #E4B343, #FFF1CD, #E4B343, #b8860b);
+      background-size: 200% auto;
+      color: #060b13;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: 5px 12px;
+      border-radius: 100px;
+      display: inline-block;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 15px rgba(228, 179, 67, 0.3);
+      animation: crownShine 4s linear infinite;
+    }
+
+    .elite-core-popup .large-chair-img {
+      animation: royalGlowPulse 3s infinite ease-in-out;
+      border: 3px solid var(--accent-gold);
+    }
+
+    @keyframes cinematicFadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.92) translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
     .large-chair-img {
       width: 120px;
       height: 120px;
@@ -580,6 +618,68 @@
       letter-spacing: 2px;
       transform: rotate(-2deg);
       margin: 15px 0;
+    }
+
+    /* Premium Updates Timeline Design */
+    .updates-timeline {
+      position: relative;
+      padding-left: 20px;
+      text-align: left;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .updates-timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent-gold), rgba(228, 179, 67, 0.1));
+    }
+
+    .update-item {
+      position: relative;
+      margin-bottom: 24px;
+      padding-left: 20px;
+    }
+
+    .update-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .update-dot {
+      position: absolute;
+      left: -20px;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      box-shadow: 0 0 10px var(--accent-gold);
+    }
+
+    .update-date {
+      font-size: 11px;
+      color: var(--accent-gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+
+    .update-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+    }
+
+    .update-desc {
+      font-size: 13.5px;
+      color: var(--text-body);
+      line-height: 1.5;
     }
 
     @media (max-width: 1024px) {
@@ -651,6 +751,7 @@
 
       <nav class="nav-tabs" id="navTabs">
         <button class="tab-btn active" id="btn-home" onclick="switchPage('home')">HOME</button>
+        <button class="tab-btn" id="btn-updates" onclick="switchPage('updates')">UPDATES</button>
         <button class="tab-btn" id="btn-committees" onclick="switchPage('committees')">COMMITTEES</button>
         <button class="tab-btn" id="btn-gallery" onclick="switchPage('gallery')">GALLERY</button>
       </nav>
@@ -703,6 +804,18 @@
         </article>
       </section>
 
+      <section id="page-updates" class="page-view">
+        <div class="hero-section" style="padding-top: 10px;">
+          <h2>Conference Updates</h2>
+          <p>Latest Bulletins & Announcements</p>
+        </div>
+        <article class="card">
+          <div id="updatesContainer" class="updates-timeline">
+            <p style="color: var(--text-muted); text-align: center; font-size: 13.5px;">Loading latest conference dispatches...</p>
+          </div>
+        </article>
+      </section>
+
       <section id="page-committees" class="page-view">
         <article class="card">
           <h3>Committees</h3>
@@ -750,6 +863,7 @@
   <div id="bioPopupModal" class="bio-popup-modal" role="dialog" aria-labelledby="popupChairName" aria-hidden="true">
     <div class="bio-popup-content">
       <span class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</span>
+      <div id="popupBadgeContainer"></div>
       <img src="" id="popupChairImg" class="large-chair-img" alt="Portrait Preview">
       <div id="popupChairName" class="bio-popup-name"></div>
       <div id="popupChairTitle" class="bio-popup-title"></div>
@@ -843,6 +957,7 @@
         
         renderRegistrationButtons();
         syncSecretariatTeamData(); 
+        renderUpdatesTimeline();
       }
     });
 
@@ -858,6 +973,33 @@
           if (imgEl && appData.secretariat[role].img) imgEl.src = appData.secretariat[role].img;
         }
       });
+    }
+
+    function renderUpdatesTimeline() {
+      const container = document.getElementById("updatesContainer");
+      if (!container) return;
+
+      if (!appData.updates || typeof appData.updates !== 'object') {
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; font-size: 13.5px;">No active announcements at the moment.</p>`;
+        return;
+      }
+
+      // Convert Firebase object map to array and sort descending by timestamp/date
+      let updatesArray = Object.values(appData.updates);
+      updatesArray.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+      let html = "";
+      updatesArray.forEach(item => {
+        html += `
+          <div class="update-item">
+            <div class="update-dot"></div>
+            <div class="update-date">${item.date || 'Announcement'}</div>
+            <div class="update-title">${item.title || ''}</div>
+            <div class="update-desc">${item.content || ''}</div>
+          </div>`;
+      });
+
+      container.innerHTML = html;
     }
 
     function renderRegistrationButtons() {
@@ -955,6 +1097,9 @@
       }
 
       if (targetChair) {
+        document.getElementById("popupBadgeContainer").innerHTML = "";
+        document.getElementById("bioPopupModal").classList.remove('elite-core-popup');
+        
         document.getElementById("popupChairName").innerText = targetChair.name || "Committee Leader";
         document.getElementById("popupChairTitle").innerText = `${currentActiveCommittee} ${roleDisplay}`;
         document.getElementById("popupChairImg").src = targetChair.img || "logo.jpeg.JPG";
@@ -969,14 +1114,22 @@
       const member = appData.secretariat[role];
       const roleTitles = { 'sg': 'Secretary-General', 'dsg': 'Deputy Secretary-General', 'asg': 'Assistant Secretary-General' };
       
+      // Apply Elite Luxury Animation & Styling for Core Secretariat Team
+      const modalBox = document.getElementById("bioPopupModal");
+      modalBox.classList.add('elite-core-popup');
+      document.getElementById("popupBadgeContainer").innerHTML = `<div class="elite-badge-banner">✨ Core Executive Leadership &bull; Mastermind Team ✨</div>`;
+
       document.getElementById("popupChairName").innerText = member.name || "Secretariat Member";
       document.getElementById("popupChairTitle").innerText = roleTitles[role] || "Executive Board";
       document.getElementById("popupChairImg").src = member.img || "logo.jpeg.JPG";
       document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
-      document.getElementById("bioPopupModal").style.display = "flex";
+      modalBox.style.display = "flex";
     }
 
-    function closeBioPopup() { document.getElementById("bioPopupModal").style.display = "none"; }
+    function closeBioPopup() { 
+      document.getElementById("bioPopupModal").style.display = "none";
+      document.getElementById("bioPopupModal").classList.remove('elite-core-popup');
+    }
     function closeModal() { document.getElementById("committeeModal").style.display = "none"; }
 
     setInterval(function() {
