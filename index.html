@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+q<!<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -423,8 +423,38 @@
       margin-top: 4px;
     }
 
+    /* Parent Consent Notice Box */
+    .parent-notice-box {
+      background: rgba(228, 179, 67, 0.04);
+      border: 1px solid rgba(228, 179, 67, 0.2);
+      border-radius: 16px;
+      padding: 16px 20px;
+      margin: 0 auto 16px auto;
+      max-width: 580px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+    }
+
+    .parent-notice-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .parent-notice-text {
+      font-size: 13.5px;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    .parent-notice-text strong {
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
     .button-container {
-      margin: 24px 0;
+      margin: 12px 0 24px 0;
       display: flex;
       flex-wrap: wrap; 
       justify-content: center;
@@ -678,6 +708,7 @@
       }
       .committee-grid { grid-template-columns: 1fr; }
       .chair-box { flex: 0 1 calc(50% - 10px); }
+      .parent-notice-box { flex-direction: column; text-align: center; }
     }
 
     .page-view { display: none; }
@@ -752,6 +783,13 @@
             </div>
           </div>
         </article>
+
+        <div class="parent-notice-box">
+          <div class="parent-notice-icon">📋</div>
+          <div class="parent-notice-text">
+            <strong>ملاحظة هامة للتسجيل:</strong> يجب على ولي الأمر تعبئة وتوقيع الملف المخصص للمشاركة، حيث سيتم اعتماد اسم ولي الأمر كمضيّة رسمية للملف والموافقة على التسجيل.
+          </div>
+        </div>
 
         <div class="button-container" id="liveRegButtons"></div>
 
