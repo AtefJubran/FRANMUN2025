@@ -1,4 +1,4 @@
-q<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -356,11 +356,22 @@ q<!<!DOCTYPE html>
       border: 1px solid var(--glass-border);
       object-fit: cover;
       padding: 4px;
-      transition: 0.3s ease;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .premium-leader-avatar-box:hover .premium-leader-img {
       border-color: var(--accent-gold);
+    }
+
+    /* Animation triggered ONLY upon clicking a team member image */
+    @keyframes avatarClickPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); border-color: var(--accent-gold); box-shadow: 0 0 20px rgba(228, 179, 67, 0.6); }
+      100% { transform: scale(1); }
+    }
+
+    .premium-leader-img.animate-click {
+      animation: avatarClickPulse 0.4s ease forwards;
     }
 
     .premium-leader-title {
@@ -431,15 +442,7 @@ q<!<!DOCTYPE html>
       padding: 16px 20px;
       margin: 0 auto 16px auto;
       max-width: 580px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
       text-align: left;
-    }
-
-    .parent-notice-icon {
-      font-size: 22px;
-      flex-shrink: 0;
     }
 
     .parent-notice-text {
@@ -708,7 +711,7 @@ q<!<!DOCTYPE html>
       }
       .committee-grid { grid-template-columns: 1fr; }
       .chair-box { flex: 0 1 calc(50% - 10px); }
-      .parent-notice-box { flex-direction: column; text-align: center; }
+      .parent-notice-box { text-align: center; }
     }
 
     .page-view { display: none; }
@@ -719,7 +722,7 @@ q<!<!DOCTYPE html>
 
   <div id="maintenanceContent" style="display:none;">
     <div style="text-align:center; padding:40px;">
-      <h2>Crisis Alert!</h2>
+      <h2>Crisis Alert</h2>
       <p>Undergoing upgrades. Follow us on Instagram:</p>
       <a href="https://www.instagram.com/franciscan_munners" target="_blank" rel="noopener">@franciscan_munners</a>
     </div>
@@ -766,17 +769,17 @@ q<!<!DOCTYPE html>
         <article class="card">
           <h3>The Secretariat</h3>
           <div class="premium-leadership-team">
-            <div class="premium-leader-avatar-box" onclick="openTeamBioPopup('sg')">
+            <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('sg')">
               <img id="team-sg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Secretary-General" onerror="this.src='logo.jpeg.JPG'">
               <div class="premium-leader-title">Secretary-General</div>
               <div id="team-sg-name" class="premium-leader-name">SG Executive</div>
             </div>
-            <div class="premium-leader-avatar-box" onclick="openTeamBioPopup('dsg')">
+            <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('dsg')">
               <img id="team-dsg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Deputy Secretary-General" onerror="this.src='logo.jpeg.JPG'">
               <div class="premium-leader-title">Deputy SG</div>
               <div id="team-dsg-name" class="premium-leader-name">DSG Executive</div>
             </div>
-            <div class="premium-leader-avatar-box" onclick="openTeamBioPopup('asg')">
+            <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('asg')">
               <img id="team-asg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Assistant Secretary-General" onerror="this.src='logo.jpeg.JPG'">
               <div class="premium-leader-title">Asst. SG</div>
               <div id="team-asg-name" class="premium-leader-name">ASG Executive</div>
@@ -785,9 +788,8 @@ q<!<!DOCTYPE html>
         </article>
 
         <div class="parent-notice-box">
-          <div class="parent-notice-icon">📋</div>
           <div class="parent-notice-text">
-            <strong>ملاحظة هامة للتسجيل:</strong> يجب على ولي الأمر تعبئة وتوقيع الملف المخصص للمشاركة، حيث سيتم اعتماد اسم ولي الأمر كمضيّة رسمية للملف والموافقة على التسجيل.
+            <strong>Important Registration Notice:</strong> Parents must fill out and sign the required participation document. The parent's name will serve as the official signature and digital authorization for registration.
           </div>
         </div>
 
@@ -828,7 +830,6 @@ q<!<!DOCTYPE html>
 
       <section id="page-gallery" class="page-view">
         <article class="card" style="padding: 60px 20px;">
-          <span style="font-size:32px;">🔒</span>
           <h3>Conference Gallery Locked</h3>
           <p style="color: var(--text-muted); max-width: 440px; margin: 10px auto 0 auto;">
             The photographic archives will be published dynamically following the conference proceedings.
@@ -917,6 +918,15 @@ q<!<!DOCTYPE html>
       document.getElementById('btn-' + pageId).classList.add('active');
       document.getElementById('navTabs').classList.remove('mobile-open');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function triggerAvatarAnimation(element) {
+      const img = element.querySelector('.premium-leader-img');
+      if (img) {
+        img.classList.remove('animate-click');
+        void img.offsetWidth; // Trigger reflow to restart animation
+        img.classList.add('animate-click');
+      }
     }
 
     const firebaseConfig = {
