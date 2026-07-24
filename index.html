@@ -332,15 +332,16 @@
     }
 
     .premium-leadership-team {
-      display: flex;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 20px;
-      flex-wrap: wrap;
+      justify-items: center;
     }
 
     .premium-leader-avatar-box {
       text-align: center;
-      width: 120px;
+      width: 100%;
+      max-width: 130px;
       cursor: pointer;
       transition: transform 0.2s ease;
     }
@@ -709,6 +710,7 @@
       .committee-grid { grid-template-columns: 1fr; }
       .chair-box { flex: 0 1 calc(50% - 10px); }
       .parent-notice-box { text-align: center; }
+      .premium-leadership-team { grid-template-columns: repeat(2, 1fr); }
     }
 
     .page-view { display: none; }
