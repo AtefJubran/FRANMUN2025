@@ -31,16 +31,26 @@
     }
 
     .admin-container {
-      max-width: 750px;
+      max-width: 800px;
       margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
     }
 
     .admin-card {
       background: rgba(0, 26, 51, 0.95);
       border: 2px solid var(--accent-gold);
-      padding: 35px;
+      padding: 30px;
       border-radius: 18px;
       box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+    }
+
+    .main-header {
+      text-align: center;
+      border-bottom: 2px dashed rgba(223, 183, 44, 0.3);
+      padding-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     h2 {
@@ -52,20 +62,24 @@
 
     h3.section-title {
       color: var(--accent-gold);
-      font-size: 14px;
+      font-size: 15px;
       text-transform: uppercase;
       letter-spacing: 1px;
       margin-bottom: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .subtitle {
       font-size: 13px;
       color: var(--text-muted);
-      margin-bottom: 25px;
     }
 
     .admin-form-group {
-      margin-bottom: 22px;
+      margin-bottom: 18px;
       display: flex;
       flex-direction: column;
       gap: 8px;
@@ -102,7 +116,7 @@
       border: 1px solid var(--card-border);
       padding: 14px;
       border-radius: 8px;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
 
     .admin-toggle-box label {
@@ -131,7 +145,7 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 16px;
-      margin-bottom: 15px;
+      margin-top: 15px;
     }
 
     .secretariat-box, .theme-box {
@@ -170,7 +184,7 @@
       left: 50%;
       transform: translateX(-50%);
       width: calc(100% - 40px);
-      max-width: 750px;
+      max-width: 800px;
       background: #112233;
       border: 2px solid var(--accent-gold);
       border-radius: 14px;
@@ -236,9 +250,16 @@
 <body>
 
   <div class="admin-container">
-    <div class="admin-card">
+    
+    <!-- 1. HEADER SECTION -->
+    <header class="admin-card main-header">
       <h2>FRANMUN Global Control Panel</h2>
       <p class="subtitle">Modify anything freely. Changes will apply only when you click Sync.</p>
+    </header>
+
+    <!-- 2. GLOBAL STATUS & SETTINGS SECTION -->
+    <section class="admin-card">
+      <h3 class="section-title">⚙️ Global Status & Settings</h3>
       
       <div class="admin-toggle-box maintenance-highlight">
         <input type="checkbox" id="admMaintenanceMode" onchange="trackLocalChange()">
@@ -249,117 +270,124 @@
         <input type="checkbox" id="admChairCheck" onchange="trackLocalChange()">
         <label for="admChairCheck">Chairs Registration (Open / Active)</label>
       </div>
+
       <div class="admin-toggle-box">
         <input type="checkbox" id="admDelCheck" onchange="trackLocalChange()">
         <label for="admDelCheck">Delegates Registration (Open / Active)</label>
       </div>
 
-      <div class="admin-form-group">
+      <div class="admin-form-group" style="margin-top: 15px;">
         <label>Conference Target Date:</label>
         <input type="datetime-local" id="admCountDate" class="admin-input" onchange="trackLocalChange()">
       </div>
+    </section>
 
-      <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-        <h3 class="section-title">🎨 Dynamic Theme Color Control</h3>
-        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Choose live theme colors for the website using the color wheels or hex codes.</p>
+    <!-- 3. DYNAMIC THEME COLOR CONTROL SECTION -->
+    <section class="admin-card">
+      <h3 class="section-title">🎨 Dynamic Theme Color Control</h3>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Choose live theme colors for the website using the color wheels or hex codes.</p>
 
-        <div class="theme-grid">
-          <div class="theme-box">
-            <h4>Main Background</h4>
-            <div class="color-picker-wrapper">
-              <input type="color" id="pickerBgMain" class="color-picker-input" value="#060B13" oninput="syncColorInput('pickerBgMain', 'hexBgMain')">
-              <input type="text" id="hexBgMain" class="admin-input" value="#060B13" oninput="syncColorPicker('hexBgMain', 'pickerBgMain')">
-            </div>
+      <div class="theme-grid">
+        <div class="theme-box">
+          <h4>Main Background</h4>
+          <div class="color-picker-wrapper">
+            <input type="color" id="pickerBgMain" class="color-picker-input" value="#060B13" oninput="syncColorInput('pickerBgMain', 'hexBgMain')">
+            <input type="text" id="hexBgMain" class="admin-input" value="#060B13" oninput="syncColorPicker('hexBgMain', 'pickerBgMain')">
           </div>
+        </div>
 
-          <div class="theme-box">
-            <h4>Card Background</h4>
-            <div class="color-picker-wrapper">
-              <input type="color" id="pickerBgCard" class="color-picker-input" value="#0F1B2F" oninput="syncColorInput('pickerBgCard', 'hexBgCard')">
-              <input type="text" id="hexBgCard" class="admin-input" value="#0F1B2F" oninput="syncColorPicker('hexBgCard', 'pickerBgCard')">
-            </div>
+        <div class="theme-box">
+          <h4>Card Background</h4>
+          <div class="color-picker-wrapper">
+            <input type="color" id="pickerBgCard" class="color-picker-input" value="#0F1B2F" oninput="syncColorInput('pickerBgCard', 'hexBgCard')">
+            <input type="text" id="hexBgCard" class="admin-input" value="#0F1B2F" oninput="syncColorPicker('hexBgCard', 'pickerBgCard')">
           </div>
+        </div>
 
-          <div class="theme-box">
-            <h4>Accent Color</h4>
-            <div class="color-picker-wrapper">
-              <input type="color" id="pickerAccent" class="color-picker-input" value="#E4B343" oninput="syncColorInput('pickerAccent', 'hexAccent')">
-              <input type="text" id="hexAccent" class="admin-input" value="#E4B343" oninput="syncColorPicker('hexAccent', 'pickerAccent')">
-            </div>
+        <div class="theme-box">
+          <h4>Accent Color</h4>
+          <div class="color-picker-wrapper">
+            <input type="color" id="pickerAccent" class="color-picker-input" value="#E4B343" oninput="syncColorInput('pickerAccent', 'hexAccent')">
+            <input type="text" id="hexAccent" class="admin-input" value="#E4B343" oninput="syncColorPicker('hexAccent', 'pickerAccent')">
           </div>
+        </div>
 
-          <div class="theme-box">
-            <h4>Primary Text</h4>
-            <div class="color-picker-wrapper">
-              <input type="color" id="pickerText" class="color-picker-input" value="#FFFFFF" oninput="syncColorInput('pickerText', 'hexText')">
-              <input type="text" id="hexText" class="admin-input" value="#FFFFFF" oninput="syncColorPicker('hexText', 'pickerText')">
-            </div>
+        <div class="theme-box">
+          <h4>Primary Text</h4>
+          <div class="color-picker-wrapper">
+            <input type="color" id="pickerText" class="color-picker-input" value="#FFFFFF" oninput="syncColorInput('pickerText', 'hexText')">
+            <input type="text" id="hexText" class="admin-input" value="#FFFFFF" oninput="syncColorPicker('hexText', 'pickerText')">
           </div>
         </div>
       </div>
+    </section>
 
-      <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-        <h3 class="section-title">Manage Secretariat Executive Team (All 6 Members)</h3>
-        
-        <div class="secretariat-grid">
-          <div class="secretariat-box">
-            <h4>Member 1 (Secretary-General)</h4>
-            <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
-            <input type="text" id="admSgTitle" class="admin-input" placeholder="Title (e.g. Secretary-General)" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admSgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admSgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <textarea id="admSgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
-          </div>
+    <!-- 4. SECRETARIAT EXECUTIVE TEAM SECTION -->
+    <section class="admin-card">
+      <h3 class="section-title">👥 Manage Secretariat Executive Team (All 6 Members)</h3>
+      
+      <div class="secretariat-grid">
+        <div class="secretariat-box">
+          <h4>Member 1 (Secretary-General)</h4>
+          <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
+          <input type="text" id="admSgTitle" class="admin-input" placeholder="Title (e.g. Secretary-General)" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admSgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admSgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <textarea id="admSgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+        </div>
 
-          <div class="secretariat-box">
-            <h4>Member 2 (Deputy SG)</h4>
-            <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
-            <input type="text" id="admDsgTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admDsgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admDsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <textarea id="admDsgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
-          </div>
+        <div class="secretariat-box">
+          <h4>Member 2 (Deputy SG)</h4>
+          <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
+          <input type="text" id="admDsgTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admDsgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admDsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <textarea id="admDsgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+        </div>
 
-          <div class="secretariat-box">
-            <h4>Member 3 (Assistant SG)</h4>
-            <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
-            <input type="text" id="admAsgTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admAsgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admAsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <textarea id="admAsgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
-          </div>
+        <div class="secretariat-box">
+          <h4>Member 3 (Assistant SG)</h4>
+          <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
+          <input type="text" id="admAsgTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admAsgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admAsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <textarea id="admAsgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+        </div>
 
-          <div class="secretariat-box">
-            <h4>Member 4 (Director-General)</h4>
-            <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
-            <input type="text" id="admDgTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admDgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admDgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <textarea id="admDgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
-          </div>
+        <div class="secretariat-box">
+          <h4>Member 4 (Director-General)</h4>
+          <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
+          <input type="text" id="admDgTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admDgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admDgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <textarea id="admDgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+        </div>
 
-          <div class="secretariat-box">
-            <h4>Member 5 (Under Secretary-General)</h4>
-            <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
-            <input type="text" id="admUsgTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admUsgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admUsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <textarea id="admUsgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
-          </div>
+        <div class="secretariat-box">
+          <h4>Member 5 (Under Secretary-General)</h4>
+          <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
+          <input type="text" id="admUsgTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admUsgName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admUsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <textarea id="admUsgBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+        </div>
 
-          <div class="secretariat-box">
-            <h4>Member 6 (Chief Operating Officer)</h4>
-            <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
-            <input type="text" id="admCooTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admCooName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <input type="text" id="admCooImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
-            <textarea id="admCooBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
-          </div>
+        <div class="secretariat-box">
+          <h4>Member 6 (Chief Operating Officer)</h4>
+          <label style="font-size: 11px; color: var(--accent-gold); margin-bottom: 2px;">Position / Title Name:</label>
+          <input type="text" id="admCooTitle" class="admin-input" placeholder="Title" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admCooName" class="admin-input" placeholder="Name" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <input type="text" id="admCooImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 6px;" oninput="trackLocalChange()">
+          <textarea id="admCooBio" class="admin-textarea" rows="2" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
         </div>
       </div>
+    </section>
 
-      <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-        <h3 class="section-title">Manage Committees & Committee Chairs</h3>
+    <!-- 5. COMMITTEES & CHAIRS SECTION -->
+    <section class="admin-card">
+      <h3 class="section-title">🏛️ Manage Committees & Committee Chairs</h3>
+      
+      <div class="admin-form-group">
         <label>Select Committee to Manage:</label>
         <select id="admCommSelect" class="admin-select" onchange="saveCurrentChairStateTemporarily(); loadCommitteeDataToPanel();">
           <option value="UNWOMEN">UN Women</option>
@@ -386,7 +414,7 @@
         <input type="url" id="admCommReportUrl" class="admin-input" placeholder="https://example.com/report.pdf" oninput="trackLocalChange()">
       </div>
 
-      <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+      <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 15px; margin-top: 15px;">
         <label>Select Chair to Modify:</label>
         <select id="admChairSelect" class="admin-select" onchange="saveCurrentChairStateTemporarily(); loadSelectedChairBioToPanel();">
         </select>
@@ -401,9 +429,11 @@
         <label>Chair Biography Text:</label>
         <textarea id="admChairTextArea" class="admin-textarea" rows="4" oninput="trackLocalChange()"></textarea>
       </div>
-    </div>
+    </section>
+
   </div>
 
+  <!-- FLOATING SAVE BAR -->
   <div id="floatingSaveBar" class="floating-save-bar">
     <div class="bar-text">
       <h4>Unsaved Changes Detected</h4>
