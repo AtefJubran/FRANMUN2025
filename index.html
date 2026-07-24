@@ -497,7 +497,7 @@
       background: rgba(3, 7, 13, 0); 
       backdrop-filter: blur(0px);
       -webkit-backdrop-filter: blur(0px);
-      z-index: 999999; /* Highest priority layer */
+      z-index: 999999;
       justify-content: center;
       align-items: center;
       padding: 16px;
@@ -773,34 +773,34 @@
           <h3>The Secretariat</h3>
           <div class="premium-leadership-team">
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('sg')">
-              <img id="team-sg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Secretary-General">
+              <img id="team-sg-img" src="laila-fahoum.jpeg" class="premium-leader-img" alt="Laila Fahoum" onerror="this.src='logo.jpeg.JPG'">
               <div id="team-sg-title" class="premium-leader-title">Secretary-General</div>
-              <div id="team-sg-name" class="premium-leader-name">SG Executive</div>
+              <div id="team-sg-name" class="premium-leader-name">Laila Fahoum</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('dsg')">
-              <img id="team-dsg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Deputy Secretary-General">
-              <div id="team-dsg-title" class="premium-leader-title">Deputy SG</div>
-              <div id="team-dsg-name" class="premium-leader-name">DSG Executive</div>
+              <img id="team-dsg-img" src="atef-jubran.jpeg" class="premium-leader-img" alt="Atef Jubran" onerror="this.src='logo.jpeg.JPG'">
+              <div id="team-dsg-title" class="premium-leader-title">Deputy Secretary-General</div>
+              <div id="team-dsg-name" class="premium-leader-name">Atef Jubran</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('asg')">
-              <img id="team-asg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Assistant Secretary-General">
-              <div id="team-asg-title" class="premium-leader-title">Asst. SG</div>
-              <div id="team-asg-name" class="premium-leader-name">ASG Executive</div>
+              <img id="team-asg-img" src="bana-nafafaa.jpeg" class="premium-leader-img" alt="Bana Nafafaa" onerror="this.src='logo.jpeg.JPG'">
+              <div id="team-asg-title" class="premium-leader-title">Assistant Secretary-General</div>
+              <div id="team-asg-name" class="premium-leader-name">Bana Nafafaa</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('dg')">
-              <img id="team-dg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Director-General">
-              <div id="team-dg-title" class="premium-leader-title">Director-General</div>
-              <div id="team-dg-name" class="premium-leader-name">DG Executive</div>
+              <img id="team-dg-img" src="tala-saffury.jpeg" class="premium-leader-img" alt="Tala Saffury" onerror="this.src='logo.jpeg.JPG'">
+              <div id="team-dg-title" class="premium-leader-title">USG of Academics</div>
+              <div id="team-dg-name" class="premium-leader-name">Tala Saffury</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('usg')">
-              <img id="team-usg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Under Secretary-General">
-              <div id="team-usg-title" class="premium-leader-title">Under SG</div>
-              <div id="team-usg-name" class="premium-leader-name">USG Executive</div>
+              <img id="team-usg-img" src="jamal-elias.jpeg" class="premium-leader-img" alt="Jamal Elias" onerror="this.src='logo.jpeg.JPG'">
+              <div id="team-usg-title" class="premium-leader-title">USG of Public Relations</div>
+              <div id="team-usg-name" class="premium-leader-name">Jamal Elias</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('coo')">
-              <img id="team-coo-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Chief Operating Officer">
-              <div id="team-coo-title" class="premium-leader-title">Chief Operating</div>
-              <div id="team-coo-name" class="premium-leader-name">COO Executive</div>
+              <img id="team-coo-img" src="jana-abd-el-halim.jpeg" class="premium-leader-img" alt="Jana Abd El Halim" onerror="this.src='logo.jpeg.JPG'">
+              <div id="team-coo-title" class="premium-leader-title">Head of Media</div>
+              <div id="team-coo-name" class="premium-leader-name">Jana Abd El Halim</div>
             </div>
           </div>
         </article>
@@ -877,7 +877,7 @@
   <div id="bioPopupModal" class="bio-popup-modal" role="dialog" aria-labelledby="popupChairName" aria-hidden="true">
     <div class="bio-popup-content">
       <span class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</span>
-      <img src="" id="popupChairImg" class="large-chair-img" alt="Portrait Preview">
+      <img src="" id="popupChairImg" class="large-chair-img" alt="Portrait Preview" onerror="this.src='logo.jpeg.JPG'">
       <div id="popupChairName" class="bio-popup-name"></div>
       <div id="popupChairTitle" class="bio-popup-title"></div>
       <div id="popupChairBio" class="bio-popup-text"></div>
@@ -1144,9 +1144,9 @@
         'sg': 'Secretary-General', 
         'dsg': 'Deputy Secretary-General', 
         'asg': 'Assistant Secretary-General',
-        'dg': 'Director-General',
-        'usg': 'Under Secretary-General',
-        'coo': 'Chief Operating Officer'
+        'dg': 'USG of Academics',
+        'usg': 'USG of Public Relations',
+        'coo': 'Head of Media'
       };
       
       const modalBox = document.getElementById("bioPopupModal");
