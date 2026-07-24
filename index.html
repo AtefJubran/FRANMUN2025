@@ -978,27 +978,9 @@
         }
         
         renderRegistrationButtons();
-        syncSecretariatTeamData(); 
         renderUpdatesTimeline();
       }
     });
-
-    function syncSecretariatTeamData() {
-      if (!appData || !appData.secretariat) return;
-      
-      const roles = ['sg', 'dsg', 'asg', 'dg', 'usg', 'coo'];
-      roles.forEach(role => {
-        if (appData.secretariat[role]) {
-          const nameEl = document.getElementById(`team-${role}-name`);
-          const titleEl = document.getElementById(`team-${role}-title`);
-          const imgEl = document.getElementById(`team-${role}-img`);
-          
-          if (nameEl && appData.secretariat[role].name) nameEl.innerText = appData.secretariat[role].name;
-          if (titleEl && appData.secretariat[role].title) titleEl.innerText = appData.secretariat[role].title;
-          if (imgEl && appData.secretariat[role].img) imgEl.src = appData.secretariat[role].img;
-        }
-      });
-    }
 
     function renderUpdatesTimeline() {
       const container = document.getElementById("updatesContainer");
@@ -1135,25 +1117,24 @@
     }
 
     function openTeamBioPopup(role) {
-      let member = {};
+      const defaultData = {
+        'sg': { name: 'Laila Fahoum', title: 'Secretary-General', img: 'laila.jpg', bio: '' },
+        'dsg': { name: 'Atef Jubran', title: 'Deputy Secretary-General', img: 'atef.jpg', bio: '' },
+        'asg': { name: 'Bana Nafafaa', title: 'Assistant Secretary-General', img: 'bana.jpg', bio: '' },
+        'dg': { name: 'Tala Saffury', title: 'USG of Academics', img: 'tala.jpg', bio: '' },
+        'usg': { name: 'Jamal Elias', title: 'USG of Public Relations', img: 'jamal.jpg', bio: '' },
+        'coo': { name: 'Jana Abd El Halim', title: 'Head of Media', img: 'jana.jpg', bio: '' }
+      };
+
+      let member = defaultData[role] || {};
       if (appData && appData.secretariat && appData.secretariat[role]) {
-        member = appData.secretariat[role];
+        if (appData.secretariat[role].bio) member.bio = appData.secretariat[role].bio;
       }
       
-      const defaultRoleTitles = { 
-        'sg': 'Secretary-General', 
-        'dsg': 'Deputy Secretary-General', 
-        'asg': 'Assistant Secretary-General',
-        'dg': 'USG of Academics',
-        'usg': 'USG of Public Relations',
-        'coo': 'Head of Media'
-      };
-      
       const modalBox = document.getElementById("bioPopupModal");
-
-      document.getElementById("popupChairName").innerText = member.name || document.getElementById(`team-${role}-name`)?.innerText || "Secretariat Member";
-      document.getElementById("popupChairTitle").innerText = member.title || document.getElementById(`team-${role}-title`)?.innerText || defaultRoleTitles[role] || "Executive Board";
-      document.getElementById("popupChairImg").src = member.img || document.getElementById(`team-${role}-img`)?.src || "logo.jpeg.JPG";
+      document.getElementById("popupChairName").innerText = member.name;
+      document.getElementById("popupChairTitle").innerText = member.title;
+      document.getElementById("popupChairImg").src = member.img;
       document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
       
       modalBox.style.display = "flex";
