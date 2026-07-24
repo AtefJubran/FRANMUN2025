@@ -245,6 +245,43 @@
     .btn-save:hover {
       background: var(--accent-gold-hover);
     }
+
+    .btn-add {
+      background: rgba(223, 183, 44, 0.1);
+      border: 1px dashed var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .btn-add:hover {
+      background: rgba(223, 183, 44, 0.2);
+    }
+
+    .dynamic-item-card {
+      background: rgba(0,0,0,0.25);
+      border: 1px solid var(--card-border);
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .btn-delete-item {
+      background: rgba(231, 76, 60, 0.2);
+      border: 1px solid #e74c3c;
+      color: #e74c3c;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
@@ -282,7 +319,25 @@
       </div>
     </section>
 
-    <!-- 3. DYNAMIC THEME COLOR CONTROL SECTION -->
+    <!-- 3. LIVE WEBSITE UPDATES SECTION -->
+    <section class="admin-card">
+      <h3 class="section-title">📢 Website Announcements & Updates</h3>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Add recent announcements or news updates to display on the main page.</p>
+      
+      <div id="updatesContainer"></div>
+      <button type="button" class="btn-add" onclick="addUpdateField()">+ Add New Update</button>
+    </section>
+
+    <!-- 4. PHOTO GALLERY SECTION -->
+    <section class="admin-card">
+      <h3 class="section-title">🖼️ Photo Gallery Management</h3>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Manage images and descriptions shown in the gallery section.</p>
+      
+      <div id="galleryContainer"></div>
+      <button type="button" class="btn-add" onclick="addGalleryField()">+ Add New Photo</button>
+    </section>
+
+    <!-- 5. DYNAMIC THEME COLOR CONTROL SECTION -->
     <section class="admin-card">
       <h3 class="section-title">🎨 Dynamic Theme Color Control</h3>
       <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Choose live theme colors for the website using the color wheels or hex codes.</p>
@@ -322,7 +377,7 @@
       </div>
     </section>
 
-    <!-- 4. SECRETARIAT EXECUTIVE TEAM SECTION -->
+    <!-- 6. SECRETARIAT EXECUTIVE TEAM SECTION -->
     <section class="admin-card">
       <h3 class="section-title">👥 Manage Secretariat Executive Team (All 6 Members)</h3>
       
@@ -383,7 +438,7 @@
       </div>
     </section>
 
-    <!-- 5. COMMITTEES & CHAIRS SECTION -->
+    <!-- 7. COMMITTEES & CHAIRS SECTION -->
     <section class="admin-card">
       <h3 class="section-title">🏛️ Manage Committees & Committee Chairs</h3>
       
@@ -467,7 +522,7 @@
 
     window.onload = function() {
       const password = prompt("Enter Administration Password to access Control Panel:");
-      if (password === "1234") {
+      if (password === "FranMUNisthebest") {
         document.body.style.display = "block";
         initializePanelFetch();
       } else {
@@ -512,6 +567,9 @@
           document.getElementById("admCountDate").value = (new Date(d - tzoffset)).toISOString().slice(0, 16);
         }
       }
+
+      loadUpdatesToPanel();
+      loadGalleryToPanel();
 
       if (appData.themeColors) {
         if (appData.themeColors.bgMain) {
@@ -572,6 +630,76 @@
       }
 
       loadCommitteeDataToPanel();
+    }
+
+    function loadUpdatesToPanel() {
+      const container = document.getElementById("updatesContainer");
+      container.innerHTML = "";
+      const updates = appData.updates || [];
+      
+      updates.forEach((update, idx) => {
+        container.innerHTML += `
+          <div class="dynamic-item-card">
+            <div class="admin-form-group">
+              <label>Update Title / Date:</label>
+              <input type="text" class="admin-input update-title" value="${update.title || ''}" placeholder="e.g. June 2026 Announcement" oninput="trackLocalChange()">
+            </div>
+            <div class="admin-form-group">
+              <label>Update Content:</label>
+              <textarea class="admin-textarea update-text" rows="2" placeholder="Write update details here..." oninput="trackLocalChange()">${update.text || ''}</textarea>
+            </div>
+            <button type="button" class="btn-delete-item" onclick="removeUpdateField(${idx})">Delete Update</button>
+          </div>
+        `;
+      });
+    }
+
+    function addUpdateField() {
+      if(!appData.updates) appData.updates = [];
+      appData.updates.push({ title: "", text: "" });
+      loadUpdatesToPanel();
+      trackLocalChange();
+    }
+
+    function removeUpdateField(index) {
+      appData.updates.splice(index, 1);
+      loadUpdatesToPanel();
+      trackLocalChange();
+    }
+
+    function loadGalleryToPanel() {
+      const container = document.getElementById("galleryContainer");
+      container.innerHTML = "";
+      const gallery = appData.gallery || [];
+      
+      gallery.forEach((item, idx) => {
+        container.innerHTML += `
+          <div class="dynamic-item-card">
+            <div class="admin-form-group">
+              <label>Photo Image URL / Path:</label>
+              <input type="text" class="admin-input gallery-img" value="${item.img || ''}" placeholder="e.g. photos/pic1.jpg" oninput="trackLocalChange()">
+            </div>
+            <div class="admin-form-group">
+              <label>Caption / Description:</label>
+              <input type="text" class="admin-input gallery-caption" value="${item.caption || ''}" placeholder="Photo caption..." oninput="trackLocalChange()">
+            </div>
+            <button type="button" class="btn-delete-item" onclick="removeGalleryField(${idx})">Delete Photo</button>
+          </div>
+        `;
+      });
+    }
+
+    function addGalleryField() {
+      if(!appData.gallery) appData.gallery = [];
+      appData.gallery.push({ img: "", caption: "" });
+      loadGalleryToPanel();
+      trackLocalChange();
+    }
+
+    function removeGalleryField(index) {
+      appData.gallery.splice(index, 1);
+      loadGalleryToPanel();
+      trackLocalChange();
     }
 
     function loadCommitteeDataToPanel() {
@@ -648,6 +776,26 @@
       }
     }
 
+    function collectDynamicInputs() {
+      // Updates collection
+      const updateCards = document.querySelectorAll("#updatesContainer .dynamic-item-card");
+      appData.updates = [];
+      updateCards.forEach(card => {
+        const title = card.querySelector(".update-title").value;
+        const text = card.querySelector(".update-text").value;
+        appData.updates.push({ title, text });
+      });
+
+      // Gallery collection
+      const galleryCards = document.querySelectorAll("#galleryContainer .dynamic-item-card");
+      appData.gallery = [];
+      galleryCards.forEach(card => {
+        const img = card.querySelector(".gallery-img").value;
+        const caption = card.querySelector(".gallery-caption").value;
+        appData.gallery.push({ img, caption });
+      });
+    }
+
     function trackLocalChange() {
       appData.maintenanceMode = document.getElementById("admMaintenanceMode").checked;
       appData.chairsOpen = document.getElementById("admChairCheck").checked;
@@ -658,6 +806,8 @@
         const d = new Date(dateVal);
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
+
+      collectDynamicInputs();
 
       if (!appData.themeColors) appData.themeColors = {};
       appData.themeColors = {
@@ -742,6 +892,8 @@
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
 
+      collectDynamicInputs();
+
       appData.themeColors = {
         bgMain: document.getElementById("hexBgMain").value,
         bgCard: document.getElementById("hexBgCard").value,
@@ -792,13 +944,13 @@
       if(!appData.committees[commKey]) appData.committees[commKey] = {};
       
       appData.committees[commKey].topics = document.getElementById("admCommTopic").value;
-      appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
+      appData.committees[commKey].report = document.getElementById("admCommReportUrl.value") || document.getElementById("admCommReportUrl").value;
       appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
 
       saveCurrentChairStateTemporarily();
 
       database.ref("homepage_data").set(appData).then(() => {
-        alert("Global Sync Completed Successfully! 🎉 All features and Theme Colors updated live.");
+        alert("Global Sync Completed Successfully! 🎉 All features, Updates, Gallery and Settings updated live.");
         originalData = JSON.parse(JSON.stringify(appData)); 
         document.getElementById("floatingSaveBar").classList.remove("active");
         loadCommitteeDataToPanel();
