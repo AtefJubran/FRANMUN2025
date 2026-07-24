@@ -379,11 +379,13 @@
       font-weight: 600;
       margin-top: 8px;
       color: #FFFFFF;
+      pointer-events: none;
     }
 
     .premium-leader-name {
       font-size: 11px;
       color: var(--text-muted);
+      pointer-events: none;
     }
 
     .chairs-title {
@@ -493,7 +495,7 @@
       background: rgba(3, 7, 13, 0); 
       backdrop-filter: blur(0px);
       -webkit-backdrop-filter: blur(0px);
-      z-index: 10000;
+      z-index: 20000; /* Increased to sit above everything else */
       justify-content: center;
       align-items: center;
       padding: 16px;
