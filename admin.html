@@ -321,20 +321,22 @@
 
     <!-- 3. LIVE WEBSITE UPDATES SECTION -->
     <section class="admin-card">
-      <h3 class="section-title">📢 Website Announcements & Updates</h3>
-      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Add recent announcements or news updates to display on the main page.</p>
+      <h3 class="section-title">📢 Website Announcements & Full Updates</h3>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Add full announcements and updates text to display completely on the main page.</p>
       
       <div id="updatesContainer"></div>
-      <button type="button" class="btn-add" onclick="addUpdateField()">+ Add New Update</button>
+      <button type="button" class="btn-add" onclick="addUpdateField()">+ Add New Full Update</button>
     </section>
 
-    <!-- 4. PHOTO GALLERY SECTION -->
+    <!-- 4. PHOTO GALLERY SECTION (GOOGLE DRIVE LINK) -->
     <section class="admin-card">
-      <h3 class="section-title">🖼️ Photo Gallery Management</h3>
-      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Manage images and descriptions shown in the gallery section.</p>
+      <h3 class="section-title">🖼️ Photo Gallery (Google Drive Link)</h3>
+      <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">Paste the shared Google Drive folder link or link to your photo albums.</p>
       
-      <div id="galleryContainer"></div>
-      <button type="button" class="btn-add" onclick="addGalleryField()">+ Add New Photo</button>
+      <div class="admin-form-group">
+        <label>Google Drive Folder Link for Photos:</label>
+        <input type="url" id="admDriveFolderUrl" class="admin-input" placeholder="https://drive.google.com/drive/folders/..." oninput="trackLocalChange()">
+      </div>
     </section>
 
     <!-- 5. DYNAMIC THEME COLOR CONTROL SECTION -->
@@ -569,7 +571,9 @@
       }
 
       loadUpdatesToPanel();
-      loadGalleryToPanel();
+      
+      // Load Google Drive Folder Link
+      document.getElementById("admDriveFolderUrl").value = appData.driveFolderUrl || "";
 
       if (appData.themeColors) {
         if (appData.themeColors.bgMain) {
@@ -641,12 +645,12 @@
         container.innerHTML += `
           <div class="dynamic-item-card">
             <div class="admin-form-group">
-              <label>Update Title / Date:</label>
-              <input type="text" class="admin-input update-title" value="${update.title || ''}" placeholder="e.g. June 2026 Announcement" oninput="trackLocalChange()">
+              <label>Update Title:</label>
+              <input type="text" class="admin-input update-title" value="${update.title || ''}" placeholder="e.g. Conference Schedule Released" oninput="trackLocalChange()">
             </div>
             <div class="admin-form-group">
-              <label>Update Content:</label>
-              <textarea class="admin-textarea update-text" rows="2" placeholder="Write update details here..." oninput="trackLocalChange()">${update.text || ''}</textarea>
+              <label>Full Update Content / Body:</label>
+              <textarea class="admin-textarea update-text" rows="4" placeholder="Write full update details here so everything shows up..." oninput="trackLocalChange()">${update.text || ''}</textarea>
             </div>
             <button type="button" class="btn-delete-item" onclick="removeUpdateField(${idx})">Delete Update</button>
           </div>
@@ -664,41 +668,6 @@
     function removeUpdateField(index) {
       appData.updates.splice(index, 1);
       loadUpdatesToPanel();
-      trackLocalChange();
-    }
-
-    function loadGalleryToPanel() {
-      const container = document.getElementById("galleryContainer");
-      container.innerHTML = "";
-      const gallery = appData.gallery || [];
-      
-      gallery.forEach((item, idx) => {
-        container.innerHTML += `
-          <div class="dynamic-item-card">
-            <div class="admin-form-group">
-              <label>Photo Image URL / Path:</label>
-              <input type="text" class="admin-input gallery-img" value="${item.img || ''}" placeholder="e.g. photos/pic1.jpg" oninput="trackLocalChange()">
-            </div>
-            <div class="admin-form-group">
-              <label>Caption / Description:</label>
-              <input type="text" class="admin-input gallery-caption" value="${item.caption || ''}" placeholder="Photo caption..." oninput="trackLocalChange()">
-            </div>
-            <button type="button" class="btn-delete-item" onclick="removeGalleryField(${idx})">Delete Photo</button>
-          </div>
-        `;
-      });
-    }
-
-    function addGalleryField() {
-      if(!appData.gallery) appData.gallery = [];
-      appData.gallery.push({ img: "", caption: "" });
-      loadGalleryToPanel();
-      trackLocalChange();
-    }
-
-    function removeGalleryField(index) {
-      appData.gallery.splice(index, 1);
-      loadGalleryToPanel();
       trackLocalChange();
     }
 
@@ -777,7 +746,7 @@
     }
 
     function collectDynamicInputs() {
-      // Updates collection
+      // Full Updates collection
       const updateCards = document.querySelectorAll("#updatesContainer .dynamic-item-card");
       appData.updates = [];
       updateCards.forEach(card => {
@@ -786,14 +755,8 @@
         appData.updates.push({ title, text });
       });
 
-      // Gallery collection
-      const galleryCards = document.querySelectorAll("#galleryContainer .dynamic-item-card");
-      appData.gallery = [];
-      galleryCards.forEach(card => {
-        const img = card.querySelector(".gallery-img").value;
-        const caption = card.querySelector(".gallery-caption").value;
-        appData.gallery.push({ img, caption });
-      });
+      // Google Drive Folder URL collection
+      appData.driveFolderUrl = document.getElementById("admDriveFolderUrl").value;
     }
 
     function trackLocalChange() {
@@ -944,13 +907,13 @@
       if(!appData.committees[commKey]) appData.committees[commKey] = {};
       
       appData.committees[commKey].topics = document.getElementById("admCommTopic").value;
-      appData.committees[commKey].report = document.getElementById("admCommReportUrl.value") || document.getElementById("admCommReportUrl").value;
+      appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
       appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
 
       saveCurrentChairStateTemporarily();
 
       database.ref("homepage_data").set(appData).then(() => {
-        alert("Global Sync Completed Successfully! 🎉 All features, Updates, Gallery and Settings updated live.");
+        alert("Global Sync Completed Successfully! 🎉 Updates, Google Drive Folder Link, and Settings updated live.");
         originalData = JSON.parse(JSON.stringify(appData)); 
         document.getElementById("floatingSaveBar").classList.remove("active");
         loadCommitteeDataToPanel();
