@@ -344,6 +344,8 @@
       max-width: 130px;
       cursor: pointer;
       transition: transform 0.2s ease;
+      position: relative;
+      z-index: 10;
     }
     
     .premium-leader-avatar-box:hover {
@@ -495,7 +497,7 @@
       background: rgba(3, 7, 13, 0); 
       backdrop-filter: blur(0px);
       -webkit-backdrop-filter: blur(0px);
-      z-index: 20000; /* Increased to sit above everything else */
+      z-index: 999999; /* Highest priority layer */
       justify-content: center;
       align-items: center;
       padding: 16px;
@@ -771,32 +773,32 @@
           <h3>The Secretariat</h3>
           <div class="premium-leadership-team">
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('sg')">
-              <img id="team-sg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Secretary-General" onerror="this.src='logo.jpeg.JPG'">
+              <img id="team-sg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Secretary-General">
               <div id="team-sg-title" class="premium-leader-title">Secretary-General</div>
               <div id="team-sg-name" class="premium-leader-name">SG Executive</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('dsg')">
-              <img id="team-dsg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Deputy Secretary-General" onerror="this.src='logo.jpeg.JPG'">
+              <img id="team-dsg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Deputy Secretary-General">
               <div id="team-dsg-title" class="premium-leader-title">Deputy SG</div>
               <div id="team-dsg-name" class="premium-leader-name">DSG Executive</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('asg')">
-              <img id="team-asg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Assistant Secretary-General" onerror="this.src='logo.jpeg.JPG'">
+              <img id="team-asg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Assistant Secretary-General">
               <div id="team-asg-title" class="premium-leader-title">Asst. SG</div>
               <div id="team-asg-name" class="premium-leader-name">ASG Executive</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('dg')">
-              <img id="team-dg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Director-General" onerror="this.src='logo.jpeg.JPG'">
+              <img id="team-dg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Director-General">
               <div id="team-dg-title" class="premium-leader-title">Director-General</div>
               <div id="team-dg-name" class="premium-leader-name">DG Executive</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('usg')">
-              <img id="team-usg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Under Secretary-General" onerror="this.src='logo.jpeg.JPG'">
+              <img id="team-usg-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Under Secretary-General">
               <div id="team-usg-title" class="premium-leader-title">Under SG</div>
               <div id="team-usg-name" class="premium-leader-name">USG Executive</div>
             </div>
             <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('coo')">
-              <img id="team-coo-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Chief Operating Officer" onerror="this.src='logo.jpeg.JPG'">
+              <img id="team-coo-img" src="logo.jpeg.JPG" class="premium-leader-img" alt="Chief Operating Officer">
               <div id="team-coo-title" class="premium-leader-title">Chief Operating</div>
               <div id="team-coo-name" class="premium-leader-name">COO Executive</div>
             </div>
@@ -837,7 +839,7 @@
             <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="UN Women" /></div>
             <div class="committee-icon" onclick="openModal('UNHRC')"><img src="unhrc.png" alt="UNHRC" /></div>
             <div class="committee-icon" onclick="openModal('DISEC')"><img src="disec.png" alt="DISEC" /></div>
-            <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="handleWhoImageError(this)" /></div>
+            <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="this.src='who.png'" /></div>
             <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
             <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
           </div>
@@ -963,7 +965,7 @@
 
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
-        appData = snapshot.val();
+        appData = snapshot.val() || {};
         
         const maintenanceOverlay = document.getElementById("maintenanceContent");
         if (appData.maintenanceMode) {
@@ -982,7 +984,7 @@
     });
 
     function syncSecretariatTeamData() {
-      if (!appData.secretariat) return;
+      if (!appData || !appData.secretariat) return;
       
       const roles = ['sg', 'dsg', 'asg', 'dg', 'usg', 'coo'];
       roles.forEach(role => {
@@ -991,7 +993,7 @@
           const titleEl = document.getElementById(`team-${role}-title`);
           const imgEl = document.getElementById(`team-${role}-img`);
           
-          if (nameEl) nameEl.innerText = appData.secretariat[role].name || "";
+          if (nameEl && appData.secretariat[role].name) nameEl.innerText = appData.secretariat[role].name;
           if (titleEl && appData.secretariat[role].title) titleEl.innerText = appData.secretariat[role].title;
           if (imgEl && appData.secretariat[role].img) imgEl.src = appData.secretariat[role].img;
         }
@@ -1040,8 +1042,6 @@
       }
       container.innerHTML = html;
     }
-
-    function handleWhoImageError(imgElement) { imgElement.src = "who.png"; }
 
     function openModal(committee) {
       currentActiveCommittee = committee;
@@ -1135,9 +1135,11 @@
     }
 
     function openTeamBioPopup(role) {
-      if (!appData.secretariat || !appData.secretariat[role]) return;
+      let member = {};
+      if (appData && appData.secretariat && appData.secretariat[role]) {
+        member = appData.secretariat[role];
+      }
       
-      const member = appData.secretariat[role];
       const defaultRoleTitles = { 
         'sg': 'Secretary-General', 
         'dsg': 'Deputy Secretary-General', 
@@ -1149,9 +1151,9 @@
       
       const modalBox = document.getElementById("bioPopupModal");
 
-      document.getElementById("popupChairName").innerText = member.name || "Secretariat Member";
-      document.getElementById("popupChairTitle").innerText = member.title || defaultRoleTitles[role] || "Executive Board";
-      document.getElementById("popupChairImg").src = member.img || "logo.jpeg.JPG";
+      document.getElementById("popupChairName").innerText = member.name || document.getElementById(`team-${role}-name`)?.innerText || "Secretariat Member";
+      document.getElementById("popupChairTitle").innerText = member.title || document.getElementById(`team-${role}-title`)?.innerText || defaultRoleTitles[role] || "Executive Board";
+      document.getElementById("popupChairImg").src = member.img || document.getElementById(`team-${role}-img`)?.src || "logo.jpeg.JPG";
       document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
       
       modalBox.style.display = "flex";
