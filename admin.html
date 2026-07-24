@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FRANMUN | Control Panel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=700&family=Montserrat:wght=400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
@@ -299,7 +299,7 @@
       </div>
 
       <div class="admin-form-group" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
-        <h3 class="section-title">Manage Secretariat Executive Team</h3>
+        <h3 class="section-title">Manage Secretariat Executive Team (All 6 Members)</h3>
         
         <div class="secretariat-grid">
           <div class="secretariat-box">
@@ -321,6 +321,27 @@
             <input type="text" id="admAsgName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
             <input type="text" id="admAsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 8px;" oninput="trackLocalChange()">
             <textarea id="admAsgBio" class="admin-textarea" rows="3" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+          </div>
+
+          <div class="secretariat-box">
+            <h4>Director-General (DG)</h4>
+            <input type="text" id="admDgName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <input type="text" id="admDgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <textarea id="admDgBio" class="admin-textarea" rows="3" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+          </div>
+
+          <div class="secretariat-box">
+            <h4>Under Secretary-General (USG)</h4>
+            <input type="text" id="admUsgName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <input type="text" id="admUsgImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <textarea id="admUsgBio" class="admin-textarea" rows="3" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
+          </div>
+
+          <div class="secretariat-box">
+            <h4>Chief Operating Officer (COO)</h4>
+            <input type="text" id="admCooName" class="admin-input" placeholder="Name" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <input type="text" id="admCooImg" class="admin-input" placeholder="Image URL / Path" style="margin-bottom: 8px;" oninput="trackLocalChange()">
+            <textarea id="admCooBio" class="admin-textarea" rows="3" placeholder="Biography Text..." style="resize: none;" oninput="trackLocalChange()"></textarea>
           </div>
         </div>
       </div>
@@ -486,6 +507,21 @@
           document.getElementById("admAsgImg").value = appData.secretariat.asg.img || "";
           document.getElementById("admAsgBio").value = appData.secretariat.asg.bio || "";
         }
+        if (appData.secretariat.dg) {
+          document.getElementById("admDgName").value = appData.secretariat.dg.name || "";
+          document.getElementById("admDgImg").value = appData.secretariat.dg.img || "";
+          document.getElementById("admDgBio").value = appData.secretariat.dg.bio || "";
+        }
+        if (appData.secretariat.usg) {
+          document.getElementById("admUsgName").value = appData.secretariat.usg.name || "";
+          document.getElementById("admUsgImg").value = appData.secretariat.usg.img || "";
+          document.getElementById("admUsgBio").value = appData.secretariat.usg.bio || "";
+        }
+        if (appData.secretariat.coo) {
+          document.getElementById("admCooName").value = appData.secretariat.coo.name || "";
+          document.getElementById("admCooImg").value = appData.secretariat.coo.img || "";
+          document.getElementById("admCooBio").value = appData.secretariat.coo.bio || "";
+        }
       }
 
       loadCommitteeDataToPanel();
@@ -576,7 +612,6 @@
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
 
-      // تتبع تعديلات الألوان في كائن التعديلات المؤقت
       if (!appData.themeColors) appData.themeColors = {};
       appData.themeColors = {
         bgMain: document.getElementById("hexBgMain").value,
@@ -600,6 +635,21 @@
         name: document.getElementById("admAsgName").value,
         img: document.getElementById("admAsgImg").value,
         bio: document.getElementById("admAsgBio").value
+      };
+      appData.secretariat.dg = {
+        name: document.getElementById("admDgName").value,
+        img: document.getElementById("admDgImg").value,
+        bio: document.getElementById("admDgBio").value
+      };
+      appData.secretariat.usg = {
+        name: document.getElementById("admUsgName").value,
+        img: document.getElementById("admUsgImg").value,
+        bio: document.getElementById("admUsgBio").value
+      };
+      appData.secretariat.coo = {
+        name: document.getElementById("admCooName").value,
+        img: document.getElementById("admCooImg").value,
+        bio: document.getElementById("admCooBio").value
       };
 
       const commKey = document.getElementById("admCommSelect").value;
@@ -639,7 +689,6 @@
         appData.targetDate = `${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} ${d.toTimeString().split(' ')[0]}`;
       }
 
-      // حفظ الألوان النهائية
       appData.themeColors = {
         bgMain: document.getElementById("hexBgMain").value,
         bgCard: document.getElementById("hexBgCard").value,
@@ -662,6 +711,21 @@
         name: document.getElementById("admAsgName").value,
         img: document.getElementById("admAsgImg").value,
         bio: document.getElementById("admAsgBio").value
+      };
+      appData.secretariat.dg = {
+        name: document.getElementById("admDgName").value,
+        img: document.getElementById("admDgImg").value,
+        bio: document.getElementById("admDgBio").value
+      };
+      appData.secretariat.usg = {
+        name: document.getElementById("admUsgName").value,
+        img: document.getElementById("admUsgImg").value,
+        bio: document.getElementById("admUsgBio").value
+      };
+      appData.secretariat.coo = {
+        name: document.getElementById("admCooName").value,
+        img: document.getElementById("admCooImg").value,
+        bio: document.getElementById("admCooBio").value
       };
 
       const commKey = document.getElementById("admCommSelect").value;
