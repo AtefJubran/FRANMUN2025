@@ -842,6 +842,7 @@
             <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="this.src='who.png'" /></div>
             <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
             <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
+            <div class="committee-icon" onclick="openModal('UNICEF')"><img src="unicef.png" alt="UNICEF" /></div>
           </div>
         </article>
       </section>
@@ -1088,6 +1089,10 @@
           chairsHTML = "<p style='font-size:12px; color:var(--text-muted);'>Chairs announcement coming soon.</p>";
         }
         document.getElementById("modalChairs").innerHTML = chairsHTML;
+      } else {
+        document.getElementById("modalTopics").innerText = "Topic coming soon...";
+        document.getElementById("modalReportLink").href = "#";
+        document.getElementById("modalChairs").innerHTML = "<p style='font-size:12px; color:var(--text-muted);'>Chairs announcement coming soon.</p>";
       }
     }
 
