@@ -416,19 +416,20 @@
       letter-spacing: 0.1em;
     }
     
-    /* تنسيق شبكة التشيرز الجديدة لتظهر الصور بجانب بعضها */
     .chairs-container {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-top: 16px;
       text-align: center;
+      justify-items: center;
     }
     
     .chair-box {
       text-align: center;
       cursor: pointer;
       transition: transform 0.2s ease;
+      width: 100%;
     }
 
     .chair-box:hover {
