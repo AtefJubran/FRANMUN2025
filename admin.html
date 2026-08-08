@@ -453,6 +453,7 @@
           <option value="WHO">WHO</option>
           <option value="UNHSC">UNHSC</option>
           <option value="CRISIS">Crisis Committee</option>
+          <option value="UNICEF">UNICEF</option>
         </select>
       </div>
 
@@ -639,18 +640,30 @@
     function loadUpdatesToPanel() {
       const container = document.getElementById("updatesContainer");
       container.innerHTML = "";
-      const updates = appData.updates || [];
       
-      updates.forEach((update, idx) => {
+      let updatesArray = [];
+      if (appData.updates) {
+        if (Array.isArray(appData.updates)) {
+          updatesArray = appData.updates;
+        } else {
+          updatesArray = Object.values(appData.updates);
+        }
+      }
+      
+      updatesArray.forEach((update, idx) => {
         container.innerHTML += `
           <div class="dynamic-item-card">
+            <div class="admin-form-group">
+              <label>Update Date:</label>
+              <input type="text" class="admin-input update-date" value="${update.date || ''}" placeholder="e.g. June 15, 2026" oninput="trackLocalChange()">
+            </div>
             <div class="admin-form-group">
               <label>Update Title:</label>
               <input type="text" class="admin-input update-title" value="${update.title || ''}" placeholder="e.g. Conference Schedule Released" oninput="trackLocalChange()">
             </div>
             <div class="admin-form-group">
               <label>Full Update Content / Body:</label>
-              <textarea class="admin-textarea update-text" rows="4" placeholder="Write full update details here so everything shows up..." oninput="trackLocalChange()">${update.text || ''}</textarea>
+              <textarea class="admin-textarea update-content" rows="4" placeholder="Write full update details here..." oninput="trackLocalChange()">${update.content || ''}</textarea>
             </div>
             <button type="button" class="btn-delete-item" onclick="removeUpdateField(${idx})">Delete Update</button>
           </div>
@@ -660,12 +673,18 @@
 
     function addUpdateField() {
       if(!appData.updates) appData.updates = [];
-      appData.updates.push({ title: "", text: "" });
+      if(!Array.isArray(appData.updates)) {
+        appData.updates = Object.values(appData.updates);
+      }
+      appData.updates.push({ date: "", title: "", content: "" });
       loadUpdatesToPanel();
       trackLocalChange();
     }
 
     function removeUpdateField(index) {
+      if(!Array.isArray(appData.updates)) {
+        appData.updates = Object.values(appData.updates);
+      }
       appData.updates.splice(index, 1);
       loadUpdatesToPanel();
       trackLocalChange();
@@ -673,8 +692,8 @@
 
     function loadCommitteeDataToPanel() {
       const commKey = document.getElementById("admCommSelect").value;
-      const committee = appData.committees && appData.committees[commKey];
-      if(!committee) return;
+      if (!appData.committees) appData.committees = {};
+      const committee = appData.committees[commKey] || {};
       
       document.getElementById("admCommTopic").value = committee.topics || "";
       document.getElementById("admCommReportUrl").value = committee.report || "";
@@ -705,7 +724,7 @@
       
       currentChairKey = chairVal;
 
-      if(!chairVal) {
+      if(!chairVal || !appData.committees || !appData.committees[commKey]) {
         document.getElementById("admChairNameInput").value = "";
         document.getElementById("admChairTextArea").value = "";
         return;
@@ -746,16 +765,15 @@
     }
 
     function collectDynamicInputs() {
-      // Full Updates collection
       const updateCards = document.querySelectorAll("#updatesContainer .dynamic-item-card");
       appData.updates = [];
       updateCards.forEach(card => {
+        const date = card.querySelector(".update-date").value;
         const title = card.querySelector(".update-title").value;
-        const text = card.querySelector(".update-text").value;
-        appData.updates.push({ title, text });
+        const content = card.querySelector(".update-content").value;
+        appData.updates.push({ date, title, content });
       });
 
-      // Google Drive Folder URL collection
       appData.driveFolderUrl = document.getElementById("admDriveFolderUrl").value;
     }
 
@@ -819,11 +837,12 @@
       };
 
       const commKey = document.getElementById("admCommSelect").value;
-      if(appData.committees && appData.committees[commKey]) {
-        appData.committees[commKey].topics = document.getElementById("admCommTopic").value;
-        appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
-        appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
-      }
+      if(!appData.committees) appData.committees = {};
+      if(!appData.committees[commKey]) appData.committees[commKey] = {};
+      
+      appData.committees[commKey].topics = document.getElementById("admCommTopic").value;
+      appData.committees[commKey].report = document.getElementById("admCommReportUrl").value;
+      appData.committees[commKey].chairsComingSoon = document.getElementById("admChairsComingSoon").checked;
 
       saveCurrentChairStateTemporarily();
 
