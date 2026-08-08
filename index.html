@@ -300,10 +300,23 @@
       margin-top: 2px;
     }
 
+    /* Fixed Clean Responsive Committee Grid */
     .committee-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr;
       gap: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .committee-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .committee-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
     .committee-icon {
@@ -317,6 +330,8 @@
       align-items: center;
       justify-content: center;
       transition: var(--transition-smooth);
+      overflow: hidden;
+      width: 100%;
     }
 
     .committee-icon:hover {
@@ -326,8 +341,10 @@
     }
 
     .committee-icon img {
-      width: 90%;
-      height: 90%;
+      max-width: 85%;
+      max-height: 85%;
+      width: auto;
+      height: auto;
       object-fit: contain;
     }
 
@@ -490,6 +507,7 @@
       transform: translateY(-1px);
     }
 
+    /* Standardized Unified Modals */
     .modal, .bio-popup-modal {
       display: none;
       position: fixed;
@@ -522,6 +540,7 @@
       opacity: 0;
       transform: scale(0.85) translateY(30px);
       transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
     }
 
     .modal.active-modal .modal-content, 
@@ -532,11 +551,14 @@
 
     .close-btn, .close-bio-btn {
       position: absolute;
-      top: 12px; right: 16px;
+      top: 16px; right: 20px;
       cursor: pointer;
       font-size: 24px; 
       color: var(--text-muted);
       transition: color 0.2s;
+      background: none;
+      border: none;
+      line-height: 1;
     }
 
     .close-btn:hover, .close-bio-btn:hover {
@@ -674,10 +696,6 @@
       line-height: 1.5;
     }
 
-    @media (max-width: 1024px) {
-      .committee-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
     @media (max-width: 768px) {
       header {
         border-radius: 24px;
@@ -711,7 +729,6 @@
       .countdown-container {
         grid-template-columns: repeat(2, 1fr);
       }
-      .committee-grid { grid-template-columns: repeat(2, 1fr); }
       .chair-box { flex: 0 1 calc(50% - 10px); }
       .parent-notice-box { text-align: center; }
       .premium-leadership-team { grid-template-columns: repeat(2, 1fr); }
@@ -861,7 +878,7 @@
 
   <div id="committeeModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</span>
+      <button class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</button>
       <h2 id="modalTitle" style="color: #FFFFFF; font-weight: 600; font-size: 20px; margin-bottom:12px;">Committee Name</h2>
       <div style="text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border);">
         <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
@@ -877,7 +894,7 @@
 
   <div id="bioPopupModal" class="bio-popup-modal" role="dialog" aria-labelledby="popupChairName" aria-hidden="true">
     <div class="bio-popup-content">
-      <span class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</span>
+      <button class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</button>
       <img src="" id="popupChairImg" class="large-chair-img" alt="Portrait Preview" onerror="this.src='logo.jpeg.JPG'">
       <div id="popupChairName" class="bio-popup-name"></div>
       <div id="popupChairTitle" class="bio-popup-title"></div>
@@ -1188,4 +1205,3 @@
   </script>
 </body>
 </html>
-
