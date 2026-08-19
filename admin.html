@@ -42,9 +42,48 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* Passcode Lock Overlay */
+    #authOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--bg-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 16px;
+    }
+
+    .auth-card {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      padding: 36px;
+      border-radius: var(--radius-card);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .auth-card h2 {
+      margin-bottom: 8px;
+    }
+
+    .auth-card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
     .admin-container {
       max-width: 800px;
       margin: 0 auto;
+      display: none; /* Hidden by default until authenticated */
     }
 
     /* Top Action Bar */
@@ -103,7 +142,7 @@
       letter-spacing: 0.05em;
     }
 
-    input[type="text"], input[type="datetime-local"], textarea, select {
+    input[type="text"], input[type="password"], input[type="datetime-local"], textarea, select {
       width: 100%;
       background: var(--bg-input);
       border: 1px solid var(--glass-border);
@@ -274,11 +313,31 @@
       text-align: center;
       margin: 32px 0 40px 0;
     }
+
+    #authError {
+      color: var(--accent-red);
+      font-size: 12px;
+      margin-top: 10px;
+      display: none;
+    }
   </style>
 </head>
 <body>
 
-  <div class="admin-container">
+  <!-- Passcode Screen Protection -->
+  <div id="authOverlay">
+    <div class="auth-card">
+      <h2>Restricted Access</h2>
+      <p>Enter your secret admin passcode to continue</p>
+      <div class="form-group">
+        <input type="password" id="passcodeInput" placeholder="Enter passcode..." onkeydown="if(event.key === 'Enter') verifyPasscode()">
+      </div>
+      <button class="btn" style="width: 100%; margin-top: 12px;" onclick="verifyPasscode()">Unlock Dashboard</button>
+      <div id="authError">Incorrect passcode. Try again.</div>
+    </div>
+  </div>
+
+  <div class="admin-container" id="adminContainer">
     
     <!-- Top Bar -->
     <div class="header-box">
@@ -371,6 +430,34 @@
   </div>
 
   <script>
+    // 🔐 SET YOUR SECRET PASSCODE HERE
+    const ADMIN_PASSCODE = "FRANMUN2026!"; 
+
+    // Check if already authenticated during this browser session
+    window.addEventListener("DOMContentLoaded", () => {
+      if (sessionStorage.getItem("franmun_admin_auth") === "true") {
+        unlockDashboard();
+      }
+    });
+
+    function verifyPasscode() {
+      const inputVal = document.getElementById("passcodeInput").value;
+      const errorEl = document.getElementById("authError");
+
+      if (inputVal === ADMIN_PASSCODE) {
+        sessionStorage.setItem("franmun_admin_auth", "true");
+        unlockDashboard();
+      } else {
+        errorEl.style.display = "block";
+        document.getElementById("passcodeInput").value = "";
+      }
+    }
+
+    function unlockDashboard() {
+      document.getElementById("authOverlay").style.display = "none";
+      document.getElementById("adminContainer").style.display = "block";
+    }
+
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
