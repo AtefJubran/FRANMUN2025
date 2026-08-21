@@ -117,6 +117,14 @@
       color: white;
     }
 
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
     .member-item, .drive-item {
       display: flex;
       justify-content: space-between;
@@ -150,6 +158,11 @@
     .member-details p {
       font-size: 12px;
       color: var(--accent-gold);
+    }
+
+    .action-btns {
+      display: flex;
+      gap: 5px;
     }
 
     .grid-2 {
@@ -268,7 +281,7 @@
 
       <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 20px 0;">
 
-      <h3 style="font-size: 14px; color: var(--accent-gold); margin-bottom: 12px; text-transform: uppercase;">Add Chair / Backroom Member</h3>
+      <h3 style="font-size: 14px; color: var(--accent-gold); margin-bottom: 12px; text-transform: uppercase;" id="chairFormTitle">Add Chair / Backroom Member</h3>
       
       <div class="form-group">
         <label>Chair Name (اسم التشير)</label>
@@ -293,10 +306,11 @@
         </select>
       </div>
 
-      <button class="btn" onclick="addChairToCommittee()">+ Add Chair to Committee</button>
+      <button class="btn" id="saveChairBtn" onclick="addOrUpdateChair()">+ Add Chair to Committee</button>
+      <button class="btn btn-danger" id="cancelChairEditBtn" style="display:none; margin-left: 10px;" onclick="clearChairForm()">Cancel Edit</button>
 
       <div style="margin-top: 24px;">
-        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current Chairs in Selected Committee</h3>
+        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current Chairs in Selected Committee (Use arrows to reorder)</h3>
         <div id="adminChairsList">
           <p style="color: var(--text-muted); font-size: 13px;">No chairs added yet.</p>
         </div>
@@ -344,6 +358,8 @@
 
     let appData = {};
     let editingIndex = -1;
+    let editingChairIndex = -1;
+    let editingChairType = 'chairs';
 
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
@@ -398,8 +414,8 @@
                 <p>${member.role || 'No Role'}</p>
               </div>
             </div>
-            <div>
-              <button class="btn" style="padding: 6px 12px; font-size: 12px; margin-right: 6px;" onclick="editSgMember(${index})">Edit</button>
+            <div class="action-btns">
+              <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="editSgMember(${index})">Edit</button>
               <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteSgMember(${index})">Remove</button>
             </div>
           </div>`;
@@ -443,7 +459,7 @@
       document.getElementById("sgBio").value = member.bio || "";
       
       editingIndex = index;
-      document.getElementById("saveMemberBtn").innerText = "Update Member";
+      document.getElementById("saveMemberBtn").innerText = "Update SG Member";
       document.getElementById("cancelEditBtn").style.display = "inline-block";
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -468,7 +484,7 @@
       document.getElementById("cancelEditBtn").style.display = "none";
     }
 
-    // إدارة اللجان والتشيرز
+    // إدارة اللجان والتشيرز (مع التعديل والترتيب)
     function loadCommitteeDataToAdmin() {
       const commKey = document.getElementById("selectCommittee").value;
       const committees = appData.committees || {};
@@ -478,6 +494,7 @@
       document.getElementById("commReport").value = comm.report || "";
       document.getElementById("chairsComingSoon").checked = !!comm.chairsComingSoon;
 
+      clearChairForm();
       renderAdminChairsList(comm);
     }
 
@@ -498,7 +515,12 @@
                   <p>Chair</p>
                 </div>
               </div>
-              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteChair('chairs', ${idx})">Remove</button>
+              <div class="action-btns">
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, -1)">⬆️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, 1)">⬇️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('chairs', ${idx})">Edit</button>
+                <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('chairs', ${idx})">X</button>
+              </div>
             </div>`;
         });
       }
@@ -515,7 +537,12 @@
                   <p>Backroom</p>
                 </div>
               </div>
-              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteChair('backroom', ${idx})">Remove</button>
+              <div class="action-btns">
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('backroom', ${idx}, -1)">⬆️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('backroom', ${idx}, 1)">⬇️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('backroom', ${idx})">Edit</button>
+                <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('backroom', ${idx})">X</button>
+              </div>
             </div>`;
         });
       }
@@ -527,7 +554,7 @@
       }
     }
 
-    function addChairToCommittee() {
+    function addOrUpdateChair() {
       const commKey = document.getElementById("selectCommittee").value;
       const name = document.getElementById("chairName").value.trim();
       const img = document.getElementById("chairImg").value.trim();
@@ -543,16 +570,65 @@
       if (!appData.committees[commKey]) appData.committees[commKey] = {};
 
       let targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
-      targetArray.push({ name, img: img || "logo.jpeg.JPG", bio: bio || "No bio provided." });
+      const chairData = { name, img: img || "logo.jpeg.JPG", bio: bio || "No bio provided." };
+
+      if (editingChairIndex >= 0) {
+        // إذا كنا نعدل نوع آخر وتم تغيير النوع، ننظف القديم ونضيفه للجديد
+        if (editingChairType !== type) {
+          appData.committees[commKey][editingChairType].splice(editingChairIndex, 1);
+          targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
+          targetArray.push(chairData);
+        } else {
+          targetArray[editingChairIndex] = chairData;
+        }
+      } else {
+        targetArray.push(chairData);
+      }
 
       appData.committees[commKey][type] = targetArray;
 
       database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
         .then(() => {
-          alert("Chair added successfully!");
-          document.getElementById("chairName").value = "";
-          document.getElementById("chairImg").value = "";
-          document.getElementById("chairBio").value = "";
+          alert("Chair saved successfully!");
+          clearChairForm();
+          loadCommitteeDataToAdmin();
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function editChair(type, idx) {
+      const commKey = document.getElementById("selectCommittee").value;
+      const chair = appData.committees[commKey][type][idx];
+
+      document.getElementById("chairName").value = chair.name || "";
+      document.getElementById("chairImg").value = chair.img || "";
+      document.getElementById("chairBio").value = chair.bio || "";
+      document.getElementById("chairType").value = type;
+
+      editingChairIndex = idx;
+      editingChairType = type;
+
+      document.getElementById("chairFormTitle").innerText = "Edit Chair / Backroom Member";
+      document.getElementById("saveChairBtn").innerText = "Update Chair";
+      document.getElementById("cancelChairEditBtn").style.display = "inline-block";
+    }
+
+    function moveChair(type, idx, direction) {
+      const commKey = document.getElementById("selectCommittee").value;
+      let targetArray = [...appData.committees[commKey][type]];
+      
+      const newIdx = idx + direction;
+      if (newIdx < 0 || newIdx >= targetArray.length) return; // لا يمكن الحركة أكثر
+
+      // تبديل الأماكن
+      const temp = targetArray[idx];
+      targetArray[idx] = targetArray[newIdx];
+      targetArray[newIdx] = temp;
+
+      appData.committees[commKey][type] = targetArray;
+
+      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
+        .then(() => {
           loadCommitteeDataToAdmin();
         })
         .catch(err => alert("Error: " + err.message));
@@ -572,6 +648,16 @@
           })
           .catch(err => alert("Error: " + err.message));
       }
+    }
+
+    function clearChairForm() {
+      document.getElementById("chairName").value = "";
+      document.getElementById("chairImg").value = "";
+      document.getElementById("chairBio").value = "";
+      editingChairIndex = -1;
+      document.getElementById("chairFormTitle").innerText = "Add Chair / Backroom Member";
+      document.getElementById("saveChairBtn").innerText = "+ Add Chair to Committee";
+      document.getElementById("cancelChairEditBtn").style.display = "none";
     }
 
     function saveCommitteeDetails() {
