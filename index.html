@@ -357,7 +357,7 @@
     .premium-leader-avatar-box {
       text-align: center;
       width: 100%;
-      max-width: 130px;
+      max-width: 140px;
       cursor: pointer;
       transition: transform 0.2s ease;
       position: relative;
@@ -392,6 +392,7 @@
       animation: avatarClickPulse 0.4s ease forwards;
     }
 
+    /* اسم العضو */
     .premium-leader-title {
       font-size: 12px;
       font-weight: 600;
@@ -400,10 +401,12 @@
       pointer-events: none;
     }
 
+    /* الوظيفة أو المنصب */
     .premium-leader-name {
       font-size: 11px;
-      color: var(--text-muted);
+      color: var(--accent-gold);
       pointer-events: none;
+      margin-top: 2px;
     }
 
     .chairs-title {
@@ -725,7 +728,7 @@
         </article>
 
         <article class="card">
-          <h3>Our SG Team</h3>
+          <h3>The Secretariat</h3>
           <div class="premium-leadership-team" id="sgTeamContainer">
             <!-- Populated dynamically from Firebase -->
           </div>
@@ -821,6 +824,7 @@
       text-transform: uppercase;
       opacity: 0.8;
     ">
+      Website engineered by Atef Jubran
     </div>
   </footer>
 
@@ -909,7 +913,7 @@
           <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openSGTeamBioPopup(${index})">
             <img src="${member.img || 'logo.jpeg.JPG'}" class="premium-leader-img" alt="${member.name || 'SG Member'}" onerror="this.src='logo.jpeg.JPG'">
             <div class="premium-leader-title">${member.name || ''}</div>
-            <div class="premium-leader-name">Secretariat</div>
+            <div class="premium-leader-name">${member.role || 'Secretariat'}</div>
           </div>`;
       });
       container.innerHTML = html;
@@ -921,7 +925,7 @@
 
       const modalBox = document.getElementById("bioPopupModal");
       document.getElementById("popupChairName").innerText = member.name || "Secretariat Member";
-      document.getElementById("popupChairTitle").innerText = "Secretariat General";
+      document.getElementById("popupChairTitle").innerText = member.role || "Secretariat General";
       document.getElementById("popupChairImg").src = member.img || "logo.jpeg.JPG";
       document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
 
