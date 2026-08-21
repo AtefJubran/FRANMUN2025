@@ -4,31 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>FRANMUN 2026 | Admin Dashboard</title>
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
     :root {
-      --bg-main: #040812;
-      --bg-card: rgba(13, 22, 38, 0.75);
-      --bg-input: rgba(6, 11, 20, 0.6);
+      --bg-main: #060b13;
+      --bg-card: rgba(15, 27, 47, 0.6);
       --accent-gold: #E4B343;
-      --accent-gold-hover: #F2C95C;
+      --accent-gold-hover: #FFF1CD;
       --accent-red: #EF4444;
-      --accent-green: #10B981;
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --glass-border-focus: rgba(228, 179, 67, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.06);
       --text-light: #FFFFFF;
-      --text-muted: #8A99AD;
+      --text-muted: #94A3B8;
       --text-body: #CBD5E1;
-      --font-body: 'Plus Jakarta Sans', sans-serif;
-      --radius-card: 20px;
-      --radius-element: 12px;
-      --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-heading: 'Cinzel', Georgia, serif;
+      --font-body: 'Inter', sans-serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,451 +33,167 @@
       font-family: var(--font-body);
       background-color: var(--bg-main);
       color: var(--text-light);
-      padding: 40px 16px;
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Passcode Lock Overlay */
-    #authOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: var(--bg-main);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      padding: 16px;
-    }
-
-    .auth-card {
-      background: var(--bg-card);
-      border: 1px solid var(--glass-border);
-      padding: 36px;
-      border-radius: var(--radius-card);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    }
-
-    .auth-card h2 {
-      margin-bottom: 8px;
-    }
-
-    .auth-card p {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
+      padding: 40px 20px;
     }
 
     .admin-container {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
-      display: none; /* Hidden by default until authenticated */
     }
 
-    /* Top Action Bar */
-    .header-box {
-      background: var(--bg-card);
-      border: 1px solid var(--glass-border);
-      padding: 24px 28px;
-      border-radius: var(--radius-card);
-      margin-bottom: 24px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+    h1, h2 {
+      font-family: var(--font-heading);
+      color: var(--accent-gold);
+      margin-bottom: 20px;
     }
-
-    @media (min-width: 640px) {
-      .header-box {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
-
-    h1 { font-size: 20px; color: #FFF; font-weight: 700; letter-spacing: -0.01em; }
-    h2 { font-size: 14px; color: var(--accent-gold); margin-bottom: 20px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; }
-    h3 { font-size: 13px; color: var(--text-light); margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
 
     .card {
       background: var(--bg-card);
       border: 1px solid var(--glass-border);
-      padding: 28px;
-      border-radius: var(--radius-card);
+      padding: 24px;
+      border-radius: 16px;
       margin-bottom: 24px;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(12px);
     }
 
     .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group:last-child {
-      margin-bottom: 0;
+      margin-bottom: 16px;
     }
 
     label {
       display: block;
       font-size: 12px;
       color: var(--text-muted);
-      margin-bottom: 8px;
-      font-weight: 600;
+      margin-bottom: 6px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
-    input[type="text"], input[type="password"], input[type="datetime-local"], textarea, select {
+    input, textarea {
       width: 100%;
-      background: var(--bg-input);
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.3);
       border: 1px solid var(--glass-border);
-      padding: 12px 16px;
-      border-radius: var(--radius-element);
-      color: #FFF;
-      font-size: 14px;
+      border-radius: 8px;
+      color: white;
       font-family: var(--font-body);
+      font-size: 14px;
+    }
+
+    input:focus, textarea:focus {
       outline: none;
-      transition: var(--transition-smooth);
-    }
-
-    input:focus, textarea:focus, select:focus {
       border-color: var(--accent-gold);
-      box-shadow: 0 0 0 3px rgba(228, 179, 67, 0.15);
-    }
-
-    textarea { resize: vertical; height: 110px; }
-
-    .toggles-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      margin-bottom: 24px;
-    }
-
-    @media (min-width: 640px) {
-      .toggles-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .checkbox-card {
-      background: var(--bg-input);
-      border: 1px solid var(--glass-border);
-      padding: 16px;
-      border-radius: var(--radius-element);
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      transition: var(--transition-smooth);
-      user-select: none;
-    }
-
-    .checkbox-card:hover {
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .checkbox-card input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-      accent-color: var(--accent-gold);
-    }
-
-    .checkbox-card span {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-light);
     }
 
     .btn {
       background: var(--accent-gold);
       color: #060b13;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 8px;
       border: none;
-      padding: 12px 24px;
-      border-radius: var(--radius-element);
-      font-weight: 700;
       cursor: pointer;
       font-size: 14px;
-      transition: var(--transition-smooth);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      transition: 0.2s;
     }
 
     .btn:hover {
       background: var(--accent-gold-hover);
-      transform: translateY(-1px);
     }
 
     .btn-danger {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-      color: #EF4444;
-      padding: 8px 16px;
+      background: var(--accent-red);
+      color: white;
+    }
+
+    .member-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--glass-border);
+      padding: 12px 16px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .member-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .member-img-preview {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--accent-gold);
+    }
+
+    .member-details h4 {
+      font-size: 14px;
+      color: white;
+    }
+
+    .member-details p {
       font-size: 12px;
-      border-radius: 8px;
-      font-weight: 600;
-    }
-    
-    .btn-danger:hover {
-      background: rgba(239, 68, 68, 0.2);
+      color: var(--accent-gold);
     }
 
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--glass-border);
-      color: var(--text-light);
-      padding: 10px 20px;
-      font-size: 13px;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .committee-box, .sg-box {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--glass-border);
-      padding: 20px;
-      border-radius: var(--radius-element);
-      margin-top: 16px;
-    }
-
-    .chair-card, .sg-card {
-      background: var(--bg-input);
-      border: 1px solid var(--glass-border);
-      padding: 16px;
-      border-radius: var(--radius-element);
-      margin-top: 14px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    @media (min-width: 640px) {
-      .grid-2 {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .status-badge {
-      font-size: 13px;
-      font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 6px;
-      display: inline-block;
-      transition: opacity 0.3s ease;
-      opacity: 0;
-    }
-
-    .status-badge.show {
-      opacity: 1;
-    }
-
-    .status-badge.success {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--accent-green);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .status-badge.error {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--accent-red);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-
-    .actions-footer {
-      text-align: center;
-      margin: 32px 0 40px 0;
-    }
-
-    #authError {
-      color: var(--accent-red);
-      font-size: 12px;
-      margin-top: 10px;
-      display: none;
+    .section-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Passcode Screen Protection -->
-  <div id="authOverlay">
-    <div class="auth-card">
-      <h2>Restricted Access</h2>
-      <p>Enter your secret admin passcode to continue</p>
-      <div class="form-group">
-        <input type="password" id="passcodeInput" placeholder="Enter passcode..." onkeydown="if(event.key === 'Enter') verifyPasscode()">
-      </div>
-      <button class="btn" style="width: 100%; margin-top: 12px;" onclick="verifyPasscode()">Unlock Dashboard</button>
-      <div id="authError">Incorrect passcode. Try again.</div>
-    </div>
-  </div>
-
-  <div class="admin-container" id="adminContainer">
+  <div class="admin-container">
+    <h1>FRANMUN Admin Dashboard</h1>
     
-    <!-- Top Bar -->
-    <div class="header-box">
-      <div>
-        <h1>FRANMUN Control Panel</h1>
-        <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">Manage conference settings, agendas, and board members</p>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px;">
-        <span id="topSaveStatus" class="status-badge"></span>
-        <button class="btn" onclick="saveAllData()">Save Changes</button>
-      </div>
-    </div>
-
-    <!-- General Settings -->
+    <!-- قسم إدارة الأمانة العامة (Secretariat General Team) -->
     <div class="card">
-      <h2>General Settings</h2>
+      <div class="section-header-row">
+        <h2>Secretariat General (SG) Team</h2>
+      </div>
       
-      <div class="toggles-grid">
-        <label class="checkbox-card">
-          <input type="checkbox" id="maintenanceMode">
-          <span>Maintenance Mode</span>
-        </label>
-        <label class="checkbox-card">
-          <input type="checkbox" id="delegatesOpen">
-          <span>Delegates Open</span>
-        </label>
-        <label class="checkbox-card">
-          <input type="checkbox" id="chairsOpen">
-          <span>Chairs Open</span>
-        </label>
-        <label class="checkbox-card">
-          <input type="checkbox" id="galleryLocked">
-          <span>Conference Gallery Unlock (Check to Unlock)</span>
-        </label>
+      <div class="form-group">
+        <label>Member Name (اسم العضو)</label>
+        <input type="text" id="sgName" placeholder="e.g. Atef Jubran">
       </div>
 
       <div class="form-group">
-        <label>Conference Target Date</label>
-        <input type="datetime-local" id="targetDate">
+        <label>Role / Position (الوظيفة أو المنصب)</label>
+        <input type="text" id="sgRole" placeholder="e.g. Secretary-General">
       </div>
-    </div>
-
-    <!-- Secretariat General (SG) Team Management -->
-    <div class="card">
-      <h2>Secretariat General (SG) Team</h2>
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <h3>SG Members List</h3>
-        <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px;" onclick="addSGField()">+ Add SG Member</button>
-      </div>
-      <div id="sgListContainer"></div>
-    </div>
-
-    <!-- Gallery Google Drive Links Management -->
-    <div class="card">
-      <h2>Conference Gallery Drive Files</h2>
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-        <h3>Drive Links</h3>
-        <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px;" onclick="addDriveFileField()">+ Add Drive Link</button>
-      </div>
-      <div id="driveFilesListContainer"></div>
-    </div>
-
-    <!-- Committees & Chairs Management -->
-    <div class="card">
-      <h2>Committees & Board Management</h2>
       
       <div class="form-group">
-        <label>Select Committee</label>
-        <select id="committeeSelector" onchange="loadSelectedCommitteeData()">
-          <option value="UNWOMEN">UN Women</option>
-          <option value="UNHRC">UNHRC</option>
-          <option value="DISEC">DISEC</option>
-          <option value="WHO">WHO</option>
-          <option value="UNHSC">UNHSC</option>
-          <option value="CRISIS">CRISIS</option>
-          <option value="UNICEF">UNICEF</option>
-        </select>
+        <label>Image Filename / URL (اسم الصورة أو الرابط)</label>
+        <input type="text" id="sgImg" placeholder="e.g. atef.jpg">
       </div>
 
-      <div class="committee-box">
-        <div class="form-group">
-          <label>Topics & Agenda</label>
-          <textarea id="commTopics"></textarea>
-        </div>
+      <div class="form-group">
+        <label>Biography (النبذة التعريفية)</label>
+        <textarea id="sgBio" rows="3" placeholder="Write SG bio here..."></textarea>
+      </div>
 
-        <div class="form-group">
-          <label>Research Report Link</label>
-          <input type="text" id="commReport">
-        </div>
+      <button class="btn" id="saveMemberBtn" onclick="addOrUpdateSGMember()">+ Add SG Member</button>
+      <button class="btn btn-danger" id="cancelEditBtn" style="display:none; margin-left: 10px;" onclick="clearForm()">Cancel</button>
+    </div>
 
-        <div style="margin-bottom: 20px;">
-          <label class="checkbox-card" style="max-width: 260px;">
-            <input type="checkbox" id="chairsComingSoon">
-            <span>Chairs Coming Soon</span>
-          </label>
-        </div>
-
-        <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 20px 0;">
-
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
-          <h3>Committee Chairs</h3>
-          <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px;" onclick="addChairField()">+ Add Chair</button>
-        </div>
-
-        <div id="chairsListContainer"></div>
+    <!-- قائمة الأعضاء الحاليين -->
+    <div class="card">
+      <h2>SG Members List</h2>
+      <div id="adminSgList">
+        <p style="color: var(--text-muted); font-size: 13px;">Loading SG members...</p>
       </div>
     </div>
-
-    <!-- Bottom Save Footer -->
-    <div class="actions-footer">
-      <button class="btn" style="padding: 16px 48px; font-size: 15px; width: 100%; max-width: 320px;" onclick="saveAllData()">Save All Changes</button>
-    </div>
-
   </div>
 
   <script>
-    // 🔐 SET YOUR SECRET PASSCODE HERE
-    const ADMIN_PASSCODE = "FRANMUN2026!"; 
-
-    // Check if already authenticated during this browser session
-    window.addEventListener("DOMContentLoaded", () => {
-      if (sessionStorage.getItem("franmun_admin_auth") === "true") {
-        unlockDashboard();
-      }
-    });
-
-    function verifyPasscode() {
-      const inputVal = document.getElementById("passcodeInput").value;
-      const errorEl = document.getElementById("authError");
-
-      if (inputVal === ADMIN_PASSCODE) {
-        sessionStorage.setItem("franmun_admin_auth", "true");
-        unlockDashboard();
-      } else {
-        errorEl.style.display = "block";
-        document.getElementById("passcodeInput").value = "";
-      }
-    }
-
-    function unlockDashboard() {
-      document.getElementById("authOverlay").style.display = "none";
-      document.getElementById("adminContainer").style.display = "block";
-    }
-
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
@@ -495,225 +207,115 @@
 
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
-    let siteData = {};
-    let activeCommitteeChairs = [];
-    let activeSGTeam = [];
-    let activeDriveFiles = [];
 
-    database.ref("homepage_data").on("value", (snapshot) => {
+    let currentSgTeam = [];
+    let editingIndex = -1;
+
+    // جلب البيانات وعرضها مباشرة من فايربيس
+    database.ref("homepage_data/sgTeam").on("value", (snapshot) => {
       if (snapshot.exists()) {
-        siteData = snapshot.val() || {};
-        populateGeneralSettings();
-        loadSGTeamData();
-        loadDriveFilesData();
-        loadSelectedCommitteeData();
+        currentSgTeam = snapshot.val() || [];
+      } else {
+        currentSgTeam = [];
       }
+      renderAdminSgList();
     });
 
-    function populateGeneralSettings() {
-      document.getElementById("maintenanceMode").checked = !!siteData.maintenanceMode;
-      document.getElementById("delegatesOpen").checked = !!siteData.delegatesOpen;
-      document.getElementById("chairsOpen").checked = !!siteData.chairsOpen;
-      document.getElementById("galleryLocked").checked = !!siteData.galleryLocked;
-      if (siteData.targetDate) {
-        document.getElementById("targetDate").value = siteData.targetDate;
+    function renderAdminSgList() {
+      const container = document.getElementById("adminSgList");
+      if (currentSgTeam.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No SG members added yet.</p>`;
+        return;
       }
-    }
 
-    // SG Team Functions
-    function loadSGTeamData() {
-      activeSGTeam = siteData.sgTeam ? JSON.parse(JSON.stringify(siteData.sgTeam)) : [];
-      renderSGInputs();
-    }
-
-    function renderSGInputs() {
-      const container = document.getElementById("sgListContainer");
       let html = "";
+      currentSgTeam.forEach((member, index) => {
+        html += `
+          <div class="member-item">
+            <div class="member-info">
+              <img src="${member.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
+              <div class="member-details">
+                <h4>${member.name || 'No Name'}</h4>
+                <p>${member.role || 'No Role'}</p>
+              </div>
+            </div>
+            <div>
+              <button class="btn" style="padding: 6px 12px; font-size: 12px; margin-right: 6px;" onclick="editMember(${index})">Edit</button>
+              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteMember(${index})">Remove</button>
+            </div>
+          </div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function addOrUpdateSGMember() {
+      const name = document.getElementById("sgName").value.trim();
+      const role = document.getElementById("sgRole").value.trim();
+      const img = document.getElementById("sgImg").value.trim();
+      const bio = document.getElementById("sgBio").value.trim();
+
+      if (!name || !role) {
+        alert("Please enter both the Member Name and the Role/Title.");
+        return;
+      }
+
+      const memberData = {
+        name: name,
+        role: role,
+        img: img || "logo.jpeg.JPG",
+        bio: bio || "No biography provided."
+      };
+
+      if (editingIndex >= 0) {
+        currentSgTeam[editingIndex] = memberData;
+      } else {
+        currentSgTeam.push(memberData);
+      }
+
+      database.ref("homepage_data/sgTeam").set(currentSgTeam)
+        .then(() => {
+          alert("Member saved successfully!");
+          clearForm();
+        })
+        .catch((error) => {
+          alert("Error saving data: " + error.message);
+        });
+    }
+
+    function editMember(index) {
+      const member = currentSgTeam[index];
+      document.getElementById("sgName").value = member.name || "";
+      document.getElementById("sgRole").value = member.role || "";
+      document.getElementById("sgImg").value = member.img || "";
+      document.getElementById("sgBio").value = member.bio || "";
       
-      activeSGTeam.forEach((member, index) => {
-        html += `
-          <div class="sg-card">
-            <div class="grid-2" style="margin-bottom: 12px;">
-              <div>
-                <label>SG Name / Title</label>
-                <input type="text" value="${member.name || ''}" onchange="updateSGProp(${index}, 'name', this.value)" placeholder="e.g. Secretary General">
-              </div>
-              <div>
-                <label>Image Filename</label>
-                <input type="text" value="${member.img || ''}" onchange="updateSGProp(${index}, 'img', this.value)" placeholder="e.g. sg-name.jpg">
-              </div>
-            </div>
-            <div class="form-group" style="margin-bottom: 14px;">
-              <label>Biography</label>
-              <textarea style="height: 80px;" onchange="updateSGProp(${index}, 'bio', this.value)" placeholder="Write SG bio here...">${member.bio || ''}</textarea>
-            </div>
-            <button class="btn-danger" onclick="removeSG(${index})">Remove Member</button>
-          </div>`;
-      });
-
-      container.innerHTML = html || "<p style='font-size: 13px; color: var(--text-muted); text-align: center; padding: 20px 0;'>No SG members added yet.</p>";
+      editingIndex = index;
+      document.getElementById("saveMemberBtn").innerText = "Update Member";
+      document.getElementById("cancelEditBtn").style.display = "inline-block";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function updateSGProp(index, prop, val) {
-      if (activeSGTeam[index]) {
-        activeSGTeam[index][prop] = val;
+    function deleteMember(index) {
+      if (confirm("Are you sure you want to remove this member?")) {
+        currentSgTeam.splice(index, 1);
+        database.ref("homepage_data/sgTeam").set(currentSgTeam)
+          .then(() => {
+            alert("Member removed successfully!");
+          })
+          .catch((error) => {
+            alert("Error removing data: " + error.message);
+          });
       }
     }
 
-    function addSGField() {
-      activeSGTeam.push({ name: "", img: "", bio: "" });
-      renderSGInputs();
-    }
-
-    function removeSG(index) {
-      activeSGTeam.splice(index, 1);
-      renderSGInputs();
-    }
-
-    // Drive Files Functions
-    function loadDriveFilesData() {
-      activeDriveFiles = siteData.driveFiles ? JSON.parse(JSON.stringify(siteData.driveFiles)) : [];
-      renderDriveFilesInputs();
-    }
-
-    function renderDriveFilesInputs() {
-      const container = document.getElementById("driveFilesListContainer");
-      let html = "";
-
-      activeDriveFiles.forEach((fileObj, index) => {
-        html += `
-          <div class="chair-card">
-            <div class="grid-2" style="margin-bottom: 12px;">
-              <div>
-                <label>File Title / Name</label>
-                <input type="text" value="${fileObj.title || ''}" onchange="updateDriveFileProp(${index}, 'title', this.value)" placeholder="e.g. Day 1 Photos">
-              </div>
-              <div>
-                <label>Google Drive Link</label>
-                <input type="text" value="${fileObj.link || ''}" onchange="updateDriveFileProp(${index}, 'link', this.value)" placeholder="https://drive.google.com/...">
-              </div>
-            </div>
-            <button class="btn-danger" onclick="removeDriveFile(${index})">Remove Link</button>
-          </div>`;
-      });
-
-      container.innerHTML = html || "<p style='font-size: 13px; color: var(--text-muted); text-align: center; padding: 20px 0;'>No drive files added yet.</p>";
-    }
-
-    function updateDriveFileProp(index, prop, val) {
-      if (activeDriveFiles[index]) {
-        activeDriveFiles[index][prop] = val;
-      }
-    }
-
-    function addDriveFileField() {
-      activeDriveFiles.push({ title: "", link: "" });
-      renderDriveFilesInputs();
-    }
-
-    function removeDriveFile(index) {
-      activeDriveFiles.splice(index, 1);
-      renderDriveFilesInputs();
-    }
-
-    // Committee Functions
-    function loadSelectedCommitteeData() {
-      const commKey = document.getElementById("committeeSelector").value;
-      if (!siteData.committees) siteData.committees = {};
-      if (!siteData.committees[commKey]) {
-        siteData.committees[commKey] = { topics: "", report: "", chairsComingSoon: false, chairs: [] };
-      }
-
-      const comm = siteData.committees[commKey];
-      document.getElementById("commTopics").value = comm.topics || "";
-      document.getElementById("commReport").value = comm.report || "";
-      document.getElementById("chairsComingSoon").checked = !!comm.chairsComingSoon;
-
-      activeCommitteeChairs = comm.chairs ? JSON.parse(JSON.stringify(comm.chairs)) : [];
-      renderChairsInputs();
-    }
-
-    function renderChairsInputs() {
-      const container = document.getElementById("chairsListContainer");
-      let html = "";
-      
-      activeCommitteeChairs.forEach((chair, index) => {
-        html += `
-          <div class="chair-card">
-            <div class="grid-2" style="margin-bottom: 12px;">
-              <div>
-                <label>Chair Name</label>
-                <input type="text" value="${chair.name || ''}" onchange="updateChairProp(${index}, 'name', this.value)" placeholder="e.g. John Doe">
-              </div>
-              <div>
-                <label>Image Filename</label>
-                <input type="text" value="${chair.img || ''}" onchange="updateChairProp(${index}, 'img', this.value)" placeholder="e.g. name.jpg">
-              </div>
-            </div>
-            <div class="form-group" style="margin-bottom: 14px;">
-              <label>Biography</label>
-              <textarea style="height: 80px;" onchange="updateChairProp(${index}, 'bio', this.value)" placeholder="Write chair bio here...">${chair.bio || ''}</textarea>
-            </div>
-            <button class="btn-danger" onclick="removeChair(${index})">Remove Chair</button>
-          </div>`;
-      });
-
-      container.innerHTML = html || "<p style='font-size: 13px; color: var(--text-muted); text-align: center; padding: 20px 0;'>No chairs added yet.</p>";
-    }
-
-    function updateChairProp(index, prop, val) {
-      if (activeCommitteeChairs[index]) {
-        activeCommitteeChairs[index][prop] = val;
-      }
-    }
-
-    function addChairField() {
-      activeCommitteeChairs.push({ name: "", img: "", bio: "" });
-      renderChairsInputs();
-    }
-
-    function removeChair(index) {
-      activeCommitteeChairs.splice(index, 1);
-      renderChairsInputs();
-    }
-
-    function saveAllData() {
-      const commKey = document.getElementById("committeeSelector").value;
-
-      siteData.maintenanceMode = document.getElementById("maintenanceMode").checked;
-      siteData.delegatesOpen = document.getElementById("delegatesOpen").checked;
-      siteData.chairsOpen = document.getElementById("chairsOpen").checked;
-      siteData.galleryLocked = document.getElementById("galleryLocked").checked;
-      siteData.targetDate = document.getElementById("targetDate").value;
-
-      // Save SG Team & Drive Files
-      siteData.sgTeam = activeSGTeam;
-      siteData.driveFiles = activeDriveFiles;
-
-      if (!siteData.committees) siteData.committees = {};
-      if (!siteData.committees[commKey]) siteData.committees[commKey] = {};
-
-      siteData.committees[commKey].topics = document.getElementById("commTopics").value;
-      siteData.committees[commKey].report = document.getElementById("commReport").value;
-      siteData.committees[commKey].chairsComingSoon = document.getElementById("chairsComingSoon").checked;
-      siteData.committees[commKey].chairs = activeCommitteeChairs;
-
-      database.ref("homepage_data").set(siteData, (error) => {
-        const statusEl = document.getElementById("topSaveStatus");
-        statusEl.classList.remove('success', 'error', 'show');
-        void statusEl.offsetWidth; // Trigger reflow
-
-        if (error) {
-          statusEl.innerText = "Failed to save";
-          statusEl.classList.add('error', 'show');
-        } else {
-          statusEl.innerText = "Saved successfully ✓";
-          statusEl.classList.add('success', 'show');
-          setTimeout(() => {
-            statusEl.classList.remove('show');
-          }, 3500);
-        }
-      });
+    function clearForm() {
+      document.getElementById("sgName").value = "";
+      document.getElementById("sgRole").value = "";
+      document.getElementById("sgImg").value = "";
+      document.getElementById("sgBio").value = "";
+      editingIndex = -1;
+      document.getElementById("saveMemberBtn").innerText = "+ Add SG Member";
+      document.getElementById("cancelEditBtn").style.display = "none";
     }
   </script>
 </body>
