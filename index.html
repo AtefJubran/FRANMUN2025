@@ -168,12 +168,6 @@
 
     .menu-toggle {
       display: none;
-      background: transparent;
-      border: none;
-      color: var(--text-light);
-      font-size: 22px;
-      cursor: pointer;
-      z-index: 1002;
     }
 
     .nav-tabs {
@@ -638,33 +632,41 @@
 
     @media (max-width: 768px) {
       header {
-        border-radius: 24px;
-        padding: 10px 16px;
+        border-radius: 20px;
+        padding: 8px 12px;
+        flex-direction: column; /* ترتيب العناصر بشكل عمودي لكي تتسع الأزرار واللوجو براحة */
+        gap: 8px;
+      }
+      .logo-container {
+        width: 100%;
+        justify-content: center;
       }
       .header-text {
-        display: none;
+        display: block; /* إظهار اسم المدرسة مصغراً بجانب الشعار أو تحته */
+      }
+      .header-text h1 {
+        font-size: 12px;
+      }
+      .header-text p {
+        font-size: 10px;
       }
       .menu-toggle {
-        display: block;
+        display: none !important; /* إخفاء زر الثلاث شحطات تماماً */
       }
       .nav-tabs {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 64px; left: 0; width: 100%;
-        background: #0f1b2f;
-        border-radius: 16px;
-        padding: 8px;
-        border: 1px solid var(--glass-border);
+        display: flex !important; /* إظهار الأزرار دائماً بشكل مباشر */
+        flex-direction: row;
+        position: static;
+        background: transparent;
+        border: none;
+        padding: 0;
         gap: 4px;
-      }
-      .nav-tabs.mobile-open {
-        display: flex;
+        width: 100%;
+        justify-content: center;
       }
       .tab-btn {
-        width: 100%;
-        text-align: center;
-        padding: 10px;
+        padding: 6px 12px;
+        font-size: 11px;
       }
       .countdown-container {
         grid-template-columns: repeat(2, 1fr);
@@ -698,7 +700,7 @@
         </div>
       </div>
       
-      <button class="menu-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Navigation Menu">☰</button>
+      <!-- تم حذف زر الثلاث شحطات وإظهار الأزرار مباشرة بدلاً منه -->
 
       <nav class="nav-tabs" id="navTabs">
         <button class="tab-btn active" id="btn-home" onclick="switchPage('home')">HOME</button>
@@ -838,16 +840,11 @@
       lastScrollY = window.scrollY;
     });
 
-    function toggleMobileMenu() {
-      document.getElementById('navTabs').classList.toggle('mobile-open');
-    }
-
     function switchPage(pageId) {
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-page'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('page-' + pageId).classList.add('active-page');
       document.getElementById('btn-' + pageId).classList.add('active');
-      document.getElementById('navTabs').classList.remove('mobile-open');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
