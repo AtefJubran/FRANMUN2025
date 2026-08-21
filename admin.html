@@ -69,7 +69,7 @@
       letter-spacing: 0.05em;
     }
 
-    input, textarea {
+    input, textarea, select {
       width: 100%;
       padding: 10px 14px;
       background: rgba(0,0,0,0.3);
@@ -80,9 +80,20 @@
       font-size: 14px;
     }
 
-    input:focus, textarea:focus {
+    input:focus, textarea:focus, select:focus {
       outline: none;
       border-color: var(--accent-gold);
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .checkbox-group input {
+      width: auto;
     }
 
     .btn {
@@ -106,7 +117,7 @@
       color: white;
     }
 
-    .member-item {
+    .member-item, .drive-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -141,11 +152,14 @@
       color: var(--accent-gold);
     }
 
-    .section-header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -153,12 +167,41 @@
 
   <div class="admin-container">
     <h1>FRANMUN Admin Dashboard</h1>
-    
-    <!-- قسم إدارة الأمانة العامة (Secretariat General Team) -->
+
+    <!-- 1. إعدادات عامة والعد التنازلي -->
     <div class="card">
-      <div class="section-header-row">
-        <h2>Secretariat General (SG) Team</h2>
+      <h2>General Settings & Countdown</h2>
+      
+      <div class="grid-2">
+        <div class="checkbox-group">
+          <input type="checkbox" id="maintenanceMode">
+          <label for="maintenanceMode" style="display:inline; margin:0; color:white;">Maintenance Mode</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="delegatesOpen">
+          <label for="delegatesOpen" style="display:inline; margin:0; color:white;">Delegates Registration Open</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="chairsOpen">
+          <label for="chairsOpen" style="display:inline; margin:0; color:white;">Chairs Registration Open</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="galleryLocked">
+          <label for="galleryLocked" style="display:inline; margin:0; color:white;">Lock Conference Gallery</label>
+        </div>
       </div>
+
+      <div class="form-group" style="margin-top: 20px;">
+        <label>Conference Target Date (Countdown)</label>
+        <input type="text" id="targetDate" placeholder="e.g. 31 Oct 2026 at 8:00">
+      </div>
+
+      <button class="btn" onclick="saveGeneralSettings()">Save Settings</button>
+    </div>
+
+    <!-- 2. إدارة الأمانة العامة (Secretariat Team) مع فصل الاسم عن الوظيفة -->
+    <div class="card">
+      <h2>Secretariat General (SG) Team</h2>
       
       <div class="form-group">
         <label>Member Name (اسم العضو)</label>
@@ -166,7 +209,7 @@
       </div>
 
       <div class="form-group">
-        <label>Role / Position (الوظيفة أو المنصب)</label>
+        <label>Role / Title (الوظيفة أو المنصب)</label>
         <input type="text" id="sgRole" placeholder="e.g. Secretary-General">
       </div>
       
@@ -181,14 +224,34 @@
       </div>
 
       <button class="btn" id="saveMemberBtn" onclick="addOrUpdateSGMember()">+ Add SG Member</button>
-      <button class="btn btn-danger" id="cancelEditBtn" style="display:none; margin-left: 10px;" onclick="clearForm()">Cancel</button>
+      <button class="btn btn-danger" id="cancelEditBtn" style="display:none; margin-left: 10px;" onclick="clearSgForm()">Cancel</button>
+
+      <div style="margin-top: 24px;">
+        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current SG Members</h3>
+        <div id="adminSgList">
+          <p style="color: var(--text-muted); font-size: 13px;">Loading SG members...</p>
+        </div>
+      </div>
     </div>
 
-    <!-- قائمة الأعضاء الحاليين -->
+    <!-- 3. ملفات الجاليري (Drive Files) -->
     <div class="card">
-      <h2>SG Members List</h2>
-      <div id="adminSgList">
-        <p style="color: var(--text-muted); font-size: 13px;">Loading SG members...</p>
+      <h2>Conference Gallery Drive Files</h2>
+      
+      <div class="form-group">
+        <label>File Title</label>
+        <input type="text" id="driveTitle" placeholder="e.g. Day 1 Photos">
+      </div>
+      
+      <div class="form-group">
+        <label>Drive Link</label>
+        <input type="text" id="driveLink" placeholder="https://drive.google.com/...">
+      </div>
+
+      <button class="btn" onclick="addDriveFile()">+ Add Drive Link</button>
+
+      <div style="margin-top: 24px;" id="adminDriveList">
+        <p style="color: var(--text-muted); font-size: 13px;">No drive files added yet.</p>
       </div>
     </div>
   </div>
@@ -208,28 +271,53 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    let currentSgTeam = [];
+    let appData = {};
     let editingIndex = -1;
 
-    // جلب البيانات وعرضها مباشرة من فايربيس
-    database.ref("homepage_data/sgTeam").on("value", (snapshot) => {
+    // جلب البيانات بالكامل من فايربيس
+    database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
-        currentSgTeam = snapshot.val() || [];
-      } else {
-        currentSgTeam = [];
+        appData = snapshot.val() || {};
+        populateGeneralSettings();
+        renderAdminSgList();
+        renderAdminDriveList();
       }
-      renderAdminSgList();
     });
 
+    function populateGeneralSettings() {
+      document.getElementById("maintenanceMode").checked = !!appData.maintenanceMode;
+      document.getElementById("delegatesOpen").checked = !!appData.delegatesOpen;
+      document.getElementById("chairsOpen").checked = !!appData.chairsOpen;
+      document.getElementById("galleryLocked").checked = !!appData.galleryLocked;
+      document.getElementById("targetDate").value = appData.targetDate || "";
+    }
+
+    function saveGeneralSettings() {
+      const settings = {
+        maintenanceMode: document.getElementById("maintenanceMode").checked,
+        delegatesOpen: document.getElementById("delegatesOpen").checked,
+        chairsOpen: document.getElementById("chairsOpen").checked,
+        galleryLocked: document.getElementById("galleryLocked").checked,
+        targetDate: document.getElementById("targetDate").value.trim()
+      };
+
+      database.ref("homepage_data").update(settings)
+        .then(() => alert("Settings saved successfully!"))
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    // إدارة الأمانة العامة
     function renderAdminSgList() {
       const container = document.getElementById("adminSgList");
-      if (currentSgTeam.length === 0) {
+      const team = appData.sgTeam || [];
+
+      if (team.length === 0) {
         container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No SG members added yet.</p>`;
         return;
       }
 
       let html = "";
-      currentSgTeam.forEach((member, index) => {
+      team.forEach((member, index) => {
         html += `
           <div class="member-item">
             <div class="member-info">
@@ -240,8 +328,8 @@
               </div>
             </div>
             <div>
-              <button class="btn" style="padding: 6px 12px; font-size: 12px; margin-right: 6px;" onclick="editMember(${index})">Edit</button>
-              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteMember(${index})">Remove</button>
+              <button class="btn" style="padding: 6px 12px; font-size: 12px; margin-right: 6px;" onclick="editSgMember(${index})">Edit</button>
+              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteSgMember(${index})">Remove</button>
             </div>
           </div>`;
       });
@@ -259,6 +347,7 @@
         return;
       }
 
+      let team = appData.sgTeam ? [...appData.sgTeam] : [];
       const memberData = {
         name: name,
         role: role,
@@ -267,23 +356,21 @@
       };
 
       if (editingIndex >= 0) {
-        currentSgTeam[editingIndex] = memberData;
+        team[editingIndex] = memberData;
       } else {
-        currentSgTeam.push(memberData);
+        team.push(memberData);
       }
 
-      database.ref("homepage_data/sgTeam").set(currentSgTeam)
+      database.ref("homepage_data/sgTeam").set(team)
         .then(() => {
           alert("Member saved successfully!");
-          clearForm();
+          clearSgForm();
         })
-        .catch((error) => {
-          alert("Error saving data: " + error.message);
-        });
+        .catch(err => alert("Error: " + err.message));
     }
 
-    function editMember(index) {
-      const member = currentSgTeam[index];
+    function editSgMember(index) {
+      const member = appData.sgTeam[index];
       document.getElementById("sgName").value = member.name || "";
       document.getElementById("sgRole").value = member.role || "";
       document.getElementById("sgImg").value = member.img || "";
@@ -295,20 +382,17 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function deleteMember(index) {
+    function deleteSgMember(index) {
       if (confirm("Are you sure you want to remove this member?")) {
-        currentSgTeam.splice(index, 1);
-        database.ref("homepage_data/sgTeam").set(currentSgTeam)
-          .then(() => {
-            alert("Member removed successfully!");
-          })
-          .catch((error) => {
-            alert("Error removing data: " + error.message);
-          });
+        let team = appData.sgTeam ? [...appData.sgTeam] : [];
+        team.splice(index, 1);
+        database.ref("homepage_data/sgTeam").set(team)
+          .then(() => alert("Member removed successfully!"))
+          .catch(err => alert("Error: " + err.message));
       }
     }
 
-    function clearForm() {
+    function clearSgForm() {
       document.getElementById("sgName").value = "";
       document.getElementById("sgRole").value = "";
       document.getElementById("sgImg").value = "";
@@ -316,6 +400,61 @@
       editingIndex = -1;
       document.getElementById("saveMemberBtn").innerText = "+ Add SG Member";
       document.getElementById("cancelEditBtn").style.display = "none";
+    }
+
+    // إدارة ملفات الدريف
+    function addDriveFile() {
+      const title = document.getElementById("driveTitle").value.trim();
+      const link = document.getElementById("driveLink").value.trim();
+
+      if (!title || !link) {
+        alert("Please fill in both title and link.");
+        return;
+      }
+
+      let files = appData.driveFiles ? [...appData.driveFiles] : [];
+      files.push({ title, link });
+
+      database.ref("homepage_data/driveFiles").set(files)
+        .then(() => {
+          alert("Drive file added successfully!");
+          document.getElementById("driveTitle").value = "";
+          document.getElementById("driveLink").value = "";
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function renderAdminDriveList() {
+      const container = document.getElementById("adminDriveList");
+      const files = appData.driveFiles || [];
+
+      if (files.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No drive files added yet.</p>`;
+        return;
+      }
+
+      let html = "";
+      files.forEach((file, index) => {
+        html += `
+          <div class="drive-item">
+            <div>
+              <h4 style="font-size: 14px; color: white;">${file.title}</h4>
+              <a href="${file.link}" target="_blank" style="font-size: 12px; color: var(--accent-gold);">${file.link}</a>
+            </div>
+            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteDriveFile(${index})">Remove</button>
+          </div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function deleteDriveFile(index) {
+      if (confirm("Are you sure you want to remove this link?")) {
+        let files = appData.driveFiles ? [...appData.driveFiles] : [];
+        files.splice(index, 1);
+        database.ref("homepage_data/driveFiles").set(files)
+          .then(() => alert("File removed successfully!"))
+          .catch(err => alert("Error: " + err.message));
+      }
     }
   </script>
 </body>
