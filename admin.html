@@ -171,7 +171,7 @@
 
     @media (min-width: 640px) {
       .toggles-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -255,7 +255,7 @@
       border-color: rgba(255, 255, 255, 0.2);
     }
 
-    .committee-box {
+    .committee-box, .sg-box {
       background: rgba(0, 0, 0, 0.25);
       border: 1px solid var(--glass-border);
       padding: 20px;
@@ -263,7 +263,7 @@
       margin-top: 16px;
     }
 
-    .chair-card {
+    .chair-card, .sg-card {
       background: var(--bg-input);
       border: 1px solid var(--glass-border);
       padding: 16px;
@@ -368,12 +368,36 @@
           <input type="checkbox" id="chairsOpen">
           <span>Chairs Open</span>
         </label>
+        <label class="checkbox-card">
+          <input type="checkbox" id="galleryLocked">
+          <span>Conference Gallery Unlock (Check to Unlock)</span>
+        </label>
       </div>
 
       <div class="form-group">
         <label>Conference Target Date</label>
         <input type="datetime-local" id="targetDate">
       </div>
+    </div>
+
+    <!-- Secretariat General (SG) Team Management -->
+    <div class="card">
+      <h2>Secretariat General (SG) Team</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h3>SG Members List</h3>
+        <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px;" onclick="addSGField()">+ Add SG Member</button>
+      </div>
+      <div id="sgListContainer"></div>
+    </div>
+
+    <!-- Gallery Google Drive Links Management -->
+    <div class="card">
+      <h2>Conference Gallery Drive Files</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+        <h3>Drive Links</h3>
+        <button class="btn btn-secondary" style="padding: 8px 16px; font-size: 12px;" onclick="addDriveFileField()">+ Add Drive Link</button>
+      </div>
+      <div id="driveFilesListContainer"></div>
     </div>
 
     <!-- Committees & Chairs Management -->
@@ -473,11 +497,15 @@
     const database = firebase.database();
     let siteData = {};
     let activeCommitteeChairs = [];
+    let activeSGTeam = [];
+    let activeDriveFiles = [];
 
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
         siteData = snapshot.val() || {};
         populateGeneralSettings();
+        loadSGTeamData();
+        loadDriveFilesData();
         loadSelectedCommitteeData();
       }
     });
@@ -486,11 +514,109 @@
       document.getElementById("maintenanceMode").checked = !!siteData.maintenanceMode;
       document.getElementById("delegatesOpen").checked = !!siteData.delegatesOpen;
       document.getElementById("chairsOpen").checked = !!siteData.chairsOpen;
+      document.getElementById("galleryLocked").checked = !!siteData.galleryLocked;
       if (siteData.targetDate) {
         document.getElementById("targetDate").value = siteData.targetDate;
       }
     }
 
+    // SG Team Functions
+    function loadSGTeamData() {
+      activeSGTeam = siteData.sgTeam ? JSON.parse(JSON.stringify(siteData.sgTeam)) : [];
+      renderSGInputs();
+    }
+
+    function renderSGInputs() {
+      const container = document.getElementById("sgListContainer");
+      let html = "";
+      
+      activeSGTeam.forEach((member, index) => {
+        html += `
+          <div class="sg-card">
+            <div class="grid-2" style="margin-bottom: 12px;">
+              <div>
+                <label>SG Name / Title</label>
+                <input type="text" value="${member.name || ''}" onchange="updateSGProp(${index}, 'name', this.value)" placeholder="e.g. Secretary General">
+              </div>
+              <div>
+                <label>Image Filename</label>
+                <input type="text" value="${member.img || ''}" onchange="updateSGProp(${index}, 'img', this.value)" placeholder="e.g. sg-name.jpg">
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 14px;">
+              <label>Biography</label>
+              <textarea style="height: 80px;" onchange="updateSGProp(${index}, 'bio', this.value)" placeholder="Write SG bio here...">${member.bio || ''}</textarea>
+            </div>
+            <button class="btn-danger" onclick="removeSG(${index})">Remove Member</button>
+          </div>`;
+      });
+
+      container.innerHTML = html || "<p style='font-size: 13px; color: var(--text-muted); text-align: center; padding: 20px 0;'>No SG members added yet.</p>";
+    }
+
+    function updateSGProp(index, prop, val) {
+      if (activeSGTeam[index]) {
+        activeSGTeam[index][prop] = val;
+      }
+    }
+
+    function addSGField() {
+      activeSGTeam.push({ name: "", img: "", bio: "" });
+      renderSGInputs();
+    }
+
+    function removeSG(index) {
+      activeSGTeam.splice(index, 1);
+      renderSGInputs();
+    }
+
+    // Drive Files Functions
+    function loadDriveFilesData() {
+      activeDriveFiles = siteData.driveFiles ? JSON.parse(JSON.stringify(siteData.driveFiles)) : [];
+      renderDriveFilesInputs();
+    }
+
+    function renderDriveFilesInputs() {
+      const container = document.getElementById("driveFilesListContainer");
+      let html = "";
+
+      activeDriveFiles.forEach((fileObj, index) => {
+        html += `
+          <div class="chair-card">
+            <div class="grid-2" style="margin-bottom: 12px;">
+              <div>
+                <label>File Title / Name</label>
+                <input type="text" value="${fileObj.title || ''}" onchange="updateDriveFileProp(${index}, 'title', this.value)" placeholder="e.g. Day 1 Photos">
+              </div>
+              <div>
+                <label>Google Drive Link</label>
+                <input type="text" value="${fileObj.link || ''}" onchange="updateDriveFileProp(${index}, 'link', this.value)" placeholder="https://drive.google.com/...">
+              </div>
+            </div>
+            <button class="btn-danger" onclick="removeDriveFile(${index})">Remove Link</button>
+          </div>`;
+      });
+
+      container.innerHTML = html || "<p style='font-size: 13px; color: var(--text-muted); text-align: center; padding: 20px 0;'>No drive files added yet.</p>";
+    }
+
+    function updateDriveFileProp(index, prop, val) {
+      if (activeDriveFiles[index]) {
+        activeDriveFiles[index][prop] = val;
+      }
+    }
+
+    function addDriveFileField() {
+      activeDriveFiles.push({ title: "", link: "" });
+      renderDriveFilesInputs();
+    }
+
+    function removeDriveFile(index) {
+      activeDriveFiles.splice(index, 1);
+      renderDriveFilesInputs();
+    }
+
+    // Committee Functions
     function loadSelectedCommitteeData() {
       const commKey = document.getElementById("committeeSelector").value;
       if (!siteData.committees) siteData.committees = {};
@@ -557,7 +683,12 @@
       siteData.maintenanceMode = document.getElementById("maintenanceMode").checked;
       siteData.delegatesOpen = document.getElementById("delegatesOpen").checked;
       siteData.chairsOpen = document.getElementById("chairsOpen").checked;
+      siteData.galleryLocked = document.getElementById("galleryLocked").checked;
       siteData.targetDate = document.getElementById("targetDate").value;
+
+      // Save SG Team & Drive Files
+      siteData.sgTeam = activeSGTeam;
+      siteData.driveFiles = activeDriveFiles;
 
       if (!siteData.committees) siteData.committees = {};
       if (!siteData.committees[commKey]) siteData.committees[commKey] = {};
