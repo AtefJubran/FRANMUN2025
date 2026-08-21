@@ -635,67 +635,6 @@
       margin: 15px 0;
     }
 
-    .updates-timeline {
-      position: relative;
-      padding-left: 20px;
-      text-align: left;
-      max-width: 650px;
-      margin: 0 auto;
-    }
-
-    .updates-timeline::before {
-      content: '';
-      position: absolute;
-      left: 6px;
-      top: 8px;
-      bottom: 8px;
-      width: 2px;
-      background: linear-gradient(to bottom, var(--accent-gold), rgba(228, 179, 67, 0.1));
-    }
-
-    .update-item {
-      position: relative;
-      margin-bottom: 24px;
-      padding-left: 20px;
-    }
-
-    .update-item:last-child {
-      margin-bottom: 0;
-    }
-
-    .update-dot {
-      position: absolute;
-      left: -20px;
-      top: 6px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--accent-gold);
-      box-shadow: 0 0 10px var(--accent-gold);
-    }
-
-    .update-date {
-      font-size: 11px;
-      color: var(--accent-gold);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 4px;
-    }
-
-    .update-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: #FFFFFF;
-      margin-bottom: 6px;
-    }
-
-    .update-desc {
-      font-size: 13.5px;
-      color: var(--text-body);
-      line-height: 1.5;
-    }
-
     @media (max-width: 768px) {
       header {
         border-radius: 24px;
@@ -762,7 +701,6 @@
 
       <nav class="nav-tabs" id="navTabs">
         <button class="tab-btn active" id="btn-home" onclick="switchPage('home')">HOME</button>
-        <button class="tab-btn" id="btn-updates" onclick="switchPage('updates')">UPDATES</button>
         <button class="tab-btn" id="btn-committees" onclick="switchPage('committees')">COMMITTEES</button>
         <button class="tab-btn" id="btn-gallery" onclick="switchPage('gallery')">GALLERY</button>
       </nav>
@@ -788,37 +726,8 @@
 
         <article class="card">
           <h3>The Secretariat</h3>
-          <div class="premium-leadership-team">
-            <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('sg')">
-              <img id="team-sg-img" src="laila.jpg" class="premium-leader-img" alt="Laila Fahoum" onerror="this.src='logo.jpeg.JPG'">
-              <div id="team-sg-title" class="premium-leader-title">Secretary-General</div>
-              <div id="team-sg-name" class="premium-leader-name">Laila Fahoum</div>
-            </div>
-            <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('dsg')">
-              <img id="team-dsg-img" src="atef.jpg" class="premium-leader-img" alt="Atef Jubran" onerror="this.src='logo.jpeg.JPG'">
-              <div id="team-dsg-title" class="premium-leader-title">Deputy Secretary-General</div>
-              <div id="team-dsg-name" class="premium-leader-name">Atef Jubran</div>
-            </div>
-            <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('asg')">
-              <img id="team-asg-img" src="bana.jpg" class="premium-leader-img" alt="Bana Nafafaa" onerror="this.src='logo.jpeg.JPG'">
-              <div id="team-asg-title" class="premium-leader-title">Assistant Secretary-General</div>
-              <div id="team-asg-name" class="premium-leader-name">Bana Nafafaa</div>
-            </div>
-            <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('dg')">
-              <img id="team-dg-img" src="tala.jpg" class="premium-leader-img" alt="Tala Saffury" onerror="this.src='logo.jpeg.JPG'">
-              <div id="team-dg-title" class="premium-leader-title">USG of Academics</div>
-              <div id="team-dg-name" class="premium-leader-name">Tala Saffury</div>
-            </div>
-            <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('usg')">
-              <img id="team-usg-img" src="jamal.jpg" class="premium-leader-img" alt="Jamal Elias" onerror="this.src='logo.jpeg.JPG'">
-              <div id="team-usg-title" class="premium-leader-title">USG of Public Relations</div>
-              <div id="team-usg-name" class="premium-leader-name">Jamal Elias</div>
-            </div>
-            <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openTeamBioPopup('coo')">
-              <img id="team-coo-img" src="jana.jpg" class="premium-leader-img" alt="Jana Abd El Halim" onerror="this.src='logo.jpeg.JPG'">
-              <div id="team-coo-title" class="premium-leader-title">Head of Media</div>
-              <div id="team-coo-name" class="premium-leader-name">Jana Abd El Halim</div>
-            </div>
+          <div class="premium-leadership-team" id="sgTeamContainer">
+            <!-- Populated dynamically from Firebase -->
           </div>
         </article>
 
@@ -833,18 +742,6 @@
         <article class="card">
           <h3>About Our Conference</h3>
           <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference. Join us for an elite event where students engage in advanced diplomatic discussions, master geo-political problem solving, and draft high-impact resolutions.</p>
-        </article>
-      </section>
-
-      <section id="page-updates" class="page-view">
-        <div class="hero-section" style="padding-top: 10px;">
-          <h2>Conference Updates</h2>
-          <p>Latest Bulletins & Announcements</p>
-        </div>
-        <article class="card">
-          <div id="updatesContainer" class="updates-timeline">
-            <p style="color: var(--text-muted); text-align: center; font-size: 13.5px;">Loading latest conference dispatches...</p>
-          </div>
         </article>
       </section>
 
@@ -865,11 +762,8 @@
       </section>
 
       <section id="page-gallery" class="page-view">
-        <article class="card" style="padding: 60px 20px;">
-          <h3>Conference Gallery Locked</h3>
-          <p style="color: var(--text-muted); max-width: 440px; margin: 10px auto 0 auto;">
-            The photographic archives will be published dynamically following the conference proceedings.
-          </p>
+        <article class="card" style="padding: 40px 20px;" id="galleryCardContent">
+          <!-- Gallery status or Drive files will be rendered here dynamically -->
         </article>
       </section>
       
@@ -996,34 +890,71 @@
         }
         
         renderRegistrationButtons();
-        renderUpdatesTimeline();
+        renderSGTeam();
+        renderGallerySection();
       }
     });
 
-    function renderUpdatesTimeline() {
-      const container = document.getElementById("updatesContainer");
+    function renderSGTeam() {
+      const container = document.getElementById("sgTeamContainer");
       if (!container) return;
 
-      if (!appData.updates || typeof appData.updates !== 'object') {
-        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; font-size: 13.5px;">No active announcements at the moment.</p>`;
+      if (!appData.sgTeam || !Array.isArray(appData.sgTeam) || appData.sgTeam.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; font-size: 13.5px; grid-column: span 3;">No Secretariat members added yet.</p>`;
         return;
       }
 
-      let updatesArray = Object.values(appData.updates);
-      updatesArray.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
       let html = "";
-      updatesArray.forEach(item => {
+      appData.sgTeam.forEach((member, index) => {
         html += `
-          <div class="update-item">
-            <div class="update-dot"></div>
-            <div class="update-date">${item.date || 'Announcement'}</div>
-            <div class="update-title">${item.title || ''}</div>
-            <div class="update-desc">${item.content || ''}</div>
+          <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openSGTeamBioPopup(${index})">
+            <img src="${member.img || 'logo.jpeg.JPG'}" class="premium-leader-img" alt="${member.name || 'SG Member'}" onerror="this.src='logo.jpeg.JPG'">
+            <div class="premium-leader-title">${member.name || ''}</div>
+            <div class="premium-leader-name">Secretariat</div>
           </div>`;
       });
-
       container.innerHTML = html;
+    }
+
+    function openSGTeamBioPopup(index) {
+      if (!appData.sgTeam || !appData.sgTeam[index]) return;
+      const member = appData.sgTeam[index];
+
+      const modalBox = document.getElementById("bioPopupModal");
+      document.getElementById("popupChairName").innerText = member.name || "Secretariat Member";
+      document.getElementById("popupChairTitle").innerText = "Secretariat General";
+      document.getElementById("popupChairImg").src = member.img || "logo.jpeg.JPG";
+      document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
+
+      modalBox.style.display = "flex";
+      setTimeout(() => modalBox.classList.add('active-modal'), 10);
+    }
+
+    function renderGallerySection() {
+      const container = document.getElementById("galleryCardContent");
+      if (!container) return;
+
+      if (appData.galleryLocked) {
+        container.innerHTML = `
+          <h3>Conference Gallery Locked</h3>
+          <p style="color: var(--text-muted); max-width: 440px; margin: 10px auto 0 auto;">
+            The photographic archives will be published dynamically following the conference proceedings.
+          </p>`;
+      } else {
+        let filesHtml = `<h3>Conference Gallery Archives</h3>
+                         <p style="color: var(--text-muted); margin-bottom: 24px;">Explore our photo drives and documents below:</p>
+                         <div style="display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 0 auto;">`;
+        
+        if (appData.driveFiles && Array.isArray(appData.driveFiles) && appData.driveFiles.length > 0) {
+          appData.driveFiles.forEach(fileObj => {
+            filesHtml += `<a href="${fileObj.link || '#'}" target="_blank" class="button" style="max-width: 100%;">${fileObj.title || 'View Drive File'} &rarr;</a>`;
+          });
+        } else {
+          filesHtml += `<p style="color: var(--text-muted); font-size: 13.5px;">No files added yet.</p>`;
+        }
+        filesHtml += `</div>`;
+        container.innerHTML = filesHtml;
+      }
     }
 
     function renderRegistrationButtons() {
@@ -1136,31 +1067,6 @@
         modalBox.style.display = "flex";
         setTimeout(() => modalBox.classList.add('active-modal'), 10);
       }
-    }
-
-    function openTeamBioPopup(role) {
-      const defaultData = {
-        'sg': { name: 'Laila Fahoum', title: 'Secretary-General', img: 'laila.jpg', bio: '' },
-        'dsg': { name: 'Atef Jubran', title: 'Deputy Secretary-General', img: 'atef.jpg', bio: '' },
-        'asg': { name: 'Bana Nafafaa', title: 'Assistant Secretary-General', img: 'bana.jpg', bio: '' },
-        'dg': { name: 'Tala Saffury', title: 'USG of Academics', img: 'tala.jpg', bio: '' },
-        'usg': { name: 'Jamal Elias', title: 'USG of Public Relations', img: 'jamal.jpg', bio: '' },
-        'coo': { name: 'Jana Abd El Halim', title: 'Head of Media', img: 'jana.jpg', bio: '' }
-      };
-
-      let member = defaultData[role] || {};
-      if (appData && appData.secretariat && appData.secretariat[role]) {
-        if (appData.secretariat[role].bio) member.bio = appData.secretariat[role].bio;
-      }
-      
-      const modalBox = document.getElementById("bioPopupModal");
-      document.getElementById("popupChairName").innerText = member.name;
-      document.getElementById("popupChairTitle").innerText = member.title;
-      document.getElementById("popupChairImg").src = member.img;
-      document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
-      
-      modalBox.style.display = "flex";
-      setTimeout(() => modalBox.classList.add('active-modal'), 10);
     }
 
     function closeBioPopup() { 
