@@ -168,7 +168,7 @@
   <div class="admin-container">
     <h1>FRANMUN Admin Dashboard</h1>
 
-    <!-- 1. إعدادات عامة والعد التنازلي -->
+    <!-- 1. إعدادات عامة والعداد التنازلي -->
     <div class="card">
       <h2>General Settings & Countdown</h2>
       
@@ -199,7 +199,7 @@
       <button class="btn" onclick="saveGeneralSettings()">Save Settings</button>
     </div>
 
-    <!-- 2. إدارة الأمانة العامة (Secretariat Team) مع فصل الاسم عن الوظيفة -->
+    <!-- 2. إدارة الأمانة العامة (Secretariat Team) -->
     <div class="card">
       <h2>Secretariat General (SG) Team</h2>
       
@@ -234,7 +234,78 @@
       </div>
     </div>
 
-    <!-- 3. ملفات الجاليري (Drive Files) -->
+    <!-- 3. إدارة اللجان ورؤسائها (Committees & Chairs) -->
+    <div class="card">
+      <h2>Committees & Chairs Management</h2>
+      
+      <div class="form-group">
+        <label>Select Committee (اختر اللجنة)</label>
+        <select id="selectCommittee" onchange="loadCommitteeDataToAdmin()">
+          <option value="UNICEF">UNICEF</option>
+          <option value="UNWOMEN">UN Women</option>
+          <option value="UNHRC">UNHRC</option>
+          <option value="DISEC">DISEC</option>
+          <option value="WHO">WHO</option>
+          <option value="UNHSC">UNHSC</option>
+          <option value="CRISIS">CRISIS</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Committee Topics & Description</label>
+        <textarea id="commTopics" rows="3" placeholder="Enter committee topics..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Research Report Link</label>
+        <input type="text" id="commReport" placeholder="https://...">
+      </div>
+
+      <div class="checkbox-group" style="margin-top: 10px; margin-bottom: 20px;">
+        <input type="checkbox" id="chairsComingSoon">
+        <label for="chairsComingSoon" style="display:inline; margin:0; color:white;">Chairs Coming Soon (Top Secret Stamp)</label>
+      </div>
+
+      <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 20px 0;">
+
+      <h3 style="font-size: 14px; color: var(--accent-gold); margin-bottom: 12px; text-transform: uppercase;">Add Chair / Backroom Member</h3>
+      
+      <div class="form-group">
+        <label>Chair Name (اسم التشير)</label>
+        <input type="text" id="chairName" placeholder="e.g. John Doe">
+      </div>
+
+      <div class="form-group">
+        <label>Chair Image URL / Filename</label>
+        <input type="text" id="chairImg" placeholder="e.g. chair.jpg">
+      </div>
+
+      <div class="form-group">
+        <label>Chair Bio (النبذة التعريفية)</label>
+        <textarea id="chairBio" rows="2" placeholder="Chair bio..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Type (نوع التشير)</label>
+        <select id="chairType">
+          <option value="chairs">Committee Chair (رئيس لجنة)</option>
+          <option value="backroom">Backroom Chair (أعضاء الباك روم - خاصة بلجنة كريسيس)</option>
+        </select>
+      </div>
+
+      <button class="btn" onclick="addChairToCommittee()">+ Add Chair to Committee</button>
+
+      <div style="margin-top: 24px;">
+        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current Chairs in Selected Committee</h3>
+        <div id="adminChairsList">
+          <p style="color: var(--text-muted); font-size: 13px;">No chairs added yet.</p>
+        </div>
+      </div>
+
+      <button class="btn" style="margin-top: 20px; width: 100%;" onclick="saveCommitteeDetails()">Save Committee Details</button>
+    </div>
+
+    <!-- 4. ملفات الجاليري (Drive Files) -->
     <div class="card">
       <h2>Conference Gallery Drive Files</h2>
       
@@ -274,12 +345,12 @@
     let appData = {};
     let editingIndex = -1;
 
-    // جلب البيانات بالكامل من فايربيس
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
         appData = snapshot.val() || {};
         populateGeneralSettings();
         renderAdminSgList();
+        loadCommitteeDataToAdmin();
         renderAdminDriveList();
       }
     });
@@ -306,7 +377,7 @@
         .catch(err => alert("Error: " + err.message));
     }
 
-    // إدارة الأمانة العامة
+    // الأمانة العامة
     function renderAdminSgList() {
       const container = document.getElementById("adminSgList");
       const team = appData.sgTeam || [];
@@ -343,17 +414,12 @@
       const bio = document.getElementById("sgBio").value.trim();
 
       if (!name || !role) {
-        alert("Please enter both the Member Name and the Role/Title.");
+        alert("Please enter both Name and Role.");
         return;
       }
 
       let team = appData.sgTeam ? [...appData.sgTeam] : [];
-      const memberData = {
-        name: name,
-        role: role,
-        img: img || "logo.jpeg.JPG",
-        bio: bio || "No biography provided."
-      };
+      const memberData = { name, role, img: img || "logo.jpeg.JPG", bio: bio || "No biography provided." };
 
       if (editingIndex >= 0) {
         team[editingIndex] = memberData;
@@ -383,11 +449,11 @@
     }
 
     function deleteSgMember(index) {
-      if (confirm("Are you sure you want to remove this member?")) {
+      if (confirm("Are you sure?")) {
         let team = appData.sgTeam ? [...appData.sgTeam] : [];
         team.splice(index, 1);
         database.ref("homepage_data/sgTeam").set(team)
-          .then(() => alert("Member removed successfully!"))
+          .then(() => alert("Removed successfully!"))
           .catch(err => alert("Error: " + err.message));
       }
     }
@@ -402,7 +468,127 @@
       document.getElementById("cancelEditBtn").style.display = "none";
     }
 
-    // إدارة ملفات الدريف
+    // إدارة اللجان والتشيرز
+    function loadCommitteeDataToAdmin() {
+      const commKey = document.getElementById("selectCommittee").value;
+      const committees = appData.committees || {};
+      const comm = committees[commKey] || {};
+
+      document.getElementById("commTopics").value = comm.topics || "";
+      document.getElementById("commReport").value = comm.report || "";
+      document.getElementById("chairsComingSoon").checked = !!comm.chairsComingSoon;
+
+      renderAdminChairsList(comm);
+    }
+
+    function renderAdminChairsList(comm) {
+      const container = document.getElementById("adminChairsList");
+      let html = "";
+      let hasChairs = false;
+
+      if (comm.chairs && Array.isArray(comm.chairs)) {
+        comm.chairs.forEach((chair, idx) => {
+          hasChairs = true;
+          html += `
+            <div class="member-item">
+              <div class="member-info">
+                <img src="${chair.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
+                <div class="member-details">
+                  <h4>${chair.name}</h4>
+                  <p>Chair</p>
+                </div>
+              </div>
+              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteChair('chairs', ${idx})">Remove</button>
+            </div>`;
+        });
+      }
+
+      if (comm.backroom && Array.isArray(comm.backroom)) {
+        comm.backroom.forEach((bChair, idx) => {
+          hasChairs = true;
+          html += `
+            <div class="member-item">
+              <div class="member-info">
+                <img src="${bChair.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
+                <div class="member-details">
+                  <h4>${bChair.name}</h4>
+                  <p>Backroom</p>
+                </div>
+              </div>
+              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteChair('backroom', ${idx})">Remove</button>
+            </div>`;
+        });
+      }
+
+      if (!hasChairs) {
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No chairs added to this committee yet.</p>`;
+      } else {
+        container.innerHTML = html;
+      }
+    }
+
+    function addChairToCommittee() {
+      const commKey = document.getElementById("selectCommittee").value;
+      const name = document.getElementById("chairName").value.trim();
+      const img = document.getElementById("chairImg").value.trim();
+      const bio = document.getElementById("chairBio").value.trim();
+      const type = document.getElementById("chairType").value;
+
+      if (!name) {
+        alert("Please enter the chair name.");
+        return;
+      }
+
+      if (!appData.committees) appData.committees = {};
+      if (!appData.committees[commKey]) appData.committees[commKey] = {};
+
+      let targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
+      targetArray.push({ name, img: img || "logo.jpeg.JPG", bio: bio || "No bio provided." });
+
+      appData.committees[commKey][type] = targetArray;
+
+      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
+        .then(() => {
+          alert("Chair added successfully!");
+          document.getElementById("chairName").value = "";
+          document.getElementById("chairImg").value = "";
+          document.getElementById("chairBio").value = "";
+          loadCommitteeDataToAdmin();
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function deleteChair(type, idx) {
+      const commKey = document.getElementById("selectCommittee").value;
+      if (confirm("Are you sure?")) {
+        let targetArray = [...appData.committees[commKey][type]];
+        targetArray.splice(idx, 1);
+        appData.committees[commKey][type] = targetArray;
+
+        database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
+          .then(() => {
+            alert("Chair removed successfully!");
+            loadCommitteeDataToAdmin();
+          })
+          .catch(err => alert("Error: " + err.message));
+      }
+    }
+
+    function saveCommitteeDetails() {
+      const commKey = document.getElementById("selectCommittee").value;
+      if (!appData.committees) appData.committees = {};
+      if (!appData.committees[commKey]) appData.committees[commKey] = {};
+
+      appData.committees[commKey].topics = document.getElementById("commTopics").value.trim();
+      appData.committees[commKey].report = document.getElementById("commReport").value.trim();
+      appData.committees[commKey].chairsComingSoon = document.getElementById("chairsComingSoon").checked;
+
+      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
+        .then(() => alert("Committee details saved successfully!"))
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    // إدارة الدريف
     function addDriveFile() {
       const title = document.getElementById("driveTitle").value.trim();
       const link = document.getElementById("driveLink").value.trim();
@@ -448,11 +634,11 @@
     }
 
     function deleteDriveFile(index) {
-      if (confirm("Are you sure you want to remove this link?")) {
+      if (confirm("Are you sure?")) {
         let files = appData.driveFiles ? [...appData.driveFiles] : [];
         files.splice(index, 1);
         database.ref("homepage_data/driveFiles").set(files)
-          .then(() => alert("File removed successfully!"))
+          .then(() => alert("Removed successfully!"))
           .catch(err => alert("Error: " + err.message));
       }
     }
