@@ -36,9 +36,40 @@
       padding: 40px 20px;
     }
 
+    /* شاشة تسجيل الدخول */
+    #loginOverlay {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: var(--bg-main);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-card {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .login-card h2 {
+      font-family: var(--font-heading);
+      color: var(--accent-gold);
+      margin-bottom: 20px;
+    }
+
+    /* الحاوية الرئيسية (مخفية حتى يتم تسجيل الدخول) */
     .admin-container {
       max-width: 900px;
       margin: 0 auto;
+      display: none; 
     }
 
     h1, h2 {
@@ -178,7 +209,20 @@
 </head>
 <body>
 
-  <div class="admin-container">
+  <!-- شاشة كلمة المرور -->
+  <div id="loginOverlay">
+    <div class="login-card">
+      <h2>FRANMUN Admin</h2>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Please enter admin password to continue.</p>
+      <div class="form-group">
+        <input type="password" id="passInput" placeholder="Enter Password..." onkeypress="if(event.key === 'Enter') checkPassword()">
+      </div>
+      <button class="btn" style="width: 100%;" onclick="checkPassword()">Login</button>
+    </div>
+  </div>
+
+  <!-- لوحة التحكم الرئيسية -->
+  <div class="admin-container" id="mainDashboard">
     <h1>FRANMUN Admin Dashboard</h1>
 
     <!-- 1. إعدادات عامة والعداد التنازلي -->
@@ -342,6 +386,20 @@
   </div>
 
   <script>
+    // كلمة المرور الخاصة بلوحة التحكم (يمكنك تغييرها هنا)
+    const ADMIN_PASS = "FRANMUN2026";
+
+    function checkPassword() {
+      const input = document.getElementById("passInput").value;
+      if (input === ADMIN_PASS) {
+        document.getElementById("loginOverlay").style.display = "none";
+        document.getElementById("mainDashboard").style.display = "block";
+      } else {
+        alert("Wrong Password! Please try again.");
+        document.getElementById("passInput").value = "";
+      }
+    }
+
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
@@ -573,7 +631,6 @@
       const chairData = { name, img: img || "logo.jpeg.JPG", bio: bio || "No bio provided." };
 
       if (editingChairIndex >= 0) {
-        // إذا كنا نعدل نوع آخر وتم تغيير النوع، ننظف القديم ونضيفه للجديد
         if (editingChairType !== type) {
           appData.committees[commKey][editingChairType].splice(editingChairIndex, 1);
           targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
@@ -618,9 +675,8 @@
       let targetArray = [...appData.committees[commKey][type]];
       
       const newIdx = idx + direction;
-      if (newIdx < 0 || newIdx >= targetArray.length) return; // لا يمكن الحركة أكثر
+      if (newIdx < 0 || newIdx >= targetArray.length) return;
 
-      // تبديل الأماكن
       const temp = targetArray[idx];
       targetArray[idx] = targetArray[newIdx];
       targetArray[newIdx] = temp;
