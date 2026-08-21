@@ -17,11 +17,6 @@
   <meta property="og:image" content="logo.jpeg.JPG">
   <meta property="og:image:alt" content="FRANMUN Executive Staff Seal Logo">
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="FRANMUN 2026 Backroom Portal | Executive Control Console">
-  <meta name="twitter:description" content="Secure, real-time executive dashboard for the FRANMUN 2026 backroom and crisis staff. Manage live directives, issue urgent crisis news broadcasts, and link cloud delegate accounts.">
-  <meta name="twitter:image" content="logo.jpeg.JPG">
-
   <style>
     :root {
       --bg-dark: #04080f; 
@@ -34,7 +29,6 @@
       --btn-accept: #2ecc71; 
       --btn-reject: #e74c3c; 
       --btn-revision: #e67e22;
-      --frozen-alert: #e74c3c;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,7 +43,7 @@
       position: relative;
     }
 
-    /* خلفية اللوجو الشفافة الكبيرة */
+    /* خلفية اللوجو الشفافة */
     body::before {
       content: "";
       position: fixed;
@@ -117,7 +111,6 @@
       font-size: 13.5px; 
       cursor: pointer; 
       transition: all 0.2s ease; 
-      letter-spacing: 0.03em;
     }
 
     .tab-btn:hover {
@@ -255,7 +248,6 @@
       gap: 20px; 
     }
 
-    /* تنبيه حالة التجميد */
     #statusAlertBanner {
       display: none;
       padding: 8px 12px;
@@ -267,7 +259,7 @@
     }
   </style>
 
-  <!-- Firebase Modular SDK -->
+  <!-- Firebase SDK Setup -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
     import { getDatabase, ref, set, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-database.js";
@@ -285,6 +277,8 @@
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
+    
+    // إتاحة الدوال على مستوى النافذة للاستخدام العام
     window.db = db; 
     window.dbRef = ref; 
     window.dbSet = set; 
@@ -348,7 +342,7 @@
       </div>
     </div>
 
-    <!-- Tab 2: Incoming & Accounts -->
+    <!-- Tab 2: Incoming Directives & Account Creation -->
     <div id="tabIncoming" class="tab-content">
       <div style="display: flex; gap: 25px;">
         <section style="flex: 2;" aria-labelledby="pendingDirectivesHeading">
@@ -359,9 +353,9 @@
         <section class="card" style="flex: 1; max-width: 340px; height: fit-content;" aria-labelledby="linkCloudHeading">
           <h2 id="linkCloudHeading" style="font-size: 1.15rem; font-weight: bold; margin-bottom: 15px; color: var(--accent-gold);">➕ Link Cloud Delegate Profile</h2>
           <form onsubmit="createNewDelegate(event)">
-            <div class="form-group"><label for="newUsername">Username</label><input type="text" id="newUsername" required></div>
-            <div class="form-group"><label for="newPassword">Password</label><input type="text" id="newPassword" required></div>
-            <div class="form-group"><label for="newDisplayName">Display Name</label><input type="text" id="newDisplayName" required></div>
+            <div class="form-group"><label for="newUsername">Username / ID</label><input type="text" id="newUsername" required placeholder="e.g. usa_delegate"></div>
+            <div class="form-group"><label for="newPassword">Password</label><input type="text" id="newPassword" required placeholder="Secure code"></div>
+            <div class="form-group"><label for="newDisplayName">Display Name</label><input type="text" id="newDisplayName" required placeholder="United States"></div>
             <button type="submit" class="btn btn-gold">Create Account</button>
           </form>
         </section>
@@ -395,14 +389,14 @@
     }
 
     function initFirebaseBackroom() {
-      if (!window.db) { setTimeout(initFirebaseBackroom, 300); return; }
+      if (!window.db) { setTimeout(initFirebaseBackroom, 200); return; }
 
-      // مراقبة حالة الغرفة وتحديث التنبيه البصري للموظفين
+      // 1. مراقبة حالة الغرفة وتحديث التنبيه البصري
       window.dbOnValue(window.dbRef(window.db, 'room_status'), (snap) => {
+        const banner = document.getElementById("statusAlertBanner");
         if(snap.exists()) {
           const val = snap.val();
           document.getElementById("roomStatusSelect").value = val;
-          const banner = document.getElementById("statusAlertBanner");
           if(val === 'Frozen') {
             banner.style.display = "block";
             banner.style.background = "rgba(231, 76, 60, 0.2)";
@@ -411,10 +405,13 @@
           } else {
             banner.style.display = "none";
           }
+        } else {
+          // القيمة الافتراضية إذا لم تكن موجودة
+          window.dbSet(window.dbRef(window.db, 'room_status'), 'Opened');
         }
       });
 
-      // جلب وإدارة التايم لاين
+      // 2. جلب وإدارة التايم لاين والأخبار العاجلة
       window.dbOnValue(window.dbRef(window.db, 'crisis_updates'), (snap) => {
         const container = document.getElementById("timelineManageContainer");
         container.innerHTML = "";
@@ -435,7 +432,7 @@
         } else { container.innerHTML = "<p style='color:var(--text-muted); font-size:13.5px;'>No updates sent yet.</p>"; }
       });
 
-      // جلب وتقسيم القرارات والتحكم بها في الأرشيف
+      // 3. جلب وتقسيم القرارات والتحكم بها في الأرشيف
       window.dbOnValue(window.dbRef(window.db, 'directives'), (snap) => {
         const pipe = document.getElementById("directivesPipeline");
         const acceptedContainer = document.getElementById("archiveAcceptedContainer");
@@ -485,16 +482,21 @@
 
     window.addEventListener('DOMContentLoaded', initFirebaseBackroom);
 
-    // تحديث حالة الغرفة في قاعدة البيانات (عندما تصبح Frozen، سيتوقف المندوبون عن حفظ المسودات تلقائياً في صفحة المندوب المرتبطة بهذه الحالة)
+    // تحديث حالة الغرفة وقفل المسودات للمندوبين
     function updateRoomStatus() {
       const selectedStatus = document.getElementById("roomStatusSelect").value;
       window.dbSet(window.dbRef(window.db, 'room_status'), selectedStatus).then(() => {
         if(selectedStatus === 'Frozen') {
-          alert("⚠️ Room status updated to FROZEN. Delegate draft saves are now restricted.");
+          alert("⚠️ Room status updated to FROZEN. Delegate draft saves are now locked.");
+        } else {
+          alert("Room status updated to: " + selectedStatus);
         }
+      }).catch(err => {
+        alert("Error updating status: " + err.message);
       });
     }
 
+    // إرسال وتعديل الأخبار
     function handleBroadcastSubmit(e) {
       e.preventDefault();
       const k = document.getElementById("editUpdateKey").value;
@@ -508,13 +510,13 @@
         window.dbUpdate(window.dbRef(window.db), up).then(() => {
           alert("News Broadcast Updated Successfully!"); 
           resetNewsForm();
-        });
+        }).catch(err => alert("Error: " + err.message));
       } else {
         const r = window.dbPush(window.dbRef(window.db, 'crisis_updates'));
         window.dbSet(r, { time, title, desc }).then(() => {
           alert("Broadcast Published Successfully!"); 
           resetNewsForm();
-        });
+        }).catch(err => alert("Error: " + err.message));
       }
     }
 
@@ -539,39 +541,50 @@
 
     function triggerDeleteNews(key) {
       if(confirm("Are you sure you want to delete this news update?")) {
-        if(confirm("⚠️ CRITICAL CONFIRMATION: Permanent deletion will remove it from all connected user feeds.")) {
-          window.dbRemove(window.dbRef(window.db, `/crisis_updates/${key}`)).then(() => { 
-            alert("News item deleted successfully."); 
-          });
-        }
+        window.dbRemove(window.dbRef(window.db, `/crisis_updates/${key}`)).then(() => { 
+          alert("News item deleted successfully."); 
+        }).catch(err => alert("Error: " + err.message));
       }
     }
 
+    // معالجة القرارات (Accept / Reject / Revision)
     function processDirective(key, decision) {
       const noteInput = document.getElementById(`fb_${key}`);
       const note = noteInput ? noteInput.value : "";
       const up = {};
       up[`/directives/${key}/status`] = decision;
       up[`/directives/${key}/feedback`] = note;
-      window.dbUpdate(window.dbRef(window.db), up);
+      window.dbUpdate(window.dbRef(window.db), up).catch(err => alert("Error: " + err.message));
     }
 
     function deleteDirectiveFromArchive(key) {
       if(confirm("Are you sure you want to delete this directive permanently from the archive?")) {
         window.dbRemove(window.dbRef(window.db, `/directives/${key}`)).then(() => {
           alert("Directive deleted successfully from archive.");
-        });
+        }).catch(err => alert("Error: " + err.message));
       }
     }
 
+    // إصلاح إنشاء حسابات المندوبين السحابية
     function createNewDelegate(e) {
       e.preventDefault();
-      const u = document.getElementById("newUsername").value.trim();
+      const u = document.getElementById("newUsername").value.trim().replace(/[.#$\[\]]/g, "_"); // تنظيف الـ ID لتجنب مشاكل Firebase
       const p = document.getElementById("newPassword").value.trim();
       const n = document.getElementById("newDisplayName").value.trim();
-      window.dbSet(window.dbRef(window.db, `custom_accounts/${u}`), { password: p, name: n }).then(() => {
-        alert("Account Linked Successfully!"); 
+
+      if(!u || !p || !n) {
+        alert("Please fill in all account fields.");
+        return;
+      }
+
+      window.dbSet(window.dbRef(window.db, `custom_accounts/${u}`), { 
+        password: p, 
+        name: n 
+      }).then(() => {
+        alert("Account Linked Successfully for: " + n); 
         e.target.reset();
+      }).catch((error) => {
+        alert("Failed to create account: " + error.message);
       });
     }
   </script>
