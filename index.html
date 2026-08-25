@@ -166,10 +166,6 @@
       color: var(--accent-gold);
     }
 
-    .menu-toggle {
-      display: none;
-    }
-
     .nav-tabs {
       display: flex;
       gap: 4px;
@@ -411,7 +407,6 @@
       letter-spacing: 0.1em;
     }
     
-    /* التعديل الثاني: جعل العناصر بجانب بعضها البعض وليست فوق بعضها */
     .chairs-container {
       display: flex;
       flex-direction: row;
@@ -426,7 +421,7 @@
       text-align: center;
       cursor: pointer;
       transition: transform 0.2s ease;
-      width: 90px; /* تحديد عرض مناسب لتكون متجاورة بشكل جميل */
+      width: 90px;
     }
 
     .chair-box:hover {
@@ -654,9 +649,6 @@
       .header-text p {
         font-size: 10px;
       }
-      .menu-toggle {
-        display: none !important; 
-      }
       .nav-tabs {
         display: flex !important; 
         flex-direction: row;
@@ -778,25 +770,36 @@
     <div class="modal-content">
       <button class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</button>
       <h2 id="modalTitle" style="color: #FFFFFF; font-weight: 600; font-size: 20px; margin-bottom:12px;">Committee Name</h2>
-      <div style="text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border);">
+      
+      <!-- Topics Container (Hidden if global coming soon is active) -->
+      <div id="committeeTopicsContainer" style="text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border);">
         <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
       </div>
+
+      <!-- Global Coming Soon Stamp Container -->
+      <div id="globalComingSoonStamp" style="display: none; text-align: center; padding: 10px 0;">
+        <div class="modal-secret-stamp">TOP SECRET</div>
+        <p style="font-size:11px; color:var(--text-muted);">Committee agenda and board details remain restricted.</p>
+      </div>
       
-      <!-- التعديل الأول: تخصيص الأقسام للـ Crisis أو اللجان العادية -->
-      <div id="committeeChairsSection">
-        <div class="chairs-title">Committee Chairs</div>
-        <div class="chairs-container" id="modalChairs"></div>
+      <!-- Committee Chairs Sections (Hidden if global coming soon is active) -->
+      <div id="committeeDetailsWrapper">
+        <div id="committeeChairsSection">
+          <div class="chairs-title">Committee Chairs</div>
+          <div class="chairs-container" id="modalChairs"></div>
+        </div>
+
+        <div id="crisisSpecificSections" style="display: none;">
+          <div class="chairs-title">Front Room Chair</div>
+          <div class="chairs-container" id="modalFrontRoomChairs"></div>
+
+          <div class="chairs-title">Backroom Chairs</div>
+          <div class="chairs-container" id="modalBackroomChairs"></div>
+        </div>
       </div>
 
-      <div id="crisisSpecificSections" style="display: none;">
-        <div class="chairs-title">Front Room Chair</div>
-        <div class="chairs-container" id="modalFrontRoomChairs"></div>
-
-        <div class="chairs-title">Backroom Chairs</div>
-        <div class="chairs-container" id="modalBackroomChairs"></div>
-      </div>
-
-      <div style="margin-top: 16px;">
+      <!-- Research Report Link (Always remains visible) -->
+      <div style="margin-top: 20px;">
         <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px;" rel="noopener">View Research Report</a>
       </div>
       <button class="modal-close-button" onclick="closeModal()">Close</button>
@@ -994,31 +997,37 @@
       
       document.getElementById("modalTitle").innerText = committee;
       
+      const topicsContainer = document.getElementById("committeeTopicsContainer");
+      const detailsWrapper = document.getElementById("committeeDetailsWrapper");
+      const stampContainer = document.getElementById("globalComingSoonStamp");
+      
       const normalSection = document.getElementById("committeeChairsSection");
       const crisisSection = document.getElementById("crisisSpecificSections");
 
       if (appData && appData.committees && appData.committees[committee]) {
         const data = appData.committees[committee];
-        document.getElementById("modalTopics").innerText = data.topics || "Topic coming soon...";
         document.getElementById("modalReportLink").href = data.report || "#";
         
-        if (data.chairsComingSoon === true) {
-          normalSection.style.display = "block";
-          crisisSection.style.display = "none";
-          document.getElementById("modalChairs").innerHTML = `
-            <div style="text-align: center; width: 100%; padding: 10px 0;">
-              <div class="modal-secret-stamp">TOP SECRET</div>
-              <p style="font-size:11px; color:var(--text-muted);">presiding board details remain restricted.</p>
-            </div>`;
+        // التحقق من تفعيل خيار الـ Coming Soon الشامل من لوحة التحكم
+        if (appData.committeesComingSoon === true) {
+          topicsContainer.style.display = "none";
+          detailsWrapper.style.display = "none";
+          stampContainer.style.display = "block";
           return;
         }
+
+        // إرجاع العرض العادي إذا لم تكن الحالة مفعلة
+        topicsContainer.style.display = "block";
+        detailsWrapper.style.display = "block";
+        stampContainer.style.display = "none";
+
+        document.getElementById("modalTopics").innerText = data.topics || "Topic coming soon...";
 
         // معالجة لجنة الأزمات (CRISIS) بفصل الـ Backroom عن الـ Front Room
         if (committee === "CRISIS") {
           normalSection.style.display = "none";
           crisisSection.style.display = "block";
 
-          // Front Room Chairs
           let frontHtml = "";
           if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
             data.chairs.forEach((chair, index) => {
@@ -1033,7 +1042,6 @@
           }
           document.getElementById("modalFrontRoomChairs").innerHTML = frontHtml;
 
-          // Backroom Chairs
           let backHtml = "";
           if (data.backroom && Array.isArray(data.backroom) && data.backroom.length > 0) {
             data.backroom.forEach((bChair, index) => {
@@ -1049,7 +1057,6 @@
           document.getElementById("modalBackroomChairs").innerHTML = backHtml;
 
         } else {
-          // اللجان العادية الأخرى
           normalSection.style.display = "block";
           crisisSection.style.display = "none";
 
@@ -1069,6 +1076,10 @@
         }
 
       } else {
+        topicsContainer.style.display = "block";
+        detailsWrapper.style.display = "block";
+        stampContainer.style.display = "none";
+
         normalSection.style.display = "block";
         crisisSection.style.display = "none";
         document.getElementById("modalTopics").innerText = "Topic coming soon...";
