@@ -240,11 +240,16 @@
         </div>
         <div class="checkbox-group">
           <input type="checkbox" id="chairsOpen">
-          <label for="chairsOpen" style="display:inline; margin:0; color:white;">Chairs Registration Open</label>
+          <label for="chairsOpen" style="display:inline; margin:0; color:white;">Chairs & Staff Registration Open</label>
         </div>
         <div class="checkbox-group">
           <input type="checkbox" id="galleryLocked">
           <label for="galleryLocked" style="display:inline; margin:0; color:white;">Lock Conference Gallery</label>
+        </div>
+        <!-- خانة الاختيار الجديدة الشاملة للجان (Coming Soon / Top Secret) -->
+        <div class="checkbox-group" style="grid-column: span 2; background: rgba(228, 179, 67, 0.05); border: 1px solid rgba(228, 179, 67, 0.2); padding: 12px; border-radius: 10px; margin-top: 5px;">
+          <input type="checkbox" id="committeesComingSoon">
+          <label for="committeesComingSoon" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Hide All Committees Topics & Chairs (Coming Soon / Top Secret Stamp)</label>
         </div>
       </div>
 
@@ -318,11 +323,6 @@
         <input type="text" id="commReport" placeholder="https://...">
       </div>
 
-      <div class="checkbox-group" style="margin-top: 10px; margin-bottom: 20px;">
-        <input type="checkbox" id="chairsComingSoon">
-        <label for="chairsComingSoon" style="display:inline; margin:0; color:white;">Chairs Coming Soon (Top Secret Stamp)</label>
-      </div>
-
       <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 20px 0;">
 
       <h3 style="font-size: 14px; color: var(--accent-gold); margin-bottom: 12px; text-transform: uppercase;" id="chairFormTitle">Add Chair / Backroom Member</h3>
@@ -386,7 +386,6 @@
   </div>
 
   <script>
-    // كلمة المرور الخاصة بلوحة التحكم (يمكنك تغييرها هنا)
     const ADMIN_PASS = "FRANMUN2026";
 
     function checkPassword() {
@@ -434,6 +433,7 @@
       document.getElementById("delegatesOpen").checked = !!appData.delegatesOpen;
       document.getElementById("chairsOpen").checked = !!appData.chairsOpen;
       document.getElementById("galleryLocked").checked = !!appData.galleryLocked;
+      document.getElementById("committeesComingSoon").checked = !!appData.committeesComingSoon;
       document.getElementById("targetDate").value = appData.targetDate || "";
     }
 
@@ -443,6 +443,7 @@
         delegatesOpen: document.getElementById("delegatesOpen").checked,
         chairsOpen: document.getElementById("chairsOpen").checked,
         galleryLocked: document.getElementById("galleryLocked").checked,
+        committeesComingSoon: document.getElementById("committeesComingSoon").checked,
         targetDate: document.getElementById("targetDate").value.trim()
       };
 
@@ -542,7 +543,7 @@
       document.getElementById("cancelEditBtn").style.display = "none";
     }
 
-    // إدارة اللجان والتشيرز (مع التعديل والترتيب)
+    // إدارة اللجان والتشيرز
     function loadCommitteeDataToAdmin() {
       const commKey = document.getElementById("selectCommittee").value;
       const committees = appData.committees || {};
@@ -550,7 +551,6 @@
 
       document.getElementById("commTopics").value = comm.topics || "";
       document.getElementById("commReport").value = comm.report || "";
-      document.getElementById("chairsComingSoon").checked = !!comm.chairsComingSoon;
 
       clearChairForm();
       renderAdminChairsList(comm);
@@ -723,7 +723,6 @@
 
       appData.committees[commKey].topics = document.getElementById("commTopics").value.trim();
       appData.committees[commKey].report = document.getElementById("commReport").value.trim();
-      appData.committees[commKey].chairsComingSoon = document.getElementById("chairsComingSoon").checked;
 
       database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
         .then(() => alert("Committee details saved successfully!"))
