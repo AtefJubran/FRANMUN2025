@@ -246,7 +246,7 @@
           <input type="checkbox" id="galleryLocked">
           <label for="galleryLocked" style="display:inline; margin:0; color:white;">Lock Conference Gallery</label>
         </div>
-        <!-- خانة الاختيار الجديدة الشاملة للجان (Coming Soon / Top Secret) -->
+        <!-- خانة الإخفاء الشاملة للجان (Coming Soon / Top Secret) -->
         <div class="checkbox-group" style="grid-column: span 2; background: rgba(228, 179, 67, 0.05); border: 1px solid rgba(228, 179, 67, 0.2); padding: 12px; border-radius: 10px; margin-top: 5px;">
           <input type="checkbox" id="committeesComingSoon">
           <label for="committeesComingSoon" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Hide All Committees Topics & Chairs (Coming Soon / Top Secret Stamp)</label>
@@ -321,6 +321,12 @@
       <div class="form-group">
         <label>Research Report Link</label>
         <input type="text" id="commReport" placeholder="https://...">
+      </div>
+
+      <!-- حقل رابط Country Matrix الجديد -->
+      <div class="form-group">
+        <label>Country Matrix PDF Link</label>
+        <input type="text" id="commMatrix" placeholder="https://... (Drive PDF link)">
       </div>
 
       <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 20px 0;">
@@ -551,6 +557,7 @@
 
       document.getElementById("commTopics").value = comm.topics || "";
       document.getElementById("commReport").value = comm.report || "";
+      document.getElementById("commMatrix").value = comm.matrix || ""; // جلب رابط الماتريكس
 
       clearChairForm();
       renderAdminChairsList(comm);
@@ -723,6 +730,7 @@
 
       appData.committees[commKey].topics = document.getElementById("commTopics").value.trim();
       appData.committees[commKey].report = document.getElementById("commReport").value.trim();
+      appData.committees[commKey].matrix = document.getElementById("commMatrix").value.trim(); // حفظ رابط الماتريكس
 
       database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
         .then(() => alert("Committee details saved successfully!"))
