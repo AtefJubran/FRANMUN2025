@@ -411,20 +411,22 @@
       letter-spacing: 0.1em;
     }
     
+    /* التعديل الثاني: جعل العناصر بجانب بعضها البعض وليست فوق بعضها */
     .chairs-container {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 16px;
       margin-top: 16px;
       text-align: center;
-      justify-items: center;
     }
     
     .chair-box {
       text-align: center;
       cursor: pointer;
       transition: transform 0.2s ease;
-      width: 100%;
+      width: 90px; /* تحديد عرض مناسب لتكون متجاورة بشكل جميل */
     }
 
     .chair-box:hover {
@@ -536,6 +538,8 @@
       transform: scale(0.85) translateY(30px);
       transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease;
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .modal.active-modal .modal-content, 
@@ -634,7 +638,7 @@
       header {
         border-radius: 20px;
         padding: 8px 12px;
-        flex-direction: column; /* ترتيب العناصر بشكل عمودي لكي تتسع الأزرار واللوجو براحة */
+        flex-direction: column; 
         gap: 8px;
       }
       .logo-container {
@@ -642,7 +646,7 @@
         justify-content: center;
       }
       .header-text {
-        display: block; /* إظهار اسم المدرسة مصغراً بجانب الشعار أو تحته */
+        display: block; 
       }
       .header-text h1 {
         font-size: 12px;
@@ -651,10 +655,10 @@
         font-size: 10px;
       }
       .menu-toggle {
-        display: none !important; /* إخفاء زر الثلاث شحطات تماماً */
+        display: none !important; 
       }
       .nav-tabs {
-        display: flex !important; /* إظهار الأزرار دائماً بشكل مباشر */
+        display: flex !important; 
         flex-direction: row;
         position: static;
         background: transparent;
@@ -671,7 +675,6 @@
       .countdown-container {
         grid-template-columns: repeat(2, 1fr);
       }
-      .chairs-container { grid-template-columns: repeat(1, 1fr); }
       .parent-notice-box { text-align: center; }
       .premium-leadership-team { grid-template-columns: repeat(2, 1fr); }
     }
@@ -699,8 +702,6 @@
           <p>FRANMUN 2026</p>
         </div>
       </div>
-      
-      <!-- تم حذف زر الثلاث شحطات وإظهار الأزرار مباشرة بدلاً منه -->
 
       <nav class="nav-tabs" id="navTabs">
         <button class="tab-btn active" id="btn-home" onclick="switchPage('home')">HOME</button>
@@ -780,8 +781,21 @@
       <div style="text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border);">
         <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
       </div>
-      <div class="chairs-title">Committee Chairs</div>
-      <div class="chairs-container" id="modalChairs"></div>
+      
+      <!-- التعديل الأول: تخصيص الأقسام للـ Crisis أو اللجان العادية -->
+      <div id="committeeChairsSection">
+        <div class="chairs-title">Committee Chairs</div>
+        <div class="chairs-container" id="modalChairs"></div>
+      </div>
+
+      <div id="crisisSpecificSections" style="display: none;">
+        <div class="chairs-title">Front Room Chair</div>
+        <div class="chairs-container" id="modalFrontRoomChairs"></div>
+
+        <div class="chairs-title">Backroom Chairs</div>
+        <div class="chairs-container" id="modalBackroomChairs"></div>
+      </div>
+
       <div style="margin-top: 16px;">
         <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px;" rel="noopener">View Research Report</a>
       </div>
@@ -980,65 +994,86 @@
       
       document.getElementById("modalTitle").innerText = committee;
       
+      const normalSection = document.getElementById("committeeChairsSection");
+      const crisisSection = document.getElementById("crisisSpecificSections");
+
       if (appData && appData.committees && appData.committees[committee]) {
         const data = appData.committees[committee];
         document.getElementById("modalTopics").innerText = data.topics || "Topic coming soon...";
         document.getElementById("modalReportLink").href = data.report || "#";
         
-        let chairsHTML = "";
-
         if (data.chairsComingSoon === true) {
-          chairsHTML = `
-            <div style="text-align: center; width: 100%; padding: 10px 0; grid-column: span 3;">
+          normalSection.style.display = "block";
+          crisisSection.style.display = "none";
+          document.getElementById("modalChairs").innerHTML = `
+            <div style="text-align: center; width: 100%; padding: 10px 0;">
               <div class="modal-secret-stamp">TOP SECRET</div>
               <p style="font-size:11px; color:var(--text-muted);">presiding board details remain restricted.</p>
             </div>`;
-          document.getElementById("modalChairs").innerHTML = chairsHTML;
           return;
         }
-        
-        let combinedChairs = [];
 
-        if (data.chairs && Array.isArray(data.chairs)) {
-          data.chairs.forEach((chair, index) => {
-            combinedChairs.push({
-              name: chair.name,
-              img: chair.img,
-              type: 'chairs',
-              originalIndex: index,
-              roleDisplay: "Committee Chair"
+        // معالجة لجنة الأزمات (CRISIS) بفصل الـ Backroom عن الـ Front Room
+        if (committee === "CRISIS") {
+          normalSection.style.display = "none";
+          crisisSection.style.display = "block";
+
+          // Front Room Chairs
+          let frontHtml = "";
+          if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
+            data.chairs.forEach((chair, index) => {
+              frontHtml += `
+                <div class="chair-box" onclick="openBioPopupFromData('chairs', ${index}, 'Front Room Chair')">
+                  <img src="${chair.img || 'logo.jpeg.JPG'}" alt="${chair.name || 'Chair'}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="chair-name">${chair.name || 'Chair'}</div>
+                </div>`;
             });
-          });
-        }
+          } else {
+            frontHtml = "<p style='font-size:12px; color:var(--text-muted);'>Coming soon.</p>";
+          }
+          document.getElementById("modalFrontRoomChairs").innerHTML = frontHtml;
 
-        if (committee === "CRISIS" && data.backroom && Array.isArray(data.backroom)) {
-          data.backroom.forEach((bChair, index) => {
-            combinedChairs.push({
-              name: bChair.name,
-              img: bChair.img,
-              type: 'backroom',
-              originalIndex: index,
-              roleDisplay: "Backroom Chair"
+          // Backroom Chairs
+          let backHtml = "";
+          if (data.backroom && Array.isArray(data.backroom) && data.backroom.length > 0) {
+            data.backroom.forEach((bChair, index) => {
+              backHtml += `
+                <div class="chair-box" onclick="openBioPopupFromData('backroom', ${index}, 'Backroom Chair')">
+                  <img src="${bChair.img || 'logo.jpeg.JPG'}" alt="${bChair.name || 'Chair'}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="chair-name">${bChair.name || 'Chair'}</div>
+                </div>`;
             });
-          });
-        }
+          } else {
+            backHtml = "<p style='font-size:12px; color:var(--text-muted);'>Coming soon.</p>";
+          }
+          document.getElementById("modalBackroomChairs").innerHTML = backHtml;
 
-        if (combinedChairs.length > 0) {
-          combinedChairs.forEach(chair => {
-            chairsHTML += `
-              <div class="chair-box" onclick="openBioPopupFromData('${chair.type}', ${chair.originalIndex}, '${chair.roleDisplay}')">
-                <img src="${chair.img || 'logo.jpeg.JPG'}" alt="${chair.name || 'Chair'}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
-                <div class="chair-name">${chair.name || 'Chair'}</div>
-              </div>`;
-          });
         } else {
-          chairsHTML = "<p style='font-size:12px; color:var(--text-muted); grid-column: span 3;'>Chairs announcement coming soon.</p>";
+          // اللجان العادية الأخرى
+          normalSection.style.display = "block";
+          crisisSection.style.display = "none";
+
+          let chairsHTML = "";
+          if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
+            data.chairs.forEach((chair, index) => {
+              chairsHTML += `
+                <div class="chair-box" onclick="openBioPopupFromData('chairs', ${index}, 'Committee Chair')">
+                  <img src="${chair.img || 'logo.jpeg.JPG'}" alt="${chair.name || 'Chair'}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="chair-name">${chair.name || 'Chair'}</div>
+                </div>`;
+            });
+          } else {
+            chairsHTML = "<p style='font-size:12px; color:var(--text-muted);'>Chairs announcement coming soon.</p>";
+          }
+          document.getElementById("modalChairs").innerHTML = chairsHTML;
         }
-        document.getElementById("modalChairs").innerHTML = chairsHTML;
+
       } else {
+        normalSection.style.display = "block";
+        crisisSection.style.display = "none";
         document.getElementById("modalTopics").innerText = "Topic coming soon...";
         document.getElementById("modalReportLink").href = "#";
-        document.getElementById("modalChairs").innerHTML = "<p style='font-size:12px; color:var(--text-muted); grid-column: span 3;'>Chairs announcement coming soon.</p>";
+        document.getElementById("modalChairs").innerHTML = "<p style='font-size:12px; color:var(--text-muted);'>Chairs announcement coming soon.</p>";
       }
     }
 
