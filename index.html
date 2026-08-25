@@ -754,6 +754,11 @@
             <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
             <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
           </div>
+
+          <!-- Country Matrix Button Added Here -->
+          <div style="margin-top: 30px; text-align: center;" id="countryMatrixContainer">
+            <!-- Rendered dynamically or fallback -->
+          </div>
         </article>
       </section>
 
@@ -907,8 +912,22 @@
         renderRegistrationButtons();
         renderSGTeam();
         renderGallerySection();
+        renderCountryMatrixButton(); // تحديث زر الكونتري ماتركس ديناميكياً
       }
     });
+
+    function renderCountryMatrixButton() {
+      const container = document.getElementById("countryMatrixContainer");
+      if (!container) return;
+
+      const matrixUrl = appData.countryMatrixPdf || "#";
+      
+      if (matrixUrl !== "#" && matrixUrl !== "") {
+        container.innerHTML = `<a href="${matrixUrl}" target="_blank" class="button" style="max-width: 320px; margin: 0 auto;">Country Matrix &rarr;</a>`;
+      } else {
+        container.innerHTML = `<a href="#" class="button" style="max-width: 320px; margin: 0 auto; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Coming Soon</a>`;
+      }
+    }
 
     function renderSGTeam() {
       const container = document.getElementById("sgTeamContainer");
@@ -1008,7 +1027,6 @@
         const data = appData.committees[committee];
         document.getElementById("modalReportLink").href = data.report || "#";
         
-        // التحقق من تفعيل خيار الـ Coming Soon الشامل من لوحة التحكم
         if (appData.committeesComingSoon === true) {
           topicsContainer.style.display = "none";
           detailsWrapper.style.display = "none";
@@ -1016,14 +1034,12 @@
           return;
         }
 
-        // إرجاع العرض العادي إذا لم تكن الحالة مفعلة
         topicsContainer.style.display = "block";
         detailsWrapper.style.display = "block";
         stampContainer.style.display = "none";
 
         document.getElementById("modalTopics").innerText = data.topics || "Topic coming soon...";
 
-        // معالجة لجنة الأزمات (CRISIS) بفصل الـ Backroom عن الـ Front Room
         if (committee === "CRISIS") {
           normalSection.style.display = "none";
           crisisSection.style.display = "block";
