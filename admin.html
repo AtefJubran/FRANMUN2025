@@ -294,7 +294,7 @@
       <button class="btn btn-danger" id="cancelEditBtn" style="display:none; margin-left: 10px;" onclick="clearSgForm()">Cancel</button>
 
       <div style="margin-top: 24px;">
-        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current SG Members</h3>
+        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current SG Members (Use arrows to reorder)</h3>
         <div id="adminSgList">
           <p style="color: var(--text-muted); font-size: 13px;">Loading SG members...</p>
         </div>
@@ -482,12 +482,30 @@
               </div>
             </div>
             <div class="action-btns">
+              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, -1)">⬆️</button>
+              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, 1)">⬇️</button>
               <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="editSgMember(${index})">Edit</button>
               <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteSgMember(${index})">Remove</button>
             </div>
           </div>`;
       });
       container.innerHTML = html;
+    }
+
+    function moveSgMember(index, direction) {
+      let team = appData.sgTeam ? [...appData.sgTeam] : [];
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= team.length) return;
+
+      const temp = team[index];
+      team[index] = team[newIndex];
+      team[newIndex] = temp;
+
+      database.ref("homepage_data/sgTeam").set(team)
+        .then(() => {
+          renderAdminSgList();
+        })
+        .catch(err => alert("Error: " + err.message));
     }
 
     function addOrUpdateSGMember() {
