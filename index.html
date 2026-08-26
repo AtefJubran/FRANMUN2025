@@ -196,14 +196,14 @@
     }
 
     .main-container {
-      max-width: 1100px;
+      max-width: 1000px;
       margin: 0 auto;
       padding: 140px 24px 80px 24px;
       min-height: 85vh;
     }
 
     .hero-section { 
-      padding: 40px 0 30px 0;
+      padding: 40px 0 20px 0;
       text-align: center;
     }
 
@@ -227,7 +227,6 @@
       margin: 0 auto;
     }
 
-    /* Clean Official Section (No Frames/Cards) */
     .official-section {
       margin: 50px 0;
       text-align: center;
@@ -240,14 +239,14 @@
       color: var(--accent-blue);
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .official-section p {
       color: var(--text-body);
       font-size: 15.5px;
       line-height: 1.8;
-      max-width: 800px;
+      max-width: 750px;
       margin: 0 auto;
     }
 
@@ -255,15 +254,15 @@
       width: 60px;
       height: 2px;
       background: var(--accent-blue);
-      margin: 30px auto;
-      opacity: 0.3;
+      margin: 40px auto;
+      opacity: 0.25;
     }
 
     .countdown-container {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
-      max-width: 520px;
+      max-width: 480px;
       margin: 0 auto;
     }
 
@@ -273,7 +272,7 @@
 
     .countdown-number {
       font-family: var(--font-heading);
-      font-size: 32px;
+      font-size: 30px;
       font-weight: 700;
       display: block;
       color: var(--text-dark);
@@ -284,14 +283,14 @@
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      margin-top: 6px;
+      margin-top: 4px;
       font-weight: 600;
     }
 
     .committee-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 16px;
     }
 
     @media (min-width: 640px) {
@@ -309,7 +308,7 @@
     .committee-icon {
       aspect-ratio: 1 / 1; 
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(46, 139, 192, 0.02);
       padding: 30px;
       display: flex;
       align-items: center;
@@ -318,29 +317,29 @@
       overflow: hidden;
       width: 100%;
       border-bottom: 2px solid transparent;
+      border-top: 1px solid rgba(46, 139, 192, 0.08);
+      border-left: 1px solid rgba(46, 139, 192, 0.08);
+      border-right: 1px solid rgba(46, 139, 192, 0.08);
     }
 
     .committee-icon:hover {
-      background: rgba(46, 139, 192, 0.04);
+      background: rgba(46, 139, 192, 0.05);
       border-bottom-color: var(--accent-blue);
-      transform: translateY(-2px);
     }
 
     .committee-icon img {
-      max-width: 75%;
-      max-height: 75%;
+      max-width: 70%;
+      max-height: 70%;
       width: auto;
       height: auto;
       object-fit: contain;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.06));
     }
 
-    /* Clean Profiles Grid (No Card Boxes) */
     .profiles-grid-container {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 48px;
-      margin-top: 30px;
+      gap: 50px;
+      margin-top: 40px;
     }
 
     @media (min-width: 768px) {
@@ -365,55 +364,53 @@
     .profile-square-img {
       width: 100%;
       aspect-ratio: 1 / 1;
-      max-width: 240px;
-      border-radius: 6px;
+      max-width: 220px;
+      border-radius: 4px;
       object-fit: cover;
       margin-bottom: 20px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     }
 
     .profile-name {
       font-family: var(--font-heading);
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 700;
       color: var(--text-dark);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
     .profile-role {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--accent-blue);
       text-transform: uppercase;
       letter-spacing: 0.15em;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .profile-bio {
       color: var(--text-body);
-      font-size: 14px;
-      line-height: 1.75;
+      font-size: 13.5px;
+      line-height: 1.7;
       width: 100%;
       text-align: center;
     }
 
-    /* Committee Page Styles */
     .committee-page-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
     .back-btn {
       background: transparent;
       border: 1px solid rgba(46, 139, 192, 0.3);
       color: var(--accent-blue);
-      padding: 8px 18px;
+      padding: 8px 16px;
       border-radius: var(--radius-button);
       cursor: pointer;
       font-weight: 700;
-      font-size: 11.5px;
+      font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       transition: var(--transition-smooth);
@@ -425,19 +422,19 @@
       border-color: var(--accent-blue);
     }
 
-    .parent-notice-box {
-      border-left: 3px solid var(--accent-blue);
-      padding: 12px 20px;
-      margin: 30px auto;
-      max-width: 650px;
-      text-align: left;
-      background: rgba(46, 139, 192, 0.03);
+    .parent-notice-section {
+      border-top: 1px solid rgba(46, 139, 192, 0.15);
+      border-bottom: 1px solid rgba(46, 139, 192, 0.15);
+      padding: 24px 0;
+      margin: 40px auto;
+      max-width: 700px;
+      text-align: center;
     }
 
     .parent-notice-text {
       font-size: 13.5px;
       color: var(--text-body);
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .parent-notice-text strong {
@@ -460,36 +457,34 @@
       background: var(--accent-blue);
       color: #FFFFFF;
       font-weight: 700;
-      padding: 14px 28px;
+      padding: 12px 24px;
       border-radius: var(--radius-button);
       text-decoration: none;
-      font-size: 12.5px;
+      font-size: 12px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       transition: var(--transition-smooth);
       flex: 1;
-      min-width: 220px; 
-      max-width: 260px;
-      box-shadow: 0 4px 16px rgba(46, 139, 192, 0.2);
+      min-width: 200px; 
+      max-width: 240px;
     }
 
     .button:hover {
       background: var(--accent-blue-hover);
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(46, 139, 192, 0.3);
     }
 
     .modal-secret-stamp {
       border: 2px dashed var(--accent-red);
       color: var(--accent-red);
-      padding: 10px;
-      border-radius: 6px;
+      padding: 8px 16px;
+      border-radius: 4px;
       display: inline-block;
       font-family: var(--font-heading);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: bold;
       letter-spacing: 2px;
-      transform: rotate(-1.5deg);
+      transform: rotate(-1deg);
       margin: 16px 0;
     }
 
@@ -510,7 +505,6 @@
       .countdown-container {
         grid-template-columns: repeat(2, 1fr);
       }
-      .parent-notice-box { text-align: center; border-left: none; border-top: 3px solid var(--accent-blue); }
     }
 
     .page-view { display: none; }
@@ -554,7 +548,7 @@
           <p>First Annual Model United Nations Conference</p>
         </div>
 
-        <div style="margin: 40px 0; text-align: center;" id="countryMatrixContainer">
+        <div style="margin: 30px 0; text-align: center;" id="countryMatrixContainer">
           <!-- Rendered dynamically from Firebase -->
         </div>
 
@@ -568,7 +562,7 @@
           </div>
         </div>
 
-        <div class="parent-notice-box">
+        <div class="parent-notice-section">
           <div class="parent-notice-text">
             <strong>Official Registration Notice:</strong> Parents or legal guardians must review and sign the required participation documentation. The guardian's name serves as official digital authorization.
           </div>
@@ -588,7 +582,7 @@
       <section id="page-committees" class="page-view">
         <div class="official-section" style="margin-top: 0;">
           <h3>Conference Committees</h3>
-          <p style="margin-bottom: 40px;">Select a committee below to review official agendas, study guides, and chair profiles.</p>
+          <p style="margin-bottom: 30px;">Select a committee below to review official agendas, study guides, and chair profiles.</p>
           <div class="committee-grid">
             <div class="committee-icon" onclick="openCommitteePage('UNICEF')"><img src="unicef.png" alt="UNICEF" /></div>
             <div class="committee-icon" onclick="openCommitteePage('UNWOMEN')"><img src="unwomen.png" alt="UN Women" /></div>
@@ -605,22 +599,22 @@
       <section id="page-committee-detail" class="page-view">
         <div class="committee-page-header">
           <button class="back-btn" onclick="switchPage('committees')">&larr; Return to Committees</button>
-          <h2 id="detailCommitteeTitle" style="font-family: var(--font-heading); font-size: 22px; color: var(--text-dark);">Committee</h2>
+          <h2 id="detailCommitteeTitle" style="font-family: var(--font-heading); font-size: 20px; color: var(--text-dark);">Committee</h2>
         </div>
 
-        <div class="official-section" style="text-align: left; max-width: 800px; margin: 0 auto 50px auto;">
+        <div class="official-section" style="text-align: left; max-width: 750px; margin: 0 auto 40px auto;">
           <h3>Committee Agenda & Topics</h3>
-          <div style="background: rgba(46, 139, 192, 0.02); padding: 24px; border-left: 2px solid var(--accent-blue); margin-top: 16px;">
+          <div style="border-top: 1px solid rgba(46, 139, 192, 0.15); border-bottom: 1px solid rgba(46, 139, 192, 0.15); padding: 20px 0; margin-top: 16px;">
             <p id="detailTopicsText" style="color: var(--text-body); font-size: 15px; white-space: pre-line; max-width: 100%;"></p>
           </div>
 
-          <div id="detailComingSoonStamp" style="display: none; text-align: center; padding: 30px 0;">
+          <div id="detailComingSoonStamp" style="display: none; text-align: center; padding: 20px 0;">
             <div class="modal-secret-stamp">RESTRICTED</div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">Committee agendas and confidential briefs are pending release.</p>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Committee agendas and confidential briefs are pending release.</p>
           </div>
 
-          <div style="margin-top: 24px;">
-            <a id="detailReportLink" href="#" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-size: 13.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;" rel="noopener">Access Research Report &rarr;</a>
+          <div style="margin-top: 20px;">
+            <a id="detailReportLink" href="#" target="_blank" style="color: var(--accent-blue); text-decoration: none; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;" rel="noopener">Access Research Report &rarr;</a>
           </div>
         </div>
 
@@ -640,14 +634,14 @@
           <h2>Secretariat Team</h2>
           <p>Executive Leadership of FRANMUN 2026</p>
         </div>
-        <div id="teamPageContainer" class="profiles-grid-container" style="margin-top: 50px;">
+        <div id="teamPageContainer" class="profiles-grid-container" style="margin-top: 40px;">
           <!-- Populated dynamically -->
         </div>
       </section>
 
       <!-- GALLERY PAGE -->
       <section id="page-gallery" class="page-view">
-        <div class="official-section" id="galleryCardContent" style="padding: 40px 0;">
+        <div class="official-section" id="galleryCardContent" style="padding: 30px 0;">
           <!-- Gallery content rendered dynamically -->
         </div>
       </section>
@@ -657,18 +651,18 @@
 
   <footer style="
     text-align: center; 
-    padding: 50px 24px; 
-    margin-top: 80px; 
+    padding: 40px 24px; 
+    margin-top: 60px; 
     border-top: 1px solid rgba(46, 139, 192, 0.15); 
     background: rgba(253, 251, 247, 0.8);
   ">
-    <p style="font-size: 13.5px; color: var(--text-body); margin: 0 0 6px 0;">
+    <p style="font-size: 13px; color: var(--text-body); margin: 0 0 6px 0;">
       Official Inquiry: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-blue); text-decoration: none; font-weight: 600;">franmun2025@gmail.com</a>
     </p>
-    <p style="font-size: 13.5px; color: var(--text-dark); font-weight: 700; margin: 0 0 16px 0;">
+    <p style="font-size: 13px; color: var(--text-dark); font-weight: 700; margin: 0 0 14px 0;">
       Franciscan Sister's School Nazareth
     </p>
-    <p style="font-size: 11px; color: var(--text-muted); opacity: 0.8; margin: 0 0 10px 0;">
+    <p style="font-size: 11px; color: var(--text-muted); opacity: 0.8; margin: 0 0 8px 0;">
       &copy; 2026 Franciscan Sister's School MUN. All rights reserved.
     </p>
     <div class="credits" style="
@@ -749,9 +743,9 @@
       const isLocked = !!appData.countryMatrixLocked;
       
       if (!isLocked && matrixUrl !== "") {
-        container.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 280px; margin: 0 auto;">Country Matrix &rarr;</a>`;
+        container.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 260px; margin: 0 auto;">Country Matrix &rarr;</a>`;
       } else {
-        container.innerHTML = `<a href="#" class="button" style="max-width: 280px; margin: 0 auto; background: rgba(46,139,192,0.06); border: 1px solid rgba(46,139,192,0.2); color: var(--text-muted); cursor: not-allowed; box-shadow: none;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
+        container.innerHTML = `<a href="#" class="button" style="max-width: 260px; margin: 0 auto; background: rgba(46,139,192,0.05); border: 1px solid rgba(46,139,192,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
       }
     }
 
@@ -789,15 +783,15 @@
           </p>`;
       } else {
         let filesHtml = `<h3>Official Conference Archives</h3>
-                         <p style="color: var(--text-muted); margin-bottom: 30px;">Access official documentation and photographic drives below:</p>
-                         <div style="display: flex; flex-direction: column; gap: 14px; max-width: 340px; margin: 0 auto;">`;
+                         <p style="color: var(--text-muted); margin-bottom: 24px;">Access official documentation and photographic drives below:</p>
+                         <div style="display: flex; flex-direction: column; gap: 12px; max-width: 300px; margin: 0 auto;">`;
         
         if (appData.driveFiles && Array.isArray(appData.driveFiles) && appData.driveFiles.length > 0) {
           appData.driveFiles.forEach(fileObj => {
             filesHtml += `<a href="${fileObj.link || '#'}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 100%;">${fileObj.title || 'View Archive Document'} &rarr;</a>`;
           });
         } else {
-          filesHtml += `<p style="color: var(--text-muted); font-size: 13.5px;">No files published yet.</p>`;
+          filesHtml += `<p style="color: var(--text-muted); font-size: 13px;">No files published yet.</p>`;
         }
         filesHtml += `</div>`;
         container.innerHTML = filesHtml;
@@ -811,12 +805,12 @@
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="button">Delegate Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.06); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Delegates Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.05); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
       }
       if (appData.chairsOpen) {
-        html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chair Registration &rarr;</a>`;
+        html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chair Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.06); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Chairs Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.05); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
       }
       container.innerHTML = html;
     }
@@ -853,7 +847,7 @@
           chairHeading.innerText = "Crisis Cabinet Leadership";
           let html = "";
           
-          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 11.5px; letter-spacing: 0.1em; margin-bottom: 8px;">Front Room Chair</div>`;
+          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; margin-bottom: 4px;">Front Room Chair</div>`;
           if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
             data.chairs.forEach(chair => {
               html += `
@@ -868,7 +862,7 @@
             html += `<p style="font-size:13px; color:var(--text-muted); grid-column: 1 / -1; text-align: center;">Front room leadership pending.</p>`;
           }
 
-          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 11.5px; letter-spacing: 0.1em; margin-top: 24px; margin-bottom: 8px;">Backroom Chairs</div>`;
+          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; margin-top: 20px; margin-bottom: 4px;">Backroom Chairs</div>`;
           if (data.backroom && Array.isArray(data.backroom) && data.backroom.length > 0) {
             data.backroom.forEach(bChair => {
               html += `
