@@ -398,7 +398,7 @@
     .profile-square-img {
       width: 100%;
       aspect-ratio: 1 / 1;
-      max-width: 240px; /* Made larger here */
+      max-width: 240px;
       border-radius: 10px;
       object-fit: cover;
       margin-bottom: 16px;
@@ -500,16 +500,15 @@
       font-size: 12px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      transition: var(--transition-smooth);
       flex: 1;
       min-width: 200px; 
       max-width: 240px;
       box-shadow: 0 4px 15px rgba(46, 139, 192, 0.3);
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
     }
 
     .button:hover {
       background: var(--accent-blue-hover);
-      transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(46, 139, 192, 0.4);
     }
 
@@ -587,10 +586,6 @@
           <p>First Annual Model United Nations Conference</p>
         </div>
 
-        <div style="margin: 30px 0; text-align: center;" id="countryMatrixContainer">
-          <!-- Rendered dynamically from Firebase -->
-        </div>
-
         <div class="official-section">
           <h3>Conference Countdown</h3>
           <div class="countdown-container">
@@ -655,8 +650,9 @@
             <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Committee agendas and confidential briefs are pending release.</p>
           </div>
 
-          <div style="margin-top: 24px;">
-            <a id="detailReportLink" href="#" target="_blank" class="button" style="max-width: 260px; margin: 0 auto;" rel="noopener">Access Full Research Report &rarr;</a>
+          <div style="margin-top: 24px; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+            <a id="detailReportLink" href="#" target="_blank" class="button" style="max-width: 260px;" rel="noopener">Access Full Research Report &rarr;</a>
+            <div id="countryMatrixDetailContainer" style="display:inline-block;"></div>
           </div>
         </div>
 
@@ -774,23 +770,8 @@
         renderRegistrationButtons();
         renderTeamPage();
         renderGallerySection();
-        renderCountryMatrixButton();
       }
     });
-
-    function renderCountryMatrixButton() {
-      const container = document.getElementById("countryMatrixContainer");
-      if (!container) return;
-
-      const matrixUrl = appData.countryMatrixPdf || "";
-      const isLocked = !!appData.countryMatrixLocked;
-      
-      if (!isLocked && matrixUrl !== "") {
-        container.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 260px; margin: 0 auto;">Country Matrix &rarr;</a>`;
-      } else {
-        container.innerHTML = `<a href="#" class="button" style="max-width: 260px; margin: 0 auto; background: rgba(46,139,192,0.08); border: 1px solid rgba(46,139,192,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
-      }
-    }
 
     function renderTeamPage() {
       const container = document.getElementById("teamPageContainer");
@@ -868,8 +849,18 @@
       const topicsText = document.getElementById("detailTopicsText");
       const stampContainer = document.getElementById("detailComingSoonStamp");
       const reportLink = document.getElementById("detailReportLink");
+      const matrixDetailContainer = document.getElementById("countryMatrixDetailContainer");
       const chairsContainer = document.getElementById("detailChairsContainer");
       const chairHeading = document.getElementById("chairSectionHeading");
+
+      // Render Country Matrix button inside committee detail page
+      const matrixUrl = appData.countryMatrixPdf || "";
+      const isMatrixLocked = !!appData.countryMatrixLocked;
+      if (!isMatrixLocked && matrixUrl !== "") {
+        matrixDetailContainer.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 260px;">Country Matrix &rarr;</a>`;
+      } else {
+        matrixDetailContainer.innerHTML = `<a href="#" class="button" style="max-width: 260px; background: rgba(46,139,192,0.08); border: 1px solid rgba(46,139,192,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
+      }
 
       if (appData && appData.committees && appData.committees[committeeName]) {
         const data = appData.committees[committeeName];
