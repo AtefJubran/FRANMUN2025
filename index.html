@@ -373,7 +373,7 @@
       gap: 20px;
       margin-top: 20px;
       justify-content: center;
-      justify-items: center; /* Ensures individual grid items center themselves */
+      justify-items: center;
     }
 
     @media (min-width: 768px) {
@@ -388,7 +388,6 @@
       }
     }
 
-    /* Specific layout modifier for rows with fewer items to center them nicely across columns */
     .profiles-grid-container.center-few {
       display: flex;
       flex-wrap: wrap;
@@ -922,7 +921,6 @@
 
         if (committeeName === "CRISIS") {
           chairHeading.innerText = "Chairs";
-          // Use center-few class so pairs of backroom chairs center nicely instead of drifting right
           chairsContainer.className = "profiles-grid-container center-few";
           let html = "";
           
