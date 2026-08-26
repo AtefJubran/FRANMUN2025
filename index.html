@@ -710,6 +710,11 @@
           <p>First Annual Model United Nations Conference</p>
         </div>
 
+        <!-- Country Matrix Button Placed on Top Section of Home -->
+        <div style="margin-bottom: 24px; text-align: center;" id="countryMatrixContainer">
+          <!-- Rendered dynamically from Firebase -->
+        </div>
+
         <article class="card">
           <h3>Conference Countdown</h3>
           <div class="countdown-container">
@@ -744,12 +749,6 @@
       <section id="page-committees" class="page-view">
         <article class="card">
           <h3>Committees</h3>
-          
-          <!-- Country Matrix Button Placed on Top Section -->
-          <div style="margin-bottom: 24px; text-align: center;" id="countryMatrixContainer">
-            <!-- Rendered dynamically from Firebase -->
-          </div>
-
           <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Select a committee shield to review its agenda and presiding chairs.</p>
           <div class="committee-grid">
             <div class="committee-icon" onclick="openModal('UNICEF')"><img src="unicef.png" alt="UNICEF" /></div>
@@ -777,18 +776,15 @@
       <button class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</button>
       <h2 id="modalTitle" style="color: #FFFFFF; font-weight: 600; font-size: 20px; margin-bottom:12px;">Committee Name</h2>
       
-      <!-- Topics Container (Hidden if global coming soon is active) -->
       <div id="committeeTopicsContainer" style="text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border);">
         <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
       </div>
 
-      <!-- Global Coming Soon Stamp Container -->
       <div id="globalComingSoonStamp" style="display: none; text-align: center; padding: 10px 0;">
         <div class="modal-secret-stamp">TOP SECRET</div>
         <p style="font-size:11px; color:var(--text-muted);">Committee agenda and board details remain restricted.</p>
       </div>
       
-      <!-- Committee Chairs Sections (Hidden if global coming soon is active) -->
       <div id="committeeDetailsWrapper">
         <div id="committeeChairsSection">
           <div class="chairs-title">Committee Chairs</div>
@@ -804,7 +800,6 @@
         </div>
       </div>
 
-      <!-- Research Report Link (Always remains visible) -->
       <div style="margin-top: 20px;">
         <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px;" rel="noopener">View Research Report</a>
       </div>
@@ -922,9 +917,10 @@
       if (!container) return;
 
       const matrixUrl = appData.countryMatrixPdf || "";
+      const isLocked = !!appData.countryMatrixLocked;
       
-      if (matrixUrl !== "") {
-        container.innerHTML = `<a href="${matrixUrl}" target="_blank" class="button" style="max-width: 320px; margin: 0 auto;">Country Matrix &rarr;</a>`;
+      if (!isLocked && matrixUrl !== "") {
+        container.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 320px; margin: 0 auto;">Country Matrix &rarr;</a>`;
       } else {
         container.innerHTML = `<a href="#" class="button" style="max-width: 320px; margin: 0 auto; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Coming Soon</a>`;
       }
@@ -982,7 +978,7 @@
         
         if (appData.driveFiles && Array.isArray(appData.driveFiles) && appData.driveFiles.length > 0) {
           appData.driveFiles.forEach(fileObj => {
-            filesHtml += `<a href="${fileObj.link || '#'}" target="_blank" class="button" style="max-width: 100%;">${fileObj.title || 'View Drive File'} &rarr;</a>`;
+            filesHtml += `<a href="${fileObj.link || '#'}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 100%;">${fileObj.title || 'View Drive File'} &rarr;</a>`;
           });
         } else {
           filesHtml += `<p style="color: var(--text-muted); font-size: 13.5px;">No files added yet.</p>`;
@@ -997,12 +993,12 @@
       if(!container) return;
       let html = "";
       if (appData.delegatesOpen) {
-        html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" class="button">Delegates Registration &rarr;</a>`;
+        html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="button">Delegates Registration &rarr;</a>`;
       } else {
         html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
       }
       if (appData.chairsOpen) {
-        html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" class="button">Chairs Registration &rarr;</a>`;
+        html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chairs Registration &rarr;</a>`;
       } else {
         html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
       }
