@@ -185,7 +185,7 @@
       font-family: var(--font-body);
       font-weight: 600;
       font-size: 11px;
-      padding: 8px 12px; /* Increased touch area for mobile */
+      padding: 8px 12px;
       border-radius: var(--radius-button);
       cursor: pointer;
       transition: var(--transition-smooth);
@@ -209,7 +209,7 @@
     .main-container {
       max-width: 1000px;
       margin: 0 auto;
-      padding: 120px 16px 60px 16px; /* Adjusted padding for smaller mobile screens */
+      padding: 120px 16px 60px 16px;
       min-height: 85vh;
     }
 
@@ -244,7 +244,7 @@
       margin: 35px 0;
       text-align: center;
       background: var(--card-bg);
-      padding: 28px 16px; /* Optimized padding for mobile devices */
+      padding: 28px 16px;
       border-radius: var(--radius-card);
       border: 1px solid rgba(255, 255, 255, 0.8);
       box-shadow: var(--shadow-soft);
@@ -277,37 +277,46 @@
       opacity: 0.3;
     }
 
+    /* MATCHING THE GRADIENT PHOTO STYLE */
     .countdown-container {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      max-width: 480px;
+      gap: 12px;
+      max-width: 520px;
       margin: 0 auto;
     }
 
     .countdown-box {
       text-align: center;
-      background: rgba(255, 255, 255, 0.5);
-      padding: 12px 6px;
-      border-radius: var(--radius-button);
-      border: 1px solid rgba(46, 139, 192, 0.1);
+      /* Smooth horizontal gradient matching white-to-light-blue from your photo */
+      background: linear-gradient(90deg, #FFFFFF 0%, #E8F4FB 100%);
+      padding: 16px 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(46, 139, 192, 0.2);
+      box-shadow: 0 4px 15px rgba(46, 139, 192, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .countdown-box:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(46, 139, 192, 0.12);
     }
 
     .countdown-number {
       font-family: var(--font-heading);
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 700;
       display: block;
-      color: var(--text-dark);
+      color: #1E4D6B; /* Deep contrast tone */
     }
 
     .countdown-label {
-      font-size: 9px;
-      color: var(--text-muted);
+      font-size: 9.5px;
+      color: var(--accent-blue);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-top: 4px;
-      font-weight: 600;
+      letter-spacing: 0.15em;
+      margin-top: 6px;
+      font-weight: 700;
     }
 
     .committee-grid {
@@ -485,7 +494,7 @@
     .button-container {
       margin: 25px 0;
       display: flex;
-      flex-direction: column; /* Stack buttons vertically on small screens for easy tapping */
+      flex-direction: column;
       align-items: center;
       gap: 12px;
     }
@@ -512,8 +521,8 @@
       letter-spacing: 0.1em;
       text-transform: uppercase;
       width: 100%;
-      max-width: 280px; /* Full width option on mobile, bounded on desktop */
-      min-height: 46px; /* Complies with ideal touch target height standards */
+      max-width: 280px;
+      min-height: 46px;
       box-shadow: 0 4px 15px rgba(46, 139, 192, 0.3);
       transition: background-color 0.2s ease, box-shadow 0.2s ease;
       text-align: center;
@@ -561,7 +570,7 @@
         grid-template-columns: repeat(2, 1fr);
       }
       .main-container {
-        padding-top: 140px; /* Expanded slightly to ensure content clears stacked mobile headers */
+        padding-top: 140px;
       }
     }
 
@@ -655,7 +664,6 @@
           <button class="back-btn" onclick="switchPage('committees')">&larr; Return to Committees</button>
         </div>
 
-        <!-- Committee Main Title & Research Report Info (Centered & Big) -->
         <div class="official-section" style="text-align: center; margin-bottom: 24px;">
           <h2 id="detailCommitteeTitle" style="font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: var(--text-dark); letter-spacing: 0.05em; margin-bottom: 20px;">Committee Name</h2>
           
@@ -678,11 +686,9 @@
 
         <div class="divider-line"></div>
 
-        <!-- Chairs Section -->
         <div class="official-section">
           <h3 id="chairSectionHeading">Chairs</h3>
           <div class="profiles-grid-container" id="detailChairsContainer">
-            <!-- Populated dynamically -->
           </div>
         </div>
       </section>
@@ -694,14 +700,12 @@
           <p>Executive Leadership of FRANMUN 2026</p>
         </div>
         <div id="teamPageContainer" class="profiles-grid-container" style="margin-top: 30px;">
-          <!-- Populated dynamically -->
         </div>
       </section>
 
       <!-- GALLERY PAGE -->
       <section id="page-gallery" class="page-view">
         <div class="official-section" id="galleryCardContent" style="padding: 30px 16px;">
-          <!-- Gallery content rendered dynamically -->
         </div>
       </section>
       
@@ -873,7 +877,6 @@
       const chairsContainer = document.getElementById("detailChairsContainer");
       const chairHeading = document.getElementById("chairSectionHeading");
 
-      // Render Country Matrix button inside committee detail page
       const matrixUrl = appData.countryMatrixPdf || "";
       const isMatrixLocked = !!appData.countryMatrixLocked;
       if (!isMatrixLocked && matrixUrl !== "") {
