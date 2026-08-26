@@ -36,7 +36,6 @@
       padding: 40px 20px;
     }
 
-    /* شاشة تسجيل الدخول */
     #loginOverlay {
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
@@ -65,7 +64,6 @@
       margin-bottom: 20px;
     }
 
-    /* الحاوية الرئيسية (مخفية حتى يتم تسجيل الدخول) */
     .admin-container {
       max-width: 900px;
       margin: 0 auto;
@@ -209,7 +207,6 @@
 </head>
 <body>
 
-  <!-- شاشة كلمة المرور -->
   <div id="loginOverlay">
     <div class="login-card">
       <h2>FRANMUN Admin</h2>
@@ -221,7 +218,6 @@
     </div>
   </div>
 
-  <!-- لوحة التحكم الرئيسية -->
   <div class="admin-container" id="mainDashboard">
     <h1>FRANMUN Admin Dashboard</h1>
 
@@ -246,14 +242,19 @@
           <input type="checkbox" id="galleryLocked">
           <label for="galleryLocked" style="display:inline; margin:0; color:white;">Lock Conference Gallery</label>
         </div>
-        <!-- خانة الإخفاء الشاملة للجان (Coming Soon / Top Secret) -->
         <div class="checkbox-group" style="grid-column: span 2; background: rgba(228, 179, 67, 0.05); border: 1px solid rgba(228, 179, 67, 0.2); padding: 12px; border-radius: 10px; margin-top: 5px;">
           <input type="checkbox" id="committeesComingSoon">
           <label for="committeesComingSoon" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Hide All Committees Topics & Chairs (Coming Soon / Top Secret Stamp)</label>
         </div>
       </div>
 
+      <!-- إعداد رابط Country Matrix العام -->
       <div class="form-group" style="margin-top: 20px;">
+        <label>Country Matrix PDF Link (رابط جدول توزيع الدول العام)</label>
+        <input type="text" id="countryMatrixPdf" placeholder="https://... (Drive PDF link or leave empty to show Coming Soon)">
+      </div>
+
+      <div class="form-group" style="margin-top: 15px;">
         <label>Conference Target Date (Countdown)</label>
         <input type="text" id="targetDate" placeholder="e.g. 31 Oct 2026 at 8:00">
       </div>
@@ -321,12 +322,6 @@
       <div class="form-group">
         <label>Research Report Link</label>
         <input type="text" id="commReport" placeholder="https://...">
-      </div>
-
-      <!-- حقل رابط Country Matrix الجديد -->
-      <div class="form-group">
-        <label>Country Matrix PDF Link</label>
-        <input type="text" id="commMatrix" placeholder="https://... (Drive PDF link)">
       </div>
 
       <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 20px 0;">
@@ -440,6 +435,7 @@
       document.getElementById("chairsOpen").checked = !!appData.chairsOpen;
       document.getElementById("galleryLocked").checked = !!appData.galleryLocked;
       document.getElementById("committeesComingSoon").checked = !!appData.committeesComingSoon;
+      document.getElementById("countryMatrixPdf").value = appData.countryMatrixPdf || "";
       document.getElementById("targetDate").value = appData.targetDate || "";
     }
 
@@ -450,6 +446,7 @@
         chairsOpen: document.getElementById("chairsOpen").checked,
         galleryLocked: document.getElementById("galleryLocked").checked,
         committeesComingSoon: document.getElementById("committeesComingSoon").checked,
+        countryMatrixPdf: document.getElementById("countryMatrixPdf").value.trim(),
         targetDate: document.getElementById("targetDate").value.trim()
       };
 
@@ -458,7 +455,6 @@
         .catch(err => alert("Error: " + err.message));
     }
 
-    // الأمانة العامة
     function renderAdminSgList() {
       const container = document.getElementById("adminSgList");
       const team = appData.sgTeam || [];
@@ -549,7 +545,6 @@
       document.getElementById("cancelEditBtn").style.display = "none";
     }
 
-    // إدارة اللجان والتشيرز
     function loadCommitteeDataToAdmin() {
       const commKey = document.getElementById("selectCommittee").value;
       const committees = appData.committees || {};
@@ -557,7 +552,6 @@
 
       document.getElementById("commTopics").value = comm.topics || "";
       document.getElementById("commReport").value = comm.report || "";
-      document.getElementById("commMatrix").value = comm.matrix || ""; // جلب رابط الماتريكس
 
       clearChairForm();
       renderAdminChairsList(comm);
@@ -730,14 +724,12 @@
 
       appData.committees[commKey].topics = document.getElementById("commTopics").value.trim();
       appData.committees[commKey].report = document.getElementById("commReport").value.trim();
-      appData.committees[commKey].matrix = document.getElementById("commMatrix").value.trim(); // حفظ رابط الماتريكس
 
       database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
         .then(() => alert("Committee details saved successfully!"))
         .catch(err => alert("Error: " + err.message));
     }
 
-    // إدارة الدريف
     function addDriveFile() {
       const title = document.getElementById("driveTitle").value.trim();
       const link = document.getElementById("driveLink").value.trim();
