@@ -8,7 +8,7 @@
   <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://franmun.org/" />
-  <meta name="theme-color" content="#F7F4DC" />
+  <meta name="theme-color" content="#F4E8B1" />
 
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <link rel="apple-touch-icon" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" />
@@ -76,7 +76,7 @@
 
   <style>
     :root {
-      --bg-main: #FDFBF7; 
+      --bg-main: #F4E8B1; 
       --accent-gold: #C29B38; 
       --accent-blue: #2E8BC0;
       --accent-blue-hover: #23729F;
@@ -118,7 +118,7 @@
       left: 0;
       width: 100%;
       z-index: 1000;
-      background: rgba(253, 251, 247, 0.95);
+      background: rgba(244, 232, 177, 0.95);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       padding: 16px 5%;
@@ -186,12 +186,12 @@
 
     .tab-btn:hover {
       color: var(--text-dark);
-      background: rgba(46, 139, 192, 0.06);
+      background: rgba(46, 139, 192, 0.08);
     }
 
     .tab-btn.active {
       color: var(--accent-blue);
-      background: rgba(46, 139, 192, 0.08);
+      background: rgba(46, 139, 192, 0.12);
       font-weight: 700;
     }
 
@@ -308,7 +308,7 @@
     .committee-icon {
       aspect-ratio: 1 / 1; 
       cursor: pointer;
-      background: rgba(46, 139, 192, 0.02);
+      background: rgba(255, 255, 255, 0.4);
       padding: 30px;
       display: flex;
       align-items: center;
@@ -317,13 +317,14 @@
       overflow: hidden;
       width: 100%;
       border-bottom: 2px solid transparent;
-      border-top: 1px solid rgba(46, 139, 192, 0.08);
-      border-left: 1px solid rgba(46, 139, 192, 0.08);
-      border-right: 1px solid rgba(46, 139, 192, 0.08);
+      border-top: 1px solid rgba(46, 139, 192, 0.12);
+      border-left: 1px solid rgba(46, 139, 192, 0.12);
+      border-right: 1px solid rgba(46, 139, 192, 0.12);
+      border-radius: 4px;
     }
 
     .committee-icon:hover {
-      background: rgba(46, 139, 192, 0.05);
+      background: rgba(255, 255, 255, 0.7);
       border-bottom-color: var(--accent-blue);
     }
 
@@ -654,7 +655,7 @@
     padding: 40px 24px; 
     margin-top: 60px; 
     border-top: 1px solid rgba(46, 139, 192, 0.15); 
-    background: rgba(253, 251, 247, 0.8);
+    background: rgba(244, 232, 177, 0.8);
   ">
     <p style="font-size: 13px; color: var(--text-body); margin: 0 0 6px 0;">
       Official Inquiry: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-blue); text-decoration: none; font-weight: 600;">franmun2025@gmail.com</a>
@@ -745,7 +746,7 @@
       if (!isLocked && matrixUrl !== "") {
         container.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 260px; margin: 0 auto;">Country Matrix &rarr;</a>`;
       } else {
-        container.innerHTML = `<a href="#" class="button" style="max-width: 260px; margin: 0 auto; background: rgba(46,139,192,0.05); border: 1px solid rgba(46,139,192,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
+        container.innerHTML = `<a href="#" class="button" style="max-width: 260px; margin: 0 auto; background: rgba(46,139,192,0.08); border: 1px solid rgba(46,139,192,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
       }
     }
 
@@ -805,12 +806,12 @@
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="button">Delegate Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.05); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.08); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
       }
       if (appData.chairsOpen) {
         html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chair Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.05); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.08); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
       }
       container.innerHTML = html;
     }
