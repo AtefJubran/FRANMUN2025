@@ -640,13 +640,11 @@
           <button class="back-btn" onclick="switchPage('committees')">&larr; Return to Committees</button>
         </div>
 
-        <!-- Committee Main Title & Subtitle Info (Centered & Big) -->
+        <!-- Committee Main Title & Research Report Info (Centered & Big) -->
         <div class="official-section" style="text-align: center; margin-bottom: 30px;">
-          <h2 id="detailCommitteeTitle" style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--text-dark); letter-spacing: 0.05em; margin-bottom: 12px;">Committee Name</h2>
+          <h2 id="detailCommitteeTitle" style="font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: var(--text-dark); letter-spacing: 0.05em; margin-bottom: 24px;">Committee Name</h2>
           
-          <div style="font-size: 13px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 24px;">Chairs</div>
-
-          <div style="font-size: 12px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 8px;">Research Report &amp; Topics</div>
+          <div style="font-size: 13px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 10px;">Research Report &amp; Topics</div>
           
           <div style="padding: 10px 0;">
             <p id="detailTopicsText" style="color: var(--text-dark); font-size: 17px; font-weight: 600; line-height: 1.8; white-space: pre-line; max-width: 800px; margin: 0 auto;"></p>
@@ -664,8 +662,9 @@
 
         <div class="divider-line"></div>
 
+        <!-- Chairs Section -->
         <div class="official-section">
-          <h3 id="chairSectionHeading">Presiding Leadership</h3>
+          <h3 id="chairSectionHeading">Chairs</h3>
           <div class="profiles-grid-container" id="detailChairsContainer">
             <!-- Populated dynamically -->
           </div>
@@ -888,7 +887,7 @@
         topicsText.innerText = data.topics || "Agenda details pending...";
 
         if (committeeName === "CRISIS") {
-          chairHeading.innerText = "Crisis Cabinet Leadership";
+          chairHeading.innerText = "Chairs";
           let html = "";
           
           html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 11px; letter-spacing: 0.1em; margin-bottom: 4px;">Front Room Chair</div>`;
@@ -923,7 +922,7 @@
           chairsContainer.innerHTML = html;
 
         } else {
-          chairHeading.innerText = "Committee Leadership";
+          chairHeading.innerText = "Chairs";
           let html = "";
           if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
             data.chairs.forEach(chair => {
