@@ -8,7 +8,7 @@
   <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://franmun.org/" />
-  <meta name="theme-color" content="#121C18" />
+  <meta name="theme-color" content="#F7F4DC" />
 
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <link rel="apple-touch-icon" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" />
@@ -76,20 +76,22 @@
 
   <style>
     :root {
-      --bg-main: #101614;
-      --bg-card: rgba(20, 31, 27, 0.75);
+      --bg-main: #F7F4DC; /* Logo's warm outer cream background */
+      --bg-card: rgba(255, 255, 255, 0.85);
       
-      --accent-gold: #D4AF37;
-      --accent-gold-hover: #F3E5AB;
+      --accent-gold: #C29B38; /* Rich golden yellow matching the logo's quill and border */
+      --accent-gold-hover: #D4B04C;
+      --accent-blue: #2E8BC0; /* Logo shield blue */
+      --accent-green: #5A6B36; /* Logo olive green */
       --accent-red: #D9534F;
 
-      --glass-bg: rgba(20, 31, 27, 0.6);
-      --glass-border: rgba(212, 175, 55, 0.15);
-      --glass-border-hover: rgba(212, 175, 55, 0.4);
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --glass-border: rgba(90, 107, 54, 0.2);
+      --glass-border-hover: rgba(90, 107, 54, 0.5);
       
-      --text-light: #F4F6F4;
-      --text-muted: #9CA3AF;
-      --text-body: #D1D5DB;
+      --text-dark: #232B25;
+      --text-muted: #59655D;
+      --text-body: #343E38;
       --font-heading: 'Cinzel', Georgia, serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
       
@@ -108,11 +110,11 @@
     body {
       font-family: var(--font-body);
       background-color: var(--bg-main);
-      color: var(--text-light);
+      color: var(--text-dark);
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      background-image: radial-gradient(circle at 50% 0%, #182620 0%, #101614 70%);
+      background-image: radial-gradient(circle at 50% 0%, #FFFDF0 0%, #F1EBC4 70%);
       background-attachment: fixed;
     }
 
@@ -128,7 +130,7 @@
       width: 90%;
       max-width: 1100px;
       z-index: 1000;
-      background: rgba(18, 27, 24, 0.85);
+      background: rgba(255, 253, 240, 0.9);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       padding: 10px 20px;
@@ -137,7 +139,7 @@
       align-items: center;
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-button);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      box-shadow: 0 10px 30px rgba(90, 107, 54, 0.12);
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
@@ -156,21 +158,23 @@
       max-width: 38px;
       height: auto;
       border-radius: 6px;
+      border: 1px solid var(--glass-border);
     }
 
     .header-text h1 {
       font-family: var(--font-heading);
       font-size: 13px;
       font-weight: 700;
-      color: #FFF;
+      color: var(--text-dark);
       letter-spacing: 0.05em;
     }
 
     .header-text p {
       font-size: 10px;
-      color: var(--accent-gold);
+      color: var(--accent-green);
       letter-spacing: 0.1em;
       text-transform: uppercase;
+      font-weight: 700;
     }
 
     .nav-tabs {
@@ -193,14 +197,14 @@
     }
 
     .tab-btn:hover {
-      color: var(--text-light);
-      background: rgba(255, 255, 255, 0.03);
+      color: var(--text-dark);
+      background: rgba(90, 107, 54, 0.06);
     }
 
     .tab-btn.active {
-      background: rgba(212, 175, 55, 0.12);
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      color: var(--accent-gold);
+      background: rgba(90, 107, 54, 0.12);
+      border: 1px solid rgba(90, 107, 54, 0.3);
+      color: var(--accent-green);
     }
 
     .main-container {
@@ -220,18 +224,18 @@
       font-size: clamp(2.2rem, 4.5vw, 3.8rem);
       font-weight: 700;
       line-height: 1.15;
-      color: #FFFFFF;
+      color: var(--text-dark);
       letter-spacing: 0.04em;
       margin-bottom: 12px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
     .hero-section p {
       font-size: clamp(0.8rem, 1.5vw, 0.95rem);
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      color: var(--accent-gold);
-      font-weight: 600;
+      color: var(--accent-green);
+      font-weight: 700;
       max-width: 600px;
       margin: 0 auto;
     }
@@ -244,21 +248,21 @@
       margin-bottom: 24px;
       padding: 36px;
       border-radius: var(--radius-card);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 8px 24px rgba(90, 107, 54, 0.08);
       text-align: center;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
       border-color: var(--glass-border-hover);
-      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.06);
+      box-shadow: 0 12px 32px rgba(90, 107, 54, 0.15);
     }
 
     .card h3 {
       font-family: var(--font-heading);
       font-size: 14px;
       font-weight: 700;
-      color: var(--accent-gold);
+      color: var(--accent-green);
       text-transform: uppercase;
       letter-spacing: 0.15em;
       margin-bottom: 20px;
@@ -279,7 +283,7 @@
     }
 
     .countdown-box {
-      background: rgba(16, 22, 20, 0.6);
+      background: rgba(247, 244, 220, 0.7);
       border: 1px solid var(--glass-border);
       padding: 14px 8px;
       border-radius: 10px;
@@ -290,7 +294,7 @@
       font-size: 24px;
       font-weight: 700;
       display: block;
-      color: #FFF;
+      color: var(--text-dark);
     }
 
     .countdown-label {
@@ -299,7 +303,7 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-top: 4px;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .committee-grid {
@@ -325,7 +329,7 @@
       cursor: pointer;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
-      background: rgba(16, 22, 20, 0.4);
+      background: rgba(255, 255, 255, 0.5);
       padding: 24px;
       display: flex;
       align-items: center;
@@ -337,9 +341,9 @@
 
     .committee-icon:hover {
       transform: translateY(-3px);
-      background: rgba(20, 31, 27, 0.9);
-      border-color: var(--accent-gold);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      background: #FFFFFF;
+      border-color: var(--accent-green);
+      box-shadow: 0 8px 20px rgba(90, 107, 54, 0.15);
     }
 
     .committee-icon img {
@@ -348,7 +352,7 @@
       width: auto;
       height: auto;
       object-fit: contain;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
     }
 
     .premium-leadership-team {
@@ -376,20 +380,20 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      border: 1px solid var(--glass-border);
+      border: 2px solid var(--glass-border);
       object-fit: cover;
-      padding: 3px;
-      background: rgba(16, 22, 20, 0.8);
+      padding: 2px;
+      background: #FFF;
       transition: border-color 0.3s ease;
     }
 
     .premium-leader-avatar-box:hover .premium-leader-img {
-      border-color: var(--accent-gold);
+      border-color: var(--accent-green);
     }
 
     @keyframes avatarClickPulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.1); border-color: var(--accent-gold); box-shadow: 0 0 16px rgba(212, 175, 55, 0.5); }
+      50% { transform: scale(1.1); border-color: var(--accent-green); box-shadow: 0 0 16px rgba(90, 107, 54, 0.3); }
       100% { transform: scale(1); }
     }
 
@@ -399,28 +403,29 @@
 
     .premium-leader-title {
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       margin-top: 8px;
-      color: #FFFFFF;
+      color: var(--text-dark);
       pointer-events: none;
     }
 
     .premium-leader-name {
       font-size: 11px;
-      color: var(--accent-gold);
+      color: var(--accent-green);
       pointer-events: none;
       margin-top: 2px;
+      font-weight: 600;
     }
 
     .chairs-title {
       margin-top: 24px;
       color: var(--text-muted);
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      border-top: 1px solid rgba(90, 107, 54, 0.15);
       padding-top: 16px;
       text-transform: uppercase;
       font-size: 11px;
       letter-spacing: 0.12em;
-      font-weight: 600;
+      font-weight: 700;
     }
     
     .chairs-container {
@@ -448,26 +453,26 @@
       width: 68px;
       height: 68px;
       border-radius: 50%;
-      border: 2px solid var(--accent-gold);
+      border: 2px solid var(--accent-green);
       object-fit: cover;
       transition: border-color 0.3s ease;
       margin-bottom: 6px;
     }
 
     .chair-box:hover .chair-img {
-      border-color: var(--accent-gold-hover);
+      border-color: var(--accent-gold);
     }
     
     .chair-name {
       font-size: 11.5px;
       color: var(--text-body);
       margin-top: 4px;
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .parent-notice-box {
-      background: rgba(212, 175, 55, 0.05);
-      border: 1px solid rgba(212, 175, 55, 0.2);
+      background: rgba(90, 107, 54, 0.05);
+      border: 1px solid rgba(90, 107, 54, 0.2);
       border-radius: 14px;
       padding: 16px 20px;
       margin: 0 auto 20px auto;
@@ -482,8 +487,8 @@
     }
 
     .parent-notice-text strong {
-      color: var(--accent-gold);
-      font-weight: 600;
+      color: var(--accent-green);
+      font-weight: 700;
     }
 
     .button-container {
@@ -498,8 +503,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: var(--accent-gold);
-      color: #101614;
+      background: var(--accent-blue); /* Logo shield blue button */
+      color: #FFFFFF;
       font-weight: 700;
       padding: 12px 26px;
       border-radius: var(--radius-button);
@@ -510,20 +515,20 @@
       flex: 1;
       min-width: 230px; 
       max-width: 270px;
-      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 4px 14px rgba(46, 139, 192, 0.3);
     }
 
     .button:hover {
-      background: var(--accent-gold-hover);
+      background: #23729F;
       transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(212, 175, 55, 0.3);
+      box-shadow: 0 6px 18px rgba(46, 139, 192, 0.4);
     }
 
     .modal, .bio-popup-modal {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(16, 22, 20, 0); 
+      background: rgba(35, 43, 37, 0); 
       backdrop-filter: blur(0px);
       -webkit-backdrop-filter: blur(0px);
       z-index: 999999;
@@ -534,13 +539,13 @@
     }
 
     .modal.active-modal, .bio-popup-modal.active-modal {
-      background: rgba(16, 22, 20, 0.85);
+      background: rgba(35, 43, 37, 0.75);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
 
     .modal-content, .bio-popup-content {
-      background: #15201C;
+      background: #FFFDF5;
       border: 1px solid var(--glass-border);
       padding: 30px 24px;
       border-radius: var(--radius-modal);
@@ -551,7 +556,7 @@
       opacity: 0;
       transform: scale(0.9) translateY(20px);
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -575,34 +580,34 @@
     }
 
     .close-btn:hover, .close-bio-btn:hover {
-      color: var(--accent-gold);
+      color: var(--accent-green);
     }
 
     .large-chair-img {
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      border: 2px solid var(--accent-gold);
+      border: 2px solid var(--accent-green);
       object-fit: cover;
       margin-bottom: 14px;
-      box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 0 16px rgba(90, 107, 54, 0.2);
     }
 
     .bio-popup-name {
       font-family: var(--font-heading);
       font-size: 17px;
       font-weight: 700;
-      color: #FFFFFF;
+      color: var(--text-dark);
       margin-bottom: 4px;
     }
 
     .bio-popup-title {
       font-size: 12px;
-      color: var(--accent-gold);
+      color: var(--accent-green);
       text-transform: uppercase;
       letter-spacing: 0.08em;
       margin-bottom: 14px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .bio-popup-text {
@@ -610,7 +615,7 @@
       font-size: 13.5px;
       line-height: 1.6;
       text-align: center;
-      background: rgba(16, 22, 20, 0.6);
+      background: rgba(247, 244, 220, 0.6);
       padding: 14px;
       border-radius: 10px;
       border: 1px solid var(--glass-border);
@@ -619,21 +624,21 @@
     }
 
     .modal-close-button {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(90, 107, 54, 0.1);
       border: 1px solid var(--glass-border);
-      color: white;
+      color: var(--text-dark);
       padding: 10px 22px;
       border-radius: 10px;
       cursor: pointer;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
       margin-top: 18px;
       transition: var(--transition-smooth);
     }
 
     .modal-close-button:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: var(--accent-gold);
+      background: rgba(90, 107, 54, 0.2);
+      border-color: var(--accent-green);
     }
 
     .modal-secret-stamp {
@@ -791,9 +796,9 @@
   <div id="committeeModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-content">
       <button class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</button>
-      <h2 id="modalTitle" style="color: #FFFFFF; font-family: var(--font-heading); font-weight: 700; font-size: 19px; margin-bottom:12px;">Committee Name</h2>
+      <h2 id="modalTitle" style="color: var(--text-dark); font-family: var(--font-heading); font-weight: 700; font-size: 19px; margin-bottom:12px;">Committee Name</h2>
       
-      <div id="committeeTopicsContainer" style="text-align: left; background: rgba(16, 22, 20, 0.6); padding: 14px; border-radius: 10px; border: 1px solid var(--glass-border);">
+      <div id="committeeTopicsContainer" style="text-align: left; background: rgba(247, 244, 220, 0.6); padding: 14px; border-radius: 10px; border: 1px solid var(--glass-border);">
         <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
       </div>
 
@@ -818,7 +823,7 @@
       </div>
 
       <div style="margin-top: 20px;">
-        <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px; font-weight:600;" rel="noopener">View Research Report &rarr;</a>
+        <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-green); text-decoration:none; font-size:13px; font-weight:700;" rel="noopener">View Research Report &rarr;</a>
       </div>
       <button class="modal-close-button" onclick="closeModal()">Close</button>
     </div>
@@ -840,24 +845,24 @@
     padding: 40px 20px; 
     margin-top: 60px; 
     border-top: 1px solid var(--glass-border); 
-    background: rgba(16, 22, 20, 0.4);
+    background: rgba(255, 253, 240, 0.6);
   ">
     <p style="font-size: 13.5px; color: var(--text-body); margin: 0 0 6px 0;">
-      Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-gold); text-decoration: none; font-weight: 500;">franmun2025@gmail.com</a>
+      Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-green); text-decoration: none; font-weight: 600;">franmun2025@gmail.com</a>
     </p>
-    <p style="font-size: 13.5px; color: #FFFFFF; font-weight: 600; margin: 0 0 16px 0;">
+    <p style="font-size: 13.5px; color: var(--text-dark); font-weight: 700; margin: 0 0 16px 0;">
       Franciscan Sister's School Nazareth
     </p>
-    <p style="font-size: 11px; color: var(--text-muted); opacity: 0.7; margin: 0 0 10px 0;">
+    <p style="font-size: 11px; color: var(--text-muted); opacity: 0.8; margin: 0 0 10px 0;">
       &copy; 2026 Franciscan Sister's School MUN. All rights reserved.
     </p>
     <div class="credits" style="
       font-size: 11.5px; 
-      color: var(--accent-gold); 
+      color: var(--accent-green); 
       letter-spacing: 0.08em; 
-      font-weight: 600; 
+      font-weight: 700; 
       text-transform: uppercase;
-      opacity: 0.85;
+      opacity: 0.9;
     ">
       Website engineered by Atef Jubran
     </div>
@@ -939,7 +944,7 @@
       if (!isLocked && matrixUrl !== "") {
         container.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 300px; margin: 0 auto;">Country Matrix &rarr;</a>`;
       } else {
-        container.innerHTML = `<a href="#" class="button" style="max-width: 300px; margin: 0 auto; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed; box-shadow: none;" onclick="event.preventDefault();">Country Matrix Coming Soon</a>`;
+        container.innerHTML = `<a href="#" class="button" style="max-width: 300px; margin: 0 auto; background: rgba(90,107,54,0.06); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed; box-shadow: none;" onclick="event.preventDefault();">Country Matrix Coming Soon</a>`;
       }
     }
 
@@ -1012,12 +1017,12 @@
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="button">Delegates Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Delegates Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(90,107,54,0.06); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Delegates Closed</a>`;
       }
       if (appData.chairsOpen) {
         html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chairs Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Chairs Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(90,107,54,0.06); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Chairs Closed</a>`;
       }
       container.innerHTML = html;
     }
