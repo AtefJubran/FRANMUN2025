@@ -744,6 +744,12 @@
       <section id="page-committees" class="page-view">
         <article class="card">
           <h3>Committees</h3>
+          
+          <!-- Country Matrix Button Placed on Top Section -->
+          <div style="margin-bottom: 24px; text-align: center;" id="countryMatrixContainer">
+            <!-- Rendered dynamically from Firebase -->
+          </div>
+
           <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Select a committee shield to review its agenda and presiding chairs.</p>
           <div class="committee-grid">
             <div class="committee-icon" onclick="openModal('UNICEF')"><img src="unicef.png" alt="UNICEF" /></div>
@@ -753,11 +759,6 @@
             <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="this.src='who.png'" /></div>
             <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
             <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
-          </div>
-
-          <!-- Country Matrix Button Added Here -->
-          <div style="margin-top: 30px; text-align: center;" id="countryMatrixContainer">
-            <!-- Rendered dynamically or fallback -->
           </div>
         </article>
       </section>
@@ -912,7 +913,7 @@
         renderRegistrationButtons();
         renderSGTeam();
         renderGallerySection();
-        renderCountryMatrixButton(); // تحديث زر الكونتري ماتركس ديناميكياً
+        renderCountryMatrixButton();
       }
     });
 
@@ -920,9 +921,9 @@
       const container = document.getElementById("countryMatrixContainer");
       if (!container) return;
 
-      const matrixUrl = appData.countryMatrixPdf || "#";
+      const matrixUrl = appData.countryMatrixPdf || "";
       
-      if (matrixUrl !== "#" && matrixUrl !== "") {
+      if (matrixUrl !== "") {
         container.innerHTML = `<a href="${matrixUrl}" target="_blank" class="button" style="max-width: 320px; margin: 0 auto;">Country Matrix &rarr;</a>`;
       } else {
         container.innerHTML = `<a href="#" class="button" style="max-width: 320px; margin: 0 auto; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Coming Soon</a>`;
