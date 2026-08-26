@@ -8,7 +8,7 @@
   <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://franmun.org/" />
-  <meta name="theme-color" content="#F4E8B1" />
+  <meta name="theme-color" content="#0A1128" />
 
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <link rel="apple-touch-icon" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" />
@@ -76,20 +76,20 @@
 
   <style>
     :root {
-      --bg-main: #F4E8B1; 
-      --bg-gradient-start: #F9F2CE;
-      --bg-gradient-end: #EAD88C;
-      --card-bg: rgba(255, 255, 255, 0.65);
-      --card-hover-bg: rgba(255, 255, 255, 0.9);
+      --bg-main: #0A1128; 
+      --bg-gradient-start: #0F172A;
+      --bg-gradient-end: #070D1F;
+      --card-bg: rgba(15, 23, 42, 0.75);
+      --card-hover-bg: rgba(30, 41, 59, 0.9);
       
-      --accent-gold: #C29B38; 
-      --accent-blue: #2E8BC0;
-      --accent-blue-hover: #23729F;
-      --accent-red: #D9534F;
+      --accent-gold: #C5A880; 
+      --accent-blue: #3B82F6;
+      --accent-blue-hover: #2563EB;
+      --accent-red: #EF4444;
       
-      --text-dark: #1A221E;
-      --text-muted: #59655D;
-      --text-body: #343E38;
+      --text-dark: #F8FAFC;
+      --text-muted: #94A3B8;
+      --text-body: #CBD5E1;
       
       --font-heading: 'Cinzel', Georgia, serif;
       --font-body: 'Plus Jakarta Sans', sans-serif;
@@ -97,7 +97,7 @@
       --radius-button: 10px;
       --radius-card: 14px;
       --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --shadow-soft: 0 10px 30px rgba(46, 139, 192, 0.08);
+      --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
     }
 
     * {
@@ -126,15 +126,15 @@
       left: 0;
       width: 100%;
       z-index: 1000;
-      background: rgba(244, 232, 177, 0.95);
+      background: rgba(10, 17, 40, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       padding: 12px 4%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(46, 139, 192, 0.2);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
@@ -165,7 +165,7 @@
 
     .header-text p {
       font-size: 9px;
-      color: var(--accent-blue);
+      color: var(--accent-gold);
       letter-spacing: 0.15em;
       text-transform: uppercase;
       font-weight: 700;
@@ -196,14 +196,14 @@
 
     .tab-btn:hover {
       color: var(--text-dark);
-      background: rgba(46, 139, 192, 0.1);
+      background: rgba(59, 130, 246, 0.15);
     }
 
     .tab-btn.active {
-      color: var(--accent-blue);
-      background: rgba(46, 139, 192, 0.15);
+      color: var(--accent-gold);
+      background: rgba(197, 168, 128, 0.15);
       font-weight: 700;
-      box-shadow: inset 0 0 0 1px rgba(46, 139, 192, 0.2);
+      box-shadow: inset 0 0 0 1px rgba(197, 168, 128, 0.3);
     }
 
     .main-container {
@@ -226,14 +226,14 @@
       color: var(--text-dark);
       letter-spacing: 0.06em;
       margin-bottom: 12px;
-      text-shadow: 0 2px 10px rgba(194, 155, 56, 0.2);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     }
 
     .hero-section p {
       font-size: clamp(0.8rem, 1.5vw, 1rem);
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      color: var(--accent-blue);
+      color: var(--accent-gold);
       font-weight: 700;
       max-width: 600px;
       margin: 0 auto;
@@ -246,7 +246,7 @@
       background: var(--card-bg);
       padding: 28px 16px;
       border-radius: var(--radius-card);
-      border: 1px solid rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(59, 130, 246, 0.2);
       box-shadow: var(--shadow-soft);
       backdrop-filter: blur(10px);
     }
@@ -255,7 +255,7 @@
       font-family: var(--font-heading);
       font-size: 14px;
       font-weight: 700;
-      color: var(--accent-blue);
+      color: var(--accent-gold);
       text-transform: uppercase;
       letter-spacing: 0.2em;
       margin-bottom: 16px;
@@ -272,9 +272,9 @@
     .divider-line {
       width: 60px;
       height: 2px;
-      background: var(--accent-blue);
+      background: var(--accent-gold);
       margin: 30px auto;
-      opacity: 0.3;
+      opacity: 0.4;
     }
 
     .countdown-container {
@@ -287,17 +287,18 @@
 
     .countdown-box {
       text-align: center;
-      background: linear-gradient(90deg, #FFFFFF 0%, #E8F4FB 100%);
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
       padding: 16px 8px;
       border-radius: 12px;
-      border: 1px solid rgba(46, 139, 192, 0.2);
-      box-shadow: 0 4px 15px rgba(46, 139, 192, 0.05);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       transition: transform 0.2s ease;
     }
 
     .countdown-box:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(46, 139, 192, 0.12);
+      border-color: var(--accent-gold);
+      box-shadow: 0 6px 18px rgba(59, 130, 246, 0.2);
     }
 
     .countdown-number {
@@ -305,12 +306,12 @@
       font-size: 24px;
       font-weight: 700;
       display: block;
-      color: #1E4D6B;
+      color: var(--text-dark);
     }
 
     .countdown-label {
       font-size: 9.5px;
-      color: var(--accent-blue);
+      color: var(--accent-gold);
       text-transform: uppercase;
       letter-spacing: 0.15em;
       margin-top: 6px;
@@ -338,7 +339,7 @@
     .committee-icon {
       aspect-ratio: 1 / 1; 
       cursor: pointer;
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(15, 23, 42, 0.7);
       padding: 24px;
       display: flex;
       align-items: center;
@@ -347,15 +348,15 @@
       overflow: hidden;
       width: 100%;
       border-radius: var(--radius-card);
-      border: 1px solid rgba(46, 139, 192, 0.15);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.03);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     }
 
     .committee-icon:hover {
       background: var(--card-hover-bg);
       transform: translateY(-4px);
-      border-color: var(--accent-blue);
-      box-shadow: 0 12px 30px rgba(46, 139, 192, 0.15);
+      border-color: var(--accent-gold);
+      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.25);
     }
 
     .committee-icon img {
@@ -364,7 +365,7 @@
       width: auto;
       height: auto;
       object-fit: contain;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.05));
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
     }
 
     .profiles-grid-container {
@@ -409,17 +410,18 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(15, 23, 42, 0.6);
       padding: 20px;
       border-radius: var(--radius-card);
-      border: 1px solid rgba(46, 139, 192, 0.1);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+      border: 1px solid rgba(59, 130, 246, 0.15);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
       transition: var(--transition-smooth);
       width: 100%;
     }
 
     .profile-card-item:hover {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(197, 168, 128, 0.4);
       transform: translateY(-2px);
     }
 
@@ -430,7 +432,7 @@
       border-radius: 10px;
       object-fit: cover;
       margin-bottom: 14px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
     }
 
     .profile-name {
@@ -444,7 +446,7 @@
     .profile-role {
       font-size: 11px;
       font-weight: 700;
-      color: var(--accent-blue);
+      color: var(--accent-gold);
       text-transform: uppercase;
       letter-spacing: 0.15em;
       margin-bottom: 8px;
@@ -466,9 +468,9 @@
     }
 
     .back-btn {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(46, 139, 192, 0.3);
-      color: var(--accent-blue);
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: var(--text-dark);
       padding: 10px 16px;
       border-radius: var(--radius-button);
       cursor: pointer;
@@ -488,7 +490,7 @@
 
     .parent-notice-section {
       background: var(--card-bg);
-      border: 1px solid rgba(46, 139, 192, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.25);
       border-radius: var(--radius-card);
       padding: 20px;
       margin: 30px auto;
@@ -540,14 +542,14 @@
       width: 100%;
       max-width: 280px;
       min-height: 46px;
-      box-shadow: 0 4px 15px rgba(46, 139, 192, 0.3);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
       transition: background-color 0.2s ease, box-shadow 0.2s ease;
       text-align: center;
     }
 
     .button:hover {
       background: var(--accent-blue-hover);
-      box-shadow: 0 6px 20px rgba(46, 139, 192, 0.4);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
     }
 
     .modal-secret-stamp {
@@ -599,7 +601,7 @@
 
   <div id="maintenanceContent" style="display:none;">
     <div style="text-align:center; padding:60px 20px;">
-      <h2 style="font-family: var(--font-heading); margin-bottom: 16px;">System Maintenance</h2>
+      <h2 style="font-family: var(--font-heading); margin-bottom: 16px; color: var(--text-dark);">System Maintenance</h2>
       <p style="color: var(--text-muted); margin-bottom: 12px;">The FRANMUN administrative portal is currently undergoing updates.</p>
       <a href="https://www.instagram.com/franciscan_munners" target="_blank" rel="noopener" style="color: var(--accent-blue); font-weight: 700; text-decoration: none;">@franciscan_munners</a>
     </div>
@@ -684,10 +686,10 @@
         <div class="official-section" style="text-align: center; margin-bottom: 24px;">
           <h2 id="detailCommitteeTitle" style="font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: var(--text-dark); letter-spacing: 0.05em; margin-bottom: 20px;">Committee Name</h2>
           
-          <div style="font-size: 12px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 8px;">Research Report &amp; Topics</div>
+          <div style="font-size: 12px; font-weight: 700; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 8px;">Research Report &amp; Topics</div>
           
           <div style="padding: 10px 0;">
-            <p id="detailTopicsText" style="color: var(--text-dark); font-size: 15.5px; font-weight: 600; line-height: 1.7; white-space: pre-line; max-width: 800px; margin: 0 auto;"></p>
+            <p id="detailTopicsText" style="color: var(--text-body); font-size: 15.5px; font-weight: 500; line-height: 1.7; white-space: pre-line; max-width: 800px; margin: 0 auto;"></p>
           </div>
 
           <div id="detailComingSoonStamp" style="display: none; text-align: center; padding: 20px 0;">
@@ -733,8 +735,8 @@
     text-align: center; 
     padding: 35px 20px; 
     margin-top: 50px; 
-    border-top: 1px solid rgba(46, 139, 192, 0.2); 
-    background: rgba(244, 232, 177, 0.95);
+    border-top: 1px solid rgba(59, 130, 246, 0.2); 
+    background: rgba(10, 17, 40, 0.92);
     backdrop-filter: blur(10px);
   ">
     <p style="font-size: 13px; color: var(--text-body); margin: 0 0 6px 0;">
@@ -748,7 +750,7 @@
     </p>
     <div class="credits" style="
       font-size: 11px; 
-      color: var(--accent-blue); 
+      color: var(--accent-gold); 
       letter-spacing: 0.15em; 
       font-weight: 700; 
       text-transform: uppercase;
@@ -871,12 +873,12 @@
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="button">Delegate Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.08); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
       }
       if (appData.chairsOpen) {
         html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chair Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.08); border:1px solid rgba(46,139,192,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
       }
       container.innerHTML = html;
     }
@@ -900,7 +902,7 @@
       if (!isMatrixLocked && matrixUrl !== "") {
         matrixDetailContainer.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 280px;">Country Matrix &rarr;</a>`;
       } else {
-        matrixDetailContainer.innerHTML = `<a href="#" class="button" style="max-width: 280px; background: rgba(46,139,192,0.08); border: 1px solid rgba(46,139,192,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
+        matrixDetailContainer.innerHTML = `<a href="#" class="button" style="max-width: 280px; background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
       }
 
       if (appData && appData.committees && appData.committees[committeeName]) {
@@ -924,7 +926,7 @@
           chairsContainer.className = "profiles-grid-container center-few";
           let html = "";
           
-          html += `<div style="grid-column: 1 / -1; width: 100%; font-family: var(--font-heading); font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 16px; letter-spacing: 0.15em; margin-bottom: 8px; text-align: center;">Front Room Chair</div>`;
+          html += `<div style="grid-column: 1 / -1; width: 100%; font-family: var(--font-heading); font-weight: 700; color: var(--accent-gold); text-transform: uppercase; font-size: 16px; letter-spacing: 0.15em; margin-bottom: 8px; text-align: center;">Front Room Chair</div>`;
           if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
             data.chairs.forEach(chair => {
               html += `
@@ -939,7 +941,7 @@
             html += `<p style="font-size:13px; color:var(--text-muted); width: 100%; text-align: center;">Front room leadership pending.</p>`;
           }
 
-          html += `<div style="grid-column: 1 / -1; width: 100%; font-family: var(--font-heading); font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 16px; letter-spacing: 0.15em; margin-top: 30px; margin-bottom: 8px; text-align: center;">Backroom Chairs</div>`;
+          html += `<div style="grid-column: 1 / -1; width: 100%; font-family: var(--font-heading); font-weight: 700; color: var(--accent-gold); text-transform: uppercase; font-size: 16px; letter-spacing: 0.15em; margin-top: 30px; margin-bottom: 8px; text-align: center;">Backroom Chairs</div>`;
           if (data.backroom && Array.isArray(data.backroom) && data.backroom.length > 0) {
             data.backroom.forEach(bChair => {
               html += `
