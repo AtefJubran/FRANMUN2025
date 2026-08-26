@@ -8,7 +8,7 @@
   <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://franmun.org/" />
-  <meta name="theme-color" content="#060b13" />
+  <meta name="theme-color" content="#121C18" />
 
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <link rel="apple-touch-icon" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" />
@@ -69,34 +69,34 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
     :root {
-      --bg-main: #060b13;
-      --bg-card: rgba(15, 27, 47, 0.6);
+      --bg-main: #101614;
+      --bg-card: rgba(20, 31, 27, 0.75);
       
-      --accent-gold: #E4B343;
-      --accent-gold-hover: #FFF1CD;
-      --accent-red: #EF4444;
+      --accent-gold: #D4AF37;
+      --accent-gold-hover: #F3E5AB;
+      --accent-red: #D9534F;
 
-      --glass-bg: rgba(15, 27, 47, 0.4);
-      --glass-border: rgba(255, 255, 255, 0.06);
-      --glass-border-hover: rgba(228, 179, 67, 0.25);
+      --glass-bg: rgba(20, 31, 27, 0.6);
+      --glass-border: rgba(212, 175, 55, 0.15);
+      --glass-border-hover: rgba(212, 175, 55, 0.4);
       
-      --text-light: #FFFFFF;
-      --text-muted: #94A3B8;
-      --text-body: #CBD5E1;
+      --text-light: #F4F6F4;
+      --text-muted: #9CA3AF;
+      --text-body: #D1D5DB;
       --font-heading: 'Cinzel', Georgia, serif;
-      --font-body: 'Inter', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
       
-      --radius-card: 20px;
-      --radius-button: 100px;
-      --radius-modal: 24px;
-      --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+      --radius-card: 16px;
+      --radius-button: 12px;
+      --radius-modal: 20px;
+      --transition-smooth: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
     * {
@@ -109,9 +109,11 @@
       font-family: var(--font-body);
       background-color: var(--bg-main);
       color: var(--text-light);
-      line-height: 1.5;
+      line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      background-image: radial-gradient(circle at 50% 0%, #182620 0%, #101614 70%);
+      background-attachment: fixed;
     }
 
     header, .hero-section, .card, .button-container, footer {
@@ -120,22 +122,22 @@
 
     header {
       position: fixed;
-      top: 16px;
+      top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 92%;
-      max-width: 1200px;
+      width: 90%;
+      max-width: 1100px;
       z-index: 1000;
-      background: rgba(6, 11, 19, 0.85);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 12px 24px;
+      background: rgba(18, 27, 24, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border: 1px solid var(--glass-border);
-      border-radius: 100px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border-radius: var(--radius-button);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
@@ -151,24 +153,29 @@
     }
 
     header img {
-      max-width: 42px;
+      max-width: 38px;
       height: auto;
+      border-radius: 6px;
     }
 
     .header-text h1 {
-      font-size: 14px;
-      font-weight: 600;
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 700;
       color: #FFF;
+      letter-spacing: 0.05em;
     }
 
     .header-text p {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--accent-gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     .nav-tabs {
       display: flex;
-      gap: 4px;
+      gap: 6px;
     }
 
     .tab-btn {
@@ -176,53 +183,56 @@
       border: none;
       color: var(--text-muted);
       font-family: var(--font-body);
-      font-weight: 500;
-      font-size: 13px;
-      padding: 8px 18px;
-      border-radius: 100px;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 8px 16px;
+      border-radius: 8px;
       cursor: pointer;
       transition: var(--transition-smooth);
+      letter-spacing: 0.05em;
     }
 
     .tab-btn:hover {
       color: var(--text-light);
+      background: rgba(255, 255, 255, 0.03);
     }
 
     .tab-btn.active {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      color: var(--text-light);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      color: var(--accent-gold);
     }
 
     .main-container {
-      max-width: 1000px;
+      max-width: 980px;
       margin: 0 auto;
-      padding: 120px 20px 60px 20px;
+      padding: 130px 20px 60px 20px;
       min-height: 85vh;
     }
 
     .hero-section { 
-      padding: 40px 0 24px 0;
+      padding: 30px 0 20px 0;
       text-align: center;
     }
 
     .hero-section h2 {
       font-family: var(--font-heading);
-      font-size: clamp(2.2rem, 5vw, 4.2rem);
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.15;
       color: #FFFFFF;
-      letter-spacing: 0.03em;
-      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
     .hero-section p {
-      font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+      font-size: clamp(0.8rem, 1.5vw, 0.95rem);
       text-transform: uppercase;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.2em;
       color: var(--accent-gold);
-      font-weight: 500;
-      max-width: 650px;
+      font-weight: 600;
+      max-width: 600px;
       margin: 0 auto;
     }
 
@@ -232,22 +242,22 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       margin-bottom: 24px;
-      padding: 32px;
+      padding: 36px;
       border-radius: var(--radius-card);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
       text-align: center;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
       border-color: var(--glass-border-hover);
-      box-shadow: 0 15px 40px rgba(228, 179, 67, 0.05);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.06);
     }
 
     .card h3 {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 600;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 700;
       color: var(--accent-gold);
       text-transform: uppercase;
       letter-spacing: 0.15em;
@@ -257,26 +267,27 @@
     .card p {
       color: var(--text-body);
       font-size: 15px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .countdown-container {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 12px;
-      max-width: 500px;
+      max-width: 480px;
       margin: 0 auto;
     }
 
     .countdown-box {
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(16, 22, 20, 0.6);
       border: 1px solid var(--glass-border);
-      padding: 14px 10px;
-      border-radius: 12px;
+      padding: 14px 8px;
+      border-radius: 10px;
     }
 
     .countdown-number {
-      font-size: 28px;
+      font-family: var(--font-heading);
+      font-size: 24px;
       font-weight: 700;
       display: block;
       color: #FFF;
@@ -286,8 +297,9 @@
       font-size: 10px;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-top: 2px;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+      font-weight: 500;
     }
 
     .committee-grid {
@@ -311,9 +323,9 @@
     .committee-icon {
       aspect-ratio: 1 / 1; 
       cursor: pointer;
-      border-radius: 16px;
+      border-radius: 12px;
       border: 1px solid var(--glass-border);
-      background: rgba(255, 255, 255, 0.01);
+      background: rgba(16, 22, 20, 0.4);
       padding: 24px;
       display: flex;
       align-items: center;
@@ -324,17 +336,19 @@
     }
 
     .committee-icon:hover {
-      transform: translateY(-4px);
-      background: rgba(255, 255, 255, 0.03);
+      transform: translateY(-3px);
+      background: rgba(20, 31, 27, 0.9);
       border-color: var(--accent-gold);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
     .committee-icon img {
-      max-width: 85%;
-      max-height: 85%;
+      max-width: 80%;
+      max-height: 80%;
       width: auto;
       height: auto;
       object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4));
     }
 
     .premium-leadership-team {
@@ -359,13 +373,14 @@
     }
 
     .premium-leader-img {
-      width: 85px;
-      height: 85px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
       border: 1px solid var(--glass-border);
       object-fit: cover;
-      padding: 4px;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      padding: 3px;
+      background: rgba(16, 22, 20, 0.8);
+      transition: border-color 0.3s ease;
     }
 
     .premium-leader-avatar-box:hover .premium-leader-img {
@@ -374,7 +389,7 @@
 
     @keyframes avatarClickPulse {
       0% { transform: scale(1); }
-      50% { transform: scale(1.15); border-color: var(--accent-gold); box-shadow: 0 0 20px rgba(228, 179, 67, 0.6); }
+      50% { transform: scale(1.1); border-color: var(--accent-gold); box-shadow: 0 0 16px rgba(212, 175, 55, 0.5); }
       100% { transform: scale(1); }
     }
 
@@ -400,11 +415,12 @@
     .chairs-title {
       margin-top: 24px;
       color: var(--text-muted);
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
       padding-top: 16px;
       text-transform: uppercase;
       font-size: 11px;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.12em;
+      font-weight: 600;
     }
     
     .chairs-container {
@@ -429,8 +445,8 @@
     }
     
     .chair-img {
-      width: 70px;
-      height: 70px;
+      width: 68px;
+      height: 68px;
       border-radius: 50%;
       border: 2px solid var(--accent-gold);
       object-fit: cover;
@@ -443,26 +459,26 @@
     }
     
     .chair-name {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-body);
       margin-top: 4px;
       font-weight: 500;
     }
 
     .parent-notice-box {
-      background: rgba(228, 179, 67, 0.04);
-      border: 1px solid rgba(228, 179, 67, 0.2);
-      border-radius: 16px;
+      background: rgba(212, 175, 55, 0.05);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 14px;
       padding: 16px 20px;
-      margin: 0 auto 16px auto;
-      max-width: 580px;
+      margin: 0 auto 20px auto;
+      max-width: 560px;
       text-align: left;
     }
 
     .parent-notice-text {
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--text-body);
-      line-height: 1.5;
+      line-height: 1.55;
     }
 
     .parent-notice-text strong {
@@ -483,56 +499,59 @@
       align-items: center;
       justify-content: center;
       background: var(--accent-gold);
-      color: #060b13;
-      font-weight: 600;
-      padding: 12px 28px;
+      color: #101614;
+      font-weight: 700;
+      padding: 12px 26px;
       border-radius: var(--radius-button);
       text-decoration: none;
-      font-size: 14px;
+      font-size: 13.5px;
+      letter-spacing: 0.03em;
       transition: var(--transition-smooth);
       flex: 1;
-      min-width: 240px; 
-      max-width: 280px;
+      min-width: 230px; 
+      max-width: 270px;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.2);
     }
 
     .button:hover {
       background: var(--accent-gold-hover);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(212, 175, 55, 0.3);
     }
 
     .modal, .bio-popup-modal {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(3, 7, 13, 0); 
+      background: rgba(16, 22, 20, 0); 
       backdrop-filter: blur(0px);
       -webkit-backdrop-filter: blur(0px);
       z-index: 999999;
       justify-content: center;
       align-items: center;
       padding: 16px;
-      transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: background 0.35s ease, backdrop-filter 0.35s ease;
     }
 
     .modal.active-modal, .bio-popup-modal.active-modal {
-      background: rgba(3, 7, 13, 0.85);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(16, 22, 20, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .modal-content, .bio-popup-content {
-      background: #0f1b2f;
+      background: #15201C;
       border: 1px solid var(--glass-border);
-      padding: 32px 24px;
+      padding: 30px 24px;
       border-radius: var(--radius-modal);
-      max-width: 480px; 
+      max-width: 460px; 
       width: 100%;
       text-align: center;
       position: relative;
       opacity: 0;
-      transform: scale(0.85) translateY(30px);
-      transition: transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      transform: scale(0.9) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -547,7 +566,7 @@
       position: absolute;
       top: 16px; right: 20px;
       cursor: pointer;
-      font-size: 24px; 
+      font-size: 22px; 
       color: var(--text-muted);
       transition: color 0.2s;
       background: none;
@@ -560,53 +579,55 @@
     }
 
     .large-chair-img {
-      width: 120px;
-      height: 120px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       border: 2px solid var(--accent-gold);
       object-fit: cover;
-      margin-bottom: 16px;
-      box-shadow: 0 0 20px rgba(228, 179, 67, 0.2);
+      margin-bottom: 14px;
+      box-shadow: 0 0 16px rgba(212, 175, 55, 0.2);
     }
 
     .bio-popup-name {
-      font-family: var(--font-body);
-      font-size: 18px;
-      font-weight: 600;
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
       color: #FFFFFF;
       margin-bottom: 4px;
     }
 
     .bio-popup-title {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--accent-gold);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 16px;
+      letter-spacing: 0.08em;
+      margin-bottom: 14px;
+      font-weight: 600;
     }
 
     .bio-popup-text {
       color: var(--text-body);
-      font-size: 14px;
+      font-size: 13.5px;
       line-height: 1.6;
       text-align: center;
-      background: rgba(0,0,0,0.2);
+      background: rgba(16, 22, 20, 0.6);
       padding: 14px;
-      border-radius: 12px;
+      border-radius: 10px;
       border: 1px solid var(--glass-border);
-      max-height: 180px;
+      max-height: 170px;
       overflow-y: auto;
     }
 
     .modal-close-button {
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--glass-border);
       color: white;
-      padding: 10px 24px;
-      border-radius: var(--radius-button);
+      padding: 10px 22px;
+      border-radius: 10px;
       cursor: pointer;
       font-size: 12px;
-      margin-top: 20px;
+      font-weight: 600;
+      margin-top: 18px;
       transition: var(--transition-smooth);
     }
 
@@ -616,23 +637,23 @@
     }
 
     .modal-secret-stamp {
-      border: 2px dashed #EF4444;
-      color: #EF4444;
-      padding: 12px;
+      border: 2px dashed var(--accent-red);
+      color: var(--accent-red);
+      padding: 10px;
       border-radius: 8px;
       display: inline-block;
       font-family: var(--font-heading);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: bold;
       letter-spacing: 2px;
-      transform: rotate(-2deg);
-      margin: 15px 0;
+      transform: rotate(-1.5deg);
+      margin: 12px 0;
     }
 
     @media (max-width: 768px) {
       header {
-        border-radius: 20px;
-        padding: 8px 12px;
+        border-radius: 16px;
+        padding: 8px 14px;
         flex-direction: column; 
         gap: 8px;
       }
@@ -640,14 +661,11 @@
         width: 100%;
         justify-content: center;
       }
-      .header-text {
-        display: block; 
-      }
       .header-text h1 {
         font-size: 12px;
       }
       .header-text p {
-        font-size: 10px;
+        font-size: 9.5px;
       }
       .nav-tabs {
         display: flex !important; 
@@ -710,7 +728,6 @@
           <p>First Annual Model United Nations Conference</p>
         </div>
 
-        <!-- Country Matrix Button Placed on Top Section of Home -->
         <div style="margin-bottom: 24px; text-align: center;" id="countryMatrixContainer">
           <!-- Rendered dynamically from Firebase -->
         </div>
@@ -749,7 +766,7 @@
       <section id="page-committees" class="page-view">
         <article class="card">
           <h3>Committees</h3>
-          <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Select a committee shield to review its agenda and presiding chairs.</p>
+          <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 24px;">Select a committee shield to review its agenda and presiding chairs.</p>
           <div class="committee-grid">
             <div class="committee-icon" onclick="openModal('UNICEF')"><img src="unicef.png" alt="UNICEF" /></div>
             <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="UN Women" /></div>
@@ -774,9 +791,9 @@
   <div id="committeeModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-content">
       <button class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</button>
-      <h2 id="modalTitle" style="color: #FFFFFF; font-weight: 600; font-size: 20px; margin-bottom:12px;">Committee Name</h2>
+      <h2 id="modalTitle" style="color: #FFFFFF; font-family: var(--font-heading); font-weight: 700; font-size: 19px; margin-bottom:12px;">Committee Name</h2>
       
-      <div id="committeeTopicsContainer" style="text-align: left; background: rgba(0,0,0,0.2); padding: 14px; border-radius: 12px; border: 1px solid var(--glass-border);">
+      <div id="committeeTopicsContainer" style="text-align: left; background: rgba(16, 22, 20, 0.6); padding: 14px; border-radius: 10px; border: 1px solid var(--glass-border);">
         <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
       </div>
 
@@ -801,7 +818,7 @@
       </div>
 
       <div style="margin-top: 20px;">
-        <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px;" rel="noopener">View Research Report</a>
+        <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-gold); text-decoration:none; font-size:13px; font-weight:600;" rel="noopener">View Research Report &rarr;</a>
       </div>
       <button class="modal-close-button" onclick="closeModal()">Close</button>
     </div>
@@ -823,24 +840,24 @@
     padding: 40px 20px; 
     margin-top: 60px; 
     border-top: 1px solid var(--glass-border); 
-    background: rgba(15, 27, 47, 0.2);
+    background: rgba(16, 22, 20, 0.4);
   ">
-    <p style="font-size: 14px; color: var(--text-body); margin: 0 0 8px 0;">
+    <p style="font-size: 13.5px; color: var(--text-body); margin: 0 0 6px 0;">
       Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-gold); text-decoration: none; font-weight: 500;">franmun2025@gmail.com</a>
     </p>
-    <p style="font-size: 14px; color: #FFFFFF; font-weight: 500; margin: 0 0 16px 0;">
+    <p style="font-size: 13.5px; color: #FFFFFF; font-weight: 600; margin: 0 0 16px 0;">
       Franciscan Sister's School Nazareth
     </p>
-    <p style="font-size: 11px; color: var(--text-muted); opacity: 0.6; margin: 0 0 12px 0;">
+    <p style="font-size: 11px; color: var(--text-muted); opacity: 0.7; margin: 0 0 10px 0;">
       &copy; 2026 Franciscan Sister's School MUN. All rights reserved.
     </p>
     <div class="credits" style="
-      font-size: 12px; 
+      font-size: 11.5px; 
       color: var(--accent-gold); 
-      letter-spacing: 0.05em; 
-      font-weight: 500; 
+      letter-spacing: 0.08em; 
+      font-weight: 600; 
       text-transform: uppercase;
-      opacity: 0.8;
+      opacity: 0.85;
     ">
       Website engineered by Atef Jubran
     </div>
@@ -920,9 +937,9 @@
       const isLocked = !!appData.countryMatrixLocked;
       
       if (!isLocked && matrixUrl !== "") {
-        container.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 320px; margin: 0 auto;">Country Matrix &rarr;</a>`;
+        container.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 300px; margin: 0 auto;">Country Matrix &rarr;</a>`;
       } else {
-        container.innerHTML = `<a href="#" class="button" style="max-width: 320px; margin: 0 auto; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Coming Soon</a>`;
+        container.innerHTML = `<a href="#" class="button" style="max-width: 300px; margin: 0 auto; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed; box-shadow: none;" onclick="event.preventDefault();">Country Matrix Coming Soon</a>`;
       }
     }
 
@@ -974,7 +991,7 @@
       } else {
         let filesHtml = `<h3>Conference Gallery Archives</h3>
                          <p style="color: var(--text-muted); margin-bottom: 24px;">Explore our photo drives and documents below:</p>
-                         <div style="display: flex; flex-direction: column; gap: 12px; max-width: 400px; margin: 0 auto;">`;
+                         <div style="display: flex; flex-direction: column; gap: 12px; max-width: 380px; margin: 0 auto;">`;
         
         if (appData.driveFiles && Array.isArray(appData.driveFiles) && appData.driveFiles.length > 0) {
           appData.driveFiles.forEach(fileObj => {
@@ -995,12 +1012,12 @@
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="button">Delegates Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Delegates Closed</a>`;
       }
       if (appData.chairsOpen) {
         html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chairs Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(255,255,255,0.03); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Chairs Closed</a>`;
       }
       container.innerHTML = html;
     }
@@ -1131,7 +1148,7 @@
       modalBox.classList.remove('active-modal');
       setTimeout(() => {
         modalBox.style.display = "none";
-      }, 350);
+      }, 300);
     }
 
     function closeModal() { 
@@ -1139,7 +1156,7 @@
       modal.classList.remove('active-modal');
       setTimeout(() => {
         modal.style.display = "none";
-      }, 350);
+      }, 300);
     }
 
     setInterval(function() {
