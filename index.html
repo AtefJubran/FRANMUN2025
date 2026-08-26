@@ -76,18 +76,18 @@
 
   <style>
     :root {
-      --bg-main: #F7F4DC; /* Logo's warm outer cream background */
-      --bg-card: rgba(255, 255, 255, 0.85);
+      --bg-main: #F7F4DC; 
+      --bg-card: rgba(255, 255, 255, 0.9);
       
-      --accent-gold: #C29B38; /* Rich golden yellow matching the logo's quill and border */
+      --accent-gold: #C29B38; 
       --accent-gold-hover: #D4B04C;
       --accent-blue: #2E8BC0; /* Logo shield blue */
-      --accent-green: #5A6B36; /* Logo olive green */
+      --accent-blue-hover: #23729F;
+      --accent-green: #5A6B36; 
       --accent-red: #D9534F;
 
-      --glass-bg: rgba(255, 255, 255, 0.7);
-      --glass-border: rgba(90, 107, 54, 0.2);
-      --glass-border-hover: rgba(90, 107, 54, 0.5);
+      --glass-border: rgba(46, 139, 192, 0.2);
+      --glass-border-hover: rgba(46, 139, 192, 0.5);
       
       --text-dark: #232B25;
       --text-muted: #59655D;
@@ -127,10 +127,10 @@
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: 90%;
-      max-width: 1100px;
+      width: 92%;
+      max-width: 1150px;
       z-index: 1000;
-      background: rgba(255, 253, 240, 0.9);
+      background: rgba(255, 253, 240, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       padding: 10px 20px;
@@ -139,7 +139,7 @@
       align-items: center;
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-button);
-      box-shadow: 0 10px 30px rgba(90, 107, 54, 0.12);
+      box-shadow: 0 10px 30px rgba(46, 139, 192, 0.12);
       transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
@@ -171,7 +171,7 @@
 
     .header-text p {
       font-size: 10px;
-      color: var(--accent-green);
+      color: var(--accent-blue);
       letter-spacing: 0.1em;
       text-transform: uppercase;
       font-weight: 700;
@@ -179,7 +179,9 @@
 
     .nav-tabs {
       display: flex;
-      gap: 6px;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
 
     .tab-btn {
@@ -188,23 +190,23 @@
       color: var(--text-muted);
       font-family: var(--font-body);
       font-weight: 600;
-      font-size: 12px;
-      padding: 8px 16px;
+      font-size: 11.5px;
+      padding: 8px 12px;
       border-radius: 8px;
       cursor: pointer;
       transition: var(--transition-smooth);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.03em;
     }
 
     .tab-btn:hover {
       color: var(--text-dark);
-      background: rgba(90, 107, 54, 0.06);
+      background: rgba(46, 139, 192, 0.08);
     }
 
     .tab-btn.active {
-      background: rgba(90, 107, 54, 0.12);
-      border: 1px solid rgba(90, 107, 54, 0.3);
-      color: var(--accent-green);
+      background: rgba(46, 139, 192, 0.15);
+      border: 1px solid rgba(46, 139, 192, 0.35);
+      color: var(--accent-blue);
     }
 
     .main-container {
@@ -234,7 +236,7 @@
       font-size: clamp(0.8rem, 1.5vw, 0.95rem);
       text-transform: uppercase;
       letter-spacing: 0.2em;
-      color: var(--accent-green);
+      color: var(--accent-blue);
       font-weight: 700;
       max-width: 600px;
       margin: 0 auto;
@@ -248,21 +250,21 @@
       margin-bottom: 24px;
       padding: 36px;
       border-radius: var(--radius-card);
-      box-shadow: 0 8px 24px rgba(90, 107, 54, 0.08);
+      box-shadow: 0 8px 24px rgba(46, 139, 192, 0.08);
       text-align: center;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
       border-color: var(--glass-border-hover);
-      box-shadow: 0 12px 32px rgba(90, 107, 54, 0.15);
+      box-shadow: 0 12px 32px rgba(46, 139, 192, 0.15);
     }
 
     .card h3 {
       font-family: var(--font-heading);
       font-size: 14px;
       font-weight: 700;
-      color: var(--accent-green);
+      color: var(--accent-blue);
       text-transform: uppercase;
       letter-spacing: 0.15em;
       margin-bottom: 20px;
@@ -329,7 +331,7 @@
       cursor: pointer;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.6);
       padding: 24px;
       display: flex;
       align-items: center;
@@ -342,8 +344,8 @@
     .committee-icon:hover {
       transform: translateY(-3px);
       background: #FFFFFF;
-      border-color: var(--accent-green);
-      box-shadow: 0 8px 20px rgba(90, 107, 54, 0.15);
+      border-color: var(--accent-blue);
+      box-shadow: 0 8px 20px rgba(46, 139, 192, 0.2);
     }
 
     .committee-icon img {
@@ -355,124 +357,147 @@
       filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
     }
 
-    .premium-leadership-team {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      justify-items: center;
-    }
-
-    .premium-leader-avatar-box {
-      text-align: center;
-      width: 100%;
-      max-width: 140px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-      position: relative;
-      z-index: 10;
-    }
-    
-    .premium-leader-avatar-box:hover {
-      transform: translateY(-2px);
-    }
-
-    .premium-leader-img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      border: 2px solid var(--glass-border);
-      object-fit: cover;
-      padding: 2px;
-      background: #FFF;
-      transition: border-color 0.3s ease;
-    }
-
-    .premium-leader-avatar-box:hover .premium-leader-img {
-      border-color: var(--accent-green);
-    }
-
-    @keyframes avatarClickPulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.1); border-color: var(--accent-green); box-shadow: 0 0 16px rgba(90, 107, 54, 0.3); }
-      100% { transform: scale(1); }
-    }
-
-    .premium-leader-img.animate-click {
-      animation: avatarClickPulse 0.4s ease forwards;
-    }
-
-    .premium-leader-title {
-      font-size: 12px;
-      font-weight: 700;
-      margin-top: 8px;
-      color: var(--text-dark);
-      pointer-events: none;
-    }
-
-    .premium-leader-name {
-      font-size: 11px;
-      color: var(--accent-green);
-      pointer-events: none;
-      margin-top: 2px;
-      font-weight: 600;
-    }
-
-    .chairs-title {
-      margin-top: 24px;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(90, 107, 54, 0.15);
-      padding-top: 16px;
-      text-transform: uppercase;
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      font-weight: 700;
-    }
-    
-    .chairs-container {
+    /* Team Page Specific Layout Styles */
+    .team-member-list-card {
+      background: var(--bg-card);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-card);
+      padding: 30px;
+      margin-bottom: 24px;
       display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 16px;
+      flex-direction: column;
+      align-items: center;
       text-align: center;
-    }
-    
-    .chair-box {
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-      width: 90px;
+      box-shadow: 0 6px 20px rgba(46, 139, 192, 0.06);
     }
 
-    .chair-box:hover {
-      transform: translateY(-2px);
-    }
-    
-    .chair-img {
-      width: 68px;
-      height: 68px;
+    .team-member-large-img {
+      width: 120px;
+      height: 120px;
       border-radius: 50%;
-      border: 2px solid var(--accent-green);
+      border: 3px solid var(--accent-blue);
       object-fit: cover;
-      transition: border-color 0.3s ease;
-      margin-bottom: 6px;
+      margin-bottom: 16px;
+      background: #FFF;
+      box-shadow: 0 4px 14px rgba(46, 139, 192, 0.2);
     }
 
-    .chair-box:hover .chair-img {
-      border-color: var(--accent-gold);
+    .team-member-name {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
     }
-    
-    .chair-name {
-      font-size: 11.5px;
+
+    .team-member-role {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 16px;
+    }
+
+    .team-member-bio {
       color: var(--text-body);
-      margin-top: 4px;
-      font-weight: 600;
+      font-size: 14.5px;
+      line-height: 1.7;
+      max-width: 650px;
+      background: rgba(247, 244, 220, 0.5);
+      padding: 18px 22px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+      text-align: center;
+    }
+
+    /* Committee Page Styles */
+    .committee-page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .back-btn {
+      background: rgba(46, 139, 192, 0.1);
+      border: 1px solid var(--glass-border);
+      color: var(--accent-blue);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 12px;
+      transition: var(--transition-smooth);
+    }
+
+    .back-btn:hover {
+      background: var(--accent-blue);
+      color: #FFF;
+    }
+
+    .chair-showcase-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 640px) {
+      .chair-showcase-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .chair-profile-card {
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .chair-large-img {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-blue);
+      object-fit: cover;
+      margin: 0 auto 14px auto;
+      box-shadow: 0 4px 16px rgba(46, 139, 192, 0.2);
+    }
+
+    .chair-profile-name {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .chair-profile-role {
+      font-size: 12px;
+      color: var(--accent-blue);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    .chair-profile-bio {
+      font-size: 13.5px;
+      color: var(--text-body);
+      line-height: 1.6;
+      background: rgba(247, 244, 220, 0.6);
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--glass-border);
+      text-align: center;
     }
 
     .parent-notice-box {
-      background: rgba(90, 107, 54, 0.05);
-      border: 1px solid rgba(90, 107, 54, 0.2);
+      background: rgba(46, 139, 192, 0.05);
+      border: 1px solid rgba(46, 139, 192, 0.2);
       border-radius: 14px;
       padding: 16px 20px;
       margin: 0 auto 20px auto;
@@ -487,7 +512,7 @@
     }
 
     .parent-notice-text strong {
-      color: var(--accent-green);
+      color: var(--accent-blue);
       font-weight: 700;
     }
 
@@ -503,7 +528,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      background: var(--accent-blue); /* Logo shield blue button */
+      background: var(--accent-blue);
       color: #FFFFFF;
       font-weight: 700;
       padding: 12px 26px;
@@ -519,126 +544,9 @@
     }
 
     .button:hover {
-      background: #23729F;
+      background: var(--accent-blue-hover);
       transform: translateY(-2px);
       box-shadow: 0 6px 18px rgba(46, 139, 192, 0.4);
-    }
-
-    .modal, .bio-popup-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(35, 43, 37, 0); 
-      backdrop-filter: blur(0px);
-      -webkit-backdrop-filter: blur(0px);
-      z-index: 999999;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-      transition: background 0.35s ease, backdrop-filter 0.35s ease;
-    }
-
-    .modal.active-modal, .bio-popup-modal.active-modal {
-      background: rgba(35, 43, 37, 0.75);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .modal-content, .bio-popup-content {
-      background: #FFFDF5;
-      border: 1px solid var(--glass-border);
-      padding: 30px 24px;
-      border-radius: var(--radius-modal);
-      max-width: 460px; 
-      width: 100%;
-      text-align: center;
-      position: relative;
-      opacity: 0;
-      transform: scale(0.9) translateY(20px);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .modal.active-modal .modal-content, 
-    .bio-popup-modal.active-modal .bio-popup-content {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-
-    .close-btn, .close-bio-btn {
-      position: absolute;
-      top: 16px; right: 20px;
-      cursor: pointer;
-      font-size: 22px; 
-      color: var(--text-muted);
-      transition: color 0.2s;
-      background: none;
-      border: none;
-      line-height: 1;
-    }
-
-    .close-btn:hover, .close-bio-btn:hover {
-      color: var(--accent-green);
-    }
-
-    .large-chair-img {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      border: 2px solid var(--accent-green);
-      object-fit: cover;
-      margin-bottom: 14px;
-      box-shadow: 0 0 16px rgba(90, 107, 54, 0.2);
-    }
-
-    .bio-popup-name {
-      font-family: var(--font-heading);
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 4px;
-    }
-
-    .bio-popup-title {
-      font-size: 12px;
-      color: var(--accent-green);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-      font-weight: 700;
-    }
-
-    .bio-popup-text {
-      color: var(--text-body);
-      font-size: 13.5px;
-      line-height: 1.6;
-      text-align: center;
-      background: rgba(247, 244, 220, 0.6);
-      padding: 14px;
-      border-radius: 10px;
-      border: 1px solid var(--glass-border);
-      max-height: 170px;
-      overflow-y: auto;
-    }
-
-    .modal-close-button {
-      background: rgba(90, 107, 54, 0.1);
-      border: 1px solid var(--glass-border);
-      color: var(--text-dark);
-      padding: 10px 22px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 12px;
-      font-weight: 700;
-      margin-top: 18px;
-      transition: var(--transition-smooth);
-    }
-
-    .modal-close-button:hover {
-      background: rgba(90, 107, 54, 0.2);
-      border-color: var(--accent-green);
     }
 
     .modal-secret-stamp {
@@ -673,25 +581,17 @@
         font-size: 9.5px;
       }
       .nav-tabs {
-        display: flex !important; 
-        flex-direction: row;
-        position: static;
-        background: transparent;
-        border: none;
-        padding: 0;
-        gap: 4px;
         width: 100%;
         justify-content: center;
       }
       .tab-btn {
-        padding: 6px 12px;
-        font-size: 11px;
+        padding: 6px 10px;
+        font-size: 10.5px;
       }
       .countdown-container {
         grid-template-columns: repeat(2, 1fr);
       }
       .parent-notice-box { text-align: center; }
-      .premium-leadership-team { grid-template-columns: repeat(2, 1fr); }
     }
 
     .page-view { display: none; }
@@ -721,12 +621,14 @@
       <nav class="nav-tabs" id="navTabs">
         <button class="tab-btn active" id="btn-home" onclick="switchPage('home')">HOME</button>
         <button class="tab-btn" id="btn-committees" onclick="switchPage('committees')">COMMITTEES</button>
+        <button class="tab-btn" id="btn-team" onclick="switchPage('team')">TEAM</button>
         <button class="tab-btn" id="btn-gallery" onclick="switchPage('gallery')">GALLERY</button>
       </nav>
     </header>
 
     <main class="main-container">
       
+      <!-- HOME PAGE -->
       <section id="page-home" class="page-view active-page">
         <div class="hero-section">
           <h2>FRANMUN</h2>
@@ -747,13 +649,6 @@
           </div>
         </article>
 
-        <article class="card">
-          <h3>Our SG Team</h3>
-          <div class="premium-leadership-team" id="sgTeamContainer">
-            <!-- Populated dynamically from Firebase -->
-          </div>
-        </article>
-
         <div class="parent-notice-box">
           <div class="parent-notice-text">
             <strong>Important Registration Notice:</strong> Parents must fill out and sign the required participation document. The parent's name will serve as the official signature and digital authorization for registration.
@@ -768,22 +663,66 @@
         </article>
       </section>
 
+      <!-- COMMITTEES LIST PAGE -->
       <section id="page-committees" class="page-view">
         <article class="card">
           <h3>Committees</h3>
-          <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 24px;">Select a committee shield to review its agenda and presiding chairs.</p>
+          <p style="color: var(--text-muted); font-size: 13.5px; margin-bottom: 24px;">Select a committee below to open its dedicated page, review topics, and explore leadership bios.</p>
           <div class="committee-grid">
-            <div class="committee-icon" onclick="openModal('UNICEF')"><img src="unicef.png" alt="UNICEF" /></div>
-            <div class="committee-icon" onclick="openModal('UNWOMEN')"><img src="unwomen.png" alt="UN Women" /></div>
-            <div class="committee-icon" onclick="openModal('UNHRC')"><img src="unhrc.png" alt="UNHRC" /></div>
-            <div class="committee-icon" onclick="openModal('DISEC')"><img src="disec.png" alt="DISEC" /></div>
-            <div class="committee-icon" onclick="openModal('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="this.src='who.png'" /></div>
-            <div class="committee-icon" onclick="openModal('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
-            <div class="committee-icon" onclick="openModal('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
+            <div class="committee-icon" onclick="openCommitteePage('UNICEF')"><img src="unicef.png" alt="UNICEF" /></div>
+            <div class="committee-icon" onclick="openCommitteePage('UNWOMEN')"><img src="unwomen.png" alt="UN Women" /></div>
+            <div class="committee-icon" onclick="openCommitteePage('UNHRC')"><img src="unhrc.png" alt="UNHRC" /></div>
+            <div class="committee-icon" onclick="openCommitteePage('DISEC')"><img src="disec.png" alt="DISEC" /></div>
+            <div class="committee-icon" onclick="openCommitteePage('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="this.src='who.png'" /></div>
+            <div class="committee-icon" onclick="openCommitteePage('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
+            <div class="committee-icon" onclick="openCommitteePage('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
           </div>
         </article>
       </section>
 
+      <!-- INDIVIDUAL COMMITTEE SUB-PAGE -->
+      <section id="page-committee-detail" class="page-view">
+        <div class="committee-page-header">
+          <button class="back-btn" onclick="switchPage('committees')">&larr; Back to Committees</button>
+          <h2 id="detailCommitteeTitle" style="font-family: var(--font-heading); font-size: 20px; color: var(--text-dark);">Committee</h2>
+        </div>
+
+        <article class="card">
+          <h3>Committee Topics</h3>
+          <div style="text-align: left; background: rgba(247, 244, 220, 0.6); padding: 16px; border-radius: 10px; border: 1px solid var(--glass-border); margin-top: 12px;">
+            <p id="detailTopicsText" style="color: var(--text-body); font-size: 14px; white-space: pre-line;"></p>
+          </div>
+
+          <div id="detailComingSoonStamp" style="display: none; text-align: center; padding: 20px 0;">
+            <div class="modal-secret-stamp">TOP SECRET</div>
+            <p style="font-size: 12px; color: var(--text-muted);">Committee agenda and board details remain restricted.</p>
+          </div>
+
+          <div style="margin-top: 24px; text-align: left;">
+            <a id="detailReportLink" href="#" target="_blank" class="report-btn" style="color: var(--accent-blue); text-decoration: none; font-size: 13.5px; font-weight: 700;" rel="noopener">View Research Report &rarr;</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3 id="chairSectionHeading">Presiding Chairs</h3>
+          <div class="chair-showcase-grid" id="detailChairsContainer">
+            <!-- Populated dynamically -->
+          </div>
+        </article>
+      </section>
+
+      <!-- DEDICATED TEAM PAGE -->
+      <section id="page-team" class="page-view">
+        <div class="hero-section" style="padding-top: 10px;">
+          <h2>Secretariat Team</h2>
+          <p>Meet the leaders driving FRANMUN 2026</p>
+        </div>
+        <div id="teamPageContainer">
+          <!-- Populated dynamically with photo stacked directly above bio -->
+        </div>
+      </section>
+
+      <!-- GALLERY PAGE -->
       <section id="page-gallery" class="page-view">
         <article class="card" style="padding: 40px 20px;" id="galleryCardContent">
           <!-- Gallery status or Drive files will be rendered here dynamically -->
@@ -791,53 +730,6 @@
       </section>
       
     </main>
-  </div>
-
-  <div id="committeeModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-content">
-      <button class="close-btn" onclick="closeModal()" aria-label="Close modal">&times;</button>
-      <h2 id="modalTitle" style="color: var(--text-dark); font-family: var(--font-heading); font-weight: 700; font-size: 19px; margin-bottom:12px;">Committee Name</h2>
-      
-      <div id="committeeTopicsContainer" style="text-align: left; background: rgba(247, 244, 220, 0.6); padding: 14px; border-radius: 10px; border: 1px solid var(--glass-border);">
-        <p id="modalTopics" style="color: var(--text-body); font-size: 13.5px; white-space: pre-line;"></p>
-      </div>
-
-      <div id="globalComingSoonStamp" style="display: none; text-align: center; padding: 10px 0;">
-        <div class="modal-secret-stamp">TOP SECRET</div>
-        <p style="font-size:11px; color:var(--text-muted);">Committee agenda and board details remain restricted.</p>
-      </div>
-      
-      <div id="committeeDetailsWrapper">
-        <div id="committeeChairsSection">
-          <div class="chairs-title">Committee Chairs</div>
-          <div class="chairs-container" id="modalChairs"></div>
-        </div>
-
-        <div id="crisisSpecificSections" style="display: none;">
-          <div class="chairs-title">Front Room Chair</div>
-          <div class="chairs-container" id="modalFrontRoomChairs"></div>
-
-          <div class="chairs-title">Backroom Chairs</div>
-          <div class="chairs-container" id="modalBackroomChairs"></div>
-        </div>
-      </div>
-
-      <div style="margin-top: 20px;">
-        <a id="modalReportLink" href="#" target="_blank" class="report-btn" style="color:var(--accent-green); text-decoration:none; font-size:13px; font-weight:700;" rel="noopener">View Research Report &rarr;</a>
-      </div>
-      <button class="modal-close-button" onclick="closeModal()">Close</button>
-    </div>
-  </div>
-
-  <div id="bioPopupModal" class="bio-popup-modal" role="dialog" aria-labelledby="popupChairName" aria-hidden="true">
-    <div class="bio-popup-content">
-      <button class="close-bio-btn" onclick="closeBioPopup()" aria-label="Close bio details">&times;</button>
-      <img src="" id="popupChairImg" class="large-chair-img" alt="Portrait Preview" onerror="this.src='logo.jpeg.JPG'">
-      <div id="popupChairName" class="bio-popup-name"></div>
-      <div id="popupChairTitle" class="bio-popup-title"></div>
-      <div id="popupChairBio" class="bio-popup-text"></div>
-      <button class="modal-close-button" onclick="closeBioPopup()">Close</button>
-    </div>
   </div>
 
   <footer style="
@@ -848,7 +740,7 @@
     background: rgba(255, 253, 240, 0.6);
   ">
     <p style="font-size: 13.5px; color: var(--text-body); margin: 0 0 6px 0;">
-      Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-green); text-decoration: none; font-weight: 600;">franmun2025@gmail.com</a>
+      Email: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-blue); text-decoration: none; font-weight: 600;">franmun2025@gmail.com</a>
     </p>
     <p style="font-size: 13.5px; color: var(--text-dark); font-weight: 700; margin: 0 0 16px 0;">
       Franciscan Sister's School Nazareth
@@ -858,7 +750,7 @@
     </p>
     <div class="credits" style="
       font-size: 11.5px; 
-      color: var(--accent-green); 
+      color: var(--accent-blue); 
       letter-spacing: 0.08em; 
       font-weight: 700; 
       text-transform: uppercase;
@@ -884,17 +776,10 @@
       document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-page'));
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('page-' + pageId).classList.add('active-page');
-      document.getElementById('btn-' + pageId).classList.add('active');
+      
+      const btn = document.getElementById('btn-' + pageId);
+      if(btn) btn.classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function triggerAvatarAnimation(element) {
-      const img = element.querySelector('.premium-leader-img');
-      if (img) {
-        img.classList.remove('animate-click');
-        void img.offsetWidth;
-        img.classList.add('animate-click');
-      }
     }
 
     const firebaseConfig = {
@@ -911,7 +796,6 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     let appData = {};
-    let currentActiveCommittee = "";
 
     database.ref("homepage_data").on("value", (snapshot) => {
       if (snapshot.exists()) {
@@ -928,7 +812,7 @@
         }
         
         renderRegistrationButtons();
-        renderSGTeam();
+        renderTeamPage();
         renderGallerySection();
         renderCountryMatrixButton();
       }
@@ -944,43 +828,30 @@
       if (!isLocked && matrixUrl !== "") {
         container.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 300px; margin: 0 auto;">Country Matrix &rarr;</a>`;
       } else {
-        container.innerHTML = `<a href="#" class="button" style="max-width: 300px; margin: 0 auto; background: rgba(90,107,54,0.06); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed; box-shadow: none;" onclick="event.preventDefault();">Country Matrix Coming Soon</a>`;
+        container.innerHTML = `<a href="#" class="button" style="max-width: 300px; margin: 0 auto; background: rgba(46,139,192,0.08); border: 1px solid var(--glass-border); color: var(--text-muted); cursor: not-allowed; box-shadow: none;" onclick="event.preventDefault();">Country Matrix Coming Soon</a>`;
       }
     }
 
-    function renderSGTeam() {
-      const container = document.getElementById("sgTeamContainer");
+    function renderTeamPage() {
+      const container = document.getElementById("teamPageContainer");
       if (!container) return;
 
       if (!appData.sgTeam || !Array.isArray(appData.sgTeam) || appData.sgTeam.length === 0) {
-        container.innerHTML = `<p style="color: var(--text-muted); text-align: center; font-size: 13.5px; grid-column: span 3;">No Secretariat members added yet.</p>`;
+        container.innerHTML = `<article class="card"><p style="color: var(--text-muted);">No Secretariat members added yet.</p></article>`;
         return;
       }
 
       let html = "";
-      appData.sgTeam.forEach((member, index) => {
+      appData.sgTeam.forEach((member) => {
         html += `
-          <div class="premium-leader-avatar-box" onclick="triggerAvatarAnimation(this); openSGTeamBioPopup(${index})">
-            <img src="${member.img || 'logo.jpeg.JPG'}" class="premium-leader-img" alt="${member.name || 'SG Member'}" onerror="this.src='logo.jpeg.JPG'">
-            <div class="premium-leader-title">${member.name || ''}</div>
-            <div class="premium-leader-name">${member.role || 'Secretariat'}</div>
+          <div class="team-member-list-card">
+            <img src="${member.img || 'logo.jpeg.JPG'}" class="team-member-large-img" alt="${member.name || 'Team Member'}" onerror="this.src='logo.jpeg.JPG'">
+            <div class="team-member-name">${member.name || ''}</div>
+            <div class="team-member-role">${member.role || 'Secretariat General'}</div>
+            <div class="team-member-bio">${member.bio || 'No biography provided yet.'}</div>
           </div>`;
       });
       container.innerHTML = html;
-    }
-
-    function openSGTeamBioPopup(index) {
-      if (!appData.sgTeam || !appData.sgTeam[index]) return;
-      const member = appData.sgTeam[index];
-
-      const modalBox = document.getElementById("bioPopupModal");
-      document.getElementById("popupChairName").innerText = member.name || "Secretariat Member";
-      document.getElementById("popupChairTitle").innerText = member.role || "Secretariat General";
-      document.getElementById("popupChairImg").src = member.img || "logo.jpeg.JPG";
-      document.getElementById("popupChairBio").innerText = member.bio || "No biography provided yet.";
-
-      modalBox.style.display = "flex";
-      setTimeout(() => modalBox.classList.add('active-modal'), 10);
     }
 
     function renderGallerySection() {
@@ -1017,151 +888,105 @@
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="button">Delegates Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(90,107,54,0.06); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Delegates Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.08); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Delegates Closed</a>`;
       }
       if (appData.chairsOpen) {
         html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2UC2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chairs Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(90,107,54,0.06); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Chairs Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(46,139,192,0.08); border:1px solid var(--glass-border); color:var(--text-muted); cursor:not-allowed; box-shadow:none;" onclick="event.preventDefault();">Chairs Closed</a>`;
       }
       container.innerHTML = html;
     }
 
-    function openModal(committee) {
-      currentActiveCommittee = committee;
-      const modal = document.getElementById("committeeModal");
-      modal.style.display = "flex";
-      setTimeout(() => modal.classList.add('active-modal'), 10);
-      
-      document.getElementById("modalTitle").innerText = committee;
-      
-      const topicsContainer = document.getElementById("committeeTopicsContainer");
-      const detailsWrapper = document.getElementById("committeeDetailsWrapper");
-      const stampContainer = document.getElementById("globalComingSoonStamp");
-      
-      const normalSection = document.getElementById("committeeChairsSection");
-      const crisisSection = document.getElementById("crisisSpecificSections");
+    function openCommitteePage(committeeName) {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-page'));
+      document.getElementById('page-committee-detail').classList.add('active-page');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      if (appData && appData.committees && appData.committees[committee]) {
-        const data = appData.committees[committee];
-        document.getElementById("modalReportLink").href = data.report || "#";
-        
+      document.getElementById("detailCommitteeTitle").innerText = committeeName;
+
+      const topicsText = document.getElementById("detailTopicsText");
+      const stampContainer = document.getElementById("detailComingSoonStamp");
+      const reportLink = document.getElementById("detailReportLink");
+      const chairsContainer = document.getElementById("detailChairsContainer");
+      const chairHeading = document.getElementById("chairSectionHeading");
+
+      if (appData && appData.committees && appData.committees[committeeName]) {
+        const data = appData.committees[committeeName];
+        reportLink.href = data.report || "#";
+
         if (appData.committeesComingSoon === true) {
-          topicsContainer.style.display = "none";
-          detailsWrapper.style.display = "none";
+          topicsText.style.display = "none";
           stampContainer.style.display = "block";
+          chairsContainer.innerHTML = "";
           return;
         }
 
-        topicsContainer.style.display = "block";
-        detailsWrapper.style.display = "block";
+        topicsText.style.display = "block";
         stampContainer.style.display = "none";
+        topicsText.innerText = data.topics || "Topic coming soon...";
 
-        document.getElementById("modalTopics").innerText = data.topics || "Topic coming soon...";
-
-        if (committee === "CRISIS") {
-          normalSection.style.display = "none";
-          crisisSection.style.display = "block";
-
-          let frontHtml = "";
+        if (committeeName === "CRISIS") {
+          chairHeading.innerText = "Crisis Cabinet Leadership";
+          let html = "";
+          
+          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 12px; margin-bottom: 8px;">Front Room Chair</div>`;
           if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
-            data.chairs.forEach((chair, index) => {
-              frontHtml += `
-                <div class="chair-box" onclick="openBioPopupFromData('chairs', ${index}, 'Front Room Chair')">
-                  <img src="${chair.img || 'logo.jpeg.JPG'}" alt="${chair.name || 'Chair'}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="chair-name">${chair.name || 'Chair'}</div>
+            data.chairs.forEach(chair => {
+              html += `
+                <div class="chair-profile-card">
+                  <img src="${chair.img || 'logo.jpeg.JPG'}" class="chair-large-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="chair-profile-name">${chair.name || 'Chair'}</div>
+                  <div class="chair-profile-role">Front Room Chair</div>
+                  <div class="chair-profile-bio">${chair.bio || 'No biography provided yet.'}</div>
                 </div>`;
             });
           } else {
-            frontHtml = "<p style='font-size:12px; color:var(--text-muted);'>Coming soon.</p>";
+            html += `<p style="font-size:13px; color:var(--text-muted);">Front room chairs coming soon.</p>`;
           }
-          document.getElementById("modalFrontRoomChairs").innerHTML = frontHtml;
 
-          let backHtml = "";
+          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 12px; margin-top: 16px; margin-bottom: 8px;">Backroom Chairs</div>`;
           if (data.backroom && Array.isArray(data.backroom) && data.backroom.length > 0) {
-            data.backroom.forEach((bChair, index) => {
-              backHtml += `
-                <div class="chair-box" onclick="openBioPopupFromData('backroom', ${index}, 'Backroom Chair')">
-                  <img src="${bChair.img || 'logo.jpeg.JPG'}" alt="${bChair.name || 'Chair'}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="chair-name">${bChair.name || 'Chair'}</div>
+            data.backroom.forEach(bChair => {
+              html += `
+                <div class="chair-profile-card">
+                  <img src="${bChair.img || 'logo.jpeg.JPG'}" class="chair-large-img" alt="${bChair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="chair-profile-name">${bChair.name || 'Chair'}</div>
+                  <div class="chair-profile-role">Backroom Chair</div>
+                  <div class="chair-profile-bio">${bChair.bio || 'No biography provided yet.'}</div>
                 </div>`;
             });
           } else {
-            backHtml = "<p style='font-size:12px; color:var(--text-muted);'>Coming soon.</p>";
+            html += `<p style="font-size:13px; color:var(--text-muted);">Backroom chairs coming soon.</p>`;
           }
-          document.getElementById("modalBackroomChairs").innerHTML = backHtml;
+          chairsContainer.innerHTML = html;
 
         } else {
-          normalSection.style.display = "block";
-          crisisSection.style.display = "none";
-
-          let chairsHTML = "";
+          chairHeading.innerText = "Committee Chairs";
+          let html = "";
           if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
-            data.chairs.forEach((chair, index) => {
-              chairsHTML += `
-                <div class="chair-box" onclick="openBioPopupFromData('chairs', ${index}, 'Committee Chair')">
-                  <img src="${chair.img || 'logo.jpeg.JPG'}" alt="${chair.name || 'Chair'}" class="chair-img" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="chair-name">${chair.name || 'Chair'}</div>
+            data.chairs.forEach(chair => {
+              html += `
+                <div class="chair-profile-card">
+                  <img src="${chair.img || 'logo.jpeg.JPG'}" class="chair-large-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="chair-profile-name">${chair.name || 'Chair'}</div>
+                  <div class="chair-profile-role">Committee Chair</div>
+                  <div class="chair-profile-bio">${chair.bio || 'No biography provided yet.'}</div>
                 </div>`;
             });
           } else {
-            chairsHTML = "<p style='font-size:12px; color:var(--text-muted);'>Chairs announcement coming soon.</p>";
+            html += `<p style="font-size:13px; color:var(--text-muted); grid-column: 1 / -1; text-align: center;">Chairs announcement coming soon.</p>`;
           }
-          document.getElementById("modalChairs").innerHTML = chairsHTML;
+          chairsContainer.innerHTML = html;
         }
 
       } else {
-        topicsContainer.style.display = "block";
-        detailsWrapper.style.display = "block";
+        topicsText.style.display = "block";
         stampContainer.style.display = "none";
-
-        normalSection.style.display = "block";
-        crisisSection.style.display = "none";
-        document.getElementById("modalTopics").innerText = "Topic coming soon...";
-        document.getElementById("modalReportLink").href = "#";
-        document.getElementById("modalChairs").innerHTML = "<p style='font-size:12px; color:var(--text-muted);'>Chairs announcement coming soon.</p>";
+        topicsText.innerText = "Topic coming soon...";
+        reportLink.href = "#";
+        chairsContainer.innerHTML = `<p style="font-size:13px; color:var(--text-muted); grid-column: 1 / -1; text-align: center;">Chairs announcement coming soon.</p>`;
       }
-    }
-
-    function openBioPopupFromData(type, originalIndex, roleDisplay) {
-      if (!appData.committees || !appData.committees[currentActiveCommittee]) return;
-      
-      const committeeData = appData.committees[currentActiveCommittee];
-      let targetChair = null;
-
-      if (type === 'backroom' && committeeData.backroom && committeeData.backroom[originalIndex]) {
-        targetChair = committeeData.backroom[originalIndex];
-      } else if (type === 'chairs' && committeeData.chairs && committeeData.chairs[originalIndex]) {
-        targetChair = committeeData.chairs[originalIndex];
-      }
-
-      if (targetChair) {
-        const modalBox = document.getElementById("bioPopupModal");
-        
-        document.getElementById("popupChairName").innerText = targetChair.name || "Committee Leader";
-        document.getElementById("popupChairTitle").innerText = `${currentActiveCommittee} ${roleDisplay}`;
-        document.getElementById("popupChairImg").src = targetChair.img || "logo.jpeg.JPG";
-        document.getElementById("popupChairBio").innerText = targetChair.bio || "No biography provided yet.";
-        
-        modalBox.style.display = "flex";
-        setTimeout(() => modalBox.classList.add('active-modal'), 10);
-      }
-    }
-
-    function closeBioPopup() { 
-      const modalBox = document.getElementById("bioPopupModal");
-      modalBox.classList.remove('active-modal');
-      setTimeout(() => {
-        modalBox.style.display = "none";
-      }, 300);
-    }
-
-    function closeModal() { 
-      const modal = document.getElementById("committeeModal");
-      modal.classList.remove('active-modal');
-      setTimeout(() => {
-        modal.style.display = "none";
-      }, 300);
     }
 
     setInterval(function() {
@@ -1182,10 +1007,6 @@
       document.getElementById("seconds").innerText = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
     }, 1000);
 
-    window.onclick = function(e) {
-      if (e.target === document.getElementById("bioPopupModal")) closeBioPopup();
-      if (e.target === document.getElementById("committeeModal")) closeModal();
-    }
     document.addEventListener('contextmenu', e => e.preventDefault());
   </script>
 </body>
