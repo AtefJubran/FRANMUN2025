@@ -81,7 +81,7 @@
       
       --accent-gold: #C29B38; 
       --accent-gold-hover: #D4B04C;
-      --accent-blue: #2E8BC0; /* Logo shield blue */
+      --accent-blue: #2E8BC0;
       --accent-blue-hover: #23729F;
       --accent-green: #5A6B36; 
       --accent-red: #D9534F;
@@ -210,7 +210,7 @@
     }
 
     .main-container {
-      max-width: 980px;
+      max-width: 1150px;
       margin: 0 auto;
       padding: 130px 20px 60px 20px;
       min-height: 85vh;
@@ -357,23 +357,49 @@
       filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
     }
 
-    /* Team Page Specific Layout Styles (Comfortable Square Cards) */
-    .team-member-list-card {
+    /* Multi-Column Grid Layout for Team & Chairs (Matching Reference Image) */
+    .profiles-grid-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 768px) {
+      .profiles-grid-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .profiles-grid-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .profile-card-item {
       background: var(--bg-card);
       border: 1px solid var(--glass-border);
       border-radius: var(--radius-card);
-      padding: 32px;
-      margin-bottom: 24px;
+      padding: 28px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       box-shadow: 0 6px 20px rgba(46, 139, 192, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .team-member-large-img {
-      width: 150px;
-      height: 150px;
+    .profile-card-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(46, 139, 192, 0.12);
+      border-color: var(--glass-border-hover);
+    }
+
+    .profile-square-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      max-width: 220px;
       border-radius: 14px;
       border: 2px solid var(--accent-blue);
       object-fit: cover;
@@ -382,33 +408,34 @@
       box-shadow: 0 4px 14px rgba(46, 139, 192, 0.15);
     }
 
-    .team-member-name {
+    .profile-name {
       font-family: var(--font-heading);
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 700;
       color: var(--text-dark);
       margin-bottom: 4px;
     }
 
-    .team-member-role {
-      font-size: 13px;
+    .profile-role {
+      font-size: 12px;
       font-weight: 700;
       color: var(--accent-blue);
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
-    .team-member-bio {
+    .profile-bio {
       color: var(--text-body);
-      font-size: 14.5px;
-      line-height: 1.7;
-      max-width: 650px;
+      font-size: 13.5px;
+      line-height: 1.65;
+      width: 100%;
       background: rgba(247, 244, 220, 0.5);
-      padding: 18px 22px;
+      padding: 16px;
       border-radius: 12px;
       border: 1px solid var(--glass-border);
       text-align: center;
+      flex-grow: 1;
     }
 
     /* Committee Page Styles */
@@ -434,66 +461,6 @@
     .back-btn:hover {
       background: var(--accent-blue);
       color: #FFF;
-    }
-
-    .chair-showcase-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-      margin-top: 20px;
-    }
-
-    @media (min-width: 640px) {
-      .chair-showcase-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .chair-profile-card {
-      background: rgba(255, 255, 255, 0.7);
-      border: 1px solid var(--glass-border);
-      border-radius: 14px;
-      padding: 24px;
-      text-align: center;
-    }
-
-    .chair-large-img {
-      width: 150px;
-      height: 150px;
-      border-radius: 14px;
-      border: 2px solid var(--accent-blue);
-      object-fit: cover;
-      margin: 0 auto 16px auto;
-      box-shadow: 0 4px 14px rgba(46, 139, 192, 0.15);
-      display: block;
-    }
-
-    .chair-profile-name {
-      font-family: var(--font-heading);
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 4px;
-    }
-
-    .chair-profile-role {
-      font-size: 12px;
-      color: var(--accent-blue);
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
-    }
-
-    .chair-profile-bio {
-      font-size: 13.5px;
-      color: var(--text-body);
-      line-height: 1.6;
-      background: rgba(247, 244, 220, 0.6);
-      padding: 14px 16px;
-      border-radius: 10px;
-      border: 1px solid var(--glass-border);
-      text-align: center;
     }
 
     .parent-notice-box {
@@ -706,7 +673,7 @@
 
         <article class="card">
           <h3 id="chairSectionHeading">Presiding Chairs</h3>
-          <div class="chair-showcase-grid" id="detailChairsContainer">
+          <div class="profiles-grid-container" id="detailChairsContainer">
             <!-- Populated dynamically -->
           </div>
         </article>
@@ -718,8 +685,8 @@
           <h2>Secretariat Team</h2>
           <p>Meet the leaders driving FRANMUN 2026</p>
         </div>
-        <div id="teamPageContainer">
-          <!-- Populated dynamically with comfortable square layout -->
+        <div id="teamPageContainer" class="profiles-grid-container">
+          <!-- Populated dynamically with grid layout -->
         </div>
       </section>
 
@@ -838,18 +805,18 @@
       if (!container) return;
 
       if (!appData.sgTeam || !Array.isArray(appData.sgTeam) || appData.sgTeam.length === 0) {
-        container.innerHTML = `<article class="card"><p style="color: var(--text-muted);">No Secretariat members added yet.</p></article>`;
+        container.innerHTML = `<article class="card" style="grid-column: 1 / -1;"><p style="color: var(--text-muted);">No Secretariat members added yet.</p></article>`;
         return;
       }
 
       let html = "";
       appData.sgTeam.forEach((member) => {
         html += `
-          <div class="team-member-list-card">
-            <img src="${member.img || 'logo.jpeg.JPG'}" class="team-member-large-img" alt="${member.name || 'Team Member'}" onerror="this.src='logo.jpeg.JPG'">
-            <div class="team-member-name">${member.name || ''}</div>
-            <div class="team-member-role">${member.role || 'Secretariat General'}</div>
-            <div class="team-member-bio">${member.bio || 'No biography provided yet.'}</div>
+          <div class="profile-card-item">
+            <img src="${member.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${member.name || 'Team Member'}" onerror="this.src='logo.jpeg.JPG'">
+            <div class="profile-name">${member.name || ''}</div>
+            <div class="profile-role">${member.role || 'Secretariat General'}</div>
+            <div class="profile-bio">${member.bio || 'No biography provided yet.'}</div>
           </div>`;
       });
       container.innerHTML = html;
@@ -931,34 +898,34 @@
           chairHeading.innerText = "Crisis Cabinet Leadership";
           let html = "";
           
-          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 12px; margin-bottom: 8px;">Front Room Chair</div>`;
+          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 12px; margin-bottom: 4px;">Front Room Chair</div>`;
           if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
             data.chairs.forEach(chair => {
               html += `
-                <div class="chair-profile-card">
-                  <img src="${chair.img || 'logo.jpeg.JPG'}" class="chair-large-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="chair-profile-name">${chair.name || 'Chair'}</div>
-                  <div class="chair-profile-role">Front Room Chair</div>
-                  <div class="chair-profile-bio">${chair.bio || 'No biography provided yet.'}</div>
+                <div class="profile-card-item">
+                  <img src="${chair.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="profile-name">${chair.name || 'Chair'}</div>
+                  <div class="profile-role">Front Room Chair</div>
+                  <div class="profile-bio">${chair.bio || 'No biography provided yet.'}</div>
                 </div>`;
             });
           } else {
-            html += `<p style="font-size:13px; color:var(--text-muted);">Front room chairs coming soon.</p>`;
+            html += `<p style="font-size:13px; color:var(--text-muted); grid-column: 1 / -1; text-align: center;">Front room chairs coming soon.</p>`;
           }
 
-          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 12px; margin-top: 16px; margin-bottom: 8px;">Backroom Chairs</div>`;
+          html += `<div style="grid-column: 1 / -1; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 12px; margin-top: 16px; margin-bottom: 4px;">Backroom Chairs</div>`;
           if (data.backroom && Array.isArray(data.backroom) && data.backroom.length > 0) {
             data.backroom.forEach(bChair => {
               html += `
-                <div class="chair-profile-card">
-                  <img src="${bChair.img || 'logo.jpeg.JPG'}" class="chair-large-img" alt="${bChair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="chair-profile-name">${bChair.name || 'Chair'}</div>
-                  <div class="chair-profile-role">Backroom Chair</div>
-                  <div class="chair-profile-bio">${bChair.bio || 'No biography provided yet.'}</div>
+                <div class="profile-card-item">
+                  <img src="${bChair.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${bChair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="profile-name">${bChair.name || 'Chair'}</div>
+                  <div class="profile-role">Backroom Chair</div>
+                  <div class="profile-bio">${bChair.bio || 'No biography provided yet.'}</div>
                 </div>`;
             });
           } else {
-            html += `<p style="font-size:13px; color:var(--text-muted);">Backroom chairs coming soon.</p>`;
+            html += `<p style="font-size:13px; color:var(--text-muted); grid-column: 1 / -1; text-align: center;">Backroom chairs coming soon.</p>`;
           }
           chairsContainer.innerHTML = html;
 
@@ -968,11 +935,11 @@
           if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
             data.chairs.forEach(chair => {
               html += `
-                <div class="chair-profile-card">
-                  <img src="${chair.img || 'logo.jpeg.JPG'}" class="chair-large-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="chair-profile-name">${chair.name || 'Chair'}</div>
-                  <div class="chair-profile-role">Committee Chair</div>
-                  <div class="chair-profile-bio">${chair.bio || 'No biography provided yet.'}</div>
+                <div class="profile-card-item">
+                  <img src="${chair.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
+                  <div class="profile-name">${chair.name || 'Chair'}</div>
+                  <div class="profile-role">Committee Chair</div>
+                  <div class="profile-bio">${chair.bio || 'No biography provided yet.'}</div>
                 </div>`;
             });
           } else {
