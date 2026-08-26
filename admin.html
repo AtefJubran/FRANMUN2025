@@ -242,6 +242,10 @@
           <input type="checkbox" id="galleryLocked">
           <label for="galleryLocked" style="display:inline; margin:0; color:white;">Lock Conference Gallery</label>
         </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="countryMatrixLocked">
+          <label for="countryMatrixLocked" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Lock Country Matrix (Show Coming Soon)</label>
+        </div>
         <div class="checkbox-group" style="grid-column: span 2; background: rgba(228, 179, 67, 0.05); border: 1px solid rgba(228, 179, 67, 0.2); padding: 12px; border-radius: 10px; margin-top: 5px;">
           <input type="checkbox" id="committeesComingSoon">
           <label for="committeesComingSoon" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Hide All Committees Topics & Chairs (Coming Soon / Top Secret Stamp)</label>
@@ -251,7 +255,7 @@
       <!-- إعداد رابط Country Matrix العام -->
       <div class="form-group" style="margin-top: 20px;">
         <label>Country Matrix PDF Link (رابط جدول توزيع الدول العام)</label>
-        <input type="text" id="countryMatrixPdf" placeholder="https://... (Drive PDF link or leave empty to show Coming Soon)">
+        <input type="text" id="countryMatrixPdf" placeholder="https://... (Drive PDF link)">
       </div>
 
       <div class="form-group" style="margin-top: 15px;">
@@ -434,6 +438,7 @@
       document.getElementById("delegatesOpen").checked = !!appData.delegatesOpen;
       document.getElementById("chairsOpen").checked = !!appData.chairsOpen;
       document.getElementById("galleryLocked").checked = !!appData.galleryLocked;
+      document.getElementById("countryMatrixLocked").checked = !!appData.countryMatrixLocked;
       document.getElementById("committeesComingSoon").checked = !!appData.committeesComingSoon;
       document.getElementById("countryMatrixPdf").value = appData.countryMatrixPdf || "";
       document.getElementById("targetDate").value = appData.targetDate || "";
@@ -445,6 +450,7 @@
         delegatesOpen: document.getElementById("delegatesOpen").checked,
         chairsOpen: document.getElementById("chairsOpen").checked,
         galleryLocked: document.getElementById("galleryLocked").checked,
+        countryMatrixLocked: document.getElementById("countryMatrixLocked").checked,
         committeesComingSoon: document.getElementById("committeesComingSoon").checked,
         countryMatrixPdf: document.getElementById("countryMatrixPdf").value.trim(),
         targetDate: document.getElementById("targetDate").value.trim()
