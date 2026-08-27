@@ -933,12 +933,12 @@
       if (appData.delegatesOpen) {
         html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="button">Delegate Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(29,107,158,0.08); border:1px solid rgba(29,107,158,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegates Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(29,107,158,0.08); border:1px solid rgba(29,107,158,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegate Registration Closed</a>`;
       }
       if (appData.chairsOpen) {
         html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chair Registration &rarr;</a>`;
       } else {
-        html += `<a href="#" class="button" style="background:rgba(29,107,158,0.08); border:1px solid rgba(29,107,158,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chairs Closed</a>`;
+        html += `<a href="#" class="button" style="background:rgba(29,107,158,0.08); border:1px solid rgba(29,107,158,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chair Registration Closed</a>`;
       }
       container.innerHTML = html;
     }
@@ -957,7 +957,6 @@
       const chairsContainer = document.getElementById("detailChairsContainer");
       const chairHeading = document.getElementById("chairSectionHeading");
 
-      // Show temporary loading spinner in chairs area while switching
       chairsContainer.innerHTML = `<div style="grid-column: 1 / -1;"><div class="spinner"></div></div>`;
 
       const matrixUrl = appData.countryMatrixPdf || "";
