@@ -952,10 +952,10 @@
 
       chairsContainer.innerHTML = `<div style="grid-column: 1 / -1;"><div class="spinner"></div></div>`;
 
-      // Base URL for GitHub Raw files (replace YOUR_GITHUB_USERNAME and YOUR_REPOSITORY_NAME)
-      const githubRepoUrl = "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME/main/";
+      // Base URL targeting AtefJubran/FRANMUN2025 on main branch
+      const githubRepoUrl = "https://raw.githubusercontent.com/AtefJubran/FRANMUN2025/main/";
 
-      // Committee Research Reports mapped to your PDF files
+      // Exact PDF mapping
       const localCommitteeReports = {
         "UNICEF": githubRepoUrl + encodeURIComponent("unicef research report.pdf"),
         "UNWOMEN": githubRepoUrl + encodeURIComponent("UNWOMEN Research Report.pdf"),
@@ -974,7 +974,7 @@
         matrixDetailContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
       }
 
-      // Check Firebase data first; if not present or empty, fallback to GitHub URL
+      // Read from Firebase if available; otherwise use the GitHub fallback URL
       const firebaseReport = (appData && appData.committees && appData.committees[committeeName]) ? appData.committees[committeeName].report : null;
       reportLink.href = firebaseReport || localCommitteeReports[committeeName] || "#";
 
