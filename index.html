@@ -952,6 +952,20 @@
 
       chairsContainer.innerHTML = `<div style="grid-column: 1 / -1;"><div class="spinner"></div></div>`;
 
+      // Base URL for GitHub Raw files (replace YOUR_GITHUB_USERNAME and YOUR_REPOSITORY_NAME)
+      const githubRepoUrl = "https://raw.githubusercontent.com/YOUR_GITHUB_USERNAME/YOUR_REPOSITORY_NAME/main/";
+
+      // Committee Research Reports mapped to your PDF files
+      const localCommitteeReports = {
+        "UNICEF": githubRepoUrl + encodeURIComponent("unicef research report.pdf"),
+        "UNWOMEN": githubRepoUrl + encodeURIComponent("UNWOMEN Research Report.pdf"),
+        "UNHRC": githubRepoUrl + encodeURIComponent("Human Rights .pdf"),
+        "DISEC": githubRepoUrl + encodeURIComponent("DISEC research report.pdf"),
+        "WHO": githubRepoUrl + encodeURIComponent("WHO Research Report .pdf"),
+        "UNHSC": githubRepoUrl + encodeURIComponent("HSC research report.pdf"),
+        "CRISIS": githubRepoUrl + encodeURIComponent("CRISIS SEARCH REPORT.pdf")
+      };
+
       const matrixUrl = appData.countryMatrixPdf || "";
       const isMatrixLocked = !!appData.countryMatrixLocked;
       if (!isMatrixLocked && matrixUrl !== "") {
@@ -960,9 +974,12 @@
         matrixDetailContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
       }
 
+      // Check Firebase data first; if not present or empty, fallback to GitHub URL
+      const firebaseReport = (appData && appData.committees && appData.committees[committeeName]) ? appData.committees[committeeName].report : null;
+      reportLink.href = firebaseReport || localCommitteeReports[committeeName] || "#";
+
       if (appData && appData.committees && appData.committees[committeeName]) {
         const data = appData.committees[committeeName];
-        reportLink.href = data.report || "#";
 
         if (appData.committeesComingSoon === true) {
           topicsText.style.display = "none";
@@ -1036,7 +1053,6 @@
         topicsText.style.display = "block";
         stampContainer.style.display = "none";
         topicsText.innerText = "Agenda details pending...";
-        reportLink.href = "#";
         chairsContainer.className = "profiles-grid-container";
         chairsContainer.innerHTML = `<p style="font-size:13.5px; color:var(--text-muted); grid-column: 1 / -1; text-align: center;">Leadership announcement pending.</p>`;
       }
