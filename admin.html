@@ -252,7 +252,6 @@
         </div>
       </div>
 
-      <!-- إعداد رابط Country Matrix العام -->
       <div class="form-group" style="margin-top: 20px;">
         <label>Country Matrix PDF Link (رابط جدول توزيع الدول العام)</label>
         <input type="text" id="countryMatrixPdf" placeholder="https://... (Drive PDF link)">
@@ -316,6 +315,21 @@
           <option value="UNHSC">UNHSC</option>
           <option value="CRISIS">CRISIS</option>
         </select>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 16px;">
+        <div class="checkbox-group">
+          <input type="checkbox" id="hideReport">
+          <label for="hideReport" style="display:inline; margin:0; color:var(--accent-gold);">Hide Research Report</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="hideChairs">
+          <label for="hideChairs" style="display:inline; margin:0; color:var(--accent-gold);">Hide Committee Chairs</label>
+        </div>
+        <div class="checkbox-group" style="grid-column: span 2;">
+          <input type="checkbox" id="hideMatrix">
+          <label for="hideMatrix" style="display:inline; margin:0; color:var(--accent-gold);">Hide Country Matrix for this Committee</label>
+        </div>
       </div>
 
       <div class="form-group">
@@ -576,6 +590,9 @@
 
       document.getElementById("commTopics").value = comm.topics || "";
       document.getElementById("commReport").value = comm.report || "";
+      document.getElementById("hideReport").checked = !!comm.hideReport;
+      document.getElementById("hideChairs").checked = !!comm.hideChairs;
+      document.getElementById("hideMatrix").checked = !!comm.hideMatrix;
 
       clearChairForm();
       renderAdminChairsList(comm);
@@ -748,6 +765,9 @@
 
       appData.committees[commKey].topics = document.getElementById("commTopics").value.trim();
       appData.committees[commKey].report = document.getElementById("commReport").value.trim();
+      appData.committees[commKey].hideReport = document.getElementById("hideReport").checked;
+      appData.committees[commKey].hideChairs = document.getElementById("hideChairs").checked;
+      appData.committees[commKey].hideMatrix = document.getElementById("hideMatrix").checked;
 
       database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
         .then(() => alert("Committee details saved successfully!"))
@@ -780,7 +800,7 @@
       const files = appData.driveFiles || [];
 
       if (files.length === 0) {
-        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No drive files added yet.</p>`;
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13.5px;">No drive files added yet.</p>`;
         return;
       }
 
