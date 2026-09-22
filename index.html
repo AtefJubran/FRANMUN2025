@@ -952,10 +952,8 @@
 
       chairsContainer.innerHTML = `<div style="grid-column: 1 / -1;"><div class="spinner"></div></div>`;
 
-      // Base URL targeting AtefJubran/FRANMUN2025 on main branch
       const githubRepoUrl = "https://raw.githubusercontent.com/AtefJubran/FRANMUN2025/main/";
 
-      // Exact PDF mapping
       const localCommitteeReports = {
         "UNICEF": githubRepoUrl + encodeURIComponent("unicef research report.pdf"),
         "UNWOMEN": githubRepoUrl + encodeURIComponent("UNWOMEN Research Report.pdf"),
@@ -966,20 +964,26 @@
         "CRISIS": githubRepoUrl + encodeURIComponent("CRISIS SEARCH REPORT.pdf")
       };
 
-      const matrixUrl = appData.countryMatrixPdf || "";
-      const isMatrixLocked = !!appData.countryMatrixLocked;
-      if (!isMatrixLocked && matrixUrl !== "") {
-        matrixDetailContainer.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 290px;">Country Matrix &rarr;</a>`;
-      } else {
-        matrixDetailContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
-      }
-
-      // Read from Firebase if available; otherwise use the GitHub fallback URL
-      const firebaseReport = (appData && appData.committees && appData.committees[committeeName]) ? appData.committees[committeeName].report : null;
-      reportLink.href = firebaseReport || localCommitteeReports[committeeName] || "#";
-
       if (appData && appData.committees && appData.committees[committeeName]) {
         const data = appData.committees[committeeName];
+
+        // Handle Individual Matrix Visibility
+        const matrixUrl = appData.countryMatrixPdf || "";
+        const isMatrixLocked = !!appData.countryMatrixLocked || !!data.hideMatrix;
+        if (!isMatrixLocked && matrixUrl !== "") {
+          matrixDetailContainer.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 290px;">Country Matrix &rarr;</a>`;
+        } else {
+          matrixDetailContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
+        }
+
+        // Handle Individual Research Report Visibility
+        if (data.hideReport) {
+          reportLink.style.display = "none";
+        } else {
+          reportLink.style.display = "inline-flex";
+          const firebaseReport = data.report;
+          reportLink.href = firebaseReport || localCommitteeReports[committeeName] || "#";
+        }
 
         if (appData.committeesComingSoon === true) {
           topicsText.style.display = "none";
@@ -992,6 +996,14 @@
         topicsText.style.display = "block";
         stampContainer.style.display = "none";
         topicsText.innerText = data.topics || "Agenda details pending...";
+
+        // Handle Individual Chairs Visibility
+        if (data.hideChairs) {
+          chairSectionHeading.parentElement.style.display = "none";
+          return;
+        } else {
+          chairSectionHeading.parentElement.style.display = "block";
+        }
 
         if (committeeName === "CRISIS") {
           chairHeading.innerText = "Chairs";
@@ -1050,9 +1062,12 @@
         }
 
       } else {
+        reportLink.style.display = "inline-flex";
+        reportLink.href = localCommitteeReports[committeeName] || "#";
         topicsText.style.display = "block";
         stampContainer.style.display = "none";
         topicsText.innerText = "Agenda details pending...";
+        chairSectionHeading.parentElement.style.display = "block";
         chairsContainer.className = "profiles-grid-container";
         chairsContainer.innerHTML = `<p style="font-size:13.5px; color:var(--text-muted); grid-column: 1 / -1; text-align: center;">Leadership announcement pending.</p>`;
       }
