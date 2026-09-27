@@ -4,15 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"/>
   <title>FRANMUN 2026 | Official Franciscan School Model United Nations Conference</title>
-  
   <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://franmun.org/" />
-  <meta name="theme-color" content="#F4E8B1" />
-
+  <meta name="theme-color" content="#0A0F1C" />
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <link rel="apple-touch-icon" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" />
-  
   <meta property="og:type" content="website" />
   <meta property="og:title" content="FRANMUN 2026 | Franciscan School Model United Nations" />
   <meta property="og:description" content="Engage in advanced diplomatic discourse at the First Annual Franciscan School Model United Nations Conference. Register today as a delegate or chair." />
@@ -20,801 +17,361 @@
   <meta property="og:site_name" content="FRANMUN" />
   <meta property="og:image" content="logo.jpeg.JPG" />
   <meta property="og:image:alt" content="FRANMUN Official Insignia Logo" />
-
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="FRANMUN 2026 | Franciscan School Model United Nations" />
   <meta name="twitter:description" content="Engage in advanced diplomatic discourse at the First Annual Franciscan School Model United Nations Conference. Register today as a delegate or chair." />
   <meta name="twitter:image" content="logo.jpeg.JPG" />
-
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "EducationalOrganization",
-        "@id": "https://franmun.org/#organization",
-        "name": "Franciscan Sister's School Nazareth",
-        "url": "https://franmun.org/",
-        "logo": {
-          "@type": "ImageObject",
-          "@id": "https://franmun.org/#logo",
-          "url": "https://franmun.org/logo.jpeg.JPG",
-          "caption": "Franciscan Sister's School Logo"
-        },
-        "image": {
-          "@id": "https://franmun.org/#logo"
-        },
-        "sameAs": [
-          "https://www.instagram.com/franciscan_munners"
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://franmun.org/#website",
-        "url": "https://franmun.org/",
-        "name": "FRANMUN 2026",
-        "publisher": {
-          "@id": "https://franmun.org/#organization"
-        }
-      }
-    ]
-  }
+  {"@context":"https://schema.org","@graph":[{"@type":"EducationalOrganization","@id":"https://franmun.org/#organization","name":"Franciscan Sister's School Nazareth","url":"https://franmun.org/","logo":{"@type":"ImageObject","@id":"https://franmun.org/#logo","url":"https://franmun.org/logo.jpeg.JPG","caption":"Franciscan Sister's School Logo"},"image":{"@id":"https://franmun.org/#logo"},"sameAs":["https://www.instagram.com/franciscan_munners"]},{"@type":"WebSite","@id":"https://franmun.org/#website","url":"https://franmun.org/","name":"FRANMUN 2026","publisher":{"@id":"https://franmun.org/#organization"}}]}
   </script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
   <style>
-    :root {
-      --bg-main: #F4E8B1; 
-      --bg-gradient-start: #FBF6DD;
-      --bg-gradient-end: #E4CC74;
-      
-      --card-bg: rgba(255, 255, 255, 0.85);
-      --card-hover-bg: rgba(255, 255, 255, 0.98);
-      
-      --accent-gold: #C29B38; 
-      --accent-blue: #1D6B9E;
-      --accent-blue-hover: #15527A;
-      --accent-red: #D9534F;
-      
-      --text-dark: #121A16;
-      --text-muted: #4A5750;
-      --text-body: #2C3530;
-      
-      --font-heading: 'Cinzel', Georgia, serif;
-      --font-body: 'Plus Jakarta Sans', sans-serif;
-      
-      --radius-button: 12px;
-      --radius-card: 18px;
-      --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      --shadow-premium: 0 20px 40px -15px rgba(29, 107, 158, 0.12), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
-      --shadow-hover: 0 25px 50px -12px rgba(29, 107, 158, 0.2);
+    :root{
+      --bg:#0A0F1C; --bg2:#111A2E; --ink:#EAF0FA; --muted:#8C9AB5; --line:rgba(255,255,255,.1);
+      --a1:#5BC0FF; --a2:#FFC46B; --grad:linear-gradient(100deg,var(--a1),var(--a2));
+      --serif:'Fraunces',Georgia,serif; --sans:'Plus Jakarta Sans',sans-serif;
+      --ease:cubic-bezier(.16,1,.3,1);
     }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth;background:var(--bg)}
+    body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    /* ambient glow */
+    body::before,body::after{content:'';position:fixed;z-index:-1;border-radius:50%;filter:blur(120px);opacity:.35;pointer-events:none}
+    body::before{width:50vw;height:50vw;background:#1D6B9E;top:-15vw;left:-15vw}
+    body::after{width:40vw;height:40vw;background:#8A5A1A;bottom:-15vw;right:-10vw;opacity:.25}
+    a{color:inherit}
+    #progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--grad);z-index:1100}
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    html {
-      min-height: 100%;
-      background: var(--bg-main);
-      scroll-behavior: smooth;
-    }
+    /* floating pill nav */
+    header{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;background:rgba(17,26,46,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);box-shadow:0 10px 40px rgba(0,0,0,.4);transition:transform .45s var(--ease),opacity .3s;max-width:calc(100% - 24px)}
+    header.nav-hidden{transform:translate(-50%,-140%)}
+    header img{width:36px;height:36px;border-radius:50%;object-fit:cover;margin-right:4px;flex:none}
+    .tab-btn{background:transparent;border:none;color:var(--muted);font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;border-radius:999px;cursor:pointer;transition:.25s;white-space:nowrap;touch-action:manipulation}
+    .tab-btn:hover{color:var(--ink)}
+    .tab-btn.active{background:var(--ink);color:var(--bg)}
 
-    body {
-      font-family: var(--font-body);
-      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-main) 50%, var(--bg-gradient-end) 100%);
-      min-height: 100vh;
-      color: var(--text-dark);
-      line-height: 1.7;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
+    .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+    section{scroll-margin-top:20px}
+    .eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--a1);font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:14px}
+    .eyebrow::before{content:'';width:36px;height:1px;background:var(--a1)}
+    h2.title{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,7vw,5rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:40px}
+    h2.title em{font-style:italic;font-weight:600;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .block{padding:110px 0}
 
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      background: rgba(244, 232, 177, 0.92);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 14px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid rgba(29, 107, 158, 0.15);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-      transition: transform 0.3s ease;
-      will-change: transform;
-    }
+    /* hero */
+    #home{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 60px;position:relative}
+    .hero-title{font-family:var(--serif);font-weight:800;font-size:clamp(3.2rem,17vw,13rem);line-height:.95;letter-spacing:-.04em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin:10px 0 26px}
+    .hero-sub{font-size:clamp(1rem,2vw,1.35rem);color:var(--muted);max-width:560px;font-weight:300}
+    .hero-sub b{color:var(--ink);font-weight:500}
+    .scroll-cue{position:absolute;bottom:28px;left:24px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:12px}
+    .scroll-cue::after{content:'';width:1px;height:44px;background:linear-gradient(var(--a1),transparent);animation:drip 2s ease-in-out infinite;transform-origin:top}
+    @keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
 
-    header.nav-hidden {
-      transform: translateY(-100%);
-    }
+    /* countdown */
+    .countdown{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 50px}
+    .cd{flex:1 1 120px;padding:34px 10px;text-align:center;border-right:1px solid var(--line)}
+    .cd:last-child{border-right:none}
+    .cd b{display:block;font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,7vw,5rem);line-height:1;font-variant-numeric:tabular-nums}
+    .cd span{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted)}
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
+    .notice{border-left:2px solid var(--a2);padding:6px 0 6px 22px;color:var(--muted);font-size:14.5px;max-width:680px;margin-bottom:34px}
+    .notice strong{color:var(--ink)}
+    .btns{display:flex;flex-wrap:wrap;gap:14px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 30px;border-radius:999px;background:var(--grad);color:#0A0F1C;font:700 12.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s;box-shadow:0 10px 30px rgba(91,192,255,.2);touch-action:manipulation}
+    .btn:hover{transform:translateY(-3px) scale(1.02)!important;box-shadow:0 16px 40px rgba(91,192,255,.35)}
+    .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+    .btn.ghost:hover{border-color:var(--a1);color:var(--a1);box-shadow:none}
+    .btn.off{background:transparent;color:var(--muted);border:1px dashed var(--line);box-shadow:none;cursor:not-allowed}
+    .btn.off:hover{transform:none!important}
 
-    header img {
-      max-width: 56px;
-      height: auto;
-      border-radius: 0;
-      box-shadow: none;
-      background: transparent;
-      border: none;
-    }
+    /* about */
+    .about-grid{display:grid;gap:40px;grid-template-columns:1fr}
+    @media(min-width:860px){.about-grid{grid-template-columns:1.3fr 1fr;align-items:end}}
+    .about-text{font-family:var(--serif);font-weight:300;font-size:clamp(1.4rem,3vw,2.1rem);line-height:1.4}
+    .about-text b{font-weight:600;color:var(--a2)}
 
-    .header-text h1 {
-      font-family: var(--font-heading);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-dark);
-      letter-spacing: 0.06em;
-    }
+    /* committees: typographic rows */
+    .crow{display:grid;grid-template-columns:64px 1fr 40px;align-items:center;gap:12px;padding:30px 8px;border-top:1px solid var(--line);cursor:pointer;position:relative;transition:padding .45s var(--ease),background .3s;touch-action:manipulation}
+    .crow:last-child{border-bottom:1px solid var(--line)}
+    .crow::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(91,192,255,.12),transparent);opacity:0;transition:opacity .3s}
+    .crow:hover{padding-left:26px}
+    .crow:hover::before{opacity:1}
+    .crow .num{font-size:12px;letter-spacing:.2em;color:var(--muted);position:relative}
+    .crow h3{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,6vw,4rem);line-height:1.05;letter-spacing:-.02em;position:relative;transition:color .3s}
+    .crow:hover h3{color:var(--a1)}
+    .crow p{color:var(--muted);font-size:13.5px;position:relative;margin-top:4px}
+    .crow .arr{font-size:26px;color:var(--a2);transition:transform .4s var(--ease);position:relative;text-align:right}
+    .crow:hover .arr{transform:translate(6px,-6px)}
 
-    .header-text p {
-      font-size: 9.5px;
-      color: var(--accent-blue);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      font-weight: 700;
-    }
+    /* detail */
+    .back{background:none;border:1px solid var(--line);color:var(--ink);padding:10px 20px;border-radius:999px;font:600 12px var(--sans);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;margin-bottom:40px;transition:.25s}
+    .back:hover{border-color:var(--a1);color:var(--a1)}
+    .detail-title{font-family:var(--serif);font-weight:800;font-size:clamp(2.6rem,10vw,7rem);line-height:1;letter-spacing:-.03em;margin-bottom:26px}
+    .topics{white-space:pre-line;font-family:var(--serif);font-weight:300;font-size:clamp(1.1rem,2.4vw,1.6rem);line-height:1.5;max-width:800px;color:var(--ink);margin-bottom:34px}
+    .stamp{display:inline-block;border:2px dashed #ff7a7a;color:#ff7a7a;padding:8px 18px;border-radius:6px;font-weight:700;letter-spacing:.25em;transform:rotate(-1.5deg)}
+    .sub-h{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--a1);font-weight:700;margin:60px 0 6px}
 
-    .nav-tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
+    /* people */
+    .people{display:grid;grid-template-columns:1fr;gap:36px 28px;margin-top:20px}
+    @media(min-width:640px){.people{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:960px){.people{grid-template-columns:repeat(3,1fr)}}
+    .person .ph{overflow:hidden;border-radius:22px;aspect-ratio:1/1;margin-bottom:18px;background:var(--bg2)}
+    .person img{width:100%;height:100%;object-fit:cover;filter:grayscale(.35);transition:transform .8s var(--ease),filter .5s}
+    .person:hover img{transform:scale(1.06);filter:none}
+    .person .n{font-family:var(--serif);font-weight:600;font-size:1.5rem;line-height:1.2}
+    .person .r{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--a2);font-weight:700;margin:4px 0 10px}
+    .person .b{color:var(--muted);font-size:14px}
+    .empty{color:var(--muted);grid-column:1/-1}
 
-    .tab-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 11.5px;
-      padding: 8px 16px;
-      border-radius: var(--radius-button);
-      cursor: pointer;
-      transition: var(--transition-smooth);
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      min-height: 38px;
-      touch-action: manipulation;
-    }
+    .gal-note{color:var(--muted);max-width:520px;margin-bottom:30px}
+    .gal-links{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+    .gal-links a{display:flex;justify-content:space-between;align-items:center;padding:22px 6px;border-bottom:1px solid var(--line);text-decoration:none;font-family:var(--serif);font-size:1.5rem;transition:padding .4s var(--ease),color .3s}
+    .gal-links a:hover{padding-left:20px;color:var(--a1)}
+    .spinner{width:30px;height:30px;border:3px solid var(--line);border-top-color:var(--a1);border-radius:50%;animation:spin .8s linear infinite;margin:20px 0}
+    @keyframes spin{to{transform:rotate(360deg)}}
 
-    .tab-btn:hover {
-      color: var(--text-dark);
-      background: rgba(29, 107, 158, 0.08);
-    }
+    footer{border-top:1px solid var(--line);padding:50px 24px;text-align:center;color:var(--muted);font-size:13px;margin-top:40px}
+    footer a{color:var(--a1);text-decoration:none}
+    footer strong{display:block;color:var(--ink);margin:6px 0 14px}
 
-    .tab-btn.active {
-      color: #FFFFFF;
-      background: var(--accent-blue);
-      font-weight: 700;
-      box-shadow: 0 4px 12px rgba(29, 107, 158, 0.3);
-    }
+    /* committee popup */
+    .modal{position:fixed;inset:0;z-index:1200;display:none;align-items:flex-start;justify-content:center;padding:4vh 16px;overflow-y:auto;background:rgba(5,8,16,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overscroll-behavior:contain}
+    .modal.open{display:flex;animation:fadeIn .35s ease}
+    .modal-panel{position:relative;width:100%;max-width:920px;margin:auto;padding:clamp(28px,5vw,60px);border-radius:28px;background:linear-gradient(160deg,#152238,#0D1424);border:1px solid var(--line);box-shadow:0 40px 100px rgba(0,0,0,.6);overflow:hidden}
+    .modal-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad)}
+    .modal.open .modal-panel{animation:popIn .6s var(--ease)}
+    .modal-x{position:absolute;top:18px;right:18px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font-size:24px;line-height:1;cursor:pointer;transition:.25s;z-index:2}
+    .modal-x:hover{background:var(--ink);color:var(--bg);transform:rotate(90deg)}
+    .modal .detail-title{padding-right:40px}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes popIn{from{opacity:0;transform:translateY(50px) scale(.96)}to{opacity:1;transform:none}}
+    @media(prefers-reduced-motion:reduce){.modal.open,.modal.open .modal-panel{animation:none}}
 
-    .main-container {
-      max-width: 1040px;
-      margin: 0 auto;
-      padding: 130px 20px 70px 20px;
-      min-height: 85vh;
+    /* scroll animations */
+    .js .reveal{opacity:0;transform:translateY(46px);transition:opacity .9s var(--ease),transform .9s var(--ease),padding .45s var(--ease),box-shadow .3s;transition-delay:var(--d,0s)}
+    .js .reveal.in{opacity:1;transform:none}
+    .word{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .14em;margin-bottom:-.14em}
+    .word>span{display:inline-block}
+    .js .split .word>span{transform:translateY(115%);transition:transform 1s var(--ease);transition-delay:calc(var(--i)*70ms + var(--d,0s))}
+    .js .split.in .word>span{transform:none}
+    .js .letters .ch{display:inline-block;opacity:0;transform:translateY(80px) rotate(6deg);transition:transform 1.1s var(--ease),opacity 1s var(--ease);transition-delay:calc(var(--i)*70ms)}
+    .js .letters.in .ch{opacity:1;transform:none}
+    .no-anim .reveal,.no-anim .split .word>span,.no-anim .letters .ch{opacity:1!important;transform:none!important;transition:none!important}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.split .word>span,.letters .ch,.scroll-cue::after{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}}
+    @media(max-width:600px){
+      header img{display:none}
+      .tab-btn{padding:9px 11px;font-size:10.5px}
+      .crow{grid-template-columns:38px 1fr 26px}
+      .block{padding:80px 0}
     }
-
-    .hero-section { 
-      padding: 40px 0 20px 0;
-      text-align: center;
-    }
-
-    .hero-section h2 {
-      font-family: var(--font-heading);
-      font-size: clamp(2.5rem, 6vw, 4.2rem);
-      font-weight: 800;
-      line-height: 1.15;
-      color: var(--text-dark);
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
-      text-shadow: 0 4px 20px rgba(194, 155, 56, 0.25);
-    }
-
-    .hero-section p {
-      font-size: clamp(0.85rem, 1.6vw, 1.05rem);
-      text-transform: uppercase;
-      letter-spacing: 0.25em;
-      color: var(--accent-blue);
-      font-weight: 700;
-      max-width: 650px;
-      margin: 0 auto;
-      padding: 0 10px;
-    }
-
-    .official-section {
-      margin: 40px 0;
-      text-align: center;
-      background: var(--card-bg);
-      padding: 35px 24px;
-      border-radius: var(--radius-card);
-      border: 1px solid rgba(255, 255, 255, 1);
-      box-shadow: var(--shadow-premium);
-      backdrop-filter: blur(12px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .official-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
-    }
-
-    .official-section h3 {
-      font-family: var(--font-heading);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent-blue);
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      margin-bottom: 18px;
-    }
-
-    .official-section p {
-      color: var(--text-body);
-      font-size: 15px;
-      line-height: 1.8;
-      max-width: 780px;
-      margin: 0 auto;
-    }
-
-    .divider-line {
-      width: 80px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, var(--accent-blue), transparent);
-      margin: 40px auto;
-      opacity: 0.4;
-    }
-
-    .countdown-container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      max-width: 560px;
-      margin: 0 auto;
-    }
-
-    .countdown-box {
-      text-align: center;
-      background: linear-gradient(135deg, #FFFFFF 0%, #F1F7FC 100%);
-      padding: 20px 10px;
-      border-radius: 14px;
-      border: 1px solid rgba(29, 107, 158, 0.15);
-      box-shadow: 0 8px 20px rgba(29, 107, 158, 0.06);
-      transition: var(--transition-smooth);
-    }
-
-    .countdown-box:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 25px rgba(29, 107, 158, 0.12);
-      border-color: var(--accent-blue);
-    }
-
-    .countdown-number {
-      font-family: var(--font-heading);
-      font-size: 28px;
-      font-weight: 700;
-      display: block;
-      color: var(--accent-blue);
-    }
-
-    .countdown-label {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-top: 6px;
-      font-weight: 700;
-    }
-
-    .committee-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-
-    @media (min-width: 640px) {
-      .committee-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .committee-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .committee-icon {
-      aspect-ratio: 1 / 1; 
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition-smooth);
-      overflow: hidden;
-      width: 100%;
-      border-radius: var(--radius-card);
-      border: 1px solid rgba(255, 255, 255, 1);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.03);
-      touch-action: manipulation;
-    }
-
-    .committee-icon:hover {
-      background: var(--card-hover-bg);
-      transform: translateY(-5px);
-      border-color: var(--accent-blue);
-      box-shadow: var(--shadow-hover);
-    }
-
-    .committee-icon img {
-      max-width: 75%;
-      max-height: 75%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.06));
-    }
-
-    .profiles-grid-container {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 24px;
-      margin-top: 24px;
-      justify-content: center;
-      justify-items: center;
-    }
-
-    @media (min-width: 768px) {
-      .profiles-grid-container {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .profiles-grid-container {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    .profile-card-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.85);
-      padding: 24px;
-      border-radius: var(--radius-card);
-      border: 1px solid rgba(255, 255, 255, 1);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
-      transition: var(--transition-smooth);
-      width: 100%;
-    }
-
-    .profile-card-item:hover {
-      background: rgba(255, 255, 255, 0.98);
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-hover);
-      border-color: rgba(29, 107, 158, 0.2);
-    }
-
-    .profile-square-img {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      max-width: 190px;
-      border-radius: 12px;
-      object-fit: cover;
-      margin-bottom: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-    }
-
-    .profile-name {
-      font-family: var(--font-heading);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--text-dark);
-      margin-bottom: 4px;
-    }
-
-    .profile-role {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--accent-blue);
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      margin-bottom: 10px;
-    }
-
-    .profile-bio {
-      color: var(--text-body);
-      font-size: 13.5px;
-      line-height: 1.65;
-      width: 100%;
-      text-align: center;
-    }
-
-    .committee-page-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 24px;
-    }
-
-    .back-btn {
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(29, 107, 158, 0.3);
-      color: var(--accent-blue);
-      padding: 10px 18px;
-      border-radius: var(--radius-button);
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 11.5px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      transition: var(--transition-smooth);
-      min-height: 42px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-      touch-action: manipulation;
-    }
-
-    .back-btn:hover {
-      background: var(--accent-blue);
-      color: #FFF;
-      border-color: var(--accent-blue);
-      box-shadow: 0 6px 20px rgba(29, 107, 158, 0.25);
-    }
-
-    .parent-notice-section {
-      background: var(--card-bg);
-      border: 1px solid rgba(29, 107, 158, 0.2);
-      border-radius: var(--radius-card);
-      padding: 24px;
-      margin: 35px auto;
-      max-width: 780px;
-      text-align: center;
-      box-shadow: var(--shadow-premium);
-    }
-
-    .parent-notice-text {
-      font-size: 14px;
-      color: var(--text-body);
-      line-height: 1.7;
-    }
-
-    .parent-notice-text strong {
-      color: var(--text-dark);
-      font-weight: 700;
-    }
-
-    .button-container {
-      margin: 30px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 14px;
-    }
-
-    @media (min-width: 640px) {
-      .button-container {
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--accent-blue);
-      color: #FFFFFF;
-      font-weight: 700;
-      padding: 15px 28px;
-      border-radius: var(--radius-button);
-      text-decoration: none;
-      font-size: 12.5px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      width: 100%;
-      max-width: 290px;
-      min-height: 48px;
-      box-shadow: 0 8px 22px rgba(29, 107, 158, 0.3);
-      transition: var(--transition-smooth);
-      text-align: center;
-      border: none;
-      cursor: pointer;
-      touch-action: manipulation;
-    }
-
-    .button:hover {
-      background: var(--accent-blue-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(29, 107, 158, 0.4);
-    }
-
-    .modal-secret-stamp {
-      border: 2px dashed var(--accent-red);
-      color: var(--accent-red);
-      padding: 10px 20px;
-      border-radius: 6px;
-      display: inline-block;
-      font-family: var(--font-heading);
-      font-size: 1rem;
-      font-weight: bold;
-      letter-spacing: 2.5px;
-      transform: rotate(-1.5deg);
-      margin: 18px 0;
-      background: rgba(217, 83, 79, 0.05);
-    }
-
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border: 3px solid rgba(29, 107, 158, 0.15);
-      border-top-color: var(--accent-blue);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 20px auto;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    @media (max-width: 768px) {
-      header {
-        padding: 12px 16px;
-        flex-direction: column; 
-        gap: 12px;
-      }
-      .logo-container {
-        width: 100%;
-        justify-content: center;
-      }
-      .nav-tabs {
-        width: 100%;
-        justify-content: center;
-        gap: 6px;
-      }
-      .tab-btn {
-        padding: 6px 12px;
-        font-size: 10.5px;
-      }
-      .countdown-container {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .main-container {
-        padding-top: 150px;
-      }
-    }
-
-    .page-view { display: none; }
-    .page-view.active-page { display: block; }
   </style>
 </head>
 <body>
+  <script>document.documentElement.classList.add('js')</script>
+  <div id="progress"></div>
 
   <div id="maintenanceContent" style="display:none;">
-    <div style="text-align:center; padding:80px 20px;">
-      <h2 style="font-family: var(--font-heading); margin-bottom: 16px; font-size: 2rem;">System Maintenance</h2>
-      <p style="color: var(--text-muted); margin-bottom: 16px;">The FRANMUN administrative portal is currently undergoing scheduled updates.</p>
-      <a href="https://www.instagram.com/franciscan_munners" target="_blank" rel="noopener" style="color: var(--accent-blue); font-weight: 700; text-decoration: none;">@franciscan_munners</a>
+    <div style="text-align:center;padding:120px 20px;">
+      <h2 style="font-family:var(--serif);font-weight:300;margin-bottom:16px;font-size:2.4rem;">System Maintenance</h2>
+      <p style="color:var(--muted);margin-bottom:16px;">The FRANMUN administrative portal is currently undergoing scheduled updates.</p>
+      <a href="https://www.instagram.com/franciscan_munners" target="_blank" rel="noopener" style="color:var(--a1);font-weight:700;text-decoration:none;">@franciscan_munners</a>
     </div>
   </div>
 
   <div id="delegateContent">
     <header>
-      <div class="logo-container">
-        <img src="logo.jpeg.JPG" alt="Franciscan Sister's School Official Logo">
-        <div class="header-text">
-          <h1>Franciscan School</h1>
-          <p>FRANMUN 2026</p>
-        </div>
-      </div>
-
-      <nav class="nav-tabs" id="navTabs">
-        <button class="tab-btn active" id="btn-home" onclick="switchPage('home')">Home</button>
-        <button class="tab-btn" id="btn-committees" onclick="switchPage('committees')">Committees</button>
-        <button class="tab-btn" id="btn-team" onclick="switchPage('team')">Team</button>
-        <button class="tab-btn" id="btn-gallery" onclick="switchPage('gallery')">Gallery</button>
-      </nav>
+      <img src="logo.jpeg.JPG" alt="Franciscan Sister's School Official Logo">
+      <button class="tab-btn active" id="btn-home" onclick="scrollToSection('home')">Home</button>
+      <button class="tab-btn" id="btn-committees" onclick="scrollToSection('committees')">Committees</button>
+      <button class="tab-btn" id="btn-team" onclick="scrollToSection('team')">Team</button>
+      <button class="tab-btn" id="btn-gallery" onclick="scrollToSection('gallery')">Gallery</button>
     </header>
 
-    <main class="main-container">
-      
-      <!-- HOME PAGE -->
-      <section id="page-home" class="page-view active-page">
-        <div class="hero-section">
-          <h2>FRANMUN</h2>
-          <p>First Annual Model United Nations Conference</p>
+    <main>
+      <!-- HOME -->
+      <section id="home">
+        <div class="wrap">
+          <div class="eyebrow reveal">Franciscan Sister's School · Nazareth</div>
+          <h1 class="hero-title letters" id="heroTitle">FRANMUN</h1>
+          <p class="hero-sub reveal" style="--d:.7s">The <b>First Annual</b> Model United Nations Conference. Debate. Negotiate. Lead.</p>
         </div>
+        <div class="scroll-cue">Scroll</div>
+      </section>
 
-        <div class="official-section">
-          <h3>Conference Countdown</h3>
-          <div class="countdown-container">
-            <div class="countdown-box"><span class="countdown-number" id="days">00</span><span class="countdown-label">Days</span></div>
-            <div class="countdown-box"><span class="countdown-number" id="hours">00</span><span class="countdown-label">Hours</span></div>
-            <div class="countdown-box"><span class="countdown-number" id="minutes">00</span><span class="countdown-label">Min</span></div>
-            <div class="countdown-box"><span class="countdown-number" id="seconds">00</span><span class="countdown-label">Sec</span></div>
+      <section class="block" id="countdownBlock">
+        <div class="wrap">
+          <div class="eyebrow reveal">Conference Countdown</div>
+          <div class="countdown reveal">
+            <div class="cd"><b id="days">00</b><span>Days</span></div>
+            <div class="cd"><b id="hours">00</b><span>Hours</span></div>
+            <div class="cd"><b id="minutes">00</b><span>Min</span></div>
+            <div class="cd"><b id="seconds">00</b><span>Sec</span></div>
           </div>
-        </div>
-
-        <div class="parent-notice-section">
-          <div class="parent-notice-text">
-            <strong>Official Registration Notice:</strong> Parents or legal guardians must review and sign the required participation documentation. The guardian's name serves as official digital authorization.
-          </div>
-        </div>
-
-        <div class="button-container" id="liveRegButtons"></div>
-
-        <div class="divider-line"></div>
-
-        <div class="official-section">
-          <h3>About Our Conference</h3>
-          <p>Welcome to Franciscan Sister's School's inaugural Model United Nations conference. Join us for a premier academic event where student delegates engage in rigorous diplomatic discourse, analyze complex geopolitical issues, and draft high-impact resolutions.</p>
+          <p class="notice reveal"><strong>Official Registration Notice:</strong> Parents or legal guardians must review and sign the required participation documentation. The guardian's name serves as official digital authorization.</p>
+          <div class="btns" id="liveRegButtons"></div>
         </div>
       </section>
 
-      <!-- COMMITTEES LIST PAGE -->
-      <section id="page-committees" class="page-view">
-        <div class="official-section" style="margin-top: 0;">
-          <h3>Conference Committees</h3>
-          <p style="margin-bottom: 28px;">Select a committee below to review official agendas, study guides, and chair profiles.</p>
-          <div class="committee-grid">
-            <div class="committee-icon" onclick="openCommitteePage('UNICEF')"><img src="unicef.png" alt="UNICEF" /></div>
-            <div class="committee-icon" onclick="openCommitteePage('UNWOMEN')"><img src="unwomen.png" alt="UN Women" /></div>
-            <div class="committee-icon" onclick="openCommitteePage('UNHRC')"><img src="unhrc.png" alt="UNHRC" /></div>
-            <div class="committee-icon" onclick="openCommitteePage('DISEC')"><img src="disec.png" alt="DISEC" /></div>
-            <div class="committee-icon" onclick="openCommitteePage('WHO')"><img src="who.png" alt="WHO" id="whoImage" onerror="this.src='who.png'" /></div>
-            <div class="committee-icon" onclick="openCommitteePage('UNHSC')"><img src="unhsc.png" alt="UNHSC" /></div>
-            <div class="committee-icon" onclick="openCommitteePage('CRISIS')"><img src="crisis.png" alt="CRISIS" /></div>
+      <section class="block" id="about" style="padding-top:20px">
+        <div class="wrap about-grid">
+          <div>
+            <div class="eyebrow reveal">About</div>
+            <h2 class="title split">Where students <em>shape the world.</em></h2>
           </div>
+          <p class="about-text reveal" style="--d:.2s">Welcome to Franciscan Sister's School's inaugural Model United Nations conference. Join us for a premier academic event where student delegates engage in <b>rigorous diplomatic discourse</b>, analyze complex geopolitical issues, and draft high-impact resolutions.</p>
         </div>
       </section>
 
-      <!-- INDIVIDUAL COMMITTEE SUB-PAGE -->
-      <section id="page-committee-detail" class="page-view">
-        <div class="committee-page-header">
-          <button class="back-btn" onclick="switchPage('committees')">&larr; Return to Committees</button>
-        </div>
-
-        <div class="official-section" style="text-align: center; margin-bottom: 24px;">
-          <!-- Rules of Procedure Button at the TOP of the committee content section -->
-          <div id="committeeTopRulesofprocedureContainer" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
-
-          <h2 id="detailCommitteeTitle" style="font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: var(--text-dark); letter-spacing: 0.05em; margin-bottom: 20px;">Committee Name</h2>
-          
-          <div style="font-size: 12px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 8px;">Research Report &amp; Topics</div>
-          
-          <div style="padding: 10px 0;">
-            <p id="detailTopicsText" style="color: var(--text-dark); font-size: 15.5px; font-weight: 600; line-height: 1.7; white-space: pre-line; max-width: 800px; margin: 0 auto;"></p>
+      <!-- COMMITTEES -->
+      <section class="block" id="committees">
+        <div class="wrap">
+          <div id="committeesList">
+            <div class="eyebrow reveal">The Committees</div>
+            <h2 class="title split">Choose your <em>arena.</em></h2>
+            <p class="gal-note reveal" style="margin-top:-20px">Select a committee to review official agendas, study guides, and chair profiles.</p>
+            <div id="committeeRows"></div>
           </div>
 
-          <div id="detailComingSoonStamp" style="display: none; text-align: center; padding: 20px 0;">
-            <div class="modal-secret-stamp">RESTRICTED</div>
-            <p style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">Committee agendas and confidential briefs are pending release.</p>
-          </div>
-
-          <div style="margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 14px;">
-            <div id="researchReportDetailContainer" style="width: 100%; display: flex; justify-content: center;"></div>
-            <div id="countryMatrixDetailContainer" style="width: 100%; display: flex; justify-content: center;"></div>
-          </div>
-        </div>
-
-        <div class="divider-line"></div>
-
-        <div class="official-section">
-          <h3 id="chairSectionHeading">Chairs</h3>
-          <div class="profiles-grid-container" id="detailChairsContainer">
+          <div id="committeeDetail" class="modal" role="dialog" aria-modal="true" aria-labelledby="detailCommitteeTitle" onclick="if(event.target===this)closeCommitteePage()">
+           <div class="modal-panel">
+            <button class="modal-x" onclick="closeCommitteePage()" aria-label="Close">&times;</button>
+            <div id="committeeTopRopContainer" style="margin-bottom:26px"></div>
+            <h2 id="detailCommitteeTitle" class="detail-title">Committee</h2>
+            <div class="sub-h" style="margin-top:0">Research Report &amp; Topics</div>
+            <p id="detailTopicsText" class="topics" style="margin-top:14px"></p>
+            <div id="detailComingSoonStamp" style="display:none;margin-bottom:24px">
+              <div class="stamp">RESTRICTED</div>
+              <p style="font-size:12px;color:var(--muted);margin-top:8px;">Committee agendas and confidential briefs are pending release.</p>
+            </div>
+            <div class="btns">
+              <div id="researchReportDetailContainer"></div>
+              <div id="countryMatrixDetailContainer"></div>
+            </div>
+            <div class="sub-h" id="chairSectionHeading">Chairs</div>
+            <div class="people" id="detailChairsContainer"></div>
+           </div>
           </div>
         </div>
       </section>
 
-      <!-- DEDICATED TEAM PAGE -->
-      <section id="page-team" class="page-view">
-        <div class="hero-section" style="padding-top: 10px;">
-          <h2>Secretariat Team</h2>
-      
-        </div>
-        <div id="teamPageContainer" class="profiles-grid-container" style="margin-top: 30px;">
-          <div style="grid-column: 1 / -1;"><div class="spinner"></div></div>
+      <!-- TEAM -->
+      <section class="block" id="team">
+        <div class="wrap">
+          <div class="eyebrow reveal">The People</div>
+          <h2 class="title split">Secretariat <em>Team.</em></h2>
+          <div id="teamPageContainer" class="people"><div class="spinner"></div></div>
         </div>
       </section>
 
-      <!-- GALLERY PAGE -->
-      <section id="page-gallery" class="page-view">
-        <div class="official-section" id="galleryCardContent" style="padding: 40px 24px;">
-          <div class="spinner"></div>
+      <!-- GALLERY -->
+      <section class="block" id="gallery">
+        <div class="wrap">
+          <div class="eyebrow reveal">Memories</div>
+          <h2 class="title split">The <em>Gallery.</em></h2>
+          <div id="galleryCardContent"><div class="spinner"></div></div>
         </div>
       </section>
-      
     </main>
+
+    <footer class="reveal">
+      Official Inquiry: <a href="mailto:franmun2025@gmail.com">franmun2025@gmail.com</a>
+      <strong>Franciscan Sister's School Nazareth</strong>
+      &copy; 2026 Franciscan Sister's School MUN. All rights reserved.
+    </footer>
   </div>
 
-  <footer style="
-    text-align: center; 
-    padding: 40px 20px; 
-    margin-top: 60px; 
-    border-top: 1px solid rgba(29, 107, 158, 0.2); 
-    background: rgba(244, 232, 177, 0.96);
-    backdrop-filter: blur(12px);
-  ">
-    <p style="font-size: 13.5px; color: var(--text-body); margin: 0 0 6px 0;">
-      Official Inquiry: <a href="mailto:franmun2025@gmail.com" style="color: var(--accent-blue); text-decoration: none; font-weight: 600;">franmun2025@gmail.com</a>
-    </p>
-    <p style="font-size: 13.5px; color: var(--text-dark); font-weight: 700; margin: 0 0 12px 0;">
-      Franciscan Sister's School Nazareth
-    </p>
-    <p style="font-size: 11.5px; color: var(--text-muted); opacity: 0.9; margin: 0;">
-      &copy; 2026 Franciscan Sister's School MUN. All rights reserved.
-    </p>
-  </footer>
-
   <script>
-    let lastScrollY = window.scrollY;
-    let lastKnownScrollY = window.scrollY;
-    let ticking = false;
-    const globalHeader = document.querySelector('header');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let io = null;
 
-    window.addEventListener('scroll', () => {
-      lastScrollY = window.scrollY;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollDelta = lastScrollY - lastKnownScrollY;
-          if (Math.abs(scrollDelta) > 15) {
-            if (lastScrollY > 120 && scrollDelta > 0) {
-              globalHeader.classList.add('nav-hidden');
-            } else if (scrollDelta < 0) {
-              globalHeader.classList.remove('nav-hidden');
-            }
-            lastKnownScrollY = lastScrollY;
-          }
-          ticking = false;
-        });
-        ticking = true;
+    /* Committees list — edit names / descriptions here */
+    const COMMITTEES = [
+      { key: 'UNICEF',  name: 'UNICEF',  long: "United Nations Children's Fund" },
+      { key: 'UNWOMEN', name: 'UN Women', long: 'Entity for Gender Equality and the Empowerment of Women' },
+      { key: 'UNHRC',   name: 'UNHRC',   long: 'United Nations Human Rights Council' },
+      { key: 'DISEC',   name: 'DISEC',   long: 'Disarmament and International Security Committee' },
+      { key: 'WHO',     name: 'WHO',     long: 'World Health Organization' },
+      { key: 'UNHSC',   name: 'UNHSC',   long: '' },
+      { key: 'CRISIS',  name: 'CRISIS',  long: 'Crisis Committee' }
+    ];
+    document.getElementById('committeeRows').innerHTML = COMMITTEES.map((c, i) => `
+      <div class="crow reveal" onclick="openCommitteePage('${c.key}')">
+        <span class="num">${String(i + 1).padStart(2, '0')}</span>
+        <div><h3>${c.name}</h3>${c.long ? `<p>${c.long}</p>` : ''}</div>
+        <span class="arr">&#8599;</span>
+      </div>`).join('');
+
+    function splitText(el) {
+      if (el.dataset.splitDone) return;
+      el.dataset.splitDone = "1";
+      if (el.classList.contains('letters')) {
+        const t = el.textContent;
+        el.setAttribute('aria-label', t);
+        el.innerHTML = [...t].map((c, i) => `<span class="ch" aria-hidden="true" style="--i:${i}">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+      } else {
+        // keep <em> styling: split words but preserve wrapper tags
+        const walk = (node) => {
+          [...node.childNodes].forEach(n => {
+            if (n.nodeType === 3) {
+              const frag = document.createDocumentFragment();
+              n.textContent.split(/(\s+)/).forEach(p => {
+                if (!p) return;
+                if (/^\s+$/.test(p)) frag.appendChild(document.createTextNode(' '));
+                else { const w = document.createElement('span'); w.className = 'word'; w.innerHTML = `<span style="--i:${window.__wi = (window.__wi || 0) + 1}">${p}</span>`; frag.appendChild(w); }
+              });
+              node.replaceChild(frag, n);
+            } else if (n.nodeType === 1) walk(n);
+          });
+        };
+        window.__wi = 0; walk(el);
       }
-    });
-
-    function switchPage(pageId) {
-      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-page'));
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      
-      const targetPage = document.getElementById('page-' + pageId);
-      if (targetPage) targetPage.classList.add('active-page');
-      
-      const btn = document.getElementById('btn-' + pageId);
-      if (btn) btn.classList.add('active');
-      
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function initAnimations() {
+      document.querySelectorAll('.split, .letters').forEach(splitText);
+      if (reduceMotion || !('IntersectionObserver' in window)) { document.documentElement.classList.add('no-anim'); return; }
+      if (!io) io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+      document.querySelectorAll('.reveal, .split, .letters').forEach(el => {
+        if (!el.classList.contains('in') && !el.dataset.obs) { el.dataset.obs = "1"; io.observe(el); }
+      });
+    }
+
+    function prepDynamic(c) {
+      if (!c) return;
+      c.querySelectorAll('.person, .btn, .gal-links a, .gal-note').forEach((el, i) => { el.classList.add('reveal'); el.style.setProperty('--d', (i % 3) * .1 + 's'); });
+      initAnimations();
+    }
+
+    /* Navigation */
+    function scrollToSection(id) {
+      if (id === 'committees') closeCommitteePage(true);
+      document.getElementById(id).scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    }
+    const secIds = ['home', 'committees', 'team', 'gallery'];
+    function updateActive() {
+      const probe = window.innerHeight * .4; let cur = 'home';
+      secIds.forEach(id => { if (document.getElementById(id).getBoundingClientRect().top <= probe) cur = id; });
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.id === 'btn-' + cur));
+    }
+    let lastY = scrollY, tick = false;
+    const hdr = document.querySelector('header'), bar = document.getElementById('progress');
+    addEventListener('scroll', () => {
+      if (tick) return; tick = true;
+      requestAnimationFrame(() => {
+        const y = scrollY, d = y - lastY;
+        if (Math.abs(d) > 12) { hdr.classList.toggle('nav-hidden', y > 120 && d > 0); lastY = y; }
+        const max = document.documentElement.scrollHeight - innerHeight;
+        bar.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
+        updateActive(); tick = false;
+      });
+    }, { passive: true });
+
+    /* Firebase (unchanged) */
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
@@ -825,176 +382,115 @@
       appId: "1:574017816071:web:1968d9a793dec6a6cacca2",
       measurementId: "G-WRXCD54P71"
     };
-
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
-    let appData = {};
+    let appData = {}, openKey = null;
 
-    database.ref("homepage_data").on("value", (snapshot) => {
-      if (snapshot.exists()) {
-        appData = snapshot.val() || {};
-        
-        const maintenanceOverlay = document.getElementById("maintenanceContent");
-        if (appData.maintenanceMode) {
-          maintenanceOverlay.style.display = "block";
-          document.getElementById("delegateContent").style.display = "none";
-          return; 
-        } else {
-          maintenanceOverlay.style.display = "none";
-          document.getElementById("delegateContent").style.display = "block";
-        }
-        
-        renderRegistrationButtons();
-        renderTeamPage();
-        renderGallerySection();
-      }
+    database.ref("homepage_data").on("value", snap => {
+      if (!snap.exists()) return;
+      appData = snap.val() || {};
+      const m = document.getElementById("maintenanceContent"), d = document.getElementById("delegateContent");
+      if (appData.maintenanceMode) { m.style.display = "block"; d.style.display = "none"; return; }
+      m.style.display = "none"; d.style.display = "block";
+      renderRegistrationButtons(); renderTeamPage(); renderGallerySection();
+      if (openKey) renderCommitteeDetail(openKey);
+      initAnimations();
     });
 
-    function openCommitteePage(commKey) {
-      const commData = (appData.committees && appData.committees[commKey]) ? appData.committees[commKey] : {};
-      
-      document.getElementById("detailCommitteeTitle").textContent = commData.name || commKey;
-      document.getElementById("detailTopicsText").textContent = commData.topics || "Agendas and topics will be announced shortly.";
-      
-      // Render TOP ROP Button
-      const topRopContainer = document.getElementById("committeeTopRopContainer");
-      const ropVal = commData.ropFile || commData.ropLink || appData.globalRopFile || appData.globalRopLink || "#";
-      if (ropVal && ropVal !== "#") {
-        if (ropVal.startsWith("data:")) {
-          topRopContainer.innerHTML = `<a href="${ropVal}" download="${commKey}_ROP.pdf" class="button" style="max-width: 290px; background: var(--accent-gold);">Download Rules of Procedure (ROP) &darr;</a>`;
-        } else {
-          topRopContainer.innerHTML = `<a href="${ropVal}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 290px; background: var(--accent-gold);">View Rules of Procedure (ROP) &rarr;</a>`;
-        }
-      } else {
-        topRopContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">ROP Pending Release</a>`;
-      }
-
-      // Render Research Report button/file
-      const reportContainer = document.getElementById("researchReportDetailContainer");
-      const reportVal = commData.reportFile || commData.reportLink || "";
-      if (reportVal) {
-        if (reportVal.startsWith("data:")) {
-          reportContainer.innerHTML = `<a href="${reportVal}" download="${commKey}_Research_Report.pdf" class="button" style="max-width: 290px;">Download Research Report &darr;</a>`;
-        } else {
-          reportContainer.innerHTML = `<a href="${reportVal}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 290px;">Access Full Research Report &rarr;</a>`;
-        }
-      } else {
-        reportContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Research Report Pending</a>`;
-      }
-
-      // Render Country Matrix button/file
-      const matrixContainer = document.getElementById("countryMatrixDetailContainer");
-      const matrixVal = commData.matrixFile || commData.matrixLink || "";
-      if (matrixVal) {
-        if (matrixVal.startsWith("data:")) {
-          matrixContainer.innerHTML = `<a href="${matrixVal}" download="${commKey}_Country_Matrix.pdf" class="button" style="max-width: 290px; background: var(--accent-gold);">Download Country Matrix &darr;</a>`;
-        } else {
-          matrixContainer.innerHTML = `<a href="${matrixVal}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 290px; background: var(--accent-gold);">Access Country Matrix &rarr;</a>`;
-        }
-      } else {
-        matrixContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
-      }
-
-      // Render Chairs
-      const chairsContainer = document.getElementById("detailChairsContainer");
-      if (commData.chairs && Array.isArray(commData.chairs) && commData.chairs.length > 0) {
-        let chairsHtml = "";
-        commData.chairs.forEach(chair => {
-          chairsHtml += `
-            <div class="profile-card-item">
-              <img src="${chair.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
-              <div class="profile-name">${chair.name || ''}</div>
-              <div class="profile-role">${chair.role || 'Committee Chair'}</div>
-              <div class="profile-bio">${chair.bio || 'Biography pending release.'}</div>
-            </div>`;
-        });
-        chairsContainer.innerHTML = chairsHtml;
-      } else {
-        chairsContainer.innerHTML = `<div style="grid-column: 1 / -1; text-align: center;"><p style="color: var(--text-muted);">Chair announcements coming soon.</p></div>`;
-      }
-
-      switchPage('committee-detail');
+    /* Committee detail */
+    function fileBtn(val, key, L, fname, ghost) {
+      const cls = 'btn' + (ghost ? ' ghost' : '');
+      if (!val || val === "#") return `<a href="#" class="btn off" onclick="event.preventDefault();">${L[0]}</a>`;
+      if (val.startsWith("data:")) return `<a href="${val}" download="${key}_${fname}.pdf" class="${cls}">${L[1]} &darr;</a>`;
+      return `<a href="${val}" target="_blank" rel="noopener noreferrer" class="${cls}">${L[2]} &rarr;</a>`;
     }
 
+    function renderCommitteeDetail(key) {
+      const c = (appData.committees && appData.committees[key]) || {};
+      const meta = COMMITTEES.find(x => x.key === key);
+      document.getElementById("detailCommitteeTitle").textContent = c.name || (meta ? meta.name : key);
+      document.getElementById("detailTopicsText").textContent = c.topics || "Agendas and topics will be announced shortly.";
+      const rop = c.ropFile || c.ropLink || appData.globalRopFile || appData.globalRopLink || "";
+      document.getElementById("committeeTopRopContainer").innerHTML = fileBtn(rop, key, ["ROP Pending Release", "Download Rules of Procedure (ROP)", "View Rules of Procedure (ROP)"], "ROP", true);
+      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(c.reportFile || c.reportLink || "", key, ["Research Report Pending", "Download Research Report", "Access Full Research Report"], "Research_Report", false);
+      document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(c.matrixFile || c.matrixLink || "", key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], "Country_Matrix", true);
+      const box = document.getElementById("detailChairsContainer");
+      box.innerHTML = (c.chairs && Array.isArray(c.chairs) && c.chairs.length)
+        ? c.chairs.map(ch => personHtml(ch, 'Committee Chair')).join("")
+        : `<p class="empty">Chair announcements coming soon.</p>`;
+    }
+
+    function personHtml(p, defRole) {
+      return `<div class="person">
+        <div class="ph"><img src="${p.img || 'logo.jpeg.JPG'}" alt="${p.name || 'Member'}" onerror="this.src='logo.jpeg.JPG'"></div>
+        <div class="n">${p.name || ''}</div>
+        <div class="r">${p.role || defRole}</div>
+        <div class="b">${p.bio || 'Biography pending release.'}</div>
+      </div>`;
+    }
+
+    function openCommitteePage(key) {
+      openKey = key;
+      renderCommitteeDetail(key);
+      const m = document.getElementById("committeeDetail");
+      m.classList.add("open");
+      m.scrollTop = 0;
+      document.body.style.overflow = "hidden";
+    }
+    function closeCommitteePage() {
+      if (!openKey) return;
+      openKey = null;
+      document.getElementById("committeeDetail").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+    addEventListener('keydown', e => { if (e.key === 'Escape') closeCommitteePage(); });
+
+    /* Renderers */
     function renderTeamPage() {
-      const container = document.getElementById("teamPageContainer");
-      if (!container) return;
-
-      container.className = "profiles-grid-container";
-      if (!appData.sgTeam || !Array.isArray(appData.sgTeam) || appData.sgTeam.length === 0) {
-        container.innerHTML = `<div style="grid-column: 1 / -1; text-align: center;"><p style="color: var(--text-muted);">Secretariat members pending announcement.</p></div>`;
-        return;
+      const c = document.getElementById("teamPageContainer");
+      if (!appData.sgTeam || !Array.isArray(appData.sgTeam) || !appData.sgTeam.length) {
+        c.innerHTML = `<p class="empty">Secretariat members pending announcement.</p>`; return;
       }
-
-      let html = "";
-      appData.sgTeam.forEach((member) => {
-        html += `
-          <div class="profile-card-item">
-            <img src="${member.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${member.name || 'Team Member'}" onerror="this.src='logo.jpeg.JPG'">
-            <div class="profile-name">${member.name || ''}</div>
-            <div class="profile-role">${member.role || 'Secretariat General'}</div>
-            <div class="profile-bio">${member.bio || 'Biography pending release.'}</div>
-          </div>`;
-      });
-      container.innerHTML = html;
+      c.innerHTML = appData.sgTeam.map(m => personHtml(m, 'Secretariat General')).join("");
+      prepDynamic(c);
     }
 
     function renderGallerySection() {
-      const container = document.getElementById("galleryCardContent");
-      if (!container) return;
-
+      const c = document.getElementById("galleryCardContent");
       if (appData.galleryLocked) {
-        container.innerHTML = `
-          <h3>Conference Gallery Restricted</h3>
-          <p style="color: var(--text-muted); max-width: 500px; margin: 16px auto 0 auto;">
-            Official photographic archives and media streams will be published following conference proceedings.
-          </p>`;
+        c.innerHTML = `<p class="gal-note"><strong style="color:var(--ink)">Conference Gallery Restricted.</strong><br>Official photographic archives and media streams will be published following conference proceedings.</p>`;
       } else {
-        let filesHtml = `<h3>Official Conference Archives</h3>
-                         <p style="color: var(--text-muted); margin-bottom: 24px;">Access official documentation and photographic drives below:</p>
-                         <div style="display: flex; flex-direction: column; gap: 14px; max-width: 320px; margin: 0 auto; width: 100%;">`;
-        
-        if (appData.driveFiles && Array.isArray(appData.driveFiles) && appData.driveFiles.length > 0) {
-          appData.driveFiles.forEach(fileObj => {
-            filesHtml += `<a href="${fileObj.link || '#'}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 100%;">${fileObj.title || 'View Archive Document'} &rarr;</a>`;
-          });
-        } else {
-          filesHtml += `<p style="color: var(--text-muted); font-size: 13.5px;">No files published yet.</p>`;
-        }
-        filesHtml += `</div>`;
-        container.innerHTML = filesHtml;
+        const files = (appData.driveFiles && Array.isArray(appData.driveFiles)) ? appData.driveFiles : [];
+        c.innerHTML = `<p class="gal-note">Access official documentation and photographic drives below.</p>` +
+          (files.length
+            ? `<div class="gal-links">${files.map(f => `<a href="${f.link || '#'}" target="_blank" rel="noopener noreferrer"><span>${f.title || 'View Archive Document'}</span><span>&#8599;</span></a>`).join("")}</div>`
+            : `<p class="empty">No files published yet.</p>`);
       }
+      prepDynamic(c);
     }
 
     function renderRegistrationButtons() {
-      const container = document.getElementById("liveRegButtons");
-      if(!container) return;
-      let html = "";
-      if (appData.delegatesOpen) {
-        html += `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="button">Delegate Registration &rarr;</a>`;
-      } else {
-        html += `<a href="#" class="button" style="background:rgba(29,107,158,0.08); border:1px solid rgba(29,107,158,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Delegate Registration Closed</a>`;
-      }
-      if (appData.chairsOpen) {
-        html += `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="button">Chair Registration &rarr;</a>`;
-      } else {
-        html += `<a href="#" class="button" style="background:rgba(29,107,158,0.08); border:1px solid rgba(29,107,158,0.2); color:var(--text-muted); cursor:not-allowed;" onclick="event.preventDefault();">Chair Registration Closed</a>`;
-      }
-      container.innerHTML = html;
+      const c = document.getElementById("liveRegButtons");
+      const off = t => `<a href="#" class="btn off" onclick="event.preventDefault();">${t}</a>`;
+      c.innerHTML =
+        (appData.delegatesOpen ? `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="btn">Delegate Registration &rarr;</a>` : off("Delegate Registration Closed")) +
+        (appData.chairsOpen ? `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="btn ghost">Chair Registration &rarr;</a>` : off("Chair Registration Closed"));
+      prepDynamic(c);
     }
 
-    // Countdown Timer Logic
-    const conferenceDate = new Date("October 31, 2026 09:00:00").getTime();
+    /* Countdown (unchanged) */
+    const confDate = new Date("October 31, 2026 09:00:00").getTime();
     setInterval(() => {
-      const now = new Date().getTime();
-      const distance = conferenceDate - now;
-      if (distance > 0) {
-        document.getElementById("days").innerText = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, '0');
-        document.getElementById("hours").innerText = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-        document.getElementById("minutes").innerText = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-        document.getElementById("seconds").innerText = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+      const t = confDate - Date.now();
+      if (t > 0) {
+        days.innerText = String(Math.floor(t / 864e5)).padStart(2, '0');
+        hours.innerText = String(Math.floor(t % 864e5 / 36e5)).padStart(2, '0');
+        minutes.innerText = String(Math.floor(t % 36e5 / 6e4)).padStart(2, '0');
+        seconds.innerText = String(Math.floor(t % 6e4 / 1e3)).padStart(2, '0');
       }
     }, 1000);
+
+    addEventListener('load', () => { initAnimations(); updateActive(); });
   </script>
 </body>
 </html>
