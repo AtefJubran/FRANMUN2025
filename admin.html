@@ -1,1664 +1,975 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8" />
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
   <title>FRANMUN 2026 | Admin Dashboard</title>
-
   
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
-
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-
-
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
   <style>
-
     :root {
-
       --bg-main: #060b13;
-
       --bg-card: rgba(15, 27, 47, 0.6);
-
       --accent-gold: #E4B343;
-
       --accent-gold-hover: #FFF1CD;
-
       --accent-red: #EF4444;
-
       --glass-border: rgba(255, 255, 255, 0.06);
-
       --text-light: #FFFFFF;
-
       --text-muted: #94A3B8;
-
       --text-body: #CBD5E1;
-
       --font-heading: 'Cinzel', Georgia, serif;
-
       --font-body: 'Inter', sans-serif;
-
     }
-
-
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     
-
     body {
-
       font-family: var(--font-body);
-
       background-color: var(--bg-main);
-
       color: var(--text-light);
-
       padding: 40px 20px;
-
     }
-
-
 
     #loginOverlay {
-
       position: fixed;
-
       top: 0; left: 0; width: 100%; height: 100%;
-
       background: var(--bg-main);
-
       z-index: 9999;
-
       display: flex;
-
       justify-content: center;
-
       align-items: center;
-
     }
-
-
 
     .login-card {
-
       background: var(--bg-card);
-
       border: 1px solid var(--glass-border);
-
       padding: 40px;
-
       border-radius: 16px;
-
       text-align: center;
-
       backdrop-filter: blur(12px);
-
       width: 100%;
-
       max-width: 400px;
-
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-
     }
-
-
 
     .login-card h2 {
-
       font-family: var(--font-heading);
-
       color: var(--accent-gold);
-
       margin-bottom: 20px;
-
     }
-
-
 
     .admin-container {
-
       max-width: 900px;
-
       margin: 0 auto;
-
       display: none; 
-
     }
-
-
 
     h1, h2 {
-
       font-family: var(--font-heading);
-
       color: var(--accent-gold);
-
       margin-bottom: 20px;
-
     }
-
-
 
     .card {
-
       background: var(--bg-card);
-
       border: 1px solid var(--glass-border);
-
       padding: 24px;
-
       border-radius: 16px;
-
       margin-bottom: 24px;
-
       backdrop-filter: blur(12px);
-
     }
-
-
 
     .form-group {
-
       margin-bottom: 16px;
-
     }
-
-
 
     label {
-
       display: block;
-
       font-size: 12px;
-
       color: var(--text-muted);
-
       margin-bottom: 6px;
-
       text-transform: uppercase;
-
       letter-spacing: 0.05em;
-
     }
-
-
 
     input, textarea, select {
-
       width: 100%;
-
       padding: 10px 14px;
-
       background: rgba(0,0,0,0.3);
-
       border: 1px solid var(--glass-border);
-
       border-radius: 8px;
-
       color: white;
-
       font-family: var(--font-body);
-
       font-size: 14px;
-
     }
 
-
+    input[type="file"] {
+      padding: 8px;
+      cursor: pointer;
+    }
 
     input:focus, textarea:focus, select:focus {
-
       outline: none;
-
       border-color: var(--accent-gold);
-
     }
-
-
 
     .checkbox-group {
-
       display: flex;
-
       align-items: center;
-
       gap: 10px;
-
       margin-bottom: 12px;
-
     }
-
-
 
     .checkbox-group input {
-
       width: auto;
-
     }
-
-
 
     .btn {
-
       background: var(--accent-gold);
-
       color: #060b13;
-
       font-weight: 600;
-
       padding: 10px 20px;
-
       border-radius: 8px;
-
       border: none;
-
       cursor: pointer;
-
       font-size: 14px;
-
       transition: 0.2s;
-
     }
-
-
 
     .btn:hover {
-
       background: var(--accent-gold-hover);
-
     }
-
-
 
     .btn-danger {
-
       background: var(--accent-red);
-
       color: white;
-
     }
-
-
 
     .btn-secondary {
-
       background: rgba(255,255,255,0.1);
-
       color: white;
-
     }
-
     .btn-secondary:hover {
-
       background: rgba(255,255,255,0.2);
-
     }
-
-
 
     .member-item, .drive-item {
-
       display: flex;
-
       justify-content: space-between;
-
       align-items: center;
-
       background: rgba(255,255,255,0.02);
-
       border: 1px solid var(--glass-border);
-
       padding: 12px 16px;
-
       border-radius: 10px;
-
       margin-bottom: 10px;
-
     }
-
-
 
     .member-info {
-
       display: flex;
-
       align-items: center;
-
       gap: 12px;
-
     }
-
-
 
     .member-img-preview {
-
       width: 45px;
-
       height: 45px;
-
       border-radius: 50%;
-
       object-fit: cover;
-
       border: 1px solid var(--accent-gold);
-
     }
-
-
 
     .member-details h4 {
-
       font-size: 14px;
-
       color: white;
-
     }
-
-
 
     .member-details p {
-
       font-size: 12px;
-
       color: var(--accent-gold);
-
     }
-
-
 
     .action-btns {
-
       display: flex;
-
       gap: 5px;
-
     }
-
-
 
     .grid-2 {
-
       display: grid;
-
       grid-template-columns: 1fr 1fr;
-
       gap: 16px;
-
     }
-
-
 
     @media (max-width: 768px) {
-
       .grid-2 { grid-template-columns: 1fr; }
-
     }
-
   </style>
-
 </head>
-
 <body>
 
-
-
   <div id="loginOverlay">
-
     <div class="login-card">
-
       <h2>FRANMUN Admin</h2>
-
       <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Please enter admin password to continue.</p>
-
       <div class="form-group">
-
         <input type="password" id="passInput" placeholder="Enter Password..." onkeypress="if(event.key === 'Enter') checkPassword()">
-
       </div>
-
       <button class="btn" style="width: 100%;" onclick="checkPassword()">Login</button>
-
     </div>
-
   </div>
 
-
-
   <div class="admin-container" id="mainDashboard">
-
     <h1>FRANMUN Admin Dashboard</h1>
 
-
-
     <!-- 1. إعدادات عامة والعداد التنازلي -->
-
     <div class="card">
-
       <h2>General Settings & Countdown</h2>
-
       
-
       <div class="grid-2">
-
         <div class="checkbox-group">
-
           <input type="checkbox" id="maintenanceMode">
-
           <label for="maintenanceMode" style="display:inline; margin:0; color:white;">Maintenance Mode</label>
-
         </div>
-
         <div class="checkbox-group">
-
           <input type="checkbox" id="delegatesOpen">
-
           <label for="delegatesOpen" style="display:inline; margin:0; color:white;">Delegates Registration Open</label>
-
         </div>
-
         <div class="checkbox-group">
-
           <input type="checkbox" id="chairsOpen">
-
           <label for="chairsOpen" style="display:inline; margin:0; color:white;">Chairs & Staff Registration Open</label>
-
         </div>
-
         <div class="checkbox-group">
-
           <input type="checkbox" id="galleryLocked">
-
           <label for="galleryLocked" style="display:inline; margin:0; color:white;">Lock Conference Gallery</label>
-
         </div>
-
         <div class="checkbox-group">
-
           <input type="checkbox" id="countryMatrixLocked">
-
           <label for="countryMatrixLocked" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Lock Country Matrix (Show Coming Soon)</label>
-
         </div>
-
         <div class="checkbox-group" style="grid-column: span 2; background: rgba(228, 179, 67, 0.05); border: 1px solid rgba(228, 179, 67, 0.2); padding: 12px; border-radius: 10px; margin-top: 5px;">
-
           <input type="checkbox" id="committeesComingSoon">
-
           <label for="committeesComingSoon" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Hide All Committees Topics & Chairs (Coming Soon / Top Secret Stamp)</label>
-
         </div>
-
       </div>
-
-
 
       <div class="form-group" style="margin-top: 20px;">
-
         <label>Country Matrix PDF Link (رابط جدول توزيع الدول العام)</label>
-
-        <input type="text" id="countryMatrixPdf" placeholder="https://... (Drive PDF link)">
-
+        <input type="text" id="countryMatrixPdf" placeholder="https://... (Drive or uploaded PDF link)">
       </div>
-
-
 
       <div class="form-group" style="margin-top: 15px;">
-
         <label>Conference Target Date (Countdown)</label>
-
         <input type="text" id="targetDate" placeholder="e.g. 31 Oct 2026 at 8:00">
-
       </div>
-
-
 
       <button class="btn" onclick="saveGeneralSettings()">Save Settings</button>
-
     </div>
 
-
-
-    <!-- 2. إدارة الأمانة العامة (Secretariat Team) -->
-
+    <!-- NEW SECTION: PDF File Upload & Button Assignment Manager -->
     <div class="card">
-
-      <h2>Secretariat General (SG) Team</h2>
-
-      
-
-      <div class="form-group">
-
-        <label>Member Name (اسم العضو)</label>
-
-        <input type="text" id="sgName" placeholder="e.g. Atef Jubran">
-
-      </div>
-
-
+      <h2>Website PDF Files Manager</h2>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">
+        Upload PDF files directly to your website storage. Once uploaded, copy the file link and assign it to any button link field on your website.
+      </p>
 
       <div class="form-group">
-
-        <label>Role / Title (الوظيفة أو المنصب)</label>
-
-        <input type="text" id="sgRole" placeholder="e.g. Secretary-General">
-
+        <label>PDF Document Title (عنوان الملف)</label>
+        <input type="text" id="pdfTitleInput" placeholder="e.g. Schedule Booklet, Code of Conduct">
       </div>
-
-      
 
       <div class="form-group">
-
-        <label>Image Filename / URL (اسم الصورة أو الرابط)</label>
-
-        <input type="text" id="sgImg" placeholder="e.g. atef.jpg">
-
+        <label>Select PDF File (اختر ملف PDF)</label>
+        <input type="file" id="pdfFileField" accept="application/pdf">
       </div>
 
-
-
-      <div class="form-group">
-
-        <label>Biography (النبذة التعريفية)</label>
-
-        <textarea id="sgBio" rows="3" placeholder="Write SG bio here..."></textarea>
-
-      </div>
-
-
-
-      <button class="btn" id="saveMemberBtn" onclick="addOrUpdateSGMember()">+ Add SG Member</button>
-
-      <button class="btn btn-danger" id="cancelEditBtn" style="display:none; margin-left: 10px;" onclick="clearSgForm()">Cancel</button>
-
-
+      <button class="btn" id="uploadPdfBtn" onclick="uploadPdfFile()">Upload PDF to Website</button>
+      <p id="uploadStatus" style="font-size: 13px; color: var(--accent-gold); margin-top: 10px;"></p>
 
       <div style="margin-top: 24px;">
-
-        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current SG Members (Use arrows to reorder)</h3>
-
-        <div id="adminSgList">
-
-          <p style="color: var(--text-muted); font-size: 13px;">Loading SG members...</p>
-
+        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Uploaded Website PDFs (Copy link to use on buttons)</h3>
+        <div id="adminPdfList">
+          <p style="color: var(--text-muted); font-size: 13px;">Loading uploaded PDFs...</p>
         </div>
-
       </div>
-
     </div>
 
+    <!-- 2. إدارة الأمانة العامة (Secretariat Team) -->
+    <div class="card">
+      <h2>Secretariat General (SG) Team</h2>
+      
+      <div class="form-group">
+        <label>Member Name (اسم العضو)</label>
+        <input type="text" id="sgName" placeholder="e.g. Atef Jubran">
+      </div>
 
+      <div class="form-group">
+        <label>Role / Title (الوظيفة أو المنصب)</label>
+        <input type="text" id="sgRole" placeholder="e.g. Secretary-General">
+      </div>
+      
+      <div class="form-group">
+        <label>Image Filename / URL (اسم الصورة أو الرابط)</label>
+        <input type="text" id="sgImg" placeholder="e.g. atef.jpg">
+      </div>
+
+      <div class="form-group">
+        <label>Biography (النبذة التعريفية)</label>
+        <textarea id="sgBio" rows="3" placeholder="Write SG bio here..."></textarea>
+      </div>
+
+      <button class="btn" id="saveMemberBtn" onclick="addOrUpdateSGMember()">+ Add SG Member</button>
+      <button class="btn btn-danger" id="cancelEditBtn" style="display:none; margin-left: 10px;" onclick="clearSgForm()">Cancel</button>
+
+      <div style="margin-top: 24px;">
+        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current SG Members (Use arrows to reorder)</h3>
+        <div id="adminSgList">
+          <p style="color: var(--text-muted); font-size: 13px;">Loading SG members...</p>
+        </div>
+      </div>
+    </div>
 
     <!-- 3. إدارة اللجان ورؤسائها (Committees & Chairs) -->
-
     <div class="card">
-
       <h2>Committees & Chairs Management</h2>
-
       
-
       <div class="form-group">
-
         <label>Select Committee (اختر اللجنة)</label>
-
         <select id="selectCommittee" onchange="loadCommitteeDataToAdmin()">
-
           <option value="UNICEF">UNICEF</option>
-
           <option value="UNWOMEN">UN Women</option>
-
           <option value="UNHRC">UNHRC</option>
-
           <option value="DISEC">DISEC</option>
-
           <option value="WHO">WHO</option>
-
           <option value="UNHSC">UNHSC</option>
-
           <option value="CRISIS">CRISIS</option>
-
         </select>
-
       </div>
-
-
 
       <div class="grid-2" style="margin-bottom: 16px;">
-
         <div class="checkbox-group">
-
           <input type="checkbox" id="hideReport">
-
           <label for="hideReport" style="display:inline; margin:0; color:var(--accent-gold);">Hide Research Report</label>
-
         </div>
-
         <div class="checkbox-group">
-
           <input type="checkbox" id="hideChairs">
-
           <label for="hideChairs" style="display:inline; margin:0; color:var(--accent-gold);">Hide Committee Chairs</label>
-
         </div>
-
         <div class="checkbox-group" style="grid-column: span 2;">
-
           <input type="checkbox" id="hideMatrix">
-
           <label for="hideMatrix" style="display:inline; margin:0; color:var(--accent-gold);">Hide Country Matrix for this Committee</label>
-
         </div>
-
       </div>
 
-
-
       <div class="form-group">
-
         <label>Committee Topics & Description</label>
-
         <textarea id="commTopics" rows="3" placeholder="Enter committee topics..."></textarea>
-
       </div>
-
-
 
       <div class="form-group">
-
         <label>Research Report Link</label>
-
         <input type="text" id="commReport" placeholder="https://...">
-
       </div>
-
-
 
       <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 20px 0;">
 
-
-
       <h3 style="font-size: 14px; color: var(--accent-gold); margin-bottom: 12px; text-transform: uppercase;" id="chairFormTitle">Add Chair / Backroom Member</h3>
-
       
-
       <div class="form-group">
-
         <label>Chair Name (اسم التشير)</label>
-
         <input type="text" id="chairName" placeholder="e.g. John Doe">
-
       </div>
 
-
-
       <div class="form-group">
-
         <label>Chair Image URL / Filename</label>
-
         <input type="text" id="chairImg" placeholder="e.g. chair.jpg">
-
       </div>
 
-
-
       <div class="form-group">
-
         <label>Chair Bio (النبذة التعريفية)</label>
-
         <textarea id="chairBio" rows="2" placeholder="Chair bio..."></textarea>
-
       </div>
-
-
 
       <div class="form-group">
-
         <label>Type (نوع التشير)</label>
-
         <select id="chairType">
-
           <option value="chairs">Committee Chair (رئيس لجنة)</option>
-
           <option value="backroom">Backroom Chair (أعضاء الباك روم - خاصة بلجنة كريسيس)</option>
-
         </select>
-
       </div>
-
-
 
       <button class="btn" id="saveChairBtn" onclick="addOrUpdateChair()">+ Add Chair to Committee</button>
-
       <button class="btn btn-danger" id="cancelChairEditBtn" style="display:none; margin-left: 10px;" onclick="clearChairForm()">Cancel Edit</button>
 
-
-
       <div style="margin-top: 24px;">
-
         <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current Chairs in Selected Committee (Use arrows to reorder)</h3>
-
         <div id="adminChairsList">
-
           <p style="color: var(--text-muted); font-size: 13px;">No chairs added yet.</p>
-
         </div>
-
       </div>
-
-
 
       <button class="btn" style="margin-top: 20px; width: 100%;" onclick="saveCommitteeDetails()">Save Committee Details</button>
-
     </div>
 
-
-
     <!-- 4. ملفات الجاليري (Drive Files) -->
-
     <div class="card">
-
       <h2>Conference Gallery Drive Files</h2>
-
       
-
       <div class="form-group">
-
         <label>File Title</label>
-
         <input type="text" id="driveTitle" placeholder="e.g. Day 1 Photos">
-
       </div>
-
       
-
       <div class="form-group">
-
         <label>Drive Link</label>
-
         <input type="text" id="driveLink" placeholder="https://drive.google.com/...">
-
       </div>
-
-
 
       <button class="btn" onclick="addDriveFile()">+ Add Drive Link</button>
 
-
-
       <div style="margin-top: 24px;" id="adminDriveList">
-
         <p style="color: var(--text-muted); font-size: 13px;">No drive files added yet.</p>
-
       </div>
-
     </div>
-
   </div>
 
-
-
   <script>
-
     const ADMIN_PASS = "FRANMUN2026";
 
-
-
     function checkPassword() {
-
       const input = document.getElementById("passInput").value;
-
       if (input === ADMIN_PASS) {
-
         document.getElementById("loginOverlay").style.display = "none";
-
         document.getElementById("mainDashboard").style.display = "block";
-
       } else {
-
         alert("Wrong Password! Please try again.");
-
         document.getElementById("passInput").value = "";
-
       }
-
     }
-
-
 
     const firebaseConfig = {
-
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
-
       authDomain: "franmun-f5498.firebaseapp.com",
-
       databaseURL: "https://franmun-f5498-default-rtdb.firebaseio.com",
-
       projectId: "franmun-f5498",
-
       storageBucket: "franmun-f5498.firebasestorage.app",
-
       messagingSenderId: "574017816071",
-
       appId: "1:574017816071:web:1968d9a793dec6a6cacca2",
-
       measurementId: "G-WRXCD54P71"
-
     };
 
-
-
     firebase.initializeApp(firebaseConfig);
-
     const database = firebase.database();
-
-
+    const storage = firebase.storage();
 
     let appData = {};
-
     let editingIndex = -1;
-
     let editingChairIndex = -1;
-
     let editingChairType = 'chairs';
 
-
-
     database.ref("homepage_data").on("value", (snapshot) => {
-
       if (snapshot.exists()) {
-
         appData = snapshot.val() || {};
-
         populateGeneralSettings();
-
         renderAdminSgList();
-
         loadCommitteeDataToAdmin();
-
         renderAdminDriveList();
-
+        renderAdminPdfList();
       }
-
     });
 
-
-
     function populateGeneralSettings() {
-
       document.getElementById("maintenanceMode").checked = !!appData.maintenanceMode;
-
       document.getElementById("delegatesOpen").checked = !!appData.delegatesOpen;
-
       document.getElementById("chairsOpen").checked = !!appData.chairsOpen;
-
       document.getElementById("galleryLocked").checked = !!appData.galleryLocked;
-
       document.getElementById("countryMatrixLocked").checked = !!appData.countryMatrixLocked;
-
       document.getElementById("committeesComingSoon").checked = !!appData.committeesComingSoon;
-
       document.getElementById("countryMatrixPdf").value = appData.countryMatrixPdf || "";
-
       document.getElementById("targetDate").value = appData.targetDate || "";
-
     }
-
-
 
     function saveGeneralSettings() {
-
       const settings = {
-
         maintenanceMode: document.getElementById("maintenanceMode").checked,
-
         delegatesOpen: document.getElementById("delegatesOpen").checked,
-
         chairsOpen: document.getElementById("chairsOpen").checked,
-
         galleryLocked: document.getElementById("galleryLocked").checked,
-
         countryMatrixLocked: document.getElementById("countryMatrixLocked").checked,
-
         committeesComingSoon: document.getElementById("committeesComingSoon").checked,
-
         countryMatrixPdf: document.getElementById("countryMatrixPdf").value.trim(),
-
         targetDate: document.getElementById("targetDate").value.trim()
-
       };
 
-
-
       database.ref("homepage_data").update(settings)
-
         .then(() => alert("Settings saved successfully!"))
-
         .catch(err => alert("Error: " + err.message));
-
     }
 
+    // PDF UPLOAD & MANAGEMENT LOGIC
+    function uploadPdfFile() {
+      const titleInput = document.getElementById("pdfTitleInput");
+      const fileInput = document.getElementById("pdfFileField");
+      const statusText = document.getElementById("uploadStatus");
+      const uploadBtn = document.getElementById("uploadPdfBtn");
 
+      const title = titleInput.value.trim();
+      const file = fileInput.files[0];
 
-    function renderAdminSgList() {
-
-      const container = document.getElementById("adminSgList");
-
-      const team = appData.sgTeam || [];
-
-
-
-      if (team.length === 0) {
-
-        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No SG members added yet.</p>`;
-
+      if (!title) {
+        alert("Please enter a title for the PDF file.");
         return;
-
       }
-
-
-
-      let html = "";
-
-      team.forEach((member, index) => {
-
-        html += `
-
-          <div class="member-item">
-
-            <div class="member-info">
-
-              <img src="${member.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
-
-              <div class="member-details">
-
-                <h4>${member.name || 'No Name'}</h4>
-
-                <p>${member.role || 'No Role'}</p>
-
-              </div>
-
-            </div>
-
-            <div class="action-btns">
-
-              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, -1)">⬆️</button>
-
-              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, 1)">⬇️</button>
-
-              <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="editSgMember(${index})">Edit</button>
-
-              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteSgMember(${index})">Remove</button>
-
-            </div>
-
-          </div>`;
-
-      });
-
-      container.innerHTML = html;
-
-    }
-
-
-
-    function moveSgMember(index, direction) {
-
-      let team = appData.sgTeam ? [...appData.sgTeam] : [];
-
-      const newIndex = index + direction;
-
-      if (newIndex < 0 || newIndex >= team.length) return;
-
-
-
-      const temp = team[index];
-
-      team[index] = team[newIndex];
-
-      team[newIndex] = temp;
-
-
-
-      database.ref("homepage_data/sgTeam").set(team)
-
-        .then(() => {
-
-          renderAdminSgList();
-
-        })
-
-        .catch(err => alert("Error: " + err.message));
-
-    }
-
-
-
-    function addOrUpdateSGMember() {
-
-      const name = document.getElementById("sgName").value.trim();
-
-      const role = document.getElementById("sgRole").value.trim();
-
-      const img = document.getElementById("sgImg").value.trim();
-
-      const bio = document.getElementById("sgBio").value.trim();
-
-
-
-      if (!name || !role) {
-
-        alert("Please enter both Name and Role.");
-
+      if (!file) {
+        alert("Please select a PDF file to upload.");
         return;
-
       }
-
-
-
-      let team = appData.sgTeam ? [...appData.sgTeam] : [];
-
-      const memberData = { name, role, img: img || "logo.jpeg.JPG", bio: bio || "No biography provided." };
-
-
-
-      if (editingIndex >= 0) {
-
-        team[editingIndex] = memberData;
-
-      } else {
-
-        team.push(memberData);
-
-      }
-
-
-
-      database.ref("homepage_data/sgTeam").set(team)
-
-        .then(() => {
-
-          alert("Member saved successfully!");
-
-          clearSgForm();
-
-        })
-
-        .catch(err => alert("Error: " + err.message));
-
-    }
-
-
-
-    function editSgMember(index) {
-
-      const member = appData.sgTeam[index];
-
-      document.getElementById("sgName").value = member.name || "";
-
-      document.getElementById("sgRole").value = member.role || "";
-
-      document.getElementById("sgImg").value = member.img || "";
-
-      document.getElementById("sgBio").value = member.bio || "";
-
-      
-
-      editingIndex = index;
-
-      document.getElementById("saveMemberBtn").innerText = "Update SG Member";
-
-      document.getElementById("cancelEditBtn").style.display = "inline-block";
-
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    }
-
-
-
-    function deleteSgMember(index) {
-
-      if (confirm("Are you sure?")) {
-
-        let team = appData.sgTeam ? [...appData.sgTeam] : [];
-
-        team.splice(index, 1);
-
-        database.ref("homepage_data/sgTeam").set(team)
-
-          .then(() => alert("Removed successfully!"))
-
-          .catch(err => alert("Error: " + err.message));
-
-      }
-
-    }
-
-
-
-    function clearSgForm() {
-
-      document.getElementById("sgName").value = "";
-
-      document.getElementById("sgRole").value = "";
-
-      document.getElementById("sgImg").value = "";
-
-      document.getElementById("sgBio").value = "";
-
-      editingIndex = -1;
-
-      document.getElementById("saveMemberBtn").innerText = "+ Add SG Member";
-
-      document.getElementById("cancelEditBtn").style.display = "none";
-
-    }
-
-
-
-    function loadCommitteeDataToAdmin() {
-
-      const commKey = document.getElementById("selectCommittee").value;
-
-      const committees = appData.committees || {};
-
-      const comm = committees[commKey] || {};
-
-
-
-      document.getElementById("commTopics").value = comm.topics || "";
-
-      document.getElementById("commReport").value = comm.report || "";
-
-      document.getElementById("hideReport").checked = !!comm.hideReport;
-
-      document.getElementById("hideChairs").checked = !!comm.hideChairs;
-
-      document.getElementById("hideMatrix").checked = !!comm.hideMatrix;
-
-
-
-      clearChairForm();
-
-      renderAdminChairsList(comm);
-
-    }
-
-
-
-    function renderAdminChairsList(comm) {
-
-      const container = document.getElementById("adminChairsList");
-
-      let html = "";
-
-      let hasChairs = false;
-
-
-
-      if (comm.chairs && Array.isArray(comm.chairs)) {
-
-        comm.chairs.forEach((chair, idx) => {
-
-          hasChairs = true;
-
-          html += `
-
-            <div class="member-item">
-
-              <div class="member-info">
-
-                <img src="${chair.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
-
-                <div class="member-details">
-
-                  <h4>${chair.name}</h4>
-
-                  <p>Chair</p>
-
-                </div>
-
-              </div>
-
-              <div class="action-btns">
-
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, -1)">⬆️</button>
-
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, 1)">⬇️</button>
-
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('chairs', ${idx})">Edit</button>
-
-                <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('chairs', ${idx})">X</button>
-
-              </div>
-
-            </div>`;
-
-        });
-
-      }
-
-
-
-      if (comm.backroom && Array.isArray(comm.backroom)) {
-
-        comm.backroom.forEach((bChair, idx) => {
-
-          hasChairs = true;
-
-          html += `
-
-            <div class="member-item">
-
-              <div class="member-info">
-
-                <img src="${bChair.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
-
-                <div class="member-details">
-
-                  <h4>${bChair.name}</h4>
-
-                  <p>Backroom</p>
-
-                </div>
-
-              </div>
-
-              <div class="action-btns">
-
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('backroom', ${idx}, -1)">⬆️</button>
-
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('backroom', ${idx}, 1)">⬇️</button>
-
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('backroom', ${idx})">Edit</button>
-
-                <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('backroom', ${idx})">X</button>
-
-              </div>
-
-            </div>`;
-
-        });
-
-      }
-
-
-
-      if (!hasChairs) {
-
-        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No chairs added to this committee yet.</p>`;
-
-      } else {
-
-        container.innerHTML = html;
-
-      }
-
-    }
-
-
-
-    function addOrUpdateChair() {
-
-      const commKey = document.getElementById("selectCommittee").value;
-
-      const name = document.getElementById("chairName").value.trim();
-
-      const img = document.getElementById("chairImg").value.trim();
-
-      const bio = document.getElementById("chairBio").value.trim();
-
-      const type = document.getElementById("chairType").value;
-
-
-
-      if (!name) {
-
-        alert("Please enter the chair name.");
-
+      if (file.type !== "application/pdf") {
+        alert("Only PDF files are allowed.");
         return;
-
       }
 
+      uploadBtn.disabled = true;
+      statusText.textContent = "Uploading PDF to storage, please wait...";
 
+      const uniqueName = Date.now() + "_" + file.name;
+      const storageRef = storage.ref(`pdf_uploads/${uniqueName}`);
+      const uploadTask = storageRef.put(file);
 
-      if (!appData.committees) appData.committees = {};
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          statusText.textContent = `Uploading: ${Math.round(progress)}%`;
+        }, 
+        (error) => {
+          statusText.textContent = "Upload failed: " + error.message;
+          uploadBtn.disabled = false;
+        }, 
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            let pdfFiles = appData.pdfFiles ? [...appData.pdfFiles] : [];
+            pdfFiles.push({ title, link: downloadURL, fileName: uniqueName });
 
-      if (!appData.committees[commKey]) appData.committees[commKey] = {};
-
-
-
-      let targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
-
-      const chairData = { name, img: img || "logo.jpeg.JPG", bio: bio || "No bio provided." };
-
-
-
-      if (editingChairIndex >= 0) {
-
-        if (editingChairType !== type) {
-
-          appData.committees[commKey][editingChairType].splice(editingChairIndex, 1);
-
-          targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
-
-          targetArray.push(chairData);
-
-        } else {
-
-          targetArray[editingChairIndex] = chairData;
-
+            database.ref("homepage_data/pdfFiles").set(pdfFiles)
+              .then(() => {
+                statusText.textContent = "PDF uploaded and saved successfully!";
+                titleInput.value = "";
+                fileInput.value = "";
+                uploadBtn.disabled = false;
+                setTimeout(() => { statusText.textContent = ""; }, 4000);
+              })
+              .catch(err => {
+                statusText.textContent = "Database error: " + err.message;
+                uploadBtn.disabled = false;
+              });
+          });
         }
-
-      } else {
-
-        targetArray.push(chairData);
-
-      }
-
-
-
-      appData.committees[commKey][type] = targetArray;
-
-
-
-      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
-
-        .then(() => {
-
-          alert("Chair saved successfully!");
-
-          clearChairForm();
-
-          loadCommitteeDataToAdmin();
-
-        })
-
-        .catch(err => alert("Error: " + err.message));
-
+      );
     }
 
-
-
-    function editChair(type, idx) {
-
-      const commKey = document.getElementById("selectCommittee").value;
-
-      const chair = appData.committees[commKey][type][idx];
-
-
-
-      document.getElementById("chairName").value = chair.name || "";
-
-      document.getElementById("chairImg").value = chair.img || "";
-
-      document.getElementById("chairBio").value = chair.bio || "";
-
-      document.getElementById("chairType").value = type;
-
-
-
-      editingChairIndex = idx;
-
-      editingChairType = type;
-
-
-
-      document.getElementById("chairFormTitle").innerText = "Edit Chair / Backroom Member";
-
-      document.getElementById("saveChairBtn").innerText = "Update Chair";
-
-      document.getElementById("cancelChairEditBtn").style.display = "inline-block";
-
-    }
-
-
-
-    function moveChair(type, idx, direction) {
-
-      const commKey = document.getElementById("selectCommittee").value;
-
-      let targetArray = [...appData.committees[commKey][type]];
-
-      
-
-      const newIdx = idx + direction;
-
-      if (newIdx < 0 || newIdx >= targetArray.length) return;
-
-
-
-      const temp = targetArray[idx];
-
-      targetArray[idx] = targetArray[newIdx];
-
-      targetArray[newIdx] = temp;
-
-
-
-      appData.committees[commKey][type] = targetArray;
-
-
-
-      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
-
-        .then(() => {
-
-          loadCommitteeDataToAdmin();
-
-        })
-
-        .catch(err => alert("Error: " + err.message));
-
-    }
-
-
-
-    function deleteChair(type, idx) {
-
-      const commKey = document.getElementById("selectCommittee").value;
-
-      if (confirm("Are you sure?")) {
-
-        let targetArray = [...appData.committees[commKey][type]];
-
-        targetArray.splice(idx, 1);
-
-        appData.committees[commKey][type] = targetArray;
-
-
-
-        database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
-
-          .then(() => {
-
-            alert("Chair removed successfully!");
-
-            loadCommitteeDataToAdmin();
-
-          })
-
-          .catch(err => alert("Error: " + err.message));
-
-      }
-
-    }
-
-
-
-    function clearChairForm() {
-
-      document.getElementById("chairName").value = "";
-
-      document.getElementById("chairImg").value = "";
-
-      document.getElementById("chairBio").value = "";
-
-      editingChairIndex = -1;
-
-      document.getElementById("chairFormTitle").innerText = "Add Chair / Backroom Member";
-
-      document.getElementById("saveChairBtn").innerText = "+ Add Chair to Committee";
-
-      document.getElementById("cancelChairEditBtn").style.display = "none";
-
-    }
-
-
-
-    function saveCommitteeDetails() {
-
-      const commKey = document.getElementById("selectCommittee").value;
-
-      if (!appData.committees) appData.committees = {};
-
-      if (!appData.committees[commKey]) appData.committees[commKey] = {};
-
-
-
-      appData.committees[commKey].topics = document.getElementById("commTopics").value.trim();
-
-      appData.committees[commKey].report = document.getElementById("commReport").value.trim();
-
-      appData.committees[commKey].hideReport = document.getElementById("hideReport").checked;
-
-      appData.committees[commKey].hideChairs = document.getElementById("hideChairs").checked;
-
-      appData.committees[commKey].hideMatrix = document.getElementById("hideMatrix").checked;
-
-
-
-      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
-
-        .then(() => alert("Committee details saved successfully!"))
-
-        .catch(err => alert("Error: " + err.message));
-
-    }
-
-
-
-    function addDriveFile() {
-
-      const title = document.getElementById("driveTitle").value.trim();
-
-      const link = document.getElementById("driveLink").value.trim();
-
-
-
-      if (!title || !link) {
-
-        alert("Please fill in both title and link.");
-
-        return;
-
-      }
-
-
-
-      let files = appData.driveFiles ? [...appData.driveFiles] : [];
-
-      files.push({ title, link });
-
-
-
-      database.ref("homepage_data/driveFiles").set(files)
-
-        .then(() => {
-
-          alert("Drive file added successfully!");
-
-          document.getElementById("driveTitle").value = "";
-
-          document.getElementById("driveLink").value = "";
-
-        })
-
-        .catch(err => alert("Error: " + err.message));
-
-    }
-
-
-
-    function renderAdminDriveList() {
-
-      const container = document.getElementById("adminDriveList");
-
-      const files = appData.driveFiles || [];
-
-
+    function renderAdminPdfList() {
+      const container = document.getElementById("adminPdfList");
+      const files = appData.pdfFiles || [];
 
       if (files.length === 0) {
-
-        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13.5px;">No drive files added yet.</p>`;
-
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13.5px;">No PDF files uploaded yet.</p>`;
         return;
-
       }
-
-
 
       let html = "";
-
       files.forEach((file, index) => {
-
         html += `
-
           <div class="drive-item">
-
-            <div>
-
-              <h4 style="font-size: 14px; color: white;">${file.title}</h4>
-
-              <a href="${file.link}" target="_blank" style="font-size: 12px; color: var(--accent-gold);">${file.link}</a>
-
+            <div style="max-width: 65%;">
+              <h4 style="font-size: 14px; color: white;">📄 ${file.title}</h4>
+              <input type="text" readonly value="${file.link}" style="font-size: 11px; color: var(--accent-gold); margin-top: 5px; padding: 4px 8px; background: rgba(0,0,0,0.5);" onclick="this.select()">
             </div>
-
-            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteDriveFile(${index})">Remove</button>
-
+            <div class="action-btns">
+              <a href="${file.link}" target="_blank" class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px; text-decoration: none; display:inline-block;">View</a>
+              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="navigator.clipboard.writeText('${file.link}'); alert('Link copied to clipboard!');">Copy Link</button>
+              <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deletePdfFile(${index})">Remove</button>
+            </div>
           </div>`;
-
       });
-
       container.innerHTML = html;
-
     }
 
+    function deletePdfFile(index) {
+      if (confirm("Are you sure you want to delete this PDF file?")) {
+        let files = appData.pdfFiles ? [...appData.pdfFiles] : [];
+        const fileToDelete = files[index];
 
-
-    function deleteDriveFile(index) {
-
-      if (confirm("Are you sure?")) {
-
-        let files = appData.driveFiles ? [...appData.driveFiles] : [];
-
+        // Remove from database list
         files.splice(index, 1);
-
-        database.ref("homepage_data/driveFiles").set(files)
-
-          .then(() => alert("Removed successfully!"))
-
+        database.ref("homepage_data/pdfFiles").set(files)
+          .then(() => {
+            // Optional: Try deleting file from Storage bucket if filename reference exists
+            if (fileToDelete && fileToDelete.fileName) {
+              storage.ref(`pdf_uploads/${fileToDelete.fileName}`).delete().catch(() => {});
+            }
+            alert("PDF removed successfully!");
+          })
           .catch(err => alert("Error: " + err.message));
+      }
+    }
 
+    function renderAdminSgList() {
+      const container = document.getElementById("adminSgList");
+      const team = appData.sgTeam || [];
+
+      if (team.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No SG members added yet.</p>`;
+        return;
       }
 
+      let html = "";
+      team.forEach((member, index) => {
+        html += `
+          <div class="member-item">
+            <div class="member-info">
+              <img src="${member.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
+              <div class="member-details">
+                <h4>${member.name || 'No Name'}</h4>
+                <p>${member.role || 'No Role'}</p>
+              </div>
+            </div>
+            <div class="action-btns">
+              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, -1)">⬆️</button>
+              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, 1)">⬇️</button>
+              <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="editSgMember(${index})">Edit</button>
+              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteSgMember(${index})">Remove</button>
+            </div>
+          </div>`;
+      });
+      container.innerHTML = html;
     }
 
+    function moveSgMember(index, direction) {
+      let team = appData.sgTeam ? [...appData.sgTeam] : [];
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= team.length) return;
+
+      const temp = team[index];
+      team[index] = team[newIndex];
+      team[newIndex] = temp;
+
+      database.ref("homepage_data/sgTeam").set(team)
+        .then(() => {
+          renderAdminSgList();
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function addOrUpdateSGMember() {
+      const name = document.getElementById("sgName").value.trim();
+      const role = document.getElementById("sgRole").value.trim();
+      const img = document.getElementById("sgImg").value.trim();
+      const bio = document.getElementById("sgBio").value.trim();
+
+      if (!name || !role) {
+        alert("Please enter both Name and Role.");
+        return;
+      }
+
+      let team = appData.sgTeam ? [...appData.sgTeam] : [];
+      const memberData = { name, role, img: img || "logo.jpeg.JPG", bio: bio || "No biography provided." };
+
+      if (editingIndex >= 0) {
+        team[editingIndex] = memberData;
+      } else {
+        team.push(memberData);
+      }
+
+      database.ref("homepage_data/sgTeam").set(team)
+        .then(() => {
+          alert("Member saved successfully!");
+          clearSgForm();
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function editSgMember(index) {
+      const member = appData.sgTeam[index];
+      document.getElementById("sgName").value = member.name || "";
+      document.getElementById("sgRole").value = member.role || "";
+      document.getElementById("sgImg").value = member.img || "";
+      document.getElementById("sgBio").value = member.bio || "";
+      
+      editingIndex = index;
+      document.getElementById("saveMemberBtn").innerText = "Update SG Member";
+      document.getElementById("cancelEditBtn").style.display = "inline-block";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteSgMember(index) {
+      if (confirm("Are you sure?")) {
+        let team = appData.sgTeam ? [...appData.sgTeam] : [];
+        team.splice(index, 1);
+        database.ref("homepage_data/sgTeam").set(team)
+          .then(() => alert("Removed successfully!"))
+          .catch(err => alert("Error: " + err.message));
+      }
+    }
+
+    function clearSgForm() {
+      document.getElementById("sgName").value = "";
+      document.getElementById("sgRole").value = "";
+      document.getElementById("sgImg").value = "";
+      document.getElementById("sgBio").value = "";
+      editingIndex = -1;
+      document.getElementById("saveMemberBtn").innerText = "+ Add SG Member";
+      document.getElementById("cancelEditBtn").style.display = "none";
+    }
+
+    function loadCommitteeDataToAdmin() {
+      const commKey = document.getElementById("selectCommittee").value;
+      const committees = appData.committees || {};
+      const comm = committees[commKey] || {};
+
+      document.getElementById("commTopics").value = comm.topics || "";
+      document.getElementById("commReport").value = comm.report || "";
+      document.getElementById("hideReport").checked = !!comm.hideReport;
+      document.getElementById("hideChairs").checked = !!comm.hideChairs;
+      document.getElementById("hideMatrix").checked = !!comm.hideMatrix;
+
+      clearChairForm();
+      renderAdminChairsList(comm);
+    }
+
+    function renderAdminChairsList(comm) {
+      const container = document.getElementById("adminChairsList");
+      let html = "";
+      let hasChairs = false;
+
+      if (comm.chairs && Array.isArray(comm.chairs)) {
+        comm.chairs.forEach((chair, idx) => {
+          hasChairs = true;
+          html += `
+            <div class="member-item">
+              <div class="member-info">
+                <img src="${chair.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
+                <div class="member-details">
+                  <h4>${chair.name}</h4>
+                  <p>Chair</p>
+                </div>
+              </div>
+              <div class="action-btns">
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, -1)">⬆️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, 1)">⬇️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('chairs', ${idx})">Edit</button>
+                <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('chairs', ${idx})">X</button>
+              </div>
+            </div>`;
+        });
+      }
+
+      if (comm.backroom && Array.isArray(comm.backroom)) {
+        comm.backroom.forEach((bChair, idx) => {
+          hasChairs = true;
+          html += `
+            <div class="member-item">
+              <div class="member-info">
+                <img src="${bChair.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
+                <div class="member-details">
+                  <h4>${bChair.name}</h4>
+                  <p>Backroom</p>
+                </div>
+              </div>
+              <div class="action-btns">
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('backroom', ${idx}, -1)">⬆️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('backroom', ${idx}, 1)">⬇️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('backroom', ${idx})">Edit</button>
+                <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('backroom', ${idx})">X</button>
+              </div>
+            </div>`;
+        });
+      }
+
+      if (!hasChairs) {
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No chairs added to this committee yet.</p>`;
+      } else {
+        container.innerHTML = html;
+      }
+    }
+
+    function addOrUpdateChair() {
+      const commKey = document.getElementById("selectCommittee").value;
+      const name = document.getElementById("chairName").value.trim();
+      const img = document.getElementById("chairImg").value.trim();
+      const bio = document.getElementById("chairBio").value.trim();
+      const type = document.getElementById("chairType").value;
+
+      if (!name) {
+        alert("Please enter the chair name.");
+        return;
+      }
+
+      if (!appData.committees) appData.committees = {};
+      if (!appData.committees[commKey]) appData.committees[commKey] = {};
+
+      let targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
+      const chairData = { name, img: img || "logo.jpeg.JPG", bio: bio || "No bio provided." };
+
+      if (editingChairIndex >= 0) {
+        if (editingChairType !== type) {
+          appData.committees[commKey][editingChairType].splice(editingChairIndex, 1);
+          targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
+          targetArray.push(chairData);
+        } else {
+          targetArray[editingChairIndex] = chairData;
+        }
+      } else {
+        targetArray.push(chairData);
+      }
+
+      appData.committees[commKey][type] = targetArray;
+
+      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
+        .then(() => {
+          alert("Chair saved successfully!");
+          clearChairForm();
+          loadCommitteeDataToAdmin();
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function editChair(type, idx) {
+      const commKey = document.getElementById("selectCommittee").value;
+      const chair = appData.committees[commKey][type][idx];
+
+      document.getElementById("chairName").value = chair.name || "";
+      document.getElementById("chairImg").value = chair.img || "";
+      document.getElementById("chairBio").value = chair.bio || "";
+      document.getElementById("chairType").value = type;
+
+      editingChairIndex = idx;
+      editingChairType = type;
+
+      document.getElementById("chairFormTitle").innerText = "Edit Chair / Backroom Member";
+      document.getElementById("saveChairBtn").innerText = "Update Chair";
+      document.getElementById("cancelChairEditBtn").style.display = "inline-block";
+    }
+
+    function moveChair(type, idx, direction) {
+      const commKey = document.getElementById("selectCommittee").value;
+      let targetArray = [...appData.committees[commKey][type]];
+      
+      const newIdx = idx + direction;
+      if (newIdx < 0 || newIdx >= targetArray.length) return;
+
+      const temp = targetArray[idx];
+      targetArray[idx] = targetArray[newIdx];
+      targetArray[newIdx] = temp;
+
+      appData.committees[commKey][type] = targetArray;
+
+      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
+        .then(() => {
+          loadCommitteeDataToAdmin();
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function deleteChair(type, idx) {
+      const commKey = document.getElementById("selectCommittee").value;
+      if (confirm("Are you sure?")) {
+        let targetArray = [...appData.committees[commKey][type]];
+        targetArray.splice(idx, 1);
+        appData.committees[commKey][type] = targetArray;
+
+        database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
+          .then(() => {
+            alert("Chair removed successfully!");
+            loadCommitteeDataToAdmin();
+          })
+          .catch(err => alert("Error: " + err.message));
+      }
+    }
+
+    function clearChairForm() {
+      document.getElementById("chairName").value = "";
+      document.getElementById("chairImg").value = "";
+      document.getElementById("chairBio").value = "";
+      editingChairIndex = -1;
+      document.getElementById("chairFormTitle").innerText = "Add Chair / Backroom Member";
+      document.getElementById("saveChairBtn").innerText = "+ Add Chair to Committee";
+      document.getElementById("cancelChairEditBtn").style.display = "none";
+    }
+
+    function saveCommitteeDetails() {
+      const commKey = document.getElementById("selectCommittee").value;
+      if (!appData.committees) appData.committees = {};
+      if (!appData.committees[commKey]) appData.committees[commKey] = {};
+
+      appData.committees[commKey].topics = document.getElementById("commTopics").value.trim();
+      appData.committees[commKey].report = document.getElementById("commReport").value.trim();
+      appData.committees[commKey].hideReport = document.getElementById("hideReport").checked;
+      appData.committees[commKey].hideChairs = document.getElementById("hideChairs").checked;
+      appData.committees[commKey].hideMatrix = document.getElementById("hideMatrix").checked;
+
+      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
+        .then(() => alert("Committee details saved successfully!"))
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function addDriveFile() {
+      const title = document.getElementById("driveTitle").value.trim();
+      const link = document.getElementById("driveLink").value.trim();
+
+      if (!title || !link) {
+        alert("Please fill in both title and link.");
+        return;
+      }
+
+      let files = appData.driveFiles ? [...appData.driveFiles] : [];
+      files.push({ title, link });
+
+      database.ref("homepage_data/driveFiles").set(files)
+        .then(() => {
+          alert("Drive file added successfully!");
+          document.getElementById("driveTitle").value = "";
+          document.getElementById("driveLink").value = "";
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function renderAdminDriveList() {
+      const container = document.getElementById("adminDriveList");
+      const files = appData.driveFiles || [];
+
+      if (files.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13.5px;">No drive files added yet.</p>`;
+        return;
+      }
+
+      let html = "";
+      files.forEach((file, index) => {
+        html += `
+          <div class="drive-item">
+            <div>
+              <h4 style="font-size: 14px; color: white;">${file.title}</h4>
+              <a href="${file.link}" target="_blank" style="font-size: 12px; color: var(--accent-gold);">${file.link}</a>
+            </div>
+            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteDriveFile(${index})">Remove</button>
+          </div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function deleteDriveFile(index) {
+      if (confirm("Are you sure?")) {
+        let files = appData.driveFiles ? [...appData.driveFiles] : [];
+        files.splice(index, 1);
+        database.ref("homepage_data/driveFiles").set(files)
+          .then(() => alert("Removed successfully!"))
+          .catch(err => alert("Error: " + err.message));
+      }
+    }
   </script>
-
 </body>
-
-</html> 
-
+</html>
