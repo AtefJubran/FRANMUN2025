@@ -232,7 +232,7 @@
         <div class="wrap">
           <div id="committeesList">
             <div class="eyebrow reveal">The Committees</div>
-            <h2 class="title split">Choose your <em>Committee.</em></h2>
+            <h2 class="title split">Choose your <em>committee.</em></h2>
             <p class="gal-note reveal" style="margin-top:-20px">Select a committee to review official agendas, study guides, and chair profiles.</p>
             <div id="committeeRows"></div>
           </div>
@@ -410,8 +410,8 @@
       const meta = COMMITTEES.find(x => x.key === key);
       document.getElementById("detailCommitteeTitle").textContent = c.name || (meta ? meta.name : key);
       document.getElementById("detailTopicsText").textContent = c.topics || "Agendas and topics will be announced shortly.";
-      const rop = c.ropFile || c.ropLink || appData.globalRopFile || appData.globalRopLink || "";
-      document.getElementById("committeeTopRopContainer").innerHTML = fileBtn(rop, key, ["ROP Pending Release", "Download Rules of Procedure (ROP)", "View Rules of Procedure (ROP)"], "ROP", true);
+      const ROP_FILE = "ROP.PDF"; // file sitting next to index.html in your GitHub repo
+      document.getElementById("committeeTopRopContainer").innerHTML = `<a href="${ROP_FILE}" target="_blank" rel="noopener noreferrer" class="btn ghost">Rules Of Procedure &rarr;</a>`;
       document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(c.reportFile || c.reportLink || "", key, ["Research Report Pending", "Download Research Report", "Access Full Research Report"], "Research_Report", false);
       document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(c.matrixFile || c.matrixLink || "", key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], "Country_Matrix", true);
       const box = document.getElementById("detailChairsContainer");
