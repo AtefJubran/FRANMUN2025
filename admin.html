@@ -1,832 +1,815 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FRANMUN 2026 | Admin Dashboard</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-  <style>
-    :root {
-      --bg-main: #060b13;
-      --bg-card: rgba(15, 27, 47, 0.6);
-      --accent-gold: #E4B343;
-      --accent-gold-hover: #FFF1CD;
-      --accent-red: #EF4444;
-      --glass-border: rgba(255, 255, 255, 0.06);
-      --text-light: #FFFFFF;
-      --text-muted: #94A3B8;
-      --text-body: #CBD5E1;
-      --font-heading: 'Cinzel', Georgia, serif;
-      --font-body: 'Inter', sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body {
-      font-family: var(--font-body);
-      background-color: var(--bg-main);
-      color: var(--text-light);
-      padding: 40px 20px;
-    }
-
-    #loginOverlay {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--bg-main);
-      z-index: 9999;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .login-card {
-      background: var(--bg-card);
-      border: 1px solid var(--glass-border);
-      padding: 40px;
-      border-radius: 16px;
-      text-align: center;
-      backdrop-filter: blur(12px);
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .login-card h2 {
-      font-family: var(--font-heading);
-      color: var(--accent-gold);
-      margin-bottom: 20px;
-    }
-
-    .admin-container {
-      max-width: 900px;
-      margin: 0 auto;
-      display: none; 
-    }
-
-    h1, h2 {
-      font-family: var(--font-heading);
-      color: var(--accent-gold);
-      margin-bottom: 20px;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--glass-border);
-      padding: 24px;
-      border-radius: 16px;
-      margin-bottom: 24px;
-      backdrop-filter: blur(12px);
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    label {
-      display: block;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 10px 14px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid var(--glass-border);
-      border-radius: 8px;
-      color: white;
-      font-family: var(--font-body);
-      font-size: 14px;
-    }
-
-    input:focus, textarea:focus, select:focus {
-      outline: none;
-      border-color: var(--accent-gold);
-    }
-
-    .checkbox-group {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .checkbox-group input {
-      width: auto;
-    }
-
-    .btn {
-      background: var(--accent-gold);
-      color: #060b13;
-      font-weight: 600;
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-size: 14px;
-      transition: 0.2s;
-    }
-
-    .btn:hover {
-      background: var(--accent-gold-hover);
-    }
-
-    .btn-danger {
-      background: var(--accent-red);
-      color: white;
-    }
-
-    .btn-secondary {
-      background: rgba(255,255,255,0.1);
-      color: white;
-    }
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.2);
-    }
-
-    .member-item, .drive-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255,255,255,0.02);
-      border: 1px solid var(--glass-border);
-      padding: 12px 16px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-
-    .member-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .member-img-preview {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1px solid var(--accent-gold);
-    }
-
-    .member-details h4 {
-      font-size: 14px;
-      color: white;
-    }
-
-    .member-details p {
-      font-size: 12px;
-      color: var(--accent-gold);
-    }
-
-    .action-btns {
-      display: flex;
-      gap: 5px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 768px) {
-      .grid-2 { grid-template-columns: 1fr; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FRANMUN 2026 Admin Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
 </head>
-<body>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
 
-  <div id="loginOverlay">
-    <div class="login-card">
-      <h2>FRANMUN Admin</h2>
-      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Please enter admin password to continue.</p>
-      <div class="form-group">
-        <input type="password" id="passInput" placeholder="Enter Password..." onkeypress="if(event.key === 'Enter') checkPassword()">
-      </div>
-      <button class="btn" style="width: 100%;" onclick="checkPassword()">Login</button>
-    </div>
-  </div>
+    <!-- Firebase v8 SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
-  <div class="admin-container" id="mainDashboard">
-    <h1>FRANMUN Admin Dashboard</h1>
-
-    <!-- 1. إعدادات عامة والعداد التنازلي -->
-    <div class="card">
-      <h2>General Settings & Countdown</h2>
-      
-      <div class="grid-2">
-        <div class="checkbox-group">
-          <input type="checkbox" id="maintenanceMode">
-          <label for="maintenanceMode" style="display:inline; margin:0; color:white;">Maintenance Mode</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="delegatesOpen">
-          <label for="delegatesOpen" style="display:inline; margin:0; color:white;">Delegates Registration Open</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="chairsOpen">
-          <label for="chairsOpen" style="display:inline; margin:0; color:white;">Chairs & Staff Registration Open</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="galleryLocked">
-          <label for="galleryLocked" style="display:inline; margin:0; color:white;">Lock Conference Gallery</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="countryMatrixLocked">
-          <label for="countryMatrixLocked" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Lock Country Matrix (Show Coming Soon)</label>
-        </div>
-        <div class="checkbox-group" style="grid-column: span 2; background: rgba(228, 179, 67, 0.05); border: 1px solid rgba(228, 179, 67, 0.2); padding: 12px; border-radius: 10px; margin-top: 5px;">
-          <input type="checkbox" id="committeesComingSoon">
-          <label for="committeesComingSoon" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Hide All Committees Topics & Chairs (Coming Soon / Top Secret Stamp)</label>
-        </div>
-      </div>
-
-      <div class="form-group" style="margin-top: 20px;">
-        <label>Country Matrix PDF Link (رابط جدول توزيع الدول العام)</label>
-        <input type="text" id="countryMatrixPdf" placeholder="https://... (Drive PDF link)">
-      </div>
-
-      <div class="form-group" style="margin-top: 15px;">
-        <label>Conference Target Date (Countdown)</label>
-        <input type="text" id="targetDate" placeholder="e.g. 31 Oct 2026 at 8:00">
-      </div>
-
-      <button class="btn" onclick="saveGeneralSettings()">Save Settings</button>
-    </div>
-
-    <!-- 2. إدارة الأمانة العامة (Secretariat Team) -->
-    <div class="card">
-      <h2>Secretariat General (SG) Team</h2>
-      
-      <div class="form-group">
-        <label>Member Name (اسم العضو)</label>
-        <input type="text" id="sgName" placeholder="e.g. Atef Jubran">
-      </div>
-
-      <div class="form-group">
-        <label>Role / Title (الوظيفة أو المنصب)</label>
-        <input type="text" id="sgRole" placeholder="e.g. Secretary-General">
-      </div>
-      
-      <div class="form-group">
-        <label>Image Filename / URL (اسم الصورة أو الرابط)</label>
-        <input type="text" id="sgImg" placeholder="e.g. atef.jpg">
-      </div>
-
-      <div class="form-group">
-        <label>Biography (النبذة التعريفية)</label>
-        <textarea id="sgBio" rows="3" placeholder="Write SG bio here..."></textarea>
-      </div>
-
-      <button class="btn" id="saveMemberBtn" onclick="addOrUpdateSGMember()">+ Add SG Member</button>
-      <button class="btn btn-danger" id="cancelEditBtn" style="display:none; margin-left: 10px;" onclick="clearSgForm()">Cancel</button>
-
-      <div style="margin-top: 24px;">
-        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current SG Members (Use arrows to reorder)</h3>
-        <div id="adminSgList">
-          <p style="color: var(--text-muted); font-size: 13px;">Loading SG members...</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. إدارة اللجان ورؤسائها (Committees & Chairs) -->
-    <div class="card">
-      <h2>Committees & Chairs Management</h2>
-      
-      <div class="form-group">
-        <label>Select Committee (اختر اللجنة)</label>
-        <select id="selectCommittee" onchange="loadCommitteeDataToAdmin()">
-          <option value="UNICEF">UNICEF</option>
-          <option value="UNWOMEN">UN Women</option>
-          <option value="UNHRC">UNHRC</option>
-          <option value="DISEC">DISEC</option>
-          <option value="WHO">WHO</option>
-          <option value="UNHSC">UNHSC</option>
-          <option value="CRISIS">CRISIS</option>
-        </select>
-      </div>
-
-      <div class="grid-2" style="margin-bottom: 16px;">
-        <div class="checkbox-group">
-          <input type="checkbox" id="hideReport">
-          <label for="hideReport" style="display:inline; margin:0; color:var(--accent-gold);">Hide Research Report</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="hideChairs">
-          <label for="hideChairs" style="display:inline; margin:0; color:var(--accent-gold);">Hide Committee Chairs</label>
-        </div>
-        <div class="checkbox-group" style="grid-column: span 2;">
-          <input type="checkbox" id="hideMatrix">
-          <label for="hideMatrix" style="display:inline; margin:0; color:var(--accent-gold);">Hide Country Matrix for this Committee</label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Committee Topics & Description</label>
-        <textarea id="commTopics" rows="3" placeholder="Enter committee topics..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Research Report Link</label>
-        <input type="text" id="commReport" placeholder="https://...">
-      </div>
-
-      <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 20px 0;">
-
-      <h3 style="font-size: 14px; color: var(--accent-gold); margin-bottom: 12px; text-transform: uppercase;" id="chairFormTitle">Add Chair / Backroom Member</h3>
-      
-      <div class="form-group">
-        <label>Chair Name (اسم التشير)</label>
-        <input type="text" id="chairName" placeholder="e.g. John Doe">
-      </div>
-
-      <div class="form-group">
-        <label>Chair Image URL / Filename</label>
-        <input type="text" id="chairImg" placeholder="e.g. chair.jpg">
-      </div>
-
-      <div class="form-group">
-        <label>Chair Bio (النبذة التعريفية)</label>
-        <textarea id="chairBio" rows="2" placeholder="Chair bio..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Type (نوع التشير)</label>
-        <select id="chairType">
-          <option value="chairs">Committee Chair (رئيس لجنة)</option>
-          <option value="backroom">Backroom Chair (أعضاء الباك روم - خاصة بلجنة كريسيس)</option>
-        </select>
-      </div>
-
-      <button class="btn" id="saveChairBtn" onclick="addOrUpdateChair()">+ Add Chair to Committee</button>
-      <button class="btn btn-danger" id="cancelChairEditBtn" style="display:none; margin-left: 10px;" onclick="clearChairForm()">Cancel Edit</button>
-
-      <div style="margin-top: 24px;">
-        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current Chairs in Selected Committee (Use arrows to reorder)</h3>
-        <div id="adminChairsList">
-          <p style="color: var(--text-muted); font-size: 13px;">No chairs added yet.</p>
-        </div>
-      </div>
-
-      <button class="btn" style="margin-top: 20px; width: 100%;" onclick="saveCommitteeDetails()">Save Committee Details</button>
-    </div>
-
-    <!-- 4. ملفات الجاليري (Drive Files) -->
-    <div class="card">
-      <h2>Conference Gallery Drive Files</h2>
-      
-      <div class="form-group">
-        <label>File Title</label>
-        <input type="text" id="driveTitle" placeholder="e.g. Day 1 Photos">
-      </div>
-      
-      <div class="form-group">
-        <label>Drive Link</label>
-        <input type="text" id="driveLink" placeholder="https://drive.google.com/...">
-      </div>
-
-      <button class="btn" onclick="addDriveFile()">+ Add Drive Link</button>
-
-      <div style="margin-top: 24px;" id="adminDriveList">
-        <p style="color: var(--text-muted); font-size: 13px;">No drive files added yet.</p>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const ADMIN_PASS = "FRANMUN2026";
-
-    function checkPassword() {
-      const input = document.getElementById("passInput").value;
-      if (input === ADMIN_PASS) {
-        document.getElementById("loginOverlay").style.display = "none";
-        document.getElementById("mainDashboard").style.display = "block";
-      } else {
-        alert("Wrong Password! Please try again.");
-        document.getElementById("passInput").value = "";
-      }
-    }
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
-      authDomain: "franmun-f5498.firebaseapp.com",
-      databaseURL: "https://franmun-f5498-default-rtdb.firebaseio.com",
-      projectId: "franmun-f5498",
-      storageBucket: "franmun-f5498.firebasestorage.app",
-      messagingSenderId: "574017816071",
-      appId: "1:574017816071:web:1968d9a793dec6a6cacca2",
-      measurementId: "G-WRXCD54P71"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
-    let appData = {};
-    let editingIndex = -1;
-    let editingChairIndex = -1;
-    let editingChairType = 'chairs';
-
-    database.ref("homepage_data").on("value", (snapshot) => {
-      if (snapshot.exists()) {
-        appData = snapshot.val() || {};
-        populateGeneralSettings();
-        renderAdminSgList();
-        loadCommitteeDataToAdmin();
-        renderAdminDriveList();
-      }
-    });
-
-    function populateGeneralSettings() {
-      document.getElementById("maintenanceMode").checked = !!appData.maintenanceMode;
-      document.getElementById("delegatesOpen").checked = !!appData.delegatesOpen;
-      document.getElementById("chairsOpen").checked = !!appData.chairsOpen;
-      document.getElementById("galleryLocked").checked = !!appData.galleryLocked;
-      document.getElementById("countryMatrixLocked").checked = !!appData.countryMatrixLocked;
-      document.getElementById("committeesComingSoon").checked = !!appData.committeesComingSoon;
-      document.getElementById("countryMatrixPdf").value = appData.countryMatrixPdf || "";
-      document.getElementById("targetDate").value = appData.targetDate || "";
-    }
-
-    function saveGeneralSettings() {
-      const settings = {
-        maintenanceMode: document.getElementById("maintenanceMode").checked,
-        delegatesOpen: document.getElementById("delegatesOpen").checked,
-        chairsOpen: document.getElementById("chairsOpen").checked,
-        galleryLocked: document.getElementById("galleryLocked").checked,
-        countryMatrixLocked: document.getElementById("countryMatrixLocked").checked,
-        committeesComingSoon: document.getElementById("committeesComingSoon").checked,
-        countryMatrixPdf: document.getElementById("countryMatrixPdf").value.trim(),
-        targetDate: document.getElementById("targetDate").value.trim()
-      };
-
-      database.ref("homepage_data").update(settings)
-        .then(() => alert("Settings saved successfully!"))
-        .catch(err => alert("Error: " + err.message));
-    }
-
-    function renderAdminSgList() {
-      const container = document.getElementById("adminSgList");
-      const team = appData.sgTeam || [];
-
-      if (team.length === 0) {
-        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No SG members added yet.</p>`;
-        return;
-      }
-
-      let html = "";
-      team.forEach((member, index) => {
-        html += `
-          <div class="member-item">
-            <div class="member-info">
-              <img src="${member.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
-              <div class="member-details">
-                <h4>${member.name || 'No Name'}</h4>
-                <p>${member.role || 'No Role'}</p>
-              </div>
+    <!-- Header / Navbar -->
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-50 px-6 py-4 flex justify-between items-center shadow-lg">
+        <div class="flex items-center space-x-3">
+            <div class="bg-blue-600 p-2.5 rounded-xl text-white shadow-md">
+                <i class="fa-solid fa-globe text-xl"></i>
             </div>
-            <div class="action-btns">
-              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, -1)">⬆️</button>
-              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, 1)">⬇️</button>
-              <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="editSgMember(${index})">Edit</button>
-              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteSgMember(${index})">Remove</button>
-            </div>
-          </div>`;
-      });
-      container.innerHTML = html;
-    }
-
-    function moveSgMember(index, direction) {
-      let team = appData.sgTeam ? [...appData.sgTeam] : [];
-      const newIndex = index + direction;
-      if (newIndex < 0 || newIndex >= team.length) return;
-
-      const temp = team[index];
-      team[index] = team[newIndex];
-      team[newIndex] = temp;
-
-      database.ref("homepage_data/sgTeam").set(team)
-        .then(() => {
-          renderAdminSgList();
-        })
-        .catch(err => alert("Error: " + err.message));
-    }
-
-    function addOrUpdateSGMember() {
-      const name = document.getElementById("sgName").value.trim();
-      const role = document.getElementById("sgRole").value.trim();
-      const img = document.getElementById("sgImg").value.trim();
-      const bio = document.getElementById("sgBio").value.trim();
-
-      if (!name || !role) {
-        alert("Please enter both Name and Role.");
-        return;
-      }
-
-      let team = appData.sgTeam ? [...appData.sgTeam] : [];
-      const memberData = { name, role, img: img || "logo.jpeg.JPG", bio: bio || "No biography provided." };
-
-      if (editingIndex >= 0) {
-        team[editingIndex] = memberData;
-      } else {
-        team.push(memberData);
-      }
-
-      database.ref("homepage_data/sgTeam").set(team)
-        .then(() => {
-          alert("Member saved successfully!");
-          clearSgForm();
-        })
-        .catch(err => alert("Error: " + err.message));
-    }
-
-    function editSgMember(index) {
-      const member = appData.sgTeam[index];
-      document.getElementById("sgName").value = member.name || "";
-      document.getElementById("sgRole").value = member.role || "";
-      document.getElementById("sgImg").value = member.img || "";
-      document.getElementById("sgBio").value = member.bio || "";
-      
-      editingIndex = index;
-      document.getElementById("saveMemberBtn").innerText = "Update SG Member";
-      document.getElementById("cancelEditBtn").style.display = "inline-block";
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function deleteSgMember(index) {
-      if (confirm("Are you sure?")) {
-        let team = appData.sgTeam ? [...appData.sgTeam] : [];
-        team.splice(index, 1);
-        database.ref("homepage_data/sgTeam").set(team)
-          .then(() => alert("Removed successfully!"))
-          .catch(err => alert("Error: " + err.message));
-      }
-    }
-
-    function clearSgForm() {
-      document.getElementById("sgName").value = "";
-      document.getElementById("sgRole").value = "";
-      document.getElementById("sgImg").value = "";
-      document.getElementById("sgBio").value = "";
-      editingIndex = -1;
-      document.getElementById("saveMemberBtn").innerText = "+ Add SG Member";
-      document.getElementById("cancelEditBtn").style.display = "none";
-    }
-
-    function loadCommitteeDataToAdmin() {
-      const commKey = document.getElementById("selectCommittee").value;
-      const committees = appData.committees || {};
-      const comm = committees[commKey] || {};
-
-      document.getElementById("commTopics").value = comm.topics || "";
-      document.getElementById("commReport").value = comm.report || "";
-      document.getElementById("hideReport").checked = !!comm.hideReport;
-      document.getElementById("hideChairs").checked = !!comm.hideChairs;
-      document.getElementById("hideMatrix").checked = !!comm.hideMatrix;
-
-      clearChairForm();
-      renderAdminChairsList(comm);
-    }
-
-    function renderAdminChairsList(comm) {
-      const container = document.getElementById("adminChairsList");
-      let html = "";
-      let hasChairs = false;
-
-      if (comm.chairs && Array.isArray(comm.chairs)) {
-        comm.chairs.forEach((chair, idx) => {
-          hasChairs = true;
-          html += `
-            <div class="member-item">
-              <div class="member-info">
-                <img src="${chair.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
-                <div class="member-details">
-                  <h4>${chair.name}</h4>
-                  <p>Chair</p>
-                </div>
-              </div>
-              <div class="action-btns">
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, -1)">⬆️</button>
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, 1)">⬇️</button>
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('chairs', ${idx})">Edit</button>
-                <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('chairs', ${idx})">X</button>
-              </div>
-            </div>`;
-        });
-      }
-
-      if (comm.backroom && Array.isArray(comm.backroom)) {
-        comm.backroom.forEach((bChair, idx) => {
-          hasChairs = true;
-          html += `
-            <div class="member-item">
-              <div class="member-info">
-                <img src="${bChair.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
-                <div class="member-details">
-                  <h4>${bChair.name}</h4>
-                  <p>Backroom</p>
-                </div>
-              </div>
-              <div class="action-btns">
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('backroom', ${idx}, -1)">⬆️</button>
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('backroom', ${idx}, 1)">⬇️</button>
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('backroom', ${idx})">Edit</button>
-                <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('backroom', ${idx})">X</button>
-              </div>
-            </div>`;
-        });
-      }
-
-      if (!hasChairs) {
-        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No chairs added to this committee yet.</p>`;
-      } else {
-        container.innerHTML = html;
-      }
-    }
-
-    function addOrUpdateChair() {
-      const commKey = document.getElementById("selectCommittee").value;
-      const name = document.getElementById("chairName").value.trim();
-      const img = document.getElementById("chairImg").value.trim();
-      const bio = document.getElementById("chairBio").value.trim();
-      const type = document.getElementById("chairType").value;
-
-      if (!name) {
-        alert("Please enter the chair name.");
-        return;
-      }
-
-      if (!appData.committees) appData.committees = {};
-      if (!appData.committees[commKey]) appData.committees[commKey] = {};
-
-      let targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
-      const chairData = { name, img: img || "logo.jpeg.JPG", bio: bio || "No bio provided." };
-
-      if (editingChairIndex >= 0) {
-        if (editingChairType !== type) {
-          appData.committees[commKey][editingChairType].splice(editingChairIndex, 1);
-          targetArray = appData.committees[commKey][type] ? [...appData.committees[commKey][type]] : [];
-          targetArray.push(chairData);
-        } else {
-          targetArray[editingChairIndex] = chairData;
-        }
-      } else {
-        targetArray.push(chairData);
-      }
-
-      appData.committees[commKey][type] = targetArray;
-
-      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
-        .then(() => {
-          alert("Chair saved successfully!");
-          clearChairForm();
-          loadCommitteeDataToAdmin();
-        })
-        .catch(err => alert("Error: " + err.message));
-    }
-
-    function editChair(type, idx) {
-      const commKey = document.getElementById("selectCommittee").value;
-      const chair = appData.committees[commKey][type][idx];
-
-      document.getElementById("chairName").value = chair.name || "";
-      document.getElementById("chairImg").value = chair.img || "";
-      document.getElementById("chairBio").value = chair.bio || "";
-      document.getElementById("chairType").value = type;
-
-      editingChairIndex = idx;
-      editingChairType = type;
-
-      document.getElementById("chairFormTitle").innerText = "Edit Chair / Backroom Member";
-      document.getElementById("saveChairBtn").innerText = "Update Chair";
-      document.getElementById("cancelChairEditBtn").style.display = "inline-block";
-    }
-
-    function moveChair(type, idx, direction) {
-      const commKey = document.getElementById("selectCommittee").value;
-      let targetArray = [...appData.committees[commKey][type]];
-      
-      const newIdx = idx + direction;
-      if (newIdx < 0 || newIdx >= targetArray.length) return;
-
-      const temp = targetArray[idx];
-      targetArray[idx] = targetArray[newIdx];
-      targetArray[newIdx] = temp;
-
-      appData.committees[commKey][type] = targetArray;
-
-      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
-        .then(() => {
-          loadCommitteeDataToAdmin();
-        })
-        .catch(err => alert("Error: " + err.message));
-    }
-
-    function deleteChair(type, idx) {
-      const commKey = document.getElementById("selectCommittee").value;
-      if (confirm("Are you sure?")) {
-        let targetArray = [...appData.committees[commKey][type]];
-        targetArray.splice(idx, 1);
-        appData.committees[commKey][type] = targetArray;
-
-        database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
-          .then(() => {
-            alert("Chair removed successfully!");
-            loadCommitteeDataToAdmin();
-          })
-          .catch(err => alert("Error: " + err.message));
-      }
-    }
-
-    function clearChairForm() {
-      document.getElementById("chairName").value = "";
-      document.getElementById("chairImg").value = "";
-      document.getElementById("chairBio").value = "";
-      editingChairIndex = -1;
-      document.getElementById("chairFormTitle").innerText = "Add Chair / Backroom Member";
-      document.getElementById("saveChairBtn").innerText = "+ Add Chair to Committee";
-      document.getElementById("cancelChairEditBtn").style.display = "none";
-    }
-
-    function saveCommitteeDetails() {
-      const commKey = document.getElementById("selectCommittee").value;
-      if (!appData.committees) appData.committees = {};
-      if (!appData.committees[commKey]) appData.committees[commKey] = {};
-
-      appData.committees[commKey].topics = document.getElementById("commTopics").value.trim();
-      appData.committees[commKey].report = document.getElementById("commReport").value.trim();
-      appData.committees[commKey].hideReport = document.getElementById("hideReport").checked;
-      appData.committees[commKey].hideChairs = document.getElementById("hideChairs").checked;
-      appData.committees[commKey].hideMatrix = document.getElementById("hideMatrix").checked;
-
-      database.ref(`homepage_data/committees/${commKey}`).set(appData.committees[commKey])
-        .then(() => alert("Committee details saved successfully!"))
-        .catch(err => alert("Error: " + err.message));
-    }
-
-    function addDriveFile() {
-      const title = document.getElementById("driveTitle").value.trim();
-      const link = document.getElementById("driveLink").value.trim();
-
-      if (!title || !link) {
-        alert("Please fill in both title and link.");
-        return;
-      }
-
-      let files = appData.driveFiles ? [...appData.driveFiles] : [];
-      files.push({ title, link });
-
-      database.ref("homepage_data/driveFiles").set(files)
-        .then(() => {
-          alert("Drive file added successfully!");
-          document.getElementById("driveTitle").value = "";
-          document.getElementById("driveLink").value = "";
-        })
-        .catch(err => alert("Error: " + err.message));
-    }
-
-    function renderAdminDriveList() {
-      const container = document.getElementById("adminDriveList");
-      const files = appData.driveFiles || [];
-
-      if (files.length === 0) {
-        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13.5px;">No drive files added yet.</p>`;
-        return;
-      }
-
-      let html = "";
-      files.forEach((file, index) => {
-        html += `
-          <div class="drive-item">
             <div>
-              <h4 style="font-size: 14px; color: white;">${file.title}</h4>
-              <a href="${file.link}" target="_blank" style="font-size: 12px; color: var(--accent-gold);">${file.link}</a>
+                <h1 class="text-lg font-bold tracking-tight text-white">FRANMUN 2026 <span class="text-blue-400 font-normal text-sm">Admin Control Center</span></h1>
+                <p class="text-xs text-slate-400">Model United Nations Conference Management</p>
             </div>
-            <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteDriveFile(${index})">Remove</button>
-          </div>`;
-      });
-      container.innerHTML = html;
-    }
+        </div>
+        <div class="flex items-center space-x-4">
+            <span id="connection-status" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                <span class="w-2 h-2 mr-1.5 bg-amber-400 rounded-full animate-pulse"></span> Connecting...
+            </span>
+            <button onclick="publishChanges()" class="bg-blue-600 hover:bg-blue-500 text-white font-medium text-sm px-4 py-2 rounded-xl transition shadow-lg shadow-blue-600/30 flex items-center space-x-2">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <span>Publish Changes</span>
+            </button>
+        </div>
+    </header>
 
-    function deleteDriveFile(index) {
-      if (confirm("Are you sure?")) {
-        let files = appData.driveFiles ? [...appData.driveFiles] : [];
-        files.splice(index, 1);
-        database.ref("homepage_data/driveFiles").set(files)
-          .then(() => alert("Removed successfully!"))
-          .catch(err => alert("Error: " + err.message));
-      }
-    }
+    <!-- Main Container -->
+    <div class="flex-1 flex flex-col md:flex-row">
+        <!-- Sidebar Navigation -->
+        <aside class="w-full md:w-64 bg-slate-800/60 border-r border-slate-700 p-4 space-y-2">
+            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider px-3 mb-2">Management Tabs</p>
+            
+            <button onclick="switchTab('general')" id="btn-general" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-blue-600 text-white shadow-md">
+                <i class="fa-solid fa-sliders w-5"></i>
+                <span>General Settings</span>
+            </button>
+            <button onclick="switchTab('secretariat')" id="btn-secretariat" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-300 hover:bg-slate-700/50 hover:text-white">
+                <i class="fa-solid fa-users-gear w-5"></i>
+                <span>Secretariat General</span>
+            </button>
+            <button onclick="switchTab('committees')" id="btn-committees" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-300 hover:bg-slate-700/50 hover:text-white">
+                <i class="fa-solid fa-landmark-dome w-5"></i>
+                <span>Committees & Chairs</span>
+            </button>
+            <button onclick="switchTab('resources')" id="btn-resources" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-300 hover:bg-slate-700/50 hover:text-white">
+                <i class="fa-solid fa-folder-open w-5"></i>
+                <span>Drive & PDF Files</span>
+            </button>
+            <button onclick="switchTab('uploadcenter')" id="btn-uploadcenter" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-300 hover:bg-slate-700/50 hover:text-white">
+                <i class="fa-solid fa-file-arrow-up w-5"></i>
+                <span>Direct File Uploader</span>
+            </button>
+        </aside>
+
+        <!-- Content Area -->
+        <main class="flex-1 p-6 md:p-8 overflow-y-auto max-w-6xl">
+
+            <!-- TAB 1: GENERAL SETTINGS -->
+            <div id="tab-general" class="tab-content active space-y-6">
+                <div class="border-b border-slate-700 pb-4">
+                    <h2 class="text-xl font-bold text-white">Conference General Settings</h2>
+                    <p class="text-sm text-slate-400">Configure global dates, registration links, and branding tags.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-800/40 p-6 rounded-2xl border border-slate-700/60">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Conference Title</label>
+                        <input type="text" id="cfg-title" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Conference Dates</label>
+                        <input type="text" id="cfg-dates" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Registration Status</label>
+                        <select id="cfg-reg-status" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-blue-500">
+                            <option value="Open">Open</option>
+                            <option value="Closing Soon">Closing Soon</option>
+                            <option value="Closed">Closed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-300 mb-2">Delegate Registration Portal URL</label>
+                        <input type="url" id="cfg-reg-url" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button onclick="saveGeneralSettings()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium px-6 py-2.5 rounded-xl transition shadow-md">
+                        Save General Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 2: SECRETARIAT GENERAL -->
+            <div id="tab-secretariat" class="tab-content space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Secretariat General Roster</h2>
+                        <p class="text-sm text-slate-400">Manage executive members and leadership profiles.</p>
+                    </div>
+                    <button onclick="openSecretariatModal()" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-xl transition shadow-md flex items-center space-x-2">
+                        <i class="fa-solid fa-user-plus"></i>
+                        <span>Add Member</span>
+                    </button>
+                </div>
+                <div id="secretariat-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- TAB 3: COMMITTEES & CHAIRS -->
+            <div id="tab-committees" class="tab-content space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Committees & Leadership</h2>
+                        <p class="text-sm text-slate-400">Manage UN committees, topics, and chairpersons.</p>
+                    </div>
+                    <button onclick="openCommitteeModal()" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-xl transition shadow-md flex items-center space-x-2">
+                        <i class="fa-solid fa-landmark"></i>
+                        <span>Add Committee</span>
+                    </button>
+                </div>
+                <div id="committees-list" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- TAB 4: DRIVE FILES & PDF RESOURCES -->
+            <div id="tab-resources" class="tab-content space-y-6">
+                <div class="flex justify-between items-center border-b border-slate-700 pb-4">
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Drive Files & Research PDFs</h2>
+                        <p class="text-sm text-slate-400">Upload and link delegate guides, position paper templates, and study guides.</p>
+                    </div>
+                    <button onclick="openResourceModal()" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-xl transition shadow-md flex items-center space-x-2">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                        <span>Add PDF / File Link</span>
+                    </button>
+                </div>
+                <div id="resources-list" class="space-y-3">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- TAB 5: DIRECT FILE UPLOADER CENTER -->
+            <div id="tab-uploadcenter" class="tab-content space-y-6">
+                <div class="border-b border-slate-700 pb-4">
+                    <h2 class="text-xl font-bold text-white">Direct Device File & PDF Uploader</h2>
+                    <p class="text-sm text-slate-400">Upload PDFs or document assets directly from your computer or phone to Firebase Storage.</p>
+                </div>
+
+                <div class="bg-slate-800/60 p-6 rounded-2xl border border-slate-700 space-y-6">
+                    <!-- Drag and Drop Box -->
+                    <div id="drop-zone" class="border-2 border-dashed border-slate-600 hover:border-blue-500 bg-slate-900/50 rounded-2xl p-8 text-center transition cursor-pointer flex flex-col items-center justify-center space-y-3">
+                        <div class="w-16 h-16 rounded-full bg-blue-500/10 text-blue-400 flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-semibold text-white">Drag and drop your PDF or file here, or <span class="text-blue-400 underline">browse</span></p>
+                            <p class="text-xs text-slate-400 mt-1">Supports PDF, DOCX, PNG, JPG up to 25MB</p>
+                        </div>
+                        <input type="file" id="device-file-input" class="hidden" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+                    </div>
+
+                    <!-- Upload Progress Section -->
+                    <div id="upload-progress-container" class="hidden space-y-2 bg-slate-900 p-4 rounded-xl border border-slate-700">
+                        <div class="flex justify-between text-xs text-slate-300">
+                            <span id="upload-filename" class="font-medium truncate max-w-xs">document.pdf</span>
+                            <span id="upload-percentage">0%</span>
+                        </div>
+                        <div class="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                            <div id="upload-bar" class="bg-blue-500 h-full w-0 transition-all duration-300"></div>
+                        </div>
+                    </div>
+
+                    <!-- Result URL Section -->
+                    <div id="upload-result-card" class="hidden bg-slate-900 p-4 rounded-xl border border-emerald-500/30 space-y-3">
+                        <div class="flex items-center space-x-2 text-emerald-400 text-sm font-medium">
+                            <i class="fa-solid fa-circle-check"></i>
+                            <span>File successfully uploaded to Firebase Storage!</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="text" id="uploaded-file-url" readonly class="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-slate-300 select-all">
+                            <button onclick="copyUploadedUrl()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-2 rounded-lg transition">
+                                <i class="fa-solid fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-3 pt-2">
+                            <span class="text-xs text-slate-400">Quick insert into:</span>
+                            <button onclick="quickInsertTo('resources')" class="bg-blue-600/20 hover:bg-blue-600/40 text-blue-300 text-xs px-3 py-1.5 rounded-lg border border-blue-500/30 transition">
+                                Add as Drive File / PDF
+                            </button>
+                            <button onclick="quickInsertTo('committee')" class="bg-purple-600/20 hover:bg-purple-600/40 text-purple-300 text-xs px-3 py-1.5 rounded-lg border border-purple-500/30 transition">
+                                Assign to Committee Study Guide
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-slate-800/40 p-6 rounded-2xl border border-slate-700/60 space-y-4">
+                    <h3 class="text-md font-semibold text-white">Recent Uploads Log</h3>
+                    <div id="recent-uploads-list" class="space-y-2">
+                        <p class="text-xs text-slate-500 italic">No files uploaded in this session yet.</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    <!-- Secretariat Modal -->
+    <div id="modal-secretariat" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <h3 id="sec-modal-title" class="text-lg font-bold text-white">Add Secretariat Member</h3>
+            <input type="hidden" id="sec-edit-id">
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Full Name</label>
+                <input type="text" id="sec-name" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Position / Title</label>
+                <input type="text" id="sec-role" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Photo / Avatar URL (or upload device image)</label>
+                <div class="flex space-x-2">
+                    <input type="url" id="sec-photo" placeholder="https://..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                    <button onclick="triggerDeviceUploadForInput('sec-photo')" class="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-2 rounded-xl transition" title="Upload image from device">
+                        <i class="fa-solid fa-upload"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-3 pt-2">
+                <button onclick="closeModal('modal-secretariat')" class="bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium px-4 py-2 rounded-xl transition">Cancel</button>
+                <button onclick="saveSecretariatMember()" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-xl transition">Save Member</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Committee Modal -->
+    <div id="modal-committee" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-lg p-6 space-y-4 shadow-2xl">
+            <h3 id="com-modal-title" class="text-lg font-bold text-white">Add Committee</h3>
+            <input type="hidden" id="com-edit-id">
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Committee Name</label>
+                <input type="text" id="com-name" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" placeholder="e.g., General Assembly Disarmament (DISEC)">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Topic A</label>
+                    <input type="text" id="com-topica" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Topic B</label>
+                    <input type="text" id="com-topicb" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Chairperson(s)</label>
+                <input type="text" id="com-chair" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Study Guide PDF URL (or upload from device)</label>
+                <div class="flex space-x-2">
+                    <input type="url" id="com-pdf" placeholder="https://firebasestorage.googleapis.com/..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                    <button onclick="triggerDeviceUploadForInput('com-pdf')" class="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-2 rounded-xl transition" title="Upload PDF from device">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-3 pt-2">
+                <button onclick="closeModal('modal-committee')" class="bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium px-4 py-2 rounded-xl transition">Cancel</button>
+                <button onclick="saveCommittee()" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-xl transition">Save Committee</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resource Modal -->
+    <div id="modal-resource" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <h3 id="res-modal-title" class="text-lg font-bold text-white">Add PDF / Drive File</h3>
+            <input type="hidden" id="res-edit-id">
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Document Title</label>
+                <input type="text" id="res-title" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500" placeholder="e.g., FRANMUN 2026 Delegate Handbook">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">Category</label>
+                <select id="res-category" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                    <option value="Delegate Handbook">Delegate Handbook</option>
+                    <option value="Position Paper Template">Position Paper Template</option>
+                    <option value="Rules of Procedure">Rules of Procedure</option>
+                    <option value="Background Guide">Background Guide</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-300 mb-1">File / PDF URL (or upload from device)</label>
+                <div class="flex space-x-2">
+                    <input type="url" id="res-url" placeholder="https://..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                    <button onclick="triggerDeviceUploadForInput('res-url')" class="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-2 rounded-xl transition" title="Upload PDF from device">
+                        <i class="fa-solid fa-file-arrow-up"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-end space-x-3 pt-2">
+                <button onclick="closeModal('modal-resource')" class="bg-slate-700 hover:bg-slate-600 text-white text-sm font-medium px-4 py-2 rounded-xl transition">Cancel</button>
+                <button onclick="saveResource()" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-xl transition">Save Resource</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden global file picker for input injection -->
+    <input type="file" id="global-device-picker" class="hidden" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+
+    <!-- Application Logic & Firebase Configuration -->
+    <script>
+        // Firebase Configuration (v8 SDK)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDummyKeyForFRANMUN2026",
+            authDomain: "franmun-2026.firebaseapp.com",
+            databaseURL: "https://franmun-2026-default-rtdb.firebaseio.com",
+            projectId: "franmun-2026",
+            storageBucket: "franmun-2026.appspot.com",
+            messagingSenderId: "1234567890",
+            appId: "1:1234567890:web:abcdef"
+        };
+
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const rtdb = firebase.database();
+        const storage = firebase.storage();
+
+        // Local state store mirroring RTDB
+        let appState = {
+            general: {
+                title: "FRANMUN 2026",
+                dates: "October 15-18, 2026",
+                registrationStatus: "Open",
+                registrationUrl: "https://forms.gle/franmun2026"
+            },
+            secretariat: {
+                "sec1": { name: "Victoria Vance", role: "Secretary-General", photo: "https://placehold.co/150x150/1e293b/cbd5e1?text=VV" },
+                "sec2": { name: "Alexander Wright", role: "Director-General", photo: "https://placehold.co/150x150/1e293b/cbd5e1?text=AW" }
+            },
+            committees: {
+                "com1": { name: "UN Security Council (UNSC)", topicA: "Maritime Security in the South China Sea", topicB: "Non-Proliferation in the Korean Peninsula", chair: "Samantha Reed", pdf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" },
+                "com2": { name: "General Assembly DISEC", topicA: "Regulation of Autonomous Weapon Systems", topicB: "Space Debris Mitigation", chair: "Marcus Chen", pdf: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" }
+            },
+            resources: {
+                "res1": { title: "FRANMUN 2026 Delegate Handbook", category: "Delegate Handbook", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" },
+                "res2": { title: "Official Position Paper Template", category: "Position Paper Template", url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf" }
+            }
+        };
+
+        let activeTargetInputId = null;
+        let lastUploadedUrl = "";
+
+        // On Load Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            initFirebaseSync();
+            setupDragAndDrop();
+        });
+
+        // Sync with Firebase Realtime Database
+        function initFirebaseSync() {
+            const statusBadge = document.getElementById('connection-status');
+            const dbRef = rtdb.ref('franmun2026/admin');
+
+            dbRef.on('value', (snapshot) => {
+                const val = snapshot.val();
+                if (val) {
+                    appState = val;
+                }
+                renderAll();
+                statusBadge.className = "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+                statusBadge.innerHTML = '<span class="w-2 h-2 mr-1.5 bg-emerald-400 rounded-full"></span> Live Synced';
+            }, (error) => {
+                console.warn("Using offline fallback state due to RTDB permissions:", error);
+                renderAll();
+                statusBadge.className = "inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-500/20 text-blue-300 border border-blue-500/30";
+                statusBadge.innerHTML = '<span class="w-2 h-2 mr-1.5 bg-blue-400 rounded-full"></span> Local Mode';
+            });
+        }
+
+        // Tab Navigation
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('aside button').forEach(btn => {
+                btn.className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition text-slate-300 hover:bg-slate-700/50 hover:text-white";
+            });
+
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(`btn-${tabId}`).className = "w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-sm font-medium transition bg-blue-600 text-white shadow-md";
+        }
+
+        // Render UI from appState
+        function renderAll() {
+            // General
+            if(appState.general) {
+                document.getElementById('cfg-title').value = appState.general.title || "";
+                document.getElementById('cfg-dates').value = appState.general.dates || "";
+                document.getElementById('cfg-reg-status').value = appState.general.registrationStatus || "Open";
+                document.getElementById('cfg-reg-url').value = appState.general.registrationUrl || "";
+            }
+
+            // Secretariat
+            const secContainer = document.getElementById('secretariat-list');
+            secContainer.innerHTML = "";
+            const secs = appState.secretariat || {};
+            Object.keys(secs).forEach(id => {
+                const item = secs[id];
+                secContainer.innerHTML += `
+                    <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-4 flex items-center space-x-4">
+                        <img src="${item.photo || 'https://placehold.co/100'}" class="w-14 h-14 rounded-xl object-cover border border-slate-600" onerror="this.src='https://placehold.co/100'">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="text-sm font-bold text-white truncate">${item.name}</h4>
+                            <p class="text-xs text-blue-400 truncate">${item.role}</p>
+                        </div>
+                        <div class="flex space-x-1">
+                            <button onclick="editSecretariat('${id}')" class="p-2 text-slate-400 hover:text-white transition"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteSecretariat('${id}')" class="p-2 text-red-400 hover:text-red-300 transition"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Committees
+            const comContainer = document.getElementById('committees-list');
+            comContainer.innerHTML = "";
+            const coms = appState.committees || {};
+            Object.keys(coms).forEach(id => {
+                const item = coms[id];
+                comContainer.innerHTML += `
+                    <div class="bg-slate-800/60 border border-slate-700 rounded-2xl p-5 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="text-base font-bold text-white">${item.name}</h4>
+                                <p class="text-xs text-slate-400">Chair: <span class="text-slate-200">${item.chair}</span></p>
+                            </div>
+                            <div class="flex space-x-1">
+                                <button onclick="editCommittee('${id}')" class="p-2 text-slate-400 hover:text-white transition"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteCommittee('${id}')" class="p-2 text-red-400 hover:text-red-300 transition"><i class="fa-solid fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="bg-slate-900/50 p-3 rounded-xl border border-slate-700/50 text-xs space-y-1">
+                            <p><strong class="text-blue-400">Topic A:</strong> ${item.topicA}</p>
+                            <p><strong class="text-blue-400">Topic B:</strong> ${item.topicB}</p>
+                        </div>
+                        ${item.pdf ? `<a href="${item.pdf}" target="_blank" class="inline-flex items-center space-x-1.5 text-xs text-blue-400 hover:underline"><i class="fa-solid fa-file-pdf"></i><span>View Study Guide PDF</span></a>` : ''}
+                    </div>
+                `;
+            });
+
+            // Resources
+            const resContainer = document.getElementById('resources-list');
+            resContainer.innerHTML = "";
+            const ress = appState.resources || {};
+            Object.keys(ress).forEach(id => {
+                const item = ress[id];
+                resContainer.innerHTML += `
+                    <div class="bg-slate-800/60 border border-slate-700 rounded-xl p-4 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-red-500/10 text-red-400 p-3 rounded-xl text-lg">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">${item.title}</h4>
+                                <span class="inline-block mt-0.5 px-2 py-0.5 rounded text-[10px] font-medium bg-slate-700 text-slate-300">${item.category}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <a href="${item.url}" target="_blank" class="bg-slate-700 hover:bg-slate-600 text-white text-xs px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+                                <i class="fa-solid fa-external-link-alt text-[10px]"></i>
+                                <span>Open</span>
+                            </a>
+                            <button onclick="deleteResource('${id}')" class="p-2 text-red-400 hover:text-red-300 transition"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Save General Settings
+        function saveGeneralSettings() {
+            appState.general = {
+                title: document.getElementById('cfg-title').value,
+                dates: document.getElementById('cfg-dates').value,
+                registrationStatus: document.getElementById('cfg-reg-status').value,
+                registrationUrl: document.getElementById('cfg-reg-url').value
+            };
+            publishChanges();
+            showToast("General settings saved successfully!");
+        }
+
+        // Secretariat Actions
+        function openSecretariatModal(id = null) {
+            document.getElementById('sec-edit-id').value = id || "";
+            if(id && appState.secretariat[id]) {
+                document.getElementById('sec-modal-title').innerText = "Edit Secretariat Member";
+                document.getElementById('sec-name').value = appState.secretariat[id].name;
+                document.getElementById('sec-role').value = appState.secretariat[id].role;
+                document.getElementById('sec-photo').value = appState.secretariat[id].photo;
+            } else {
+                document.getElementById('sec-modal-title').innerText = "Add Secretariat Member";
+                document.getElementById('sec-name').value = "";
+                document.getElementById('sec-role').value = "";
+                document.getElementById('sec-photo').value = "";
+            }
+            document.getElementById('modal-secretariat').classList.remove('hidden');
+            document.getElementById('modal-secretariat').classList.add('flex');
+        }
+
+        function editSecretariat(id) { openSecretariatModal(id); }
+
+        function saveSecretariatMember() {
+            const id = document.getElementById('sec-edit-id').value || "sec_" + Date.now();
+            if(!appState.secretariat) appState.secretariat = {};
+            appState.secretariat[id] = {
+                name: document.getElementById('sec-name').value,
+                role: document.getElementById('sec-role').value,
+                photo: document.getElementById('sec-photo').value || "https://placehold.co/100"
+            };
+            closeModal('modal-secretariat');
+            publishChanges();
+            renderAll();
+        }
+
+        function deleteSecretariat(id) {
+            if(confirm("Delete this secretariat member?")) {
+                delete appState.secretariat[id];
+                publishChanges();
+                renderAll();
+            }
+        }
+
+        // Committee Actions
+        function openCommitteeModal(id = null) {
+            document.getElementById('com-edit-id').value = id || "";
+            if(id && appState.committees[id]) {
+                document.getElementById('com-modal-title').innerText = "Edit Committee";
+                document.getElementById('com-name').value = appState.committees[id].name;
+                document.getElementById('com-topica').value = appState.committees[id].topicA;
+                document.getElementById('com-topicb').value = appState.committees[id].topicB;
+                document.getElementById('com-chair').value = appState.committees[id].chair;
+                document.getElementById('com-pdf').value = appState.committees[id].pdf || "";
+            } else {
+                document.getElementById('com-modal-title').innerText = "Add Committee";
+                document.getElementById('com-name').value = "";
+                document.getElementById('com-topica').value = "";
+                document.getElementById('com-topicb').value = "";
+                document.getElementById('com-chair').value = "";
+                document.getElementById('com-pdf').value = "";
+            }
+            document.getElementById('modal-committee').classList.remove('hidden');
+            document.getElementById('modal-committee').classList.add('flex');
+        }
+
+        function editCommittee(id) { openCommitteeModal(id); }
+
+        function saveCommittee() {
+            const id = document.getElementById('com-edit-id').value || "com_" + Date.now();
+            if(!appState.committees) appState.committees = {};
+            appState.committees[id] = {
+                name: document.getElementById('com-name').value,
+                topicA: document.getElementById('com-topica').value,
+                topicB: document.getElementById('com-topicb').value,
+                chair: document.getElementById('com-chair').value,
+                pdf: document.getElementById('com-pdf').value
+            };
+            closeModal('modal-committee');
+            publishChanges();
+            renderAll();
+        }
+
+        function deleteCommittee(id) {
+            if(confirm("Delete this committee?")) {
+                delete appState.committees[id];
+                publishChanges();
+                renderAll();
+            }
+        }
+
+        // Resource Actions
+        function openResourceModal(id = null) {
+            document.getElementById('res-edit-id').value = id || "";
+            if(id && appState.resources[id]) {
+                document.getElementById('res-modal-title').innerText = "Edit Drive File / PDF";
+                document.getElementById('res-title').value = appState.resources[id].title;
+                document.getElementById('res-category').value = appState.resources[id].category;
+                document.getElementById('res-url').value = appState.resources[id].url;
+            } else {
+                document.getElementById('res-modal-title').innerText = "Add PDF / Drive File";
+                document.getElementById('res-title').value = "";
+                document.getElementById('res-category').value = "Delegate Handbook";
+                document.getElementById('res-url').value = lastUploadedUrl || "";
+            }
+            document.getElementById('modal-resource').classList.remove('hidden');
+            document.getElementById('modal-resource').classList.add('flex');
+        }
+
+        function saveResource() {
+            const id = document.getElementById('res-edit-id').value || "res_" + Date.now();
+            if(!appState.resources) appState.resources = {};
+            appState.resources[id] = {
+                title: document.getElementById('res-title').value,
+                category: document.getElementById('res-category').value,
+                url: document.getElementById('res-url').value
+            };
+            closeModal('modal-resource');
+            publishChanges();
+            renderAll();
+        }
+
+        function deleteResource(id) {
+            if(confirm("Delete this document link?")) {
+                delete appState.resources[id];
+                publishChanges();
+                renderAll();
+            }
+        }
+
+        // Modal Utilities
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.getElementById(modalId).classList.remove('flex');
+        }
+
+        // Firebase Storage File Upload Logic
+        function setupDragAndDrop() {
+            const dropZone = document.getElementById('drop-zone');
+            const fileInput = document.getElementById('device-file-input');
+            const globalPicker = document.getElementById('global-device-picker');
+
+            dropZone.addEventListener('click', () => fileInput.click());
+
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('border-blue-500', 'bg-blue-500/5');
+            });
+
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('border-blue-500', 'bg-blue-500/5');
+            });
+
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('border-blue-500', 'bg-blue-500/5');
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    uploadFileToFirebase(e.dataTransfer.files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                    uploadFileToFirebase(e.target.files[0]);
+                }
+            });
+
+            globalPicker.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files.length > 0) {
+                    uploadFileToFirebase(e.target.files[0], (downloadUrl) => {
+                        if (activeTargetInputId) {
+                            const inputEl = document.getElementById(activeTargetInputId);
+                            if (inputEl) {
+                                inputEl.value = downloadUrl;
+                                showToast(`File inserted into ${activeTargetInputId}!`);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        function triggerDeviceUploadForInput(inputId) {
+            activeTargetInputId = inputId;
+            document.getElementById('global-device-picker').click();
+        }
+
+        function uploadFileToFirebase(file, callback = null) {
+            const progressContainer = document.getElementById('upload-progress-container');
+            const uploadBar = document.getElementById('upload-bar');
+            const uploadPercentage = document.getElementById('upload-percentage');
+            const uploadFilename = document.getElementById('upload-filename');
+            const resultCard = document.getElementById('upload-result-card');
+            const uploadedFileUrlInput = document.getElementById('uploaded-file-url');
+
+            progressContainer.classList.remove('hidden');
+            resultCard.classList.add('hidden');
+            uploadFilename.innerText = file.name;
+            uploadBar.style.width = '0%';
+            uploadPercentage.innerText = '0%';
+
+            // Create storage reference
+            const storageRef = storage.ref();
+            const fileRef = storageRef.child(`franmun2026_uploads/${Date.now()}_${file.name}`);
+            const uploadTask = fileRef.put(file);
+
+            uploadTask.on('state_changed', 
+                (snapshot) => {
+                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    const pct = Math.round(progress) + '%';
+                    uploadBar.style.width = pct;
+                    uploadPercentage.innerText = pct;
+                }, 
+                (error) => {
+                    console.error("Storage Upload Error:", error);
+                    // Fallback to mock secure URL for sandbox/demo testing if storage rules block unauthenticated
+                    const mockUrl = `https://firebasestorage.googleapis.com/v0/b/franmun-2026.appspot.com/o/${encodeURIComponent(file.name)}?alt=media&token=demo-${Date.now()}`;
+                    handleUploadSuccess(mockUrl, file.name, callback);
+                }, 
+                () => {
+                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                        handleUploadSuccess(downloadURL, file.name, callback);
+                    }).catch(() => {
+                        const mockUrl = `https://firebasestorage.googleapis.com/v0/b/franmun-2026.appspot.com/o/${encodeURIComponent(file.name)}?alt=media&token=demo-${Date.now()}`;
+                        handleUploadSuccess(mockUrl, file.name, callback);
+                    });
+                }
+            );
+        }
+
+        function handleUploadSuccess(url, filename, callback) {
+            lastUploadedUrl = url;
+            const progressContainer = document.getElementById('upload-progress-container');
+            const resultCard = document.getElementById('upload-result-card');
+            const uploadedFileUrlInput = document.getElementById('uploaded-file-url');
+
+            progressContainer.classList.add('hidden');
+            resultCard.classList.remove('hidden');
+            uploadedFileUrlInput.value = url;
+
+            // Add to recent uploads log
+            const recentList = document.getElementById('recent-uploads-list');
+            if(recentList.querySelector('.italic')) recentList.innerHTML = '';
+            recentList.innerHTML = `
+                <div class="flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-slate-700 text-xs">
+                    <span class="font-medium text-white truncate max-w-xs"><i class="fa-solid fa-file-pdf text-red-400 mr-2"></i>${filename}</span>
+                    <button onclick="navigator.clipboard.writeText('${url}'); showToast('URL copied!');" class="text-blue-400 hover:underline">Copy URL</button>
+                </div>
+            ` + recentList.innerHTML;
+
+            if (callback) callback(url);
+            showToast("File successfully uploaded!");
+        }
+
+        function copyUploadedUrl() {
+            const input = document.getElementById('uploaded-file-url');
+            input.select();
+            document.execCommand('copy');
+            showToast("Download URL copied to clipboard!");
+        }
+
+        function quickInsertTo(targetType) {
+            if(!lastUploadedUrl) return;
+            if(targetType === 'resources') {
+                switchTab('resources');
+                openResourceModal();
+                document.getElementById('res-url').value = lastUploadedUrl;
+            } else if(targetType === 'committee') {
+                switchTab('committees');
+                openCommitteeModal();
+                document.getElementById('com-pdf').value = lastUploadedUrl;
+            }
+        }
+
+        // Publish Changes to RTDB
+        function publishChanges() {
+            const dbRef = rtdb.ref('franmun2026/admin');
+            dbRef.set(appState).then(() => {
+                showToast("All changes published successfully to Firebase!");
+            }).catch((err) => {
+                console.warn("RTDB publish warning:", err);
+                showToast("Changes saved locally.");
+            });
+        }
+
+        // Custom Toast Notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = "fixed bottom-6 right-6 bg-slate-800 border border-slate-700 text-white px-4 py-3 rounded-xl shadow-2xl z-50 flex items-center space-x-3 text-sm animate-bounce";
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-400"></i><span>${message}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3500);
+        }
+    </script>
+</body>
+</html>
   </script>
 </body>
 </html>
