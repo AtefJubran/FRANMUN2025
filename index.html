@@ -37,10 +37,13 @@
         "url": "https://franmun.org/",
         "logo": {
           "@type": "ImageObject",
+          "@id": "https://franmun.org/#logo",
           "url": "https://franmun.org/logo.jpeg.JPG",
           "caption": "Franciscan Sister's School Logo"
         },
-        "email": "franmun2025@gmail.com",
+        "image": {
+          "@id": "https://franmun.org/#logo"
+        },
         "sameAs": [
           "https://www.instagram.com/franciscan_munners"
         ]
@@ -50,23 +53,14 @@
         "@id": "https://franmun.org/#website",
         "url": "https://franmun.org/",
         "name": "FRANMUN 2026",
-        "description": "First Annual Model United Nations Conference at Franciscan Sister's School Nazareth",
         "publisher": {
           "@id": "https://franmun.org/#organization"
-        },
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": "https://franmun.org/?s={search_term_string}"
-          },
-          "query-input": "required name=search_term_string"
         }
       }
     ]
   }
   </script>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -410,22 +404,6 @@
       }
     }
 
-    .profiles-grid-container.center-few {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 24px;
-    }
-    .profiles-grid-container.center-few > .profile-card-item {
-      width: 100%;
-      max-width: 320px;
-    }
-    @media (min-width: 768px) {
-      .profiles-grid-container.center-few > .profile-card-item {
-        width: calc(50% - 12px);
-      }
-    }
-
     .profile-card-item {
       display: flex;
       flex-direction: column;
@@ -728,6 +706,9 @@
         </div>
 
         <div class="official-section" style="text-align: center; margin-bottom: 24px;">
+          <!-- Rules of Procedure Button at the TOP of the committee content section -->
+          <div id="committeeTopRopContainer" style="margin-bottom: 20px; display: flex; justify-content: center;"></div>
+
           <h2 id="detailCommitteeTitle" style="font-family: var(--font-heading); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; color: var(--text-dark); letter-spacing: 0.05em; margin-bottom: 20px;">Committee Name</h2>
           
           <div style="font-size: 12px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 8px;">Research Report &amp; Topics</div>
@@ -742,7 +723,7 @@
           </div>
 
           <div style="margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 14px;">
-            <a id="detailReportLink" href="#" target="_blank" class="button" style="max-width: 290px;" rel="noopener">Access Full Research Report &rarr;</a>
+            <div id="researchReportDetailContainer" style="width: 100%; display: flex; justify-content: center;"></div>
             <div id="countryMatrixDetailContainer" style="width: 100%; display: flex; justify-content: center;"></div>
           </div>
         </div>
@@ -869,6 +850,72 @@
       }
     });
 
+    function openCommitteePage(commKey) {
+      const commData = (appData.committees && appData.committees[commKey]) ? appData.committees[commKey] : {};
+      
+      document.getElementById("detailCommitteeTitle").textContent = commData.name || commKey;
+      document.getElementById("detailTopicsText").textContent = commData.topics || "Agendas and topics will be announced shortly.";
+      
+      // Render TOP ROP Button
+      const topRopContainer = document.getElementById("committeeTopRopContainer");
+      const ropVal = commData.ropFile || commData.ropLink || appData.globalRopFile || appData.globalRopLink || "#";
+      if (ropVal && ropVal !== "#") {
+        if (ropVal.startsWith("data:")) {
+          topRopContainer.innerHTML = `<a href="${ropVal}" download="${commKey}_ROP.pdf" class="button" style="max-width: 290px; background: var(--accent-gold);">Download Rules of Procedure (ROP) &darr;</a>`;
+        } else {
+          topRopContainer.innerHTML = `<a href="${ropVal}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 290px; background: var(--accent-gold);">View Rules of Procedure (ROP) &rarr;</a>`;
+        }
+      } else {
+        topRopContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">ROP Pending Release</a>`;
+      }
+
+      // Render Research Report button/file
+      const reportContainer = document.getElementById("researchReportDetailContainer");
+      const reportVal = commData.reportFile || commData.reportLink || "";
+      if (reportVal) {
+        if (reportVal.startsWith("data:")) {
+          reportContainer.innerHTML = `<a href="${reportVal}" download="${commKey}_Research_Report.pdf" class="button" style="max-width: 290px;">Download Research Report &darr;</a>`;
+        } else {
+          reportContainer.innerHTML = `<a href="${reportVal}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 290px;">Access Full Research Report &rarr;</a>`;
+        }
+      } else {
+        reportContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Research Report Pending</a>`;
+      }
+
+      // Render Country Matrix button/file
+      const matrixContainer = document.getElementById("countryMatrixDetailContainer");
+      const matrixVal = commData.matrixFile || commData.matrixLink || "";
+      if (matrixVal) {
+        if (matrixVal.startsWith("data:")) {
+          matrixContainer.innerHTML = `<a href="${matrixVal}" download="${commKey}_Country_Matrix.pdf" class="button" style="max-width: 290px; background: var(--accent-gold);">Download Country Matrix &darr;</a>`;
+        } else {
+          matrixContainer.innerHTML = `<a href="${matrixVal}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 290px; background: var(--accent-gold);">Access Country Matrix &rarr;</a>`;
+        }
+      } else {
+        matrixContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
+      }
+
+      // Render Chairs
+      const chairsContainer = document.getElementById("detailChairsContainer");
+      if (commData.chairs && Array.isArray(commData.chairs) && commData.chairs.length > 0) {
+        let chairsHtml = "";
+        commData.chairs.forEach(chair => {
+          chairsHtml += `
+            <div class="profile-card-item">
+              <img src="${chair.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
+              <div class="profile-name">${chair.name || ''}</div>
+              <div class="profile-role">${chair.role || 'Committee Chair'}</div>
+              <div class="profile-bio">${chair.bio || 'Biography pending release.'}</div>
+            </div>`;
+        });
+        chairsContainer.innerHTML = chairsHtml;
+      } else {
+        chairsContainer.innerHTML = `<div style="grid-column: 1 / -1; text-align: center;"><p style="color: var(--text-muted);">Chair announcements coming soon.</p></div>`;
+      }
+
+      switchPage('committee-detail');
+    }
+
     function renderTeamPage() {
       const container = document.getElementById("teamPageContainer");
       if (!container) return;
@@ -936,162 +983,18 @@
       container.innerHTML = html;
     }
 
-    function openCommitteePage(committeeName) {
-      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active-page'));
-      document.getElementById('page-committee-detail').classList.add('active-page');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      document.getElementById("detailCommitteeTitle").innerText = committeeName;
-
-      const topicsText = document.getElementById("detailTopicsText");
-      const stampContainer = document.getElementById("detailComingSoonStamp");
-      const reportLink = document.getElementById("detailReportLink");
-      const matrixDetailContainer = document.getElementById("countryMatrixDetailContainer");
-      const chairsContainer = document.getElementById("detailChairsContainer");
-      const chairHeading = document.getElementById("chairSectionHeading");
-
-      chairsContainer.innerHTML = `<div style="grid-column: 1 / -1;"><div class="spinner"></div></div>`;
-
-      const githubRepoUrl = "https://raw.githubusercontent.com/AtefJubran/FRANMUN2025/main/";
-
-      const localCommitteeReports = {
-        "UNICEF": githubRepoUrl + encodeURIComponent("unicef research report.pdf"),
-        "UNWOMEN": githubRepoUrl + encodeURIComponent("UNWOMEN Research Report.pdf"),
-        "UNHRC": githubRepoUrl + encodeURIComponent("Human Rights .pdf"),
-        "DISEC": githubRepoUrl + encodeURIComponent("DISEC research report.pdf"),
-        "WHO": githubRepoUrl + encodeURIComponent("WHO Research Report .pdf"),
-        "UNHSC": githubRepoUrl + encodeURIComponent("HSC research report.pdf"),
-        "CRISIS": githubRepoUrl + encodeURIComponent("CRISIS SEARCH REPORT.pdf")
-      };
-
-      if (appData && appData.committees && appData.committees[committeeName]) {
-        const data = appData.committees[committeeName];
-
-        // Handle Individual Matrix Visibility
-        const matrixUrl = appData.countryMatrixPdf || "";
-        const isMatrixLocked = !!appData.countryMatrixLocked || !!data.hideMatrix;
-        if (!isMatrixLocked && matrixUrl !== "") {
-          matrixDetailContainer.innerHTML = `<a href="${matrixUrl}" target="_blank" rel="noopener noreferrer" class="button" style="max-width: 290px;">Country Matrix &rarr;</a>`;
-        } else {
-          matrixDetailContainer.innerHTML = `<a href="#" class="button" style="max-width: 290px; background: rgba(29,107,158,0.08); border: 1px solid rgba(29,107,158,0.2); color: var(--text-muted); cursor: not-allowed;" onclick="event.preventDefault();">Country Matrix Pending</a>`;
-        }
-
-        // Handle Individual Research Report Visibility
-        if (data.hideReport) {
-          reportLink.style.display = "none";
-        } else {
-          reportLink.style.display = "inline-flex";
-          const firebaseReport = data.report;
-          reportLink.href = firebaseReport || localCommitteeReports[committeeName] || "#";
-        }
-
-        if (appData.committeesComingSoon === true) {
-          topicsText.style.display = "none";
-          stampContainer.style.display = "block";
-          chairsContainer.className = "profiles-grid-container";
-          chairsContainer.innerHTML = "";
-          return;
-        }
-
-        topicsText.style.display = "block";
-        stampContainer.style.display = "none";
-        topicsText.innerText = data.topics || "Agenda details pending...";
-
-        // Handle Individual Chairs Visibility
-        if (data.hideChairs) {
-          chairSectionHeading.parentElement.style.display = "none";
-          return;
-        } else {
-          chairSectionHeading.parentElement.style.display = "block";
-        }
-
-        if (committeeName === "CRISIS") {
-          chairHeading.innerText = "Chairs";
-          chairsContainer.className = "profiles-grid-container center-few";
-          let html = "";
-          
-          html += `<div style="grid-column: 1 / -1; width: 100%; font-family: var(--font-heading); font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 16px; letter-spacing: 0.15em; margin-bottom: 8px; text-align: center;">Front Room Chair</div>`;
-          if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
-            data.chairs.forEach(chair => {
-              html += `
-                <div class="profile-card-item">
-                  <img src="${chair.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="profile-name">${chair.name || 'Chair'}</div>
-                  <div class="profile-role">Front Room Chair</div>
-                  <div class="profile-bio">${chair.bio || 'Biography pending release.'}</div>
-                </div>`;
-            });
-          } else {
-            html += `<p style="font-size:13.5px; color:var(--text-muted); width: 100%; text-align: center;">Front room leadership pending.</p>`;
-          }
-
-          html += `<div style="grid-column: 1 / -1; width: 100%; font-family: var(--font-heading); font-weight: 700; color: var(--accent-blue); text-transform: uppercase; font-size: 16px; letter-spacing: 0.15em; margin-top: 30px; margin-bottom: 8px; text-align: center;">Backroom Chairs</div>`;
-          if (data.backroom && Array.isArray(data.backroom) && data.backroom.length > 0) {
-            data.backroom.forEach(bChair => {
-              html += `
-                <div class="profile-card-item">
-                  <img src="${bChair.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${bChair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="profile-name">${bChair.name || 'Chair'}</div>
-                  <div class="profile-role">Backroom Chair</div>
-                  <div class="profile-bio">${bChair.bio || 'Biography pending release.'}</div>
-                </div>`;
-            });
-          } else {
-            html += `<p style="font-size:13.5px; color:var(--text-muted); width: 100%; text-align: center;">Backroom leadership pending.</p>`;
-          }
-          chairsContainer.innerHTML = html;
-
-        } else {
-          chairHeading.innerText = "Chairs";
-          chairsContainer.className = "profiles-grid-container";
-          let html = "";
-          if (data.chairs && Array.isArray(data.chairs) && data.chairs.length > 0) {
-            data.chairs.forEach(chair => {
-              html += `
-                <div class="profile-card-item">
-                  <img src="${chair.img || 'logo.jpeg.JPG'}" class="profile-square-img" alt="${chair.name || 'Chair'}" onerror="this.src='logo.jpeg.JPG'">
-                  <div class="profile-name">${chair.name || 'Chair'}</div>
-                  <div class="profile-role">Committee Chair</div>
-                  <div class="profile-bio">${chair.bio || 'Biography pending release.'}</div>
-                </div>`;
-            });
-          } else {
-            html += `<p style="font-size:13.5px; color:var(--text-muted); grid-column: 1 / -1; text-align: center;">Leadership announcement pending.</p>`;
-          }
-          chairsContainer.innerHTML = html;
-        }
-
-      } else {
-        reportLink.style.display = "inline-flex";
-        reportLink.href = localCommitteeReports[committeeName] || "#";
-        topicsText.style.display = "block";
-        stampContainer.style.display = "none";
-        topicsText.innerText = "Agenda details pending...";
-        chairSectionHeading.parentElement.style.display = "block";
-        chairsContainer.className = "profiles-grid-container";
-        chairsContainer.innerHTML = `<p style="font-size:13.5px; color:var(--text-muted); grid-column: 1 / -1; text-align: center;">Leadership announcement pending.</p>`;
+    // Countdown Timer Logic
+    const conferenceDate = new Date("October 31, 2026 09:00:00").getTime();
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = conferenceDate - now;
+      if (distance > 0) {
+        document.getElementById("days").innerText = String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, '0');
+        document.getElementById("hours").innerText = String(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+        document.getElementById("minutes").innerText = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        document.getElementById("seconds").innerText = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
       }
-    }
-
-    setInterval(function() {
-      if(!appData.targetDate) return;
-      const difference = new Date(appData.targetDate).getTime() - new Date().getTime();
-      
-      if (difference <= 0) {
-        document.getElementById("days").innerText = "00";
-        document.getElementById("hours").innerText = "00";
-        document.getElementById("minutes").innerText = "00";
-        document.getElementById("seconds").innerText = "00";
-        return;
-      }
-      
-      document.getElementById("days").innerText = String(Math.floor(difference / (1000 * 60 * 60 * 24))).padStart(2, '0');
-      document.getElementById("hours").innerText = String(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-      document.getElementById("minutes").innerText = String(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-      document.getElementById("seconds").innerText = String(Math.floor((difference % (1000 * 60)) / 1000)).padStart(2, '0');
     }, 1000);
-
-    document.addEventListener('contextmenu', e => e.preventDefault());
   </script>
 </body>
 </html>
