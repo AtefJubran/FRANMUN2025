@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"/>
   <title>FRANMUN 2026 | Official Franciscan School Model United Nations Conference</title>
   <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
   <meta name="robots" content="index, follow" />
@@ -64,7 +64,7 @@
     .block{padding:110px 0}
 
     /* hero */
-    #home{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 60px;position:relative}
+    #home{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:120px 0 60px;position:relative}
     .hero-title{font-family:var(--serif);font-weight:800;font-size:clamp(3.2rem,17vw,13rem);line-height:.95;letter-spacing:-.04em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin:10px 0 26px}
     .hero-sub{font-size:clamp(1rem,2vw,1.35rem);color:var(--muted);max-width:560px;font-weight:300}
     .hero-sub b{color:var(--ink);font-weight:500}
@@ -163,11 +163,63 @@
     .js .letters.in .ch{opacity:1;transform:none}
     .no-anim .reveal,.no-anim .split .word>span,.no-anim .letters .ch{opacity:1!important;transform:none!important;transition:none!important}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.split .word>span,.letters .ch,.scroll-cue::after{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}}
+    /* ===== RESPONSIVE: laptop / iPad / phone ===== */
+    html{-webkit-text-size-adjust:100%}
+    body{-webkit-tap-highlight-color:transparent}
+    img{max-width:100%}
+    h1,h2,h3,.n,.b{overflow-wrap:anywhere}
+    header{top:max(16px,env(safe-area-inset-top))}
+    .modal-panel,.modal{-webkit-overflow-scrolling:touch}
+    .modal .people{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+    @media(min-width:1400px){.wrap{max-width:1240px}}
+    /* iPad / small laptop */
+    @media(max-width:1024px){
+      .wrap{padding:0 32px}
+      .block{padding:90px 0}
+      .crow h3{font-size:clamp(2rem,7vw,3.4rem)}
+    }
+    /* iPad portrait & large phones */
+    @media(max-width:768px){
+      .wrap{padding:0 22px}
+      .countdown{display:grid;grid-template-columns:repeat(2,1fr)}
+      .cd{padding:26px 8px;border-right:1px solid var(--line)}
+      .cd:nth-child(2n){border-right:none}
+      .cd:nth-child(-n+2){border-bottom:1px solid var(--line)}
+      .btns{flex-direction:column;align-items:stretch}
+      .btns>div,.btns .btn{width:100%}
+      .btn{padding:17px 22px;min-height:52px}
+      .scroll-cue{display:none}
+      body::before,body::after{filter:blur(70px)}
+    }
+    /* phones */
     @media(max-width:600px){
+      header{gap:2px;padding:5px}
       header img{display:none}
-      .tab-btn{padding:9px 11px;font-size:10.5px}
-      .crow{grid-template-columns:38px 1fr 26px}
-      .block{padding:80px 0}
+      .tab-btn{padding:10px 12px;font-size:10.5px;letter-spacing:.05em;min-height:40px}
+      #home{padding-top:110px}
+      .block{padding:72px 0}
+      .eyebrow{font-size:10.5px;letter-spacing:.22em}
+      .crow{grid-template-columns:34px 1fr 24px;padding:24px 4px}
+      .gal-links a{font-size:1.2rem}
+      /* popup becomes a bottom sheet */
+      .modal{padding:0;align-items:flex-end}
+      .modal-panel{margin:auto 0 0;border-radius:26px 26px 0 0;padding:34px 22px calc(34px + env(safe-area-inset-bottom));min-height:60vh}
+      .modal-x{width:44px;height:44px;top:14px;right:14px}
+      .modal .people{grid-template-columns:1fr}
+    }
+    @media(max-width:360px){.tab-btn{padding:9px 8px;font-size:10px}}
+    /* landscape phones */
+    @media(max-height:520px) and (orientation:landscape){#home{min-height:auto;padding:110px 0 70px}}
+    /* touch screens: no sticky hover states */
+    @media(hover:none){
+      .crow:hover{padding-left:8px}
+      .crow:hover::before{opacity:0}
+      .crow:hover h3{color:inherit}
+      .crow:hover .arr{transform:none}
+      .btn:hover{transform:none!important}
+      .person img{filter:none}
+      .person:hover img{transform:none}
+      .gal-links a:hover{padding-left:6px;color:inherit}
     }
   </style>
 </head>
