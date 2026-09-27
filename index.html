@@ -60,7 +60,8 @@
     .eyebrow{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--a1);font-weight:700;margin-bottom:18px;display:flex;align-items:center;gap:14px}
     .eyebrow::before{content:'';width:36px;height:1px;background:var(--a1)}
     h2.title{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,7vw,5rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:40px}
-    h2.title em{font-style:italic;font-weight:600;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+    h2.title em{font-style:italic;font-weight:600;color:var(--a1)}
+    h2.title em .word>span{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-right:.06em}
     .block{padding:110px 0}
 
     /* hero */
@@ -190,6 +191,10 @@
       .btn{padding:17px 22px;min-height:52px}
       .scroll-cue{display:none}
       body::before,body::after{filter:blur(70px)}
+      .word{overflow:visible;padding:0;margin:0}
+      .js .split .word>span{transform:none;transition:none}
+      .js .split{opacity:0;transform:translateY(28px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+      .js .split.in{opacity:1;transform:none}
     }
     /* phones */
     @media(max-width:600px){
@@ -419,7 +424,7 @@
         if (Math.abs(d) > 12) { hdr.classList.toggle('nav-hidden', y > 120 && d > 0); lastY = y; }
         const max = document.documentElement.scrollHeight - innerHeight;
         bar.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
-        updateActive(); tick = false;
+        updateActive(); revealInView(); tick = false;
       });
     }, { passive: true });
 
@@ -542,7 +547,14 @@
       }
     }, 1000);
 
-    addEventListener('load', () => { initAnimations(); updateActive(); });
+    function revealInView() {
+      document.querySelectorAll('[data-obs]:not(.in)').forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < innerHeight * .95 && r.bottom > 0) { el.classList.add('in'); if (io) io.unobserve(el); }
+      });
+    }
+    addEventListener('resize', revealInView);
+    addEventListener('load', () => { initAnimations(); updateActive(); revealInView(); setTimeout(revealInView, 600); });
   </script>
 </body>
 </html>
