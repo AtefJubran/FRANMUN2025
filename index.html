@@ -482,10 +482,14 @@
       document.getElementById("committeeTopRopContainer").innerHTML = `<a href="${ROP_FILE}" target="_blank" rel="noopener noreferrer" class="btn ghost">Rules Of Procedure &rarr;</a>`;
       document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(c.reportFile || c.reportLink || "", key, ["Research Report Pending", "Download Research Report", "Access Full Research Report"], "Research_Report", false);
       document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(c.matrixFile || c.matrixLink || "", key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], "Country_Matrix", true);
-      const all = Array.isArray(c.chairs) ? c.chairs : [];
-      const isBack = ch => /back\s*-?\s*room/i.test(ch.role || '');
+      const toArr = v => Array.isArray(v) ? v.filter(Boolean) : (v && typeof v === 'object' ? Object.values(v).filter(x => x && typeof x === 'object') : []);
+      const isBackKey = k => /back\s*[-_]?\s*room/i.test(k);
+      const all = toArr(c.chairs);
+      const isBack = ch => /back\s*[-_]?\s*room/i.test(ch.role || '');
       const mainChairs = all.filter(ch => !isBack(ch));
-      const backChairs = all.filter(isBack).concat(Array.isArray(c.backroomChairs) ? c.backroomChairs : []);
+      let backChairs = all.filter(isBack);
+      Object.keys(c).filter(isBackKey).forEach(k => { backChairs = backChairs.concat(toArr(c[k])); });
+      if (key === 'CRISIS') Object.keys(appData).filter(isBackKey).forEach(k => { backChairs = backChairs.concat(toArr(appData[k])); });
       const showBack = key === 'CRISIS' || backChairs.length > 0;
       const box = document.getElementById("detailChairsContainer");
       box.innerHTML = mainChairs.length
@@ -501,7 +505,7 @@
 
     function personHtml(p, defRole) {
       return `<div class="person">
-        <div class="ph"><img src="${p.img || 'logo.jpeg.JPG'}" alt="${p.name || 'Member'}" onerror="this.src='logo.jpeg.JPG'"></div>
+        <div class="ph"><img src="${p.img || p.image || p.photo || p.picture || 'logo.jpeg.JPG'}" alt="${p.name || 'Member'}" onerror="this.src='logo.jpeg.JPG'"></div>
         <div class="n">${p.name || ''}</div>
         <div class="r">${p.role || defRole}</div>
         <div class="b">${p.bio || 'Biography pending release.'}</div>
