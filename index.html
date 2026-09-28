@@ -22,7 +22,7 @@
   <meta name="twitter:description" content="Engage in advanced diplomatic discourse at the First Annual Franciscan School Model United Nations Conference. Register today as a delegate or chair." />
   <meta name="twitter:image" content="logo.jpeg.JPG" />
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@graph":[{"@type":"EducationalOrganization","@id":"https://franmun.org/#organization","name":"Franciscan Sister's School Nazareth","url":"https://franmun.org/","logo":{"@type":"ImageObject","@id":"https://franmun.org/#logo","url":"https://franmun.org/logo.jpeg.JPG","caption":"Franciscan Sister's School Logo"},"image":{"@id":"https://franmun.org/#logo"},"sameAs":["https://www.instagram.com/franciscan_munners"]},{"@type":"WebSite","@id":"https://franmun.org/#website","url":"https://franmun.org/","name":"FRANMUN 2026","publisher":{"@id":"https://franmun.org/#organization"}}]}
+  {"@context":"https://schema.org","@graph":[{"@type":"EducationalOrganization","@id":"https://franmun.org/#organization","name":"Franciscan Sister's School Nazareth","url":"https://franmun.org/","logo":{"@type":"ImageObject","@id":"https://franmun.org/#logo","url":"https://franmun.org/logo.jpeg.JPG","caption":"Franciscan Sister's School Logo"},"image":{"@id":"https://franmun.org/#logo"},"sameAs":["https://www.instagram.com/franmun_26"]},{"@type":"WebSite","@id":"https://franmun.org/#website","url":"https://franmun.org/","name":"FRANMUN 2026","publisher":{"@id":"https://franmun.org/#organization"}}]}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -163,7 +163,10 @@
     .js .letters .ch{display:inline-block;opacity:0;transform:translateY(80px) rotate(6deg);transition:transform 1.1s var(--ease),opacity 1s var(--ease);transition-delay:calc(var(--i)*70ms)}
     .js .letters.in .ch{opacity:1;transform:none}
     .no-anim .reveal,.no-anim .split .word>span,.no-anim .letters .ch{opacity:1!important;transform:none!important;transition:none!important}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal,.split .word>span,.letters .ch,.scroll-cue::after{opacity:1!important;transform:none!important;transition:none!important;animation:none!important}}
+    .soft-motion .reveal,.soft-motion .split .word>span,.soft-motion .letters .ch{transform:none!important}
+    .soft-motion .split .word>span{opacity:0;transition:opacity .9s ease;transition-delay:calc(var(--i)*60ms + var(--d,0s))}
+    .soft-motion .split.in .word>span{opacity:1}
+    .soft-motion .scroll-cue::after{animation:none}
     /* ===== RESPONSIVE: laptop / iPad / phone ===== */
     html{-webkit-text-size-adjust:100%}
     body{-webkit-tap-highlight-color:transparent}
@@ -236,7 +239,7 @@
     <div style="text-align:center;padding:120px 20px;">
       <h2 style="font-family:var(--serif);font-weight:300;margin-bottom:16px;font-size:2.4rem;">System Maintenance</h2>
       <p style="color:var(--muted);margin-bottom:16px;">The FRANMUN administrative portal is currently undergoing scheduled updates.</p>
-      <a href="https://www.instagram.com/franciscan_munners" target="_blank" rel="noopener" style="color:var(--a1);font-weight:700;text-decoration:none;">@franciscan_munners</a>
+      <a href="https://www.instagram.com/franmun_26" target="_blank" rel="noopener" style="color:var(--a1);font-weight:700;text-decoration:none;">@franmun_26</a>
     </div>
   </div>
 
@@ -391,7 +394,8 @@
 
     function initAnimations() {
       document.querySelectorAll('.split, .letters').forEach(splitText);
-      if (reduceMotion || !('IntersectionObserver' in window)) { document.documentElement.classList.add('no-anim'); return; }
+      if (reduceMotion) document.documentElement.classList.add('soft-motion');
+      if (!('IntersectionObserver' in window)) { document.documentElement.classList.add('no-anim'); return; }
       if (!io) io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
       document.querySelectorAll('.reveal, .split, .letters').forEach(el => {
         if (!el.classList.contains('in') && !el.dataset.obs) { el.dataset.obs = "1"; io.observe(el); }
@@ -439,6 +443,11 @@
       appId: "1:574017816071:web:1968d9a793dec6a6cacca2",
       measurementId: "G-WRXCD54P71"
     };
+    /* If Firebase can't load (blocked network, slow connection), keep the rest of the page working */
+    if (typeof firebase === 'undefined') {
+      window.firebase = { initializeApp() {}, database() { return { ref() { return { on() {} }; } }; } };
+      console.warn('Firebase failed to load – live data unavailable.');
+    }
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     let appData = {}, openKey = null;
@@ -554,6 +563,7 @@
       });
     }
     addEventListener('resize', revealInView);
+    initAnimations(); updateActive(); revealInView();
     addEventListener('load', () => { initAnimations(); updateActive(); revealInView(); setTimeout(revealInView, 600); });
   </script>
 </body>
