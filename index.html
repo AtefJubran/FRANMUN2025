@@ -314,6 +314,8 @@
             </div>
             <div class="sub-h" id="chairSectionHeading">Chairs</div>
             <div class="people" id="detailChairsContainer"></div>
+            <div class="sub-h" id="backroomHeading" style="display:none">Backroom Chairs</div>
+            <div class="people" id="backroomChairsContainer" style="display:none"></div>
            </div>
           </div>
         </div>
@@ -480,10 +482,21 @@
       document.getElementById("committeeTopRopContainer").innerHTML = `<a href="${ROP_FILE}" target="_blank" rel="noopener noreferrer" class="btn ghost">Rules Of Procedure &rarr;</a>`;
       document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(c.reportFile || c.reportLink || "", key, ["Research Report Pending", "Download Research Report", "Access Full Research Report"], "Research_Report", false);
       document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(c.matrixFile || c.matrixLink || "", key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], "Country_Matrix", true);
+      const all = Array.isArray(c.chairs) ? c.chairs : [];
+      const isBack = ch => /back\s*-?\s*room/i.test(ch.role || '');
+      const mainChairs = all.filter(ch => !isBack(ch));
+      const backChairs = all.filter(isBack).concat(Array.isArray(c.backroomChairs) ? c.backroomChairs : []);
+      const showBack = key === 'CRISIS' || backChairs.length > 0;
       const box = document.getElementById("detailChairsContainer");
-      box.innerHTML = (c.chairs && Array.isArray(c.chairs) && c.chairs.length)
-        ? c.chairs.map(ch => personHtml(ch, 'Committee Chair')).join("")
+      box.innerHTML = mainChairs.length
+        ? mainChairs.map(ch => personHtml(ch, 'Committee Chair')).join("")
         : `<p class="empty">Chair announcements coming soon.</p>`;
+      const backBox = document.getElementById("backroomChairsContainer");
+      document.getElementById("backroomHeading").style.display = showBack ? 'block' : 'none';
+      backBox.style.display = showBack ? '' : 'none';
+      backBox.innerHTML = backChairs.length
+        ? backChairs.map(ch => personHtml(ch, 'Backroom Chair')).join("")
+        : `<p class="empty">Backroom chair announcements coming soon.</p>`;
     }
 
     function personHtml(p, defRole) {
