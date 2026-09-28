@@ -7,7 +7,7 @@
   <meta name="description" content="Welcome to the official homepage of FRANMUN 2026, the inaugural Model United Nations conference hosted by Franciscan Sister's School, Nazareth. Join elite student diplomats in crafting resolutions for global geopolitical issues." />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://franmun.org/" />
-  <meta name="theme-color" content="#0A0F1C" />
+  <meta name="theme-color" content="#06182B" />
   <link rel="icon" type="image/png" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png">
   <link rel="apple-touch-icon" href="7d8c75e2-c20b-4770-aa29-71ab72b07f58-dnscaled.png" />
   <meta property="og:type" content="website" />
@@ -32,23 +32,23 @@
 
   <style>
     :root{
-      --bg:#0A0F1C; --bg2:#111A2E; --ink:#EAF0FA; --muted:#8C9AB5; --line:rgba(255,255,255,.1);
-      --a1:#5BC0FF; --a2:#FFC46B; --grad:linear-gradient(100deg,var(--a1),var(--a2));
+      --bg:#06182B; --bg2:#0B2A4A; --ink:#F2F7FC; --muted:#9DB7CF; --line:rgba(255,255,255,.1);
+      --a1:#3AA6E8; --a2:#F0E040; --grad:linear-gradient(100deg,var(--a1),var(--a2));
       --serif:'Fraunces',Georgia,serif; --sans:'Plus Jakarta Sans',sans-serif;
       --ease:cubic-bezier(.16,1,.3,1);
     }
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth;background:var(--bg)}
-    body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+    body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;font-variant-emoji:text}
     /* ambient glow */
     body::before,body::after{content:'';position:fixed;z-index:-1;border-radius:50%;filter:blur(120px);opacity:.35;pointer-events:none}
-    body::before{width:50vw;height:50vw;background:#1D6B9E;top:-15vw;left:-15vw}
-    body::after{width:40vw;height:40vw;background:#8A5A1A;bottom:-15vw;right:-10vw;opacity:.25}
+    body::before{width:50vw;height:50vw;background:#13588E;top:-15vw;left:-15vw}
+    body::after{width:40vw;height:40vw;background:#717C39;bottom:-15vw;right:-10vw;opacity:.25}
     a{color:inherit}
     #progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--grad);z-index:1100}
 
     /* floating pill nav */
-    header{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;background:rgba(17,26,46,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);box-shadow:0 10px 40px rgba(0,0,0,.4);transition:transform .45s var(--ease),opacity .3s;max-width:calc(100% - 24px)}
+    header{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:6px;padding:6px;border-radius:999px;background:rgba(11,42,74,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);box-shadow:0 10px 40px rgba(0,0,0,.4);transition:transform .45s var(--ease),opacity .3s;max-width:calc(100% - 24px)}
     header.nav-hidden{transform:translate(-50%,-140%)}
     header img{width:36px;height:36px;border-radius:50%;object-fit:cover;margin-right:4px;flex:none}
     .tab-btn{background:transparent;border:none;color:var(--muted);font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:10px 16px;border-radius:999px;cursor:pointer;transition:.25s;white-space:nowrap;touch-action:manipulation}
@@ -83,8 +83,8 @@
     .notice{border-left:2px solid var(--a2);padding:6px 0 6px 22px;color:var(--muted);font-size:14.5px;max-width:680px;margin-bottom:34px}
     .notice strong{color:var(--ink)}
     .btns{display:flex;flex-wrap:wrap;gap:14px}
-    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 30px;border-radius:999px;background:var(--grad);color:#0A0F1C;font:700 12.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s;box-shadow:0 10px 30px rgba(91,192,255,.2);touch-action:manipulation}
-    .btn:hover{transform:translateY(-3px) scale(1.02)!important;box-shadow:0 16px 40px rgba(91,192,255,.35)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 30px;border-radius:999px;background:var(--grad);color:#06182B;font:700 12.5px var(--sans);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;transition:transform .3s var(--ease),box-shadow .3s;box-shadow:0 10px 30px rgba(58,166,232,.2);touch-action:manipulation}
+    .btn:hover{transform:translateY(-3px) scale(1.02)!important;box-shadow:0 16px 40px rgba(58,166,232,.35)}
     .btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
     .btn.ghost:hover{border-color:var(--a1);color:var(--a1);box-shadow:none}
     .btn.off{background:transparent;color:var(--muted);border:1px dashed var(--line);box-shadow:none;cursor:not-allowed}
@@ -99,14 +99,14 @@
     /* committees: typographic rows */
     .crow{display:grid;grid-template-columns:64px 1fr 40px;align-items:center;gap:12px;padding:30px 8px;border-top:1px solid var(--line);cursor:pointer;position:relative;transition:padding .45s var(--ease),background .3s;touch-action:manipulation}
     .crow:last-child{border-bottom:1px solid var(--line)}
-    .crow::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(91,192,255,.12),transparent);opacity:0;transition:opacity .3s}
+    .crow::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(58,166,232,.12),transparent);opacity:0;transition:opacity .3s}
     .crow:hover{padding-left:26px}
     .crow:hover::before{opacity:1}
     .crow .num{font-size:12px;letter-spacing:.2em;color:var(--muted);position:relative}
     .crow h3{font-family:var(--serif);font-weight:600;font-size:clamp(2rem,6vw,4rem);line-height:1.05;letter-spacing:-.02em;position:relative;transition:color .3s}
     .crow:hover h3{color:var(--a1)}
     .crow p{color:var(--muted);font-size:13.5px;position:relative;margin-top:4px}
-    .crow .arr{font-size:26px;color:var(--a2);transition:transform .4s var(--ease);position:relative;text-align:right}
+    .crow .arr{font-size:28px;color:var(--a2);display:flex;justify-content:flex-end;transition:transform .4s var(--ease);position:relative;text-align:right}
     .crow:hover .arr{transform:translate(6px,-6px)}
 
     /* detail */
@@ -129,6 +129,7 @@
     .person .b{color:var(--muted);font-size:14px}
     .empty{color:var(--muted);grid-column:1/-1}
 
+    .gal-arr{display:flex;font-size:1.4rem;color:var(--a2)}
     .gal-note{color:var(--muted);max-width:520px;margin-bottom:30px}
     .gal-links{display:flex;flex-direction:column;border-top:1px solid var(--line)}
     .gal-links a{display:flex;justify-content:space-between;align-items:center;padding:22px 6px;border-bottom:1px solid var(--line);text-decoration:none;font-family:var(--serif);font-size:1.5rem;transition:padding .4s var(--ease),color .3s}
@@ -141,9 +142,9 @@
     footer strong{display:block;color:var(--ink);margin:6px 0 14px}
 
     /* committee popup */
-    .modal{position:fixed;inset:0;z-index:1200;display:none;align-items:flex-start;justify-content:center;padding:4vh 16px;overflow-y:auto;background:rgba(5,8,16,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overscroll-behavior:contain}
+    .modal{position:fixed;inset:0;z-index:1200;display:none;align-items:flex-start;justify-content:center;padding:4vh 16px;overflow-y:auto;background:rgba(3,12,24,.78);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overscroll-behavior:contain}
     .modal.open{display:flex;animation:fadeIn .35s ease}
-    .modal-panel{position:relative;width:100%;max-width:920px;margin:auto;padding:clamp(28px,5vw,60px);border-radius:28px;background:linear-gradient(160deg,#152238,#0D1424);border:1px solid var(--line);box-shadow:0 40px 100px rgba(0,0,0,.6);overflow:hidden}
+    .modal-panel{position:relative;width:100%;max-width:920px;margin:auto;padding:clamp(28px,5vw,60px);border-radius:28px;background:linear-gradient(160deg,#0F3358,#081E37);border:1px solid var(--line);box-shadow:0 40px 100px rgba(0,0,0,.6);overflow:hidden}
     .modal-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad)}
     .modal.open .modal-panel{animation:popIn .6s var(--ease)}
     .modal-x{position:absolute;top:18px;right:18px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font-size:24px;line-height:1;cursor:pointer;transition:.25s;z-index:2}
@@ -351,6 +352,9 @@
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let io = null;
 
+    /* Arrow icon (SVG, so phones never turn it into an emoji) */
+    const ARROW = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
+
     /* Committees list — edit names / descriptions here */
     const COMMITTEES = [
       { key: 'UNICEF',  name: 'UNICEF',  long: "United Nations Children's Fund" },
@@ -365,7 +369,7 @@
       <div class="crow reveal" onclick="openCommitteePage('${c.key}')">
         <span class="num">${String(i + 1).padStart(2, '0')}</span>
         <div><h3>${c.name}</h3>${c.long ? `<p>${c.long}</p>` : ''}</div>
-        <span class="arr">&#8599;</span>
+        <span class="arr">${ARROW}</span>
       </div>`).join('');
 
     function splitText(el) {
@@ -546,7 +550,7 @@
         const files = (appData.driveFiles && Array.isArray(appData.driveFiles)) ? appData.driveFiles : [];
         c.innerHTML = `<p class="gal-note">Access official documentation and photographic drives below.</p>` +
           (files.length
-            ? `<div class="gal-links">${files.map(f => `<a href="${f.link || '#'}" target="_blank" rel="noopener noreferrer"><span>${f.title || 'View Archive Document'}</span><span>&#8599;</span></a>`).join("")}</div>`
+            ? `<div class="gal-links">${files.map(f => `<a href="${f.link || '#'}" target="_blank" rel="noopener noreferrer"><span>${f.title || 'View Archive Document'}</span><span class="gal-arr">${ARROW}</span></a>`).join("")}</div>`
             : `<p class="empty">No files published yet.</p>`);
       }
       prepDynamic(c);
