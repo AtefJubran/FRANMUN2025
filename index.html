@@ -370,6 +370,12 @@
           <div class="eyebrow reveal">The People</div>
           <h2 class="title split">Secretariat <em>Team.</em></h2>
           <div id="teamPageContainer" class="people"><div class="spinner"></div></div>
+          
+          <div style="margin-top: 80px;">
+            <div class="eyebrow reveal">Guidance & Support</div>
+            <h2 class="title split">Our <em>Mentors.</em></h2>
+            <div id="mentorsPageContainer" class="people"><div class="spinner"></div></div>
+          </div>
         </div>
       </section>
 
@@ -509,7 +515,7 @@
       const m = document.getElementById("maintenanceContent"), d = document.getElementById("delegateContent");
       if (appData.maintenanceMode) { m.style.display = "block"; d.style.display = "none"; return; }
       m.style.display = "none"; d.style.display = "block";
-      renderRegistrationButtons(); renderTeamPage(); renderGallerySection();
+      renderRegistrationButtons(); renderTeamPage(); renderMentorsPage(); renderGallerySection();
       if (openKey) renderCommitteeDetail(openKey);
       initAnimations();
     });
@@ -587,6 +593,15 @@
       prepDynamic(c);
     }
 
+    function renderMentorsPage() {
+      const c = document.getElementById("mentorsPageContainer");
+      if (!appData.mentors || !Array.isArray(appData.mentors) || !appData.mentors.length) {
+        c.innerHTML = `<p class="empty">Mentor announcements coming soon.</p>`; return;
+      }
+      c.innerHTML = appData.mentors.map(m => personHtml(m, 'Mentor')).join("");
+      prepDynamic(c);
+    }
+
     function renderGallerySection() {
       const c = document.getElementById("galleryCardContent");
       if (appData.galleryLocked) {
@@ -595,7 +610,13 @@
         const files = (appData.driveFiles && Array.isArray(appData.driveFiles)) ? appData.driveFiles : [];
         c.innerHTML = `<p class="gal-note">Access official documentation and photographic drives below.</p>` +
           (files.length
-            ? `<div class="gal-links">${files.map(f => `<a href="${f.link || '#'}" target="_blank" rel="noopener noreferrer"><span>${f.title || 'View Archive Document'}</span><span class="gal-arr">${ARROW}</span></a>`).join("")}</div>`
+            ? `<div class="gal-links">${files.map(f => {
+                let link = f.link || f.url || '#';
+                if (link && !link.startsWith('http') && !link.startsWith('#')) {
+                  link = 'https://' + link;
+                }
+                return `<a href="${link}" target="_blank" rel="noopener noreferrer"><span>${f.title || 'View Archive Document'}</span><span class="gal-arr">${ARROW}</span></a>`;
+              }).join("")}</div>`
             : `<p class="empty">No files published yet.</p>`);
       }
       prepDynamic(c);
