@@ -16,11 +16,11 @@
   <style>
     :root {
       --bg-main: #060b13;
-      --bg-card: rgba(15, 27, 47, 0.6);
+      --bg-card: rgba(15, 27, 47, 0.7);
       --accent-gold: #E4B343;
       --accent-gold-hover: #FFF1CD;
       --accent-red: #EF4444;
-      --glass-border: rgba(255, 255, 255, 0.06);
+      --glass-border: rgba(255, 255, 255, 0.08);
       --text-light: #FFFFFF;
       --text-muted: #94A3B8;
       --text-body: #CBD5E1;
@@ -34,7 +34,7 @@
       font-family: var(--font-body);
       background-color: var(--bg-main);
       color: var(--text-light);
-      padding: 40px 20px;
+      padding: 30px 20px;
     }
 
     #loginOverlay {
@@ -66,28 +66,94 @@
     }
 
     .admin-container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       display: none; 
     }
 
-    h1, h2 {
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 15px;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      color: var(--accent-gold);
+      font-size: 1.8rem;
+    }
+
+    /* Admin Navigation Tabs */
+    .admin-nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+      background: rgba(0,0,0,0.3);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .nav-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab:hover {
+      color: var(--text-light);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .nav-tab.active {
+      background: var(--accent-gold);
+      color: #060b13;
+    }
+
+    /* Tab Section Container */
+    .tab-section {
+      display: none;
+    }
+
+    .tab-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
       font-family: var(--font-heading);
       color: var(--accent-gold);
       margin-bottom: 20px;
+      font-size: 1.3rem;
     }
 
     .card {
       background: var(--bg-card);
       border: 1px solid var(--glass-border);
-      padding: 24px;
+      padding: 28px;
       border-radius: 16px;
       margin-bottom: 24px;
       backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     label {
@@ -97,17 +163,19 @@
       margin-bottom: 6px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
+      font-weight: 500;
     }
 
     input, textarea, select {
       width: 100%;
-      padding: 10px 14px;
-      background: rgba(0,0,0,0.3);
+      padding: 12px 14px;
+      background: rgba(0,0,0,0.4);
       border: 1px solid var(--glass-border);
       border-radius: 8px;
       color: white;
       font-family: var(--font-body);
       font-size: 14px;
+      transition: border-color 0.2s;
     }
 
     input[type="file"] {
@@ -123,19 +191,32 @@
     .checkbox-group {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 12px;
+      margin-bottom: 14px;
+      background: rgba(255,255,255,0.02);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--glass-border);
     }
 
     .checkbox-group input {
-      width: auto;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent-gold);
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      cursor: pointer;
+      margin: 0;
+      font-size: 13px;
     }
 
     .btn {
       background: var(--accent-gold);
       color: #060b13;
       font-weight: 600;
-      padding: 10px 20px;
+      padding: 12px 24px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
@@ -151,43 +232,52 @@
       background: var(--accent-red);
       color: white;
     }
+    .btn-danger:hover {
+      background: #dc2626;
+    }
 
     .btn-secondary {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
       color: white;
     }
     .btn-secondary:hover {
-      background: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.15);
     }
 
     .member-item, .drive-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(255,255,255,0.02);
+      background: rgba(0,0,0,0.25);
       border: 1px solid var(--glass-border);
-      padding: 12px 16px;
+      padding: 14px 18px;
       border-radius: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .member-item:hover {
+      border-color: rgba(228, 179, 67, 0.3);
     }
 
     .member-info {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
     }
 
     .member-img-preview {
-      width: 45px;
-      height: 45px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       object-fit: cover;
       border: 1px solid var(--accent-gold);
     }
 
     .member-details h4 {
-      font-size: 14px;
+      font-size: 15px;
       color: white;
+      margin-bottom: 3px;
     }
 
     .member-details p {
@@ -197,7 +287,7 @@
 
     .action-btns {
       display: flex;
-      gap: 5px;
+      gap: 6px;
     }
 
     .grid-2 {
@@ -208,6 +298,8 @@
 
     @media (max-width: 768px) {
       .grid-2 { grid-template-columns: 1fr; }
+      .admin-nav { overflow-x: auto; flex-wrap: nowrap; padding-bottom: 10px; }
+      .nav-tab { flex-shrink: 0; }
     }
   </style>
 </head>
@@ -216,7 +308,7 @@
   <div id="loginOverlay">
     <div class="login-card">
       <h2>FRANMUN Admin</h2>
-      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Please enter admin password to continue.</p>
+      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Please enter admin password to continue.</p>
       <div class="form-group">
         <input type="password" id="passInput" placeholder="Enter Password..." onkeypress="if(event.key === 'Enter') checkPassword()">
       </div>
@@ -225,250 +317,282 @@
   </div>
 
   <div class="admin-container" id="mainDashboard">
-    <h1>FRANMUN Admin Dashboard</h1>
-
-    <!-- 1. إعدادات عامة والعداد التنازلي -->
-    <div class="card">
-      <h2>General Settings & Countdown</h2>
-      
-      <div class="grid-2">
-        <div class="checkbox-group">
-          <input type="checkbox" id="maintenanceMode">
-          <label for="maintenanceMode" style="display:inline; margin:0; color:white;">Maintenance Mode</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="delegatesOpen">
-          <label for="delegatesOpen" style="display:inline; margin:0; color:white;">Delegates Registration Open</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="chairsOpen">
-          <label for="chairsOpen" style="display:inline; margin:0; color:white;">Chairs & Staff Registration Open</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="galleryLocked">
-          <label for="galleryLocked" style="display:inline; margin:0; color:white;">Lock Conference Gallery</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="countryMatrixLocked">
-          <label for="countryMatrixLocked" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Lock Country Matrix (Show Coming Soon)</label>
-        </div>
-        <div class="checkbox-group" style="grid-column: span 2; background: rgba(228, 179, 67, 0.05); border: 1px solid rgba(228, 179, 67, 0.2); padding: 12px; border-radius: 10px; margin-top: 5px;">
-          <input type="checkbox" id="committeesComingSoon">
-          <label for="committeesComingSoon" style="display:inline; margin:0; color:var(--accent-gold); font-weight:600;">Hide All Committees Topics & Chairs (Coming Soon / Top Secret Stamp)</label>
-        </div>
-      </div>
-
-      <div class="form-group" style="margin-top: 20px;">
-        <label>Country Matrix PDF Link (رابط جدول توزيع الدول العام)</label>
-        <input type="text" id="countryMatrixPdf" placeholder="https://... (Drive or uploaded PDF link)">
-      </div>
-
-      <div class="form-group" style="margin-top: 15px;">
-        <label>Conference Target Date (Countdown)</label>
-        <input type="text" id="targetDate" placeholder="e.g. 31 Oct 2026 at 8:00">
-      </div>
-
-      <button class="btn" onclick="saveGeneralSettings()">Save Settings</button>
+    <div class="dashboard-header">
+      <h1>FRANMUN Admin Dashboard</h1>
+      <button class="btn btn-secondary" style="padding: 8px 14px; font-size: 12px;" onclick="location.reload()">Lock / Logout</button>
     </div>
 
-    <!-- NEW SECTION: PDF File Upload & Button Assignment Manager -->
-    <div class="card">
-      <h2>Website PDF Files Manager</h2>
-      <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">
-        Upload PDF files directly to your website storage. Once uploaded, copy the file link and assign it to any button link field on your website.
-      </p>
-
-      <div class="form-group">
-        <label>PDF Document Title (عنوان الملف)</label>
-        <input type="text" id="pdfTitleInput" placeholder="e.g. Schedule Booklet, Code of Conduct">
-      </div>
-
-      <div class="form-group">
-        <label>Select PDF File (اختر ملف PDF)</label>
-        <input type="file" id="pdfFileField" accept="application/pdf">
-      </div>
-
-      <button class="btn" id="uploadPdfBtn" onclick="uploadPdfFile()">Upload PDF to Website</button>
-      <p id="uploadStatus" style="font-size: 13px; color: var(--accent-gold); margin-top: 10px;"></p>
-
-      <div style="margin-top: 24px;">
-        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Uploaded Website PDFs (Copy link to use on buttons)</h3>
-        <div id="adminPdfList">
-          <p style="color: var(--text-muted); font-size: 13px;">Loading uploaded PDFs...</p>
-        </div>
-      </div>
+    <!-- Admin Navigation Tabs -->
+    <div class="admin-nav">
+      <button class="nav-tab active" onclick="switchTab('settingsTab', this)">⚙️ Settings & PDFs</button>
+      <button class="nav-tab" onclick="switchTab('sgTab', this)">👥 SG Team</button>
+      <button class="nav-tab" onclick="switchTab('mentorsTab', this)">🎓 Mentors</button>
+      <button class="nav-tab" onclick="switchTab('committeesTab', this)">🏛️ Committees & Chairs</button>
+      <button class="nav-tab" onclick="switchTab('galleryTab', this)">🖼️ Gallery Drives</button>
     </div>
 
-    <!-- 2. إدارة الأمانة العامة (Secretariat Team) -->
-    <div class="card">
-      <h2>Secretariat General (SG) Team</h2>
-      
-      <div class="form-group">
-        <label>Member Name (اسم العضو)</label>
-        <input type="text" id="sgName" placeholder="e.g. Atef Jubran">
+    <!-- TAB 1: SETTINGS & PDF MANAGER -->
+    <div id="settingsTab" class="tab-section active">
+      <div class="card">
+        <h2>General Settings & Countdown</h2>
+        
+        <div class="grid-2">
+          <div class="checkbox-group">
+            <input type="checkbox" id="maintenanceMode">
+            <label for="maintenanceMode">Maintenance Mode</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="delegatesOpen">
+            <label for="delegatesOpen">Delegates Registration Open</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="chairsOpen">
+            <label for="chairsOpen">Chairs & Staff Registration Open</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="galleryLocked">
+            <label for="galleryLocked">Lock Conference Gallery</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="countryMatrixLocked">
+            <label for="countryMatrixLocked" style="color:var(--accent-gold); font-weight:600;">Lock Country Matrix (Show Coming Soon)</label>
+          </div>
+          <div class="checkbox-group" style="grid-column: span 2; background: rgba(228, 179, 67, 0.05); border: 1px solid rgba(228, 179, 67, 0.2);">
+            <input type="checkbox" id="committeesComingSoon">
+            <label for="committeesComingSoon" style="color:var(--accent-gold); font-weight:600;">Hide All Committees Topics & Chairs (Coming Soon / Top Secret Stamp)</label>
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-top: 20px;">
+          <label>Country Matrix PDF Link (رابط جدول توزيع الدول العام)</label>
+          <input type="text" id="countryMatrixPdf" placeholder="https://... (Drive or uploaded PDF link)">
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <label>Conference Target Date (Countdown)</label>
+          <input type="text" id="targetDate" placeholder="e.g. 31 Oct 2026 at 8:00">
+        </div>
+
+        <button class="btn" onclick="saveGeneralSettings()">Save Settings</button>
       </div>
 
-      <div class="form-group">
-        <label>Role / Title (الوظيفة أو المنصب)</label>
-        <input type="text" id="sgRole" placeholder="e.g. Secretary-General">
-      </div>
-      
-      <div class="form-group">
-        <label>Image Filename / URL (اسم الصورة أو الرابط)</label>
-        <input type="text" id="sgImg" placeholder="e.g. atef.jpg">
-      </div>
+      <div class="card">
+        <h2>Website PDF Files Manager</h2>
+        <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 18px;">
+          Upload PDF files directly to your website storage. Once uploaded, copy the file link and assign it to any button link field on your website.
+        </p>
 
-      <div class="form-group">
-        <label>Biography (النبذة التعريفية)</label>
-        <textarea id="sgBio" rows="3" placeholder="Write SG bio here..."></textarea>
-      </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>PDF Document Title (عنوان الملف)</label>
+            <input type="text" id="pdfTitleInput" placeholder="e.g. Schedule Booklet, Code of Conduct">
+          </div>
+          <div class="form-group">
+            <label>Select PDF File (اختر ملف PDF)</label>
+            <input type="file" id="pdfFileField" accept="application/pdf">
+          </div>
+        </div>
 
-      <button class="btn" id="saveMemberBtn" onclick="addOrUpdateSGMember()">+ Add SG Member</button>
-      <button class="btn btn-danger" id="cancelEditBtn" style="display:none; margin-left: 10px;" onclick="clearSgForm()">Cancel</button>
+        <button class="btn" id="uploadPdfBtn" onclick="uploadPdfFile()">Upload PDF to Website</button>
+        <p id="uploadStatus" style="font-size: 13px; color: var(--accent-gold); margin-top: 10px;"></p>
 
-      <div style="margin-top: 24px;">
-        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current SG Members (Use arrows to reorder)</h3>
-        <div id="adminSgList">
-          <p style="color: var(--text-muted); font-size: 13px;">Loading SG members...</p>
+        <div style="margin-top: 28px;">
+          <h3 style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Uploaded Website PDFs (Copy link to use on buttons)</h3>
+          <div id="adminPdfList">
+            <p style="color: var(--text-muted); font-size: 13px;">Loading uploaded PDFs...</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- NEW SECTION: Mentors Management -->
-    <div class="card">
-      <h2>Mentors Team</h2>
-      
-      <div class="form-group">
-        <label>Mentor Name (اسم الموجه)</label>
-        <input type="text" id="mentorName" placeholder="e.g. Jane Doe">
-      </div>
+    <!-- TAB 2: SG TEAM -->
+    <div id="sgTab" class="tab-section">
+      <div class="card">
+        <h2>Secretariat General (SG) Team</h2>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Member Name (اسم العضو)</label>
+            <input type="text" id="sgName" placeholder="e.g. Atef Jubran">
+          </div>
+          <div class="form-group">
+            <label>Role / Title (الوظيفة أو المنصب)</label>
+            <input type="text" id="sgRole" placeholder="e.g. Secretary-General">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Image Filename / URL (اسم الصورة أو الرابط)</label>
+          <input type="text" id="sgImg" placeholder="e.g. atef.jpg">
+        </div>
 
-      <div class="form-group">
-        <label>Role / Title (الوظيفة أو المنصب)</label>
-        <input type="text" id="mentorRole" placeholder="e.g. Faculty Mentor">
-      </div>
-      
-      <div class="form-group">
-        <label>Image Filename / URL (اسم الصورة أو الرابط)</label>
-        <input type="text" id="mentorImg" placeholder="e.g. mentor.jpg">
-      </div>
+        <div class="form-group">
+          <label>Biography (النبذة التعريفية)</label>
+          <textarea id="sgBio" rows="3" placeholder="Write SG bio here..."></textarea>
+        </div>
 
-      <div class="form-group">
-        <label>Biography (النبذة التعريفية)</label>
-        <textarea id="mentorBio" rows="3" placeholder="Write mentor bio here..."></textarea>
-      </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn" id="saveMemberBtn" onclick="addOrUpdateSGMember()">+ Add SG Member</button>
+          <button class="btn btn-danger" id="cancelEditBtn" style="display:none;" onclick="clearSgForm()">Cancel</button>
+        </div>
 
-      <button class="btn" id="saveMentorBtn" onclick="addOrUpdateMentor()">+ Add Mentor</button>
-      <button class="btn btn-danger" id="cancelMentorEditBtn" style="display:none; margin-left: 10px;" onclick="clearMentorForm()">Cancel</button>
-
-      <div style="margin-top: 24px;">
-        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current Mentors (Use arrows to reorder)</h3>
-        <div id="adminMentorList">
-          <p style="color: var(--text-muted); font-size: 13px;">Loading mentors...</p>
+        <div style="margin-top: 30px;">
+          <h3 style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Current SG Members (Use arrows to reorder)</h3>
+          <div id="adminSgList">
+            <p style="color: var(--text-muted); font-size: 13px;">Loading SG members...</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- 3. إدارة اللجان ورؤسائها (Committees & Chairs) -->
-    <div class="card">
-      <h2>Committees & Chairs Management</h2>
-      
-      <div class="form-group">
-        <label>Select Committee (اختر اللجنة)</label>
-        <select id="selectCommittee" onchange="loadCommitteeDataToAdmin()">
-          <option value="UNICEF">UNICEF</option>
-          <option value="UNWOMEN">UN Women</option>
-          <option value="UNHRC">UNHRC</option>
-          <option value="DISEC">DISEC</option>
-          <option value="WHO">WHO</option>
-          <option value="UNHSC">UNHSC</option>
-          <option value="CRISIS">CRISIS</option>
-        </select>
-      </div>
-
-      <div class="grid-2" style="margin-bottom: 16px;">
-        <div class="checkbox-group">
-          <input type="checkbox" id="hideReport">
-          <label for="hideReport" style="display:inline; margin:0; color:var(--accent-gold);">Hide Research Report</label>
+    <!-- TAB 3: MENTORS -->
+    <div id="mentorsTab" class="tab-section">
+      <div class="card">
+        <h2>Mentors Team</h2>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Mentor Name (اسم الموجه)</label>
+            <input type="text" id="mentorName" placeholder="e.g. Jane Doe">
+          </div>
+          <div class="form-group">
+            <label>Role / Title (الوظيفة أو المنصب)</label>
+            <input type="text" id="mentorRole" placeholder="e.g. Faculty Mentor">
+          </div>
         </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="hideChairs">
-          <label for="hideChairs" style="display:inline; margin:0; color:var(--accent-gold);">Hide Committee Chairs</label>
+        
+        <div class="form-group">
+          <label>Image Filename / URL (اسم الصورة أو الرابط)</label>
+          <input type="text" id="mentorImg" placeholder="e.g. mentor.jpg">
         </div>
-        <div class="checkbox-group" style="grid-column: span 2;">
-          <input type="checkbox" id="hideMatrix">
-          <label for="hideMatrix" style="display:inline; margin:0; color:var(--accent-gold);">Hide Country Matrix for this Committee</label>
+
+        <div class="form-group">
+          <label>Biography (النبذة التعريفية)</label>
+          <textarea id="mentorBio" rows="3" placeholder="Write mentor bio here..."></textarea>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label>Committee Topics & Description</label>
-        <textarea id="commTopics" rows="3" placeholder="Enter committee topics..."></textarea>
-      </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn" id="saveMentorBtn" onclick="addOrUpdateMentor()">+ Add Mentor</button>
+          <button class="btn btn-danger" id="cancelMentorEditBtn" style="display:none;" onclick="clearMentorForm()">Cancel</button>
+        </div>
 
-      <div class="form-group">
-        <label>Research Report Link</label>
-        <input type="text" id="commReport" placeholder="https://...">
-      </div>
-
-      <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 20px 0;">
-
-      <h3 style="font-size: 14px; color: var(--accent-gold); margin-bottom: 12px; text-transform: uppercase;" id="chairFormTitle">Add Chair / Backroom Member</h3>
-      
-      <div class="form-group">
-        <label>Chair Name (اسم التشير)</label>
-        <input type="text" id="chairName" placeholder="e.g. John Doe">
-      </div>
-
-      <div class="form-group">
-        <label>Chair Image URL / Filename</label>
-        <input type="text" id="chairImg" placeholder="e.g. chair.jpg">
-      </div>
-
-      <div class="form-group">
-        <label>Chair Bio (النبذة التعريفية)</label>
-        <textarea id="chairBio" rows="2" placeholder="Chair bio..."></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Type (نوع التشير)</label>
-        <select id="chairType">
-          <option value="chairs">Committee Chair (رئيس لجنة)</option>
-          <option value="backroom">Backroom Chair (أعضاء الباك روم - خاصة بلجنة كريسيس)</option>
-        </select>
-      </div>
-
-      <button class="btn" id="saveChairBtn" onclick="addOrUpdateChair()">+ Add Chair to Committee</button>
-      <button class="btn btn-danger" id="cancelChairEditBtn" style="display:none; margin-left: 10px;" onclick="clearChairForm()">Cancel Edit</button>
-
-      <div style="margin-top: 24px;">
-        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current Chairs in Selected Committee (Use arrows to reorder)</h3>
-        <div id="adminChairsList">
-          <p style="color: var(--text-muted); font-size: 13px;">No chairs added yet.</p>
+        <div style="margin-top: 30px;">
+          <h3 style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Current Mentors (Use arrows to reorder)</h3>
+          <div id="adminMentorList">
+            <p style="color: var(--text-muted); font-size: 13px;">Loading mentors...</p>
+          </div>
         </div>
       </div>
-
-      <button class="btn" style="margin-top: 20px; width: 100%;" onclick="saveCommitteeDetails()">Save Committee Details</button>
     </div>
 
-    <!-- 4. ملفات الجاليري (Drive Files) -->
-    <div class="card">
-      <h2>Conference Gallery Drive Files</h2>
-      
-      <div class="form-group">
-        <label>File Title</label>
-        <input type="text" id="driveTitle" placeholder="e.g. Day 1 Photos">
-      </div>
-      
-      <div class="form-group">
-        <label>Drive Link</label>
-        <input type="text" id="driveLink" placeholder="https://drive.google.com/...">
-      </div>
+    <!-- TAB 4: COMMITTEES & CHAIRS -->
+    <div id="committeesTab" class="tab-section">
+      <div class="card">
+        <h2>Committees & Chairs Management</h2>
+        
+        <div class="form-group">
+          <label>Select Committee (اختر اللجنة)</label>
+          <select id="selectCommittee" onchange="loadCommitteeDataToAdmin()">
+            <option value="UNICEF">UNICEF</option>
+            <option value="UNWOMEN">UN Women</option>
+            <option value="UNHRC">UNHRC</option>
+            <option value="DISEC">DISEC</option>
+            <option value="WHO">WHO</option>
+            <option value="UNHSC">UNHSC</option>
+            <option value="CRISIS">CRISIS</option>
+          </select>
+        </div>
 
-      <button class="btn" onclick="addDriveFile()">+ Add Drive Link</button>
+        <div class="grid-2" style="margin-bottom: 16px;">
+          <div class="checkbox-group">
+            <input type="checkbox" id="hideReport">
+            <label for="hideReport" style="color:var(--accent-gold);">Hide Research Report</label>
+          </div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="hideChairs">
+            <label for="hideChairs" style="color:var(--accent-gold);">Hide Committee Chairs</label>
+          </div>
+          <div class="checkbox-group" style="grid-column: span 2;">
+            <input type="checkbox" id="hideMatrix">
+            <label for="hideMatrix" style="color:var(--accent-gold);">Hide Country Matrix for this Committee</label>
+          </div>
+        </div>
 
-      <div style="margin-top: 24px;" id="adminDriveList">
-        <p style="color: var(--text-muted); font-size: 13px;">No drive files added yet.</p>
+        <div class="form-group">
+          <label>Committee Topics & Description</label>
+          <textarea id="commTopics" rows="3" placeholder="Enter committee topics..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Research Report Link</label>
+          <input type="text" id="commReport" placeholder="https://...">
+        </div>
+
+        <button class="btn" style="width: 100%; margin-top: 10px; margin-bottom: 25px;" onclick="saveCommitteeDetails()">Save Committee Details</button>
+
+        <hr style="border: 0; border-top: 1px solid var(--glass-border); margin: 25px 0;">
+
+        <h3 style="font-size: 14px; color: var(--accent-gold); margin-bottom: 16px; text-transform: uppercase;" id="chairFormTitle">Add Chair / Backroom Member</h3>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Chair Name (اسم التشير)</label>
+            <input type="text" id="chairName" placeholder="e.g. John Doe">
+          </div>
+          <div class="form-group">
+            <label>Type (نوع التشير)</label>
+            <select id="chairType">
+              <option value="chairs">Committee Chair (رئيس لجنة)</option>
+              <option value="backroom">Backroom Chair (أعضاء الباك روم - خاصة بلجنة كريسيس)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Chair Image URL / Filename</label>
+          <input type="text" id="chairImg" placeholder="e.g. chair.jpg">
+        </div>
+
+        <div class="form-group">
+          <label>Chair Bio (النبذة التعريفية)</label>
+          <textarea id="chairBio" rows="2" placeholder="Chair bio..."></textarea>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-bottom: 25px;">
+          <button class="btn" id="saveChairBtn" onclick="addOrUpdateChair()">+ Add Chair to Committee</button>
+          <button class="btn btn-danger" id="cancelChairEditBtn" style="display:none;" onclick="clearChairForm()">Cancel Edit</button>
+        </div>
+
+        <div>
+          <h3 style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">Current Chairs in Selected Committee (Use arrows to reorder)</h3>
+          <div id="adminChairsList">
+            <p style="color: var(--text-muted); font-size: 13px;">No chairs added yet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: GALLERY DRIVES -->
+    <div id="galleryTab" class="tab-section">
+      <div class="card">
+        <h2>Conference Gallery Drive Files</h2>
+        
+        <div class="grid-2">
+          <div class="form-group">
+            <label>File Title</label>
+            <input type="text" id="driveTitle" placeholder="e.g. Day 1 Photos">
+          </div>
+          <div class="form-group">
+            <label>Drive Link</label>
+            <input type="text" id="driveLink" placeholder="https://drive.google.com/...">
+          </div>
+        </div>
+
+        <button class="btn" onclick="addDriveFile()">+ Add Drive Link</button>
+
+        <div style="margin-top: 30px;" id="adminDriveList">
+          <p style="color: var(--text-muted); font-size: 13px;">No drive files added yet.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -485,6 +609,14 @@
         alert("Wrong Password! Please try again.");
         document.getElementById("passInput").value = "";
       }
+    }
+
+    // Tab Switching Function
+    function switchTab(tabId, btnElement) {
+      document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btnElement.classList.add('active');
     }
 
     const firebaseConfig = {
@@ -622,13 +754,13 @@
       files.forEach((file, index) => {
         html += `
           <div class="drive-item">
-            <div style="max-width: 65%;">
+            <div style="max-width: 62%;">
               <h4 style="font-size: 14px; color: white;">📄 ${file.title}</h4>
               <input type="text" readonly value="${file.link}" style="font-size: 11px; color: var(--accent-gold); margin-top: 5px; padding: 4px 8px; background: rgba(0,0,0,0.5);" onclick="this.select()">
             </div>
             <div class="action-btns">
               <a href="${file.link}" target="_blank" class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px; text-decoration: none; display:inline-block;">View</a>
-              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="navigator.clipboard.writeText('${file.link}'); alert('Link copied to clipboard!');">Copy Link</button>
+              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="navigator.clipboard.writeText('${file.link}'); alert('Link copied to clipboard!');">Copy</button>
               <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deletePdfFile(${index})">Remove</button>
             </div>
           </div>`;
@@ -738,7 +870,6 @@
       editingIndex = index;
       document.getElementById("saveMemberBtn").innerText = "Update SG Member";
       document.getElementById("cancelEditBtn").style.display = "inline-block";
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function deleteSgMember(index) {
@@ -847,7 +978,6 @@
       editingMentorIndex = index;
       document.getElementById("saveMentorBtn").innerText = "Update Mentor";
       document.getElementById("cancelMentorEditBtn").style.display = "inline-block";
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function deleteMentor(index) {
@@ -904,7 +1034,7 @@
               </div>
               <div class="action-btns">
                 <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, -1)">⬆️</button>
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, 1)">⬇️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, 1)">⬇️️</button>
                 <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('chairs', ${idx})">Edit</button>
                 <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('chairs', ${idx})">X</button>
               </div>
@@ -1095,7 +1225,7 @@
       files.forEach((file, index) => {
         html += `
           <div class="drive-item">
-            <div>
+            <div style="max-width: 75%;">
               <h4 style="font-size: 14px; color: white;">${file.title}</h4>
               <a href="${file.link}" target="_blank" style="font-size: 12px; color: var(--accent-gold);">${file.link}</a>
             </div>
