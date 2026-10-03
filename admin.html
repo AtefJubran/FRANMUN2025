@@ -334,6 +334,41 @@
       </div>
     </div>
 
+    <!-- NEW SECTION: Mentors Management -->
+    <div class="card">
+      <h2>Mentors Team</h2>
+      
+      <div class="form-group">
+        <label>Mentor Name (اسم الموجه)</label>
+        <input type="text" id="mentorName" placeholder="e.g. Jane Doe">
+      </div>
+
+      <div class="form-group">
+        <label>Role / Title (الوظيفة أو المنصب)</label>
+        <input type="text" id="mentorRole" placeholder="e.g. Faculty Mentor">
+      </div>
+      
+      <div class="form-group">
+        <label>Image Filename / URL (اسم الصورة أو الرابط)</label>
+        <input type="text" id="mentorImg" placeholder="e.g. mentor.jpg">
+      </div>
+
+      <div class="form-group">
+        <label>Biography (النبذة التعريفية)</label>
+        <textarea id="mentorBio" rows="3" placeholder="Write mentor bio here..."></textarea>
+      </div>
+
+      <button class="btn" id="saveMentorBtn" onclick="addOrUpdateMentor()">+ Add Mentor</button>
+      <button class="btn btn-danger" id="cancelMentorEditBtn" style="display:none; margin-left: 10px;" onclick="clearMentorForm()">Cancel</button>
+
+      <div style="margin-top: 24px;">
+        <h3 style="font-size: 14px; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Current Mentors (Use arrows to reorder)</h3>
+        <div id="adminMentorList">
+          <p style="color: var(--text-muted); font-size: 13px;">Loading mentors...</p>
+        </div>
+      </div>
+    </div>
+
     <!-- 3. إدارة اللجان ورؤسائها (Committees & Chairs) -->
     <div class="card">
       <h2>Committees & Chairs Management</h2>
@@ -469,6 +504,7 @@
 
     let appData = {};
     let editingIndex = -1;
+    let editingMentorIndex = -1;
     let editingChairIndex = -1;
     let editingChairType = 'chairs';
 
@@ -477,6 +513,7 @@
         appData = snapshot.val() || {};
         populateGeneralSettings();
         renderAdminSgList();
+        renderAdminMentorList();
         loadCommitteeDataToAdmin();
         renderAdminDriveList();
         renderAdminPdfList();
@@ -604,11 +641,9 @@
         let files = appData.pdfFiles ? [...appData.pdfFiles] : [];
         const fileToDelete = files[index];
 
-        // Remove from database list
         files.splice(index, 1);
         database.ref("homepage_data/pdfFiles").set(files)
           .then(() => {
-            // Optional: Try deleting file from Storage bucket if filename reference exists
             if (fileToDelete && fileToDelete.fileName) {
               storage.ref(`pdf_uploads/${fileToDelete.fileName}`).delete().catch(() => {});
             }
@@ -724,6 +759,115 @@
       editingIndex = -1;
       document.getElementById("saveMemberBtn").innerText = "+ Add SG Member";
       document.getElementById("cancelEditBtn").style.display = "none";
+    }
+
+    // MENTORS MANAGEMENT LOGIC
+    function renderAdminMentorList() {
+      const container = document.getElementById("adminMentorList");
+      const mentors = appData.mentors || [];
+
+      if (mentors.length === 0) {
+        container.innerHTML = `<p style="color: var(--text-muted); font-size: 13px;">No mentors added yet.</p>`;
+        return;
+      }
+
+      let html = "";
+      mentors.forEach((mentor, index) => {
+        html += `
+          <div class="member-item">
+            <div class="member-info">
+              <img src="${mentor.img || 'logo.jpeg.JPG'}" class="member-img-preview" onerror="this.src='logo.jpeg.JPG'">
+              <div class="member-details">
+                <h4>${mentor.name || 'No Name'}</h4>
+                <p>${mentor.role || 'Mentor'}</p>
+              </div>
+            </div>
+            <div class="action-btns">
+              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveMentor(${index}, -1)">⬆️</button>
+              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveMentor(${index}, 1)">⬇️</button>
+              <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="editMentor(${index})">Edit</button>
+              <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteMentor(${index})">Remove</button>
+            </div>
+          </div>`;
+      });
+      container.innerHTML = html;
+    }
+
+    function moveMentor(index, direction) {
+      let mentors = appData.mentors ? [...appData.mentors] : [];
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= mentors.length) return;
+
+      const temp = mentors[index];
+      mentors[index] = mentors[newIndex];
+      mentors[newIndex] = temp;
+
+      database.ref("homepage_data/mentors").set(mentors)
+        .then(() => {
+          renderAdminMentorList();
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function addOrUpdateMentor() {
+      const name = document.getElementById("mentorName").value.trim();
+      const role = document.getElementById("mentorRole").value.trim();
+      const img = document.getElementById("mentorImg").value.trim();
+      const bio = document.getElementById("mentorBio").value.trim();
+
+      if (!name) {
+        alert("Please enter the mentor's name.");
+        return;
+      }
+
+      let mentors = appData.mentors ? [...appData.mentors] : [];
+      const mentorData = { name, role: role || "Mentor", img: img || "logo.jpeg.JPG", bio: bio || "No biography provided." };
+
+      if (editingMentorIndex >= 0) {
+        mentors[editingMentorIndex] = mentorData;
+      } else {
+        mentors.push(mentorData);
+      }
+
+      database.ref("homepage_data/mentors").set(mentors)
+        .then(() => {
+          alert("Mentor saved successfully!");
+          clearMentorForm();
+        })
+        .catch(err => alert("Error: " + err.message));
+    }
+
+    function editMentor(index) {
+      const mentor = appData.mentors[index];
+      document.getElementById("mentorName").value = mentor.name || "";
+      document.getElementById("mentorRole").value = mentor.role || "";
+      document.getElementById("mentorImg").value = mentor.img || "";
+      document.getElementById("mentorBio").value = mentor.bio || "";
+      
+      editingMentorIndex = index;
+      document.getElementById("saveMentorBtn").innerText = "Update Mentor";
+      document.getElementById("cancelMentorEditBtn").style.display = "inline-block";
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteMentor(index) {
+      if (confirm("Are you sure you want to remove this mentor?")) {
+        let mentors = appData.mentors ? [...appData.mentors] : [];
+        mentors.splice(index, 1);
+        database.ref("homepage_data/mentors").set(mentors)
+          .then(() => alert("Mentor removed successfully!"))
+          .catch(err => alert("Error: " + err.message));
+      }
+    }
+
+    function clearMentorForm() {
+      document.getElementById("mentorName").value = "";
+      document.getElementById("mentorRole").value = "";
+      document.getElementById("mentorImg").value = "";
+      document.getElementById("mentorBio").value = "";
+      editingMentorIndex = -1;
+      document.getElementById("saveMentorBtn").innerText = "+ Add Mentor";
+      document.getElementById("cancelMentorEditBtn").style.display = "none";
     }
 
     function loadCommitteeDataToAdmin() {
