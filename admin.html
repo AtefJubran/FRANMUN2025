@@ -503,6 +503,11 @@
           </select>
         </div>
 
+        <div class="form-group">
+          <label>Committee Email Address (بريد اللجنة الإلكتروني)</label>
+          <input type="email" id="commEmail" placeholder="e.g. unicef@franmun.com">
+        </div>
+
         <div class="grid-2" style="margin-bottom: 16px;">
           <div class="checkbox-group">
             <input type="checkbox" id="hideReport">
@@ -807,7 +812,7 @@
             </div>
             <div class="action-btns">
               <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, -1)">⬆️</button>
-              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, 1)">⬇️</button>
+              <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveSgMember(${index}, 1)">⬇️️</button>
               <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="editSgMember(${index})">Edit</button>
               <button class="btn btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="deleteSgMember(${index})">Remove</button>
             </div>
@@ -1005,6 +1010,7 @@
       const committees = appData.committees || {};
       const comm = committees[commKey] || {};
 
+      document.getElementById("commEmail").value = comm.email || "";
       document.getElementById("commTopics").value = comm.topics || "";
       document.getElementById("commReport").value = comm.report || "";
       document.getElementById("hideReport").checked = !!comm.hideReport;
@@ -1034,7 +1040,7 @@
               </div>
               <div class="action-btns">
                 <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, -1)">⬆️</button>
-                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, 1)">⬇️️</button>
+                <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="moveChair('chairs', ${idx}, 1)">⬇</button>
                 <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px;" onclick="editChair('chairs', ${idx})">Edit</button>
                 <button class="btn btn-danger" style="padding: 6px 10px; font-size: 11px;" onclick="deleteChair('chairs', ${idx})">X</button>
               </div>
@@ -1180,6 +1186,7 @@
       if (!appData.committees) appData.committees = {};
       if (!appData.committees[commKey]) appData.committees[commKey] = {};
 
+      appData.committees[commKey].email = document.getElementById("commEmail").value.trim();
       appData.committees[commKey].topics = document.getElementById("commTopics").value.trim();
       appData.committees[commKey].report = document.getElementById("commReport").value.trim();
       appData.committees[commKey].hideReport = document.getElementById("hideReport").checked;
