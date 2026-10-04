@@ -117,6 +117,9 @@
     .topics{white-space:pre-line;font-family:var(--serif);font-weight:300;font-size:clamp(1.1rem,2.4vw,1.6rem);line-height:1.5;max-width:800px;color:var(--ink);margin-bottom:34px}
     .stamp{display:inline-block;border:2px dashed #ff7a7a;color:#ff7a7a;padding:8px 18px;border-radius:6px;font-weight:700;letter-spacing:.25em;transform:rotate(-1.5deg)}
     .sub-h{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--a1);font-weight:700;margin:60px 0 6px}
+    .comm-email-box{font-size:14px;color:var(--muted);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+    .comm-email-box a{color:var(--a1);text-decoration:none;font-weight:600;}
+    .comm-email-box a:hover{text-decoration:underline;}
 
     /* people */
     .people{display:grid;grid-template-columns:1fr;gap:36px 28px;margin-top:20px}
@@ -347,6 +350,9 @@
             <button class="modal-x" onclick="closeCommitteePage()" aria-label="Close"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
             <div id="committeeTopRopContainer" style="margin-bottom:26px"></div>
             <h2 id="detailCommitteeTitle" class="detail-title">Committee</h2>
+            <div id="committeeEmailContainer" class="comm-email-box" style="display:none;">
+              Official Committee Email: <a id="detailCommitteeEmailLink" href="#"></a>
+            </div>
             <div class="sub-h" style="margin-top:0">Research Report &amp; Topics</div>
             <p id="detailTopicsText" class="topics" style="margin-top:14px"></p>
             <div id="detailComingSoonStamp" style="display:none;margin-bottom:24px">
@@ -534,6 +540,18 @@
       const c = (appData.committees && appData.committees[key]) || {};
       const meta = COMMITTEES.find(x => x.key === key);
       document.getElementById("detailCommitteeTitle").textContent = c.name || (meta ? meta.name : key);
+      
+      // Render Committee Email if available
+      const emailBox = document.getElementById("committeeEmailContainer");
+      const emailLink = document.getElementById("detailCommitteeEmailLink");
+      if (c.email) {
+        emailLink.href = `mailto:${c.email}`;
+        emailLink.textContent = c.email;
+        emailBox.style.display = "flex";
+      } else {
+        emailBox.style.display = "none";
+      }
+
       document.getElementById("detailTopicsText").textContent = c.topics || "Agendas and topics will be announced shortly.";
       const ROP_FILE = "ROP.PDF"; // file sitting next to index.html in your GitHub repo
       document.getElementById("committeeTopRopContainer").innerHTML = `<a href="${ROP_FILE}" target="_blank" rel="noopener noreferrer" class="btn ghost">Rules Of Procedure ${ARROW_R}</a>`;
