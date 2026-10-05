@@ -497,7 +497,7 @@
       });
     }, { passive: true });
 
-    /* Firebase (unchanged) */
+    /* Firebase */
     const firebaseConfig = {
       apiKey: "AIzaSyBTMBi7k8XzwrNk5MERo7LXtApvhAid08E",
       authDomain: "franmun-f5498.firebaseapp.com",
@@ -508,7 +508,6 @@
       appId: "1:574017816071:web:1968d9a793dec6a6cacca2",
       measurementId: "G-WRXCD54P71"
     };
-    /* If Firebase can't load (blocked network, slow connection), keep the rest of the page working */
     if (typeof firebase === 'undefined') {
       window.firebase = { initializeApp() {}, database() { return { ref() { return { on() {} }; } }; } };
       console.warn('Firebase failed to load – live data unavailable.');
@@ -529,11 +528,12 @@
     });
 
     /* Committee detail */
-    function fileBtn(val, key, L, fname, ghost) {
+    function fileBtn(val, key, L, fname, ghost, customReportName) {
       const cls = 'btn' + (ghost ? ' ghost' : '');
+      const reportName = customReportName || L[1];
       if (!val || val === "#") return `<a href="#" class="btn off" onclick="event.preventDefault();">${L[0]}</a>`;
-      if (val.startsWith("data:")) return `<a href="${val}" download="${key}_${fname}.pdf" class="${cls}">${L[1]} ${ARROW_D}</a>`;
-      return `<a href="${val}" target="_blank" rel="noopener noreferrer" class="${cls}">${L[2]} ${ARROW_R}</a>`;
+      if (val.startsWith("data:")) return `<a href="${val}" download="${key}_${fname}.pdf" class="${cls}">${reportName} ${ARROW_D}</a>`;
+      return `<a href="${val}" target="_blank" rel="noopener noreferrer" class="${cls}">${reportName} ${ARROW_R}</a>`;
     }
 
     function renderCommitteeDetail(key) {
@@ -553,10 +553,13 @@
       }
 
       document.getElementById("detailTopicsText").textContent = c.topics || "Agendas and topics will be announced shortly.";
-      const ROP_FILE = "ROP.PDF"; // file sitting next to index.html in your GitHub repo
+      const ROP_FILE = "ROP.PDF";
       document.getElementById("committeeTopRopContainer").innerHTML = `<a href="${ROP_FILE}" target="_blank" rel="noopener noreferrer" class="btn ghost">Rules Of Procedure ${ARROW_R}</a>`;
-      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(c.reportFile || c.reportLink || "", key, ["Research Report Pending", "Download Research Report", "Access Full Research Report"], "Research_Report", false);
+      
+      const customReportName = c.reportName || "";
+      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(c.reportFile || c.reportLink || "", key, ["Research Report Pending", "Download Research Report", "Access Full Research Report"], "Research_Report", false, customReportName);
       document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(c.matrixFile || c.matrixLink || "", key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], "Country_Matrix", true);
+      
       const toArr = v => Array.isArray(v) ? v.filter(Boolean) : (v && typeof v === 'object' ? Object.values(v).filter(x => x && typeof x === 'object') : []);
       const isBackKey = k => /back\s*[-_]?\s*room/i.test(k);
       const all = toArr(c.chairs);
@@ -651,7 +654,7 @@
       prepDynamic(c);
     }
 
-    /* Countdown (unchanged) */
+    /* Countdown */
     const confDate = new Date("October 31, 2026 09:00:00").getTime();
     setInterval(() => {
       const t = confDate - Date.now();
