@@ -439,7 +439,6 @@
         el.setAttribute('aria-label', t);
         el.innerHTML = [...t].map((c, i) => `<span class="ch" aria-hidden="true" style="--i:${i}">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
       } else {
-        // keep <em> styling: split words but preserve wrapper tags
         const walk = (node) => {
           [...node.childNodes].forEach(n => {
             if (n.nodeType === 3) {
@@ -516,6 +515,18 @@
     const database = firebase.database();
     let appData = {}, openKey = null;
 
+    // Default Fallback Files mapped directly to your exact GitHub file names
+    const DEFAULT_REPORTS = {
+      'UNICEF': 'Unicef research report.pdf',
+      'UNWOMEN': 'UNWOMEN Research Report.pdf',
+      'UNHRC': 'Human Rights .pdf',
+      'DISEC': 'DISEC research report.pdf',
+      'WHO': 'WHO Research Report .pdf',
+      'UNHSC': 'HSC research report.pdf',
+      'CRISIS': 'CRISIS SEARCH REPORT.pdf'
+    };
+    const DEFAULT_MATRIX = 'countrymat.pdf';
+
     database.ref("homepage_data").on("value", snap => {
       if (!snap.exists()) return;
       appData = snap.val() || {};
@@ -528,11 +539,11 @@
     });
 
     /* Committee detail */
-    function fileBtn(val, key, L, fname, ghost, customReportName) {
+    function fileBtn(val, key, L, ghost, customReportName) {
       const cls = 'btn' + (ghost ? ' ghost' : '');
       const reportName = customReportName || L[1];
       if (!val || val === "#") return `<a href="#" class="btn off" onclick="event.preventDefault();">${L[0]}</a>`;
-      if (val.startsWith("data:")) return `<a href="${val}" download="${key}_${fname}.pdf" class="${cls}">${reportName} ${ARROW_D}</a>`;
+      if (val.startsWith("data:")) return `<a href="${val}" download="${key}.pdf" class="${cls}">${reportName} ${ARROW_D}</a>`;
       return `<a href="${val}" target="_blank" rel="noopener noreferrer" class="${cls}">${reportName} ${ARROW_R}</a>`;
     }
 
@@ -556,9 +567,19 @@
       const ROP_FILE = "ROP.PDF";
       document.getElementById("committeeTopRopContainer").innerHTML = `<a href="${ROP_FILE}" target="_blank" rel="noopener noreferrer" class="btn ghost">Rules Of Procedure ${ARROW_R}</a>`;
       
-      const customReportName = c.reportName || "";
-      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(c.reportFile || c.reportLink || "", key, ["Research Report Pending", "Download Research Report", "Access Full Research Report"], "Research_Report", false, customReportName);
-      document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(c.matrixFile || c.matrixLink || "", key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], "Country_Matrix", true);
+      // Resolve Research Report Link (Firebase custom value or default GitHub filename)
+      const reportLink = c.report || c.reportFile || c.reportLink || DEFAULT_REPORTS[key] || "#";
+      const customReportName = c.reportName || "Download Research Report";
+      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(reportLink, key, ["Research Report Pending", customReportName, customReportName], false, customReportName);
+
+      // Resolve Country Matrix Link (Firebase custom value or default GitHub filename 'countrymat.pdf')
+      const matrixLink = appData.countryMatrixPdf || c.matrixFile || c.matrixLink || DEFAULT_MATRIX;
+      const matrixLocked = appData.countryMatrixLocked || c.hideMatrix;
+      if (matrixLocked) {
+        document.getElementById("countryMatrixDetailContainer").innerHTML = `<a href="#" class="btn off" onclick="event.preventDefault();">Country Matrix (Coming Soon)</a>`;
+      } else {
+        document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(matrixLink, key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], true, "Country Matrix");
+      }
       
       const toArr = v => Array.isArray(v) ? v.filter(Boolean) : (v && typeof v === 'object' ? Object.values(v).filter(x => x && typeof x === 'object') : []);
       const isBackKey = k => /back\s*[-_]?\s*room/i.test(k);
