@@ -414,14 +414,14 @@
     const ARROW_R = '<svg viewBox="0 0 24 24" width="1.1em" height="1.1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
     const ARROW_D = '<svg viewBox="0 0 24 24" width="1.1em" height="1.1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>';
 
-    /* Committees list — edit names / descriptions here */
+    /* Committees list with beautifully styled descriptions */
     const COMMITTEES = [
       { key: 'UNICEF',  name: 'UNICEF',  long: "United Nations Children's Fund" },
       { key: 'UNWOMEN', name: 'UN Women', long: 'Entity for Gender Equality and the Empowerment of Women' },
       { key: 'UNHRC',   name: 'UNHRC',   long: 'United Nations Human Rights Council' },
       { key: 'DISEC',   name: 'DISEC',   long: 'Disarmament and International Security Committee' },
       { key: 'WHO',     name: 'WHO',     long: 'World Health Organization' },
-      { key: 'UNHSC',   name: 'UNHSC',   long: '' },
+      { key: 'UNHSC',   name: 'UNHSC',   long: 'United Nations Historical Security Council' },
       { key: 'CRISIS',  name: 'CRISIS',  long: 'Crisis Committee' }
     ];
     document.getElementById('committeeRows').innerHTML = COMMITTEES.map((c, i) => `
@@ -515,9 +515,9 @@
     const database = firebase.database();
     let appData = {}, openKey = null;
 
-    // Default Fallback Files mapped directly to your exact GitHub file names
+    // Exact GitHub Research Report Mappings
     const DEFAULT_REPORTS = {
-      'UNICEF': 'unicef research report.pdf',
+      'UNICEF': 'Unicef research report.pdf',
       'UNWOMEN': 'UNWOMEN Research Report.pdf',
       'UNHRC': 'Human Rights .pdf',
       'DISEC': 'DISEC research report.pdf',
@@ -525,7 +525,8 @@
       'UNHSC': 'HSC research report.pdf',
       'CRISIS': 'CRISIS SEARCH REPORT.pdf'
     };
-    const DEFAULT_MATRIX = 'countrymat.pdf';
+    // Direct local country matrix file
+    const COUNTRY_MATRIX_FILE = 'countrymat.pdf';
 
     database.ref("homepage_data").on("value", snap => {
       if (!snap.exists()) return;
@@ -567,18 +568,17 @@
       const ROP_FILE = "ROP.PDF";
       document.getElementById("committeeTopRopContainer").innerHTML = `<a href="${ROP_FILE}" target="_blank" rel="noopener noreferrer" class="btn ghost">Rules Of Procedure ${ARROW_R}</a>`;
       
-      // Resolve Research Report Link (Firebase custom value or default GitHub filename)
+      // Resolve Research Report Link
       const reportLink = c.report || c.reportFile || c.reportLink || DEFAULT_REPORTS[key] || "#";
       const customReportName = c.reportName || "Download Research Report";
       document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(reportLink, key, ["Research Report Pending", customReportName, customReportName], false, customReportName);
 
-      // Resolve Country Matrix Link (Firebase custom value or default GitHub filename 'countrymat.pdf')
-      const matrixLink = appData.countryMatrixPdf || c.matrixFile || c.matrixLink || DEFAULT_MATRIX;
+      // Resolve Country Matrix Link (Always opening countrymat.pdf)
       const matrixLocked = appData.countryMatrixLocked || c.hideMatrix;
       if (matrixLocked) {
         document.getElementById("countryMatrixDetailContainer").innerHTML = `<a href="#" class="btn off" onclick="event.preventDefault();">Country Matrix (Coming Soon)</a>`;
       } else {
-        document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(matrixLink, key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], true, "Country Matrix");
+        document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(COUNTRY_MATRIX_FILE, key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], true, "Country Matrix");
       }
       
       const toArr = v => Array.isArray(v) ? v.filter(Boolean) : (v && typeof v === 'object' ? Object.values(v).filter(x => x && typeof x === 'object') : []);
