@@ -163,7 +163,7 @@
     .js .reveal.in{opacity:1;transform:none}
     .word{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .14em;margin-bottom:-.14em}
     .word>span{display:inline-block}
-    .js .split .word>span{transform:translateY(115%);transition:transform 1s var(--ease);transition-delay:calc(var(--i)*70ms + var(--d,0s))}
+    .js .split .word>span{transform:translateY(115%);transition:transform 1s var(--ease);transition-delay:calc(var::i)*70ms + var(--d,0s))}
     .js .split.in .word>span{transform:none}
     .js .letters .ch{display:inline-block;opacity:0;transform:translateY(80px) rotate(6deg);transition:transform 1.1s var(--ease),opacity 1s var(--ease);transition-delay:calc(var(--i)*70ms)}
     .js .letters.in .ch{opacity:1;transform:none}
@@ -540,9 +540,9 @@
     });
 
     /* Committee detail */
-    function fileBtn(val, key, L, ghost, customReportName) {
+    function fileBtn(val, key, L, ghost) {
       const cls = 'btn' + (ghost ? ' ghost' : '');
-      const reportName = customReportName || L[1];
+      const reportName = "View Research Report";
       if (!val || val === "#") return `<a href="#" class="btn off" onclick="event.preventDefault();">${L[0]}</a>`;
       if (val.startsWith("data:")) return `<a href="${val}" download="${key}.pdf" class="${cls}">${reportName} ${ARROW_D}</a>`;
       return `<a href="${val}" target="_blank" rel="noopener noreferrer" class="${cls}">${reportName} ${ARROW_R}</a>`;
@@ -570,15 +570,14 @@
       
       // Resolve Research Report Link
       const reportLink = c.report || c.reportFile || c.reportLink || DEFAULT_REPORTS[key] || "#";
-      const customReportName = c.reportName || "Download Research Report";
-      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(reportLink, key, ["Research Report Pending", customReportName, customReportName], false, customReportName);
+      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(reportLink, key, ["Research Report Pending", "View Research Report", "View Research Report"], false);
 
       // Resolve Country Matrix Link (Always opening countrymat.pdf)
       const matrixLocked = appData.countryMatrixLocked || c.hideMatrix;
       if (matrixLocked) {
         document.getElementById("countryMatrixDetailContainer").innerHTML = `<a href="#" class="btn off" onclick="event.preventDefault();">Country Matrix (Coming Soon)</a>`;
       } else {
-        document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(COUNTRY_MATRIX_FILE, key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], true, "Country Matrix");
+        document.getElementById("countryMatrixDetailContainer").innerHTML = fileBtn(COUNTRY_MATRIX_FILE, key, ["Country Matrix Pending", "Download Country Matrix", "Access Country Matrix"], true);
       }
       
       const toArr = v => Array.isArray(v) ? v.filter(Boolean) : (v && typeof v === 'object' ? Object.values(v).filter(x => x && typeof x === 'object') : []);
