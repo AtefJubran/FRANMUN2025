@@ -163,7 +163,7 @@
     .js .reveal.in{opacity:1;transform:none}
     .word{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .04em .14em;margin-bottom:-.14em}
     .word>span{display:inline-block}
-    .js .split .word>span{transform:translateY(115%);transition:transform 1s var(--ease);transition-delay:calc(var::i)*70ms + var(--d,0s))}
+    .js .split .word>span{transform:translateY(115%);transition:transform 1s var(--ease);transition-delay:calc(var(--i)*70ms + var(--d,0s))}
     .js .split.in .word>span{transform:none}
     .js .letters .ch{display:inline-block;opacity:0;transform:translateY(80px) rotate(6deg);transition:transform 1.1s var(--ease),opacity 1s var(--ease);transition-delay:calc(var(--i)*70ms)}
     .js .letters.in .ch{opacity:1;transform:none}
@@ -540,12 +540,12 @@
     });
 
     /* Committee detail */
-    function fileBtn(val, key, L, ghost) {
+    function fileBtn(val, key, L, ghost, customLabel) {
       const cls = 'btn' + (ghost ? ' ghost' : '');
-      const reportName = "View Research Report";
+      const label = customLabel || L[1];
       if (!val || val === "#") return `<a href="#" class="btn off" onclick="event.preventDefault();">${L[0]}</a>`;
-      if (val.startsWith("data:")) return `<a href="${val}" download="${key}.pdf" class="${cls}">${reportName} ${ARROW_D}</a>`;
-      return `<a href="${val}" target="_blank" rel="noopener noreferrer" class="${cls}">${reportName} ${ARROW_R}</a>`;
+      if (val.startsWith("data:")) return `<a href="${val}" download="${key}.pdf" class="${cls}">${label} ${ARROW_D}</a>`;
+      return `<a href="${val}" target="_blank" rel="noopener noreferrer" class="${cls}">${label} ${ARROW_R}</a>`;
     }
 
     function renderCommitteeDetail(key) {
@@ -568,11 +568,11 @@
       const ROP_FILE = "ROP.PDF";
       document.getElementById("committeeTopRopContainer").innerHTML = `<a href="${ROP_FILE}" target="_blank" rel="noopener noreferrer" class="btn ghost">Rules Of Procedure ${ARROW_R}</a>`;
       
-      // Resolve Research Report Link
+      // Resolve Research Report Link (Forced text: View Research Report)
       const reportLink = c.report || c.reportFile || c.reportLink || DEFAULT_REPORTS[key] || "#";
-      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(reportLink, key, ["Research Report Pending", "View Research Report", "View Research Report"], false);
+      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(reportLink, key, ["Research Report Pending", "", ""], false, "View Research Report");
 
-      // Resolve Country Matrix Link (Always opening countrymat.pdf)
+      // Resolve Country Matrix Link (Original country matrix button labels preserved)
       const matrixLocked = appData.countryMatrixLocked || c.hideMatrix;
       if (matrixLocked) {
         document.getElementById("countryMatrixDetailContainer").innerHTML = `<a href="#" class="btn off" onclick="event.preventDefault();">Country Matrix (Coming Soon)</a>`;
