@@ -294,8 +294,8 @@
     <header>
       <img src="logo.jpeg.JPG" alt="Franciscan Sister's School Official Logo">
       <button class="tab-btn active" id="btn-home" onclick="scrollToSection('home')">Home</button>
-      <button class="tab-btn" id="btn-committees" onclick="scrollToSection('committees')">Committees</button>
       <button class="tab-btn" id="btn-team" onclick="scrollToSection('team')">Team</button>
+      <button class="tab-btn" id="btn-committees" onclick="scrollToSection('committees')">Committees</button>
       <button class="tab-btn" id="btn-gallery" onclick="scrollToSection('gallery')">Gallery</button>
     </header>
 
@@ -335,6 +335,21 @@
         </div>
       </section>
 
+      <!-- TEAM -->
+      <section class="block" id="team">
+        <div class="wrap">
+          <div class="eyebrow reveal">The People</div>
+          <h2 class="title split">Secretariat <em>Team.</em></h2>
+          <div id="teamPageContainer" class="people"><div class="spinner"></div></div>
+          
+          <div style="margin-top: 80px;">
+            <div class="eyebrow reveal">Guidance & Support</div>
+            <h2 class="title split">Our <em>Mentors.</em></h2>
+            <div id="mentorsPageContainer" class="people"><div class="spinner"></div></div>
+          </div>
+        </div>
+      </section>
+
       <!-- COMMITTEES -->
       <section class="block" id="committees">
         <div class="wrap">
@@ -368,21 +383,6 @@
             <div class="sub-h" id="backroomHeading" style="display:none">Backroom Chairs</div>
             <div class="people" id="backroomChairsContainer" style="display:none"></div>
            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TEAM -->
-      <section class="block" id="team">
-        <div class="wrap">
-          <div class="eyebrow reveal">The People</div>
-          <h2 class="title split">Secretariat <em>Team.</em></h2>
-          <div id="teamPageContainer" class="people"><div class="spinner"></div></div>
-          
-          <div style="margin-top: 80px;">
-            <div class="eyebrow reveal">Guidance & Support</div>
-            <h2 class="title split">Our <em>Mentors.</em></h2>
-            <div id="mentorsPageContainer" class="people"><div class="spinner"></div></div>
           </div>
         </div>
       </section>
@@ -477,7 +477,7 @@
       if (id === 'committees') closeCommitteePage(true);
       document.getElementById(id).scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     }
-    const secIds = ['home', 'committees', 'team', 'gallery'];
+    const secIds = ['home', 'team', 'committees', 'gallery'];
     function updateActive() {
       const probe = window.innerHeight * .4; let cur = 'home';
       secIds.forEach(id => { if (document.getElementById(id).getBoundingClientRect().top <= probe) cur = id; });
