@@ -368,14 +368,13 @@
             <div id="committeeEmailContainer" class="comm-email-box" style="display:none;">
               Official Committee Email: <a id="detailCommitteeEmailLink" href="#"></a>
             </div>
-            <div class="sub-h" style="margin-top:0">Research Report &amp; Topics</div>
+            <div class="sub-h" style="margin-top:0">Topics</div>
             <p id="detailTopicsText" class="topics" style="margin-top:14px"></p>
             <div id="detailComingSoonStamp" style="display:none;margin-bottom:24px">
               <div class="stamp">RESTRICTED</div>
               <p style="font-size:12px;color:var(--muted);margin-top:8px;">Committee agendas and confidential briefs are pending release.</p>
             </div>
             <div class="btns">
-              <div id="researchReportDetailContainer"></div>
               <div id="countryMatrixDetailContainer"></div>
             </div>
             <div class="sub-h" id="chairSectionHeading">Chairs</div>
@@ -515,16 +514,6 @@
     const database = firebase.database();
     let appData = {}, openKey = null;
 
-    // Exact GitHub Research Report Mappings with correct lowercase 'unicef research report.pdf'
-    const DEFAULT_REPORTS = {
-      'UNICEF': 'unicef research report.pdf',
-      'UNWOMEN': 'UNWOMEN Research Report.pdf',
-      'UNHRC': 'Human Rights .pdf',
-      'DISEC': 'DISEC research report.pdf',
-      'WHO': 'WHO Research Report .pdf',
-      'UNHSC': 'HSC research report.pdf',
-      'CRISIS': 'CRISIS SEARCH REPORT.pdf'
-    };
     // Direct local country matrix file
     const COUNTRY_MATRIX_FILE = 'Country Matrix (2).pdf';
 
@@ -567,10 +556,6 @@
       document.getElementById("detailTopicsText").textContent = c.topics || "Agendas and topics will be announced shortly.";
       const ROP_FILE = "ROP.PDF";
       document.getElementById("committeeTopRopContainer").innerHTML = `<a href="${ROP_FILE}" target="_blank" rel="noopener noreferrer" class="btn ghost">Rules Of Procedure ${ARROW_R}</a>`;
-      
-      // Resolve Research Report Link (Forced text: View Research Report)
-      const reportLink = c.report || c.reportFile || c.reportLink || DEFAULT_REPORTS[key] || "#";
-      document.getElementById("researchReportDetailContainer").innerHTML = fileBtn(reportLink, key, ["Research Report Pending", "", ""], false, "View Research Report");
 
       // Resolve Country Matrix Link (Original country matrix button labels preserved)
       const matrixLocked = appData.countryMatrixLocked || c.hideMatrix;
