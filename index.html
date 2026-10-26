@@ -669,7 +669,7 @@
       const c = document.getElementById("liveRegButtons");
       const off = t => `<a href="#" class="btn off" onclick="event.preventDefault();">${t}</a>`;
       c.innerHTML =
-        (appData.delegatesOpen ? `<a href="https://docs.google.com/forms/d/1sOFqQOVIdU6Z--wURon5p6E5cgn-sLTFOjrpWvCkZqk/viewform?edit_requested=true" target="_blank" rel="noopener noreferrer" class="btn">Delegate Registration ${ARROW_R}</a>` : off("Delegate Registration Closed")) +
+        (appData.delegatesOpen ? `<a href="https://docs.google.com/forms/d/e/1FAIpQLSeSpmQ8hX_xFa-5ZZqbpgR1n97V6alknFEfZ-nTIYqIlAOSdw/viewform" target="_blank" rel="noopener noreferrer" class="btn">Delegate Registration ${ARROW_R}</a>` : off("Delegate Registration Closed")) +
         (appData.chairsOpen ? `<a href="https://docs.google.com/forms/d/e/1FAIpQLSf0NSNzbcxGG2MXZtzw4hbb-BkSPUjqtC8l7lJwOYDv9fg/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer" class="btn ghost">Chair Registration ${ARROW_R}</a>` : off("Chair Registration Closed"));
       prepDynamic(c);
     }
